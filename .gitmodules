@@ -7,3 +7,6 @@
 [submodule "src/external/stb"]
 	path = src/external/stb
 	url = https://github.com/nothings/stb.git
+[submodule "src/external/djgpp"]
+	path = src/external/djgpp
+	url = https://github.com/jwt27/djgpp-cvs.git
