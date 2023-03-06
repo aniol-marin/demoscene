@@ -45,14 +45,14 @@ public:
 		int nextOffset{ 0 };
 		while (trail > 0.0) {
 
-			Uint8* pixel = (Uint8*)screenSurface->pixels + position.y * screenSurface->pitch + position.x * bpp - nextOffset;
+			Uint8* pixel = (Uint8*)screenSurface->pixels + position.y * screenSurface->pitch + (position.x - nextOffset) * bpp;
 			nextOffset++;
 			trail -= 0.01;
 
 			if (trail > 0 && position.x - nextOffset >= 0) {
-				pixel[0] = (Uint8)(color.r * trail);
+				pixel[0] = (Uint8)(color.b * trail);
 				pixel[1] = (Uint8)(color.g * trail);
-				pixel[2] = (Uint8)(color.b * trail);
+				pixel[2] = (Uint8)(color.r * trail);
 			}
 		}
 	}
@@ -61,9 +61,9 @@ public:
 		position.y = rand() % data.screen.y;
 		speed = 1 + rand() % data.maxSpeed;
 		brightness = (double)speed / (double)data.maxSpeed;
-		color.r = 0xFF - ((rand() % 20) / 100.0);
-		color.g = 0xFF - ((rand() % 30) / 100.0);
-		color.b = 0xFF - ((rand() % 10) / 100.0);
+		color.r = 0xFF - (rand() % 0x1F);
+		color.g = 0xFF - (rand() % 0x1F);
+		color.b = 0xFF - (rand() % 0x1F);
 		color.a = 0xFF;
 	}
 };
