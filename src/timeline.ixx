@@ -26,7 +26,6 @@ export namespace Temp {
 	using namespace MoleDemo;
 
 	using Pixel = Uint32;
-	using Surface = SDL_Surface;
 
 	using Clock = std::chrono::steady_clock;
 	using Time = Clock::time_point;
@@ -38,14 +37,6 @@ export namespace Temp {
 	}
 
 
-
-	Pixel* getPixel(SDL_Surface* surface, Uint16 x, Uint16 y) {
-		return reinterpret_cast<Uint32*>((Uint8*)surface->pixels + y * surface->pitch + x * surface->format->BytesPerPixel);
-
-	}
-	void putPixel(Pixel& pixel, const Color& color) {
-		pixel = color.rgba();
-	}
 
 	class Star {
 		Point2D position;
@@ -73,14 +64,14 @@ export namespace Temp {
 			}
 		}
 
-		void Draw(SDL_Surface* screenSurface) {
+		void Draw() {
 
 			int trail{ miliBrightness };
 			Uint8 nextOffset{ 0 };
 			while (trail > 0) {
 
 				if (position.x - nextOffset >= 0) {
-					Uint32* pixel = getPixel(screenSurface, position.x - nextOffset, position.y);
+					Uint32* pixel = getPixel(position.x - nextOffset, position.y);
 					*pixel = color.mLerp(trail);
 					//putPixel(*pixel, color.mLerp(trail));
 				}
@@ -138,14 +129,14 @@ export namespace Temp {
 			src2 = Windowy2 * (screen.w * 2) + Windowx2;
 		}
 
-		void renderPlasma(Surface& surface, Screen screen) {
+		void renderPlasma(Screen screen) {
 
 			Uint32* pixel;
 			int indexColor;
 			for (Uint16 j = 0; j < screen.h; j++) {
 				for (Uint16 i = 0; i < screen.w; i++) {
 
-					pixel = getPixel(&surface, i, j);
+					pixel = getPixel(i, j);
 					indexColor = (plasma1[src1] + plasma2[src2]) % 256;
 					putPixel(*pixel, palette[indexColor]);
 
@@ -165,7 +156,6 @@ export namespace Temp {
 		std::vector<Star> stars;
 		Plasma plasma;
 		ProgramStatus status;
-		Surface* surface;
 		Data(Point2D screenSize, Uint8 speed, Uint8 stars, Uint8 fps) :
 			screen{ screenSize.x, screenSize.y },
 			maxSpeed{ speed },
@@ -199,8 +189,8 @@ export namespace Temp {
 
 	void Init(Data& data) {
 
-		data.surface = MoleDemo::InitSDL();
-		if (data.surface) {
+		const bool initialized = MoleDemo::InitSDL();
+		if (initialized) {
 
 			srand(0);
 
@@ -211,7 +201,10 @@ export namespace Temp {
 				data.stars.push_back(star);
 			}
 
-			data.status = data.surface != NULL ? ProgramStatus::RUNNING : ProgramStatus::TERMINATE_ERROR;
+			data.status = ProgramStatus::RUNNING;
+		}
+		else {
+			data.status = ProgramStatus::TERMINATE_ERROR;
 		}
 	}
 
@@ -236,20 +229,18 @@ export namespace Temp {
 
 	void Draw(Data& data) {
 
+		MoleDemo::LockSurface();
 
-		MoleDemo::LockSurface(data.surface);
-		data.plasma.renderPlasma(*data.surface, data.screen);
+		data.plasma.renderPlasma(data.screen);
 		for (Star& star : data.stars) {
-			star.Draw(data.surface);
+			star.Draw();
 		}
 
-		MoleDemo::UnlockSurface(data.surface);
-
+		MoleDemo::UnlockSurface();
 		MoleDemo::UpdateSurface();
 	}
 
 	void Synch(Data& data) {
-
 		std::this_thread::sleep_for(data.GetNextDelayTime());
 		data.SetNextFrameTime();
 	}
