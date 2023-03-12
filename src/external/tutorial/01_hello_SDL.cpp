@@ -187,8 +187,19 @@ void Finalize(Data& data) {
 }
 
 void PollEvents(Data& data) {
-
-	SDL_PollEvent(&data.e);
+	while (SDL_PollEvent(&data.e) != 0)
+	{
+		if (data.e.type == SDL_KEYDOWN) {
+			if (data.e.key.keysym.scancode == SDL_SCANCODE_ESCAPE) {
+				data.status = ProgramStatus::TERMINATE_OK;
+			}
+		}
+		//User requests quit
+		if (data.e.type == SDL_QUIT)
+		{
+			data.status = ProgramStatus::TERMINATE_OK;
+		}
+	}
 }
 
 void Update(Data& data) {
