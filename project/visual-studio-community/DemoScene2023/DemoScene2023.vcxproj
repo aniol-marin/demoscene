@@ -136,7 +136,12 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
-    <ClCompile Include="..\..\..\src\external\tutorial\01_hello_SDL.cpp" />
+    <ClCompile Include="..\..\..\src\definitions.ixx" />
+    <ClCompile Include="..\..\..\src\effects\demo.ixx" />
+    <ClCompile Include="..\..\..\src\effects\effects.ixx" />
+    <ClCompile Include="..\..\..\src\main.ixx" />
+    <ClCompile Include="..\..\..\src\sdl.ixx" />
+    <ClCompile Include="..\..\..\src\timeline.ixx" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">
