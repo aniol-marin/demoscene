@@ -61,11 +61,12 @@ namespace MoleDemo {
 		SDL_UpdateWindowSurface(window);
 	}
 
-	export Pixel* getPixel(Uint16 x, Uint16 y) {
+	Pixel* getPixel(Uint16 x, Uint16 y) {
 		return reinterpret_cast<Uint32*>((Uint8*)surface->pixels + y * surface->pitch + x * surface->format->BytesPerPixel);
 
 	}
-	export void putPixel(Pixel& pixel, const Color& color) {
-		pixel = color.rgba();
+	export void putPixel(Uint16 x, Uint16 y, const uint32_t rgba) {
+		Pixel* pixel = getPixel(x, y);
+		*pixel = rgba;
 	}
 }

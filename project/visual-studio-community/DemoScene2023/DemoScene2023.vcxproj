@@ -142,6 +142,7 @@
     <ClCompile Include="..\..\..\src\main.ixx" />
     <ClCompile Include="..\..\..\src\sdl.ixx" />
     <ClCompile Include="..\..\..\src\timeline.ixx" />
+    <ClCompile Include="injection.ixx" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">

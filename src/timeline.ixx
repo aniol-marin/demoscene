@@ -9,6 +9,7 @@ import <cstdlib>;
 import <bitset>;
 import <thread>;
 import <chrono>;
+#include <ratio>
 
 namespace MoleDemo {
 
@@ -30,10 +31,8 @@ export namespace Temp {
 	using Clock = std::chrono::steady_clock;
 	using Time = Clock::time_point;
 	using ms = std::chrono::milliseconds;
-	Time Now() { return Clock::now(); }
 	Uint16 delay(Time since, Time until) {
 		return (until - since).count() / 1000000; //TODO cast properly to milliseconds
-		//return std::chrono::duration<Uint16, ms>(until - since).count();
 	}
 
 
@@ -71,9 +70,7 @@ export namespace Temp {
 			while (trail > 0) {
 
 				if (position.x - nextOffset >= 0) {
-					Uint32* pixel = getPixel(position.x - nextOffset, position.y);
-					*pixel = color.mLerp(trail);
-					//putPixel(*pixel, color.mLerp(trail));
+					putPixel(position.x - nextOffset, position.y, color.mLerp(trail));
 				}
 
 				trail -= 20;
@@ -136,9 +133,8 @@ export namespace Temp {
 			for (Uint16 j = 0; j < screen.h; j++) {
 				for (Uint16 i = 0; i < screen.w; i++) {
 
-					pixel = getPixel(i, j);
 					indexColor = (plasma1[src1] + plasma2[src2]) % 256;
-					putPixel(*pixel, palette[indexColor]);
+					putPixel(i, j, palette[indexColor].rgba());
 
 					src1++; src2++;
 				}
@@ -161,15 +157,15 @@ export namespace Temp {
 			maxSpeed{ speed },
 			maxStars{ stars },
 			fps{ fps },
-			initialTime{ Now() },
-			previousTime{ Now() }
+			initialTime{ Clock::now() },
+			previousTime{ Clock::now() }
 		{}
 		Uint16 GetDeltaTime() const { return deltaTime; }
-		ms GetNextDelayTime() { return  std::chrono::milliseconds{ 1000 / fps }; }//std::chrono::duration_cast<ms>(previousTime - Now()) + frameTime; }
+		ms GetNextDelayTime() { return  std::chrono::milliseconds{ std::chrono::duration_cast<ms>(std::chrono::seconds(1 / fps)) }; }
 		bool Running() const { return status == ProgramStatus::RUNNING; }
 		void SetNextFrameTime() {
-			deltaTime = delay(previousTime, Now());
-			previousTime = Now();
+			deltaTime = delay(previousTime, Clock::now());
+			previousTime = Clock::now();
 		}
 	private:
 		Uint16 deltaTime;

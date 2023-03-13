@@ -15,7 +15,25 @@
     </Filter>
   </ItemGroup>
   <ItemGroup>
-    <ClCompile Include="..\..\..\src\external\tutorial\01_hello_SDL.cpp">
+    <ClCompile Include="..\..\..\src\definitions.ixx">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\src\effects\demo.ixx">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\src\effects\effects.ixx">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\src\main.ixx">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\src\sdl.ixx">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\src\timeline.ixx">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="injection.ixx">
       <Filter>Source Files</Filter>
     </ClCompile>
   </ItemGroup>

@@ -1,7 +1,6 @@
 export module demo;
 
 import timeline;
-import effects; // TODO move down
 import <string>;
 import <thread>;
 

@@ -2,7 +2,7 @@ export module definitions;
 
 import <cstdint>;
 
-export double PI = 3.14159265358979323846264338327950288;
+export constexpr double PI = 3.14159265358979323846264338327950288;
 
 export enum class ProgramStatus {
 	TERMINATE_OK,
