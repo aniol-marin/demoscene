@@ -53,6 +53,7 @@ export namespace Temp {
 			color.a = 0xFF;
 		}
 	public:
+		Star() : Star{ Screen{640,480}, 10 } {} //TODO bind to factory
 		Star(const Screen& screenSize, const int maxSpeed) {
 			Reset(screenSize, maxSpeed, true);
 		}

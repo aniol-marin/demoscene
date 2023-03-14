@@ -1,6 +1,7 @@
 export module demo;
 
 import timeline;
+import injection;
 import <string>;
 import <thread>;
 
@@ -17,11 +18,17 @@ namespace MoleDemo {
 		Timeline timeline;
 		void LoadData(std::string source) {}
 		void LoadTimeline(std::string source) {	}
+		void InstallBindings() {
+			Container container{};
+			container.BindShared<Star, Star>();
+			//container.BindUnique<Star, Star>();
+		}
 	public:
 		Demo(std::string project) :
 			data{ Point2D{640, 480},100, 100, 24 } {}
 
 		void Init() {
+			InstallBindings();
 			Temp::Init(data);
 		}
 

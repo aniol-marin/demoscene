@@ -33,11 +33,11 @@ export 	class Container {
 	template<typename T>
 	class SharedFactory : public IFactory {
 	private:
-		const std::unique_ptr<T> instance;
-		const std::function<std::unique_ptr<T>()> functor;
+		const std::shared_ptr<T> instance;//TODO make IDd instances
+		const std::function<std::shared_ptr<T>()> functor;
 	public:
 		SharedFactory(std::function<std::shared_ptr<T>()> functor) :
-			instance{ make_unique(functor()) },
+			instance{ functor() },
 			functor{ functor }, // shouldn't be necessary to keep it after use
 			IFactory{} {}
 		~SharedFactory() override {}
@@ -47,12 +47,19 @@ export 	class Container {
 		}
 	};
 
-	/*
 	// Register one instance of an object (needs functor)
 	template<typename TInterface>
-	void Bind(std::shared_ptr<TInterface> t) {
-		factories[typeid(TInterface)] = std::make_shared<Factory<TInterface>>([=] {return t; });
+	void BindShared(std::shared_ptr<TInterface> t) {
+		factories[/*typeid(TInterface)*/0] = std::make_unique<SharedFactory<TInterface>>([=] {return t; });
 	}
+
+	// Register one instance of an object (needs functor)
+	template<typename TInterface>
+	void BindUnique(std::unique_ptr<TInterface> t) {
+		factories[/*typeid(TInterface)*/0] = std::make_unique<SharedFactory<TInterface>>([=] {return t; });
+	}
+
+	/*
 	// Register one instance of an object (no functor)
 	template<typename T>
 	void Bind() {
@@ -111,12 +118,12 @@ public:
 	// A factory that will return one unique instance for every request
 	template<typename TInterface, typename TConcrete, typename ...TArguments>
 	void BindUnique() {
-		Bind<TInterface>(std::make_unique<TConcrete>(Inject<TArguments>()...));
+		BindUnique<TInterface>(std::make_unique<TConcrete>(Inject<TArguments>()...));
 	};
 
 	// A factory that will return the same instance to every request
 	template<typename TInterface, typename TConcrete, typename ...TArguments>
 	void BindShared() {
-		Bind<TInterface>(std::make_shared<TConcrete>(Inject<TArguments>()...));
+		BindShared<TInterface>(std::make_shared<TConcrete>(Inject<TArguments>()...));
 	};
 };
