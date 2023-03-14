@@ -20,8 +20,10 @@ namespace MoleDemo {
 		void LoadTimeline(std::string source) {	}
 		void InstallBindings() {
 			Container container{};
-			container.BindShared<Star, Star>();
-			//container.BindUnique<Star, Star>();
+			//container.BindShared<Star, Star>(); //ok
+			//container.BindUnique<Star, Star>(); //ok
+			container.BindSharedFactory<Star, Star, Screen, uint8_t, const int>(); // WIP
+			//container.BindUniqueFactory<Star, Star, Screen, uint8_t, const int>(); // TODO
 		}
 	public:
 		Demo(std::string project) :

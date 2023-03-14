@@ -13,8 +13,8 @@ public:
 };
 
 export 	class Container {
-	std::map<int, std::unique_ptr<IFactory>> factories;
-	std::map<int, std::unique_ptr<IFactory>> singletonFactories;
+	std::map<uint8_t, std::unique_ptr<IFactory>> sharingFactories;
+	std::map<uint8_t, std::unique_ptr<IFactory>> singletonFactories;
 
 	template<typename T>
 	class UniqueFactory : public IFactory {
@@ -33,37 +33,41 @@ export 	class Container {
 	template<typename T>
 	class SharedFactory : public IFactory {
 	private:
-		const std::shared_ptr<T> instance;//TODO make IDd instances
+		const std::map < uint8_t, std::shared_ptr<T>> instances;//TODO make IDd instances
 		const std::function<std::shared_ptr<T>()> functor;
 	public:
-		SharedFactory(std::function<std::shared_ptr<T>()> functor) :
-			instance{ functor() },
+		SharedFactory(std::function<std::shared_ptr<T>()> functor, uint8_t id = 0) :
+			instances{ { id, functor() } },
 			functor{ functor }, // shouldn't be necessary to keep it after use
 			IFactory{} {}
 		~SharedFactory() override {}
 
-		std::shared_ptr<T> GetSharedObject() {
-			return std::make_shared(instance);
+		std::shared_ptr<T> GetSharedObject(uint8_t id = 0) {
+			return  std::make_shared(instances[id]);
 		}
 	};
 
-	// Register one instance of an object (needs functor)
+	// Register one instances of an object (needs functor)
 	template<typename TInterface>
 	void BindShared(std::shared_ptr<TInterface> t) {
-		factories[/*typeid(TInterface)*/0] = std::make_unique<SharedFactory<TInterface>>([=] {return t; });
+		sharingFactories[typeid(TInterface).hash_code()] = std::make_unique<SharedFactory<TInterface>>([=] {return t; });
 	}
 
-	// Register one instance of an object (needs functor)
+	// Register one instances of an object (needs functor)
 	template<typename TInterface>
 	void BindUnique(std::unique_ptr<TInterface> t) {
-		factories[/*typeid(TInterface)*/0] = std::make_unique<SharedFactory<TInterface>>([=] {return t; });
+		sharingFactories[typeid(TInterface).hash_code()] = std::make_unique<UniqueFactory<TInterface>>([&] {return std::move(t); });
 	}
 
+	template<typename TInterface, typename ...TS>
+	void RegisterFunctor(std::function<std::shared_ptr<TInterface>(std::shared_ptr<TS> ...ts)> functor) {
+		sharingFactories[typeid(TInterface).hash_code()] = std::make_unique<SharedFactory<TInterface>>([=] {return functor(InjectShared<TS>()...); });
+	}
 	/*
-	// Register one instance of an object (no functor)
+	// Register one instances of an object (no functor)
 	template<typename T>
 	void Bind() {
-		factories[typeid(T)] = std::make_shared<Factory<T>>([=] {return std::make_shared<T>(); });
+		sharingFactories[typeid(T)] = std::make_shared<Factory<T>>([=] {return std::make_shared<T>(); });
 	}
 
 	// Supply a function pointer
@@ -72,30 +76,26 @@ export 	class Container {
 		RegisterFunctor(std::function<std::shared_ptr<TInterface>(std::shared_ptr<TS> ...ts)>(functor));
 	}
 
-	template<typename TInterface, typename ...TS>
-	void RegisterFunctor(std::function<std::shared_ptr<TInterface>(std::shared_ptr<TS> ...ts)> functor) {
-		factories[typeid(TInterface).name()] = std::make_shared<Factory<TInterface>>([=] {return functor(Inject<TS>()...); });
-	}
 	*/
 
 public:
-	// Returns a unique pointer to a new instance
+	// Returns a unique pointer to a new instances
 	template<typename T>
 	std::unique_ptr<T> InjectUnique() {
-		auto factoryBase = factories[typeid(T)];
-		auto factory = std::static_pointer_cast<Factory<T>>(factoryBase);
+		auto factoryBase = sharingFactories[typeid(T).hash_code()];
+		auto factory = std::static_pointer_cast<UniqueFactory<T>>(factoryBase);
 		return factory->GetSharedObject();
 	}
 
-	// Returns a shared pointer to a unique instance
+	// Returns a shared pointer to a unique instances
 	template<typename T>
 	std::shared_ptr<T> InjectShared() {
-		auto factoryBase = factories[typeid(T)];
-		auto factory = std::static_pointer_cast<Factory<T>>(factoryBase);
+		auto factoryBase = sharingFactories[typeid(T).hash_code()];
+		auto factory = std::static_pointer_cast<SharedFactory<T>>(factoryBase);
 		return factory->GetSharedObject();
 	}
 
-	// A factory that will provide the same instance per each request
+	// A factory that will provide the same instances per each request
 	template<typename TInterface, typename TConcrete, typename ...TArguments>
 	void BindUniqueFactory() {
 		RegisterFunctor(std::function<std::unique_ptr<TInterface>(std::unique_ptr<TArguments> ...ts)>(
@@ -105,7 +105,7 @@ public:
 		);
 	}
 
-	// A factory that will call the constructor, per instance required
+	// A factory that will call the constructor, per instances required
 	template<typename TInterface, typename TConcrete, typename ...TArguments>
 	void BindSharedFactory() {
 		RegisterFunctor(std::function<std::shared_ptr<TInterface>(std::shared_ptr<TArguments> ...ts)>(
@@ -115,13 +115,13 @@ public:
 		);
 	}
 
-	// A factory that will return one unique instance for every request
+	// A factory that will return one unique instances for every request
 	template<typename TInterface, typename TConcrete, typename ...TArguments>
 	void BindUnique() {
 		BindUnique<TInterface>(std::make_unique<TConcrete>(Inject<TArguments>()...));
 	};
 
-	// A factory that will return the same instance to every request
+	// A factory that will return the same instances to every request
 	template<typename TInterface, typename TConcrete, typename ...TArguments>
 	void BindShared() {
 		BindShared<TInterface>(std::make_shared<TConcrete>(Inject<TArguments>()...));
