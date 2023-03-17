@@ -5,6 +5,9 @@ import injection;
 import <string>;
 import <thread>;
 
+//debugging
+import <iostream>;
+
 using namespace Temp;
 
 namespace MoleDemo {
@@ -20,10 +23,26 @@ namespace MoleDemo {
 		void LoadTimeline(std::string source) {	}
 		void InstallBindings() {
 			Container container{};
+			//container.BindUnique<Point2D, Point2D>();
+			container.BindShared<Point2D, Point2D>();
+			/*
+			std::unique_ptr<Point2D> uPoint1 = container.InjectNewInstance<Point2D>();
+			std::unique_ptr<Point2D> uPoint2 = container.InjectNewInstance<Point2D>();
+			*/
+			/*
+			std::shared_ptr<Point2D> sPoint1 = container.InjectSharedInstance<Point2D>();
+			std::shared_ptr<Point2D> sPoint2 = container.InjectSharedInstance<Point2D>();
+			std::shared_ptr<Point2D> sPoint3 = container.InjectSharedInstance<Point2D>(1);
+			*/
+
+			//point->x = 5;
+
+			//std::cout << std::string("point: [") << (int)point->x << "][" << (int)point->y << "]" << std::endl;
+
 			//container.BindShared<Star, Star>(); //ok
 			//container.BindUnique<Star, Star>(); //ok
-			container.BindSharedFactory<Star, Star, Screen, uint8_t, const int>(); // WIP
-			//container.BindUniqueFactory<Star, Star, Screen, uint8_t, const int>(); // TODO
+			//container.BindSharingFactory<Star, Star, Screen, uint8_t, const int>(); // WIP
+			//container.BindNewInstancesFactory<Star, Star, Screen, uint8_t, const int>(); // TODO
 		}
 	public:
 		Demo(std::string project) :

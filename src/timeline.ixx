@@ -35,6 +35,13 @@ export namespace Temp {
 		return (until - since).count() / 1000000; //TODO cast properly to milliseconds
 	}
 
+	struct Point3D : public Point2D {
+		Point3D() :
+			Point2D{ 1, 1 },
+			z{ 1 } {}
+		~Point3D() override {}
+		uint16_t z;
+	};
 
 
 	class Star {
@@ -53,7 +60,6 @@ export namespace Temp {
 			color.a = 0xFF;
 		}
 	public:
-		Star() : Star{ Screen{640,480}, 10 } {} //TODO bind to factory
 		Star(const Screen& screenSize, const int maxSpeed) {
 			Reset(screenSize, maxSpeed, true);
 		}

@@ -12,6 +12,13 @@ export enum class ProgramStatus {
 
 export struct Point2D {
 	uint16_t x, y;
+	Point2D() :
+		x{},
+		y{} {}
+	Point2D(uint16_t x, uint16_t y) :
+		x{ x },
+		y{ y } {}
+	virtual ~Point2D() {}
 };
 
 export struct Screen {
