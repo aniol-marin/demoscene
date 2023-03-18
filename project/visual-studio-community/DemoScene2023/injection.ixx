@@ -23,7 +23,6 @@ public:
 		return functor();
 	}
 };
-*/
 
 template<typename T>
 class SharingFactory : public Factory {
@@ -42,22 +41,49 @@ public:
 		return  std::make_shared(instances[id]);
 	}
 };
+*/
+
+template<typename Interface>
+class TestSharingFactory : public Factory {
+private:
+	std::map<uint8_t, Interface*> instances;
+	const std::function<Interface* ()> functor;
+public:
+	TestSharingFactory(std::function<Interface* () > functor, uint8_t id = 0) :
+		instances{},
+		functor{ functor },
+		Factory{} {}
+	~TestSharingFactory() override {
+		for (const std::pair<uint8_t, Interface*>& pair : instances) {
+			delete pair.second;
+		}
+	}
+
+	Interface* GetSharedObject(uint8_t id = 0) {
+		if (!instances.contains(id)) {
+			instances[id] = functor();
+		}
+		Interface* instance = instances[id];
+		return instance;
+	}
+};
 
 
 export class Container {
 
 	/*
 	std::map<uint8_t, std::unique_ptr<Factory>> newInstanceFactories; // UniqueFactories
-	*/
 	std::map<uint8_t, std::unique_ptr<Factory>> sharedInstancesFactories; // SharingFactories
+	*/
+	std::map<uint8_t, Factory*> test; // SharingFactories
 
+	/*
 	// Register one instances of an object (needs instancer)
 	template<typename TInterface>
 	void BindShared(std::shared_ptr<TInterface> t) {
 		sharedInstancesFactories[typeid(TInterface).hash_code()] = std::make_unique<SharingFactory<TInterface>>([&t] {return std::move(t); });
 	}
 
-	/*
 	// Register one instances of an object (needs instancer)
 	template<typename TInterface>
 	void BindUnique(std::unique_ptr<TInterface> t) {
@@ -96,12 +122,21 @@ public:
 
 	// Returns a shared pointer to a unique instances
 	template<typename T>
+	T* InjectShared(uint8_t id = 0) {
+		Factory* factoryBase = test[typeid(T).hash_code()];
+		TestSharingFactory<T>* factory = static_cast<TestSharingFactory<T>*>(factoryBase);
+		auto instance = factory->GetSharedObject(id);
+		return static_cast<T*>(instance);
+	};
+
+	/*
+	// Returns a shared pointer to a unique instances
+	template<typename T>
 	std::shared_ptr<T> InjectSharedInstance(uint8_t id = 0) {
 		auto factoryBase = sharedInstancesFactories[typeid(T).hash_code()].get();
 		auto factory = static_cast<SharingFactory<T>>(factoryBase);
 		return factory->GetSharedObject();
 	};
-	/*
 	// A factory that will provide the same instances per each request
 	template<typename TInterface, typename TConcrete, typename ...TArguments>
 	void BindNewInstancesFactory() {
@@ -132,6 +167,9 @@ public:
 	// A factory that will return the same instances to every request
 	template<typename TInterface, typename TConcrete, typename ...TArguments>
 	void BindShared() {
-		BindShared<TInterface>(std::make_shared<TConcrete>(InjectSharedInstance<TArguments>()...));
+		uint8_t id = typeid(TInterface).hash_code();
+		Factory* factory = new TestSharingFactory<TInterface>([] {return new TConcrete{}; });
+		test[id] = factory;
+		//BindShared<TInterface>(std::make_shared<TConcrete>(InjectSharedInstance<TArguments>()...));
 	};
 };;

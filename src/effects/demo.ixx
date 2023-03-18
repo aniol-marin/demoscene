@@ -24,7 +24,27 @@ namespace MoleDemo {
 		void InstallBindings() {
 			Container container{};
 			//container.BindUnique<Point2D, Point2D>();
-			container.BindShared<Point2D, Point2D>();
+			container.BindShared<Point2D, Point3D>();
+			Point2D* point = container.InjectShared<Point2D>();
+			Point2D* point2 = container.InjectShared<Point2D>();
+			Point2D* point3 = container.InjectShared<Point2D>(1);
+
+			std::cout << "uninitialized: [" << point->x << "][" << point->y << "]\n";
+			std::cout << "uninitialized: [" << point2->x << "][" << point2->y << "]\n";
+			std::cout << "uninitialized: [" << point3->x << "][" << point3->y << "]\n";
+
+			point->x = 4;
+			point2->y = 5;
+			point3->x = 37;
+			point3->y = 37;
+
+
+			std::cout << "initialized: [" << point->x << "][" << point->y << "]\n";
+			std::cout << "initialized: [" << point2->x << "][" << point2->y << "]\n";
+			std::cout << "initialized: [" << point3->x << "][" << point3->y << "]\n";
+
+
+			point->x = 4;
 			/*
 			std::unique_ptr<Point2D> uPoint1 = container.InjectNewInstance<Point2D>();
 			std::unique_ptr<Point2D> uPoint2 = container.InjectNewInstance<Point2D>();
