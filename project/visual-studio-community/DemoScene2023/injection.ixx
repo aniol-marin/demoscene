@@ -68,6 +68,28 @@ public:
 	}
 };
 
+template<typename Interface>
+class TestInstanceFactory : public Factory {
+private:
+	std::vector<Interface*> instances;
+	const std::function<Interface* ()> functor;
+public:
+	TestInstanceFactory(std::function<Interface* () > functor, uint8_t id = 0) :
+		functor{ functor },
+		Factory{} {}
+	~TestInstanceFactory() override {
+		for (Interface* instance : instances) {
+			delete instance;
+		}
+	}
+
+	Interface* GetObject(uint8_t id = 0) {
+		Interface* instance = functor();
+		instances.push_back(instance);
+		return instance;
+	}
+};
+
 
 export class Container {
 
@@ -75,7 +97,7 @@ export class Container {
 	std::map<uint8_t, std::unique_ptr<Factory>> newInstanceFactories; // UniqueFactories
 	std::map<uint8_t, std::unique_ptr<Factory>> sharedInstancesFactories; // SharingFactories
 	*/
-	std::map<uint8_t, Factory*> test; // SharingFactories
+	std::map<uint8_t, Factory*> testFactories; // Raw Pointers
 
 	/*
 	// Register one instances of an object (needs instancer)
@@ -110,7 +132,7 @@ export class Container {
 
 public:
 	/*
-	// Returns a unique pointer to a new instances
+	// Returns a unique pointer to a new instance
 	template<typename T>
 	std::unique_ptr<T> InjectNewInstance() {
 		Factory* base{ newInstanceFactories[typeid(T).hash_code()].get() };
@@ -122,11 +144,20 @@ public:
 
 	// Returns a shared pointer to a unique instances
 	template<typename T>
-	T* InjectShared(uint8_t id = 0) {
-		Factory* factoryBase = test[typeid(T).hash_code()];
-		TestSharingFactory<T>* factory = static_cast<TestSharingFactory<T>*>(factoryBase);
-		auto instance = factory->GetSharedObject(id);
-		return static_cast<T*>(instance);
+	T* Inject(uint8_t id = 0) {
+		Factory* factoryBase = testFactories[typeid(T).hash_code()];
+		T* instance;
+
+		TestSharingFactory<T>* factory = dynamic_cast<TestSharingFactory<T>*>(factoryBase);
+		if (factory) {
+			instance = factory->GetSharedObject(id);
+		}
+		else {
+			TestInstanceFactory<T>* newFactory = static_cast<TestInstanceFactory<T>*>(factoryBase);
+			instance = newFactory->GetObject(id);
+		}
+
+		return instance;
 	};
 
 	/*
@@ -169,7 +200,15 @@ public:
 	void BindShared() {
 		uint8_t id = typeid(TInterface).hash_code();
 		Factory* factory = new TestSharingFactory<TInterface>([] {return new TConcrete{}; });
-		test[id] = factory;
+		testFactories[id] = factory;
 		//BindShared<TInterface>(std::make_shared<TConcrete>(InjectSharedInstance<TArguments>()...));
+	};
+
+	// A factory that will call the constructor, per instances required
+	template<typename TInterface, typename TConcrete, typename ...TArguments>
+	void BindUnique() {
+		uint8_t id = typeid(TInterface).hash_code();
+		Factory* factory = new TestInstanceFactory<TInterface>([] {return new TConcrete{}; });
+		testFactories[id] = factory;
 	};
 };;
