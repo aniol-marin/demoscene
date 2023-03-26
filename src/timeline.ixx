@@ -52,7 +52,7 @@ namespace MoleDemo {
 				UpdateLayers(*nextLayers);
 				events.pop_front();
 			}
-			cycle->SetLayers(layers); // TODO check, redundant?
+				cycle->SetLayers(layers); // TODO check, redundant?
 		}
 	public:
 		Timeline(Timer* timer, Program* program, Cycle* cycle, SoundManager* sound, Screen* screen) :
@@ -64,6 +64,7 @@ namespace MoleDemo {
 			layers{} {}
 
 		void Init() {
+			cycle->SetLayers(layers); // TODO check, redundant?
 		}
 
 		void Load(std::string content) {
@@ -82,7 +83,8 @@ namespace MoleDemo {
 			events.push_back({ 8, new std::vector<Layer*>{second, first} });
 			events.push_back({ 12, new std::vector<Layer*>{first} });
 
-			UpdateLayers(initialLayers);
+			layers.insert(layers.end(), initialLayers.begin(), initialLayers.end());
+			UpdateLayers(layers);
 		}
 
 		void Start() {
