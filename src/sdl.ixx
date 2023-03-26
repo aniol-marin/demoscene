@@ -4,27 +4,23 @@ export module sdl;
 
 import definitions;
 
-namespace MoleDemo {
+namespace SDL {
 	SDL_Window* window;
 	SDL_Surface* surface;
 	SDL_Event events;
-	export Uint8;
-	export Uint16;
-	export Uint32;
-	export SDL_Surface;
 
-	using Pixel = Uint32;
+	using Pixel = uint32_t;
 
-	export bool InitSDL() {
+	export bool Init(const Screen& screen) {
 		if (SDL_Init(SDL_INIT_VIDEO) >= 0) {
 
-			window = SDL_CreateWindow("Stars", SDL_WINDOWPOS_UNDEFINED, SDL_WINDOWPOS_UNDEFINED, 640, 480, SDL_WINDOW_SHOWN);
+			window = SDL_CreateWindow("Mole Demo", SDL_WINDOWPOS_UNDEFINED, SDL_WINDOWPOS_UNDEFINED, screen.w, screen.h, SDL_WINDOW_SHOWN);
 			surface = SDL_GetWindowSurface(window);
 		}
 
 		return window != nullptr;
 	}
-	export void FinalizeSDL() {
+	export void Finalize() {
 		SDL_DestroyWindow(window);
 		SDL_Quit();
 	}
@@ -51,21 +47,24 @@ namespace MoleDemo {
 	export void FillRect(SDL_Surface* surface, Color color) {
 		SDL_FillRect(surface, NULL, SDL_MapRGB(surface->format, 0x0, 0x5, 0x10));
 	}
+
 	export void LockSurface() {
 		SDL_LockSurface(surface);
 	}
+
 	export void UnlockSurface() {
 		SDL_UnlockSurface(surface);
 	}
+
 	export void UpdateSurface() {
 		SDL_UpdateWindowSurface(window);
 	}
 
-	Pixel* getPixel(Uint16 x, Uint16 y) {
-		return reinterpret_cast<Uint32*>((Uint8*)surface->pixels + y * surface->pitch + x * surface->format->BytesPerPixel);
-
+	Pixel* getPixel(uint16_t x, uint16_t y) {
+		return reinterpret_cast<uint32_t*>((uint8_t*)surface->pixels + y * surface->pitch + x * surface->format->BytesPerPixel);
 	}
-	export void putPixel(Uint16 x, Uint16 y, const uint32_t rgba) {
+
+	export void PutPixel(uint16_t x, uint16_t y, const uint32_t rgba) {
 		Pixel* pixel = getPixel(x, y);
 		*pixel = rgba;
 	}

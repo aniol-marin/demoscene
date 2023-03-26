@@ -13,28 +13,61 @@
       <UniqueIdentifier>{67DA6AB6-F800-4c08-8B7A-83BB121AAD01}</UniqueIdentifier>
       <Extensions>rc;ico;cur;bmp;dlg;rc2;rct;bin;rgs;gif;jpg;jpeg;jpe;resx;tiff;tif;png;wav;mfcribbon-ms</Extensions>
     </Filter>
+    <Filter Include="Source Files\Internal">
+      <UniqueIdentifier>{f47ea8d2-471b-4abf-a069-582f8e864efb}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source Files\Internal\Sound">
+      <UniqueIdentifier>{c88eed4f-0b3d-418e-bc70-c87d50ddd061}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source Files\Internal\Visuals">
+      <UniqueIdentifier>{89c5342a-91cc-4b92-8d56-6369837763b6}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source Files\Internal\Utils">
+      <UniqueIdentifier>{2cf832ce-6416-44df-9d83-6928db92333c}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
-    <ClCompile Include="..\..\..\src\definitions.ixx">
-      <Filter>Source Files</Filter>
-    </ClCompile>
     <ClCompile Include="..\..\..\src\effects\demo.ixx">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="..\..\..\src\effects\effects.ixx">
+    <ClCompile Include="..\..\..\src\main.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="..\..\..\src\main.ixx">
-      <Filter>Source Files</Filter>
+    <ClCompile Include="..\..\..\src\definitions.ixx">
+      <Filter>Source Files\Internal\Utils</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\src\program.ixx">
+      <Filter>Source Files\Internal\Utils</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\src\timer.ixx">
+      <Filter>Source Files\Internal\Utils</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\src\effects\effects.ixx">
+      <Filter>Source Files\Internal\Visuals</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\src\render.ixx">
+      <Filter>Source Files\Internal\Visuals</Filter>
     </ClCompile>
     <ClCompile Include="..\..\..\src\sdl.ixx">
-      <Filter>Source Files</Filter>
+      <Filter>Source Files\Internal\Visuals</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\src\cycle.ixx">
+      <Filter>Source Files\Internal</Filter>
     </ClCompile>
     <ClCompile Include="..\..\..\src\timeline.ixx">
-      <Filter>Source Files</Filter>
+      <Filter>Source Files\Internal</Filter>
     </ClCompile>
-    <ClCompile Include="injection.ixx">
-      <Filter>Source Files</Filter>
+    <ClCompile Include="..\..\..\src\sound.ixx">
+      <Filter>Source Files\Internal\Sound</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\src\input.ixx">
+      <Filter>Source Files\Internal</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\src\injection.ixx">
+      <Filter>Source Files\Internal\Utils</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\src\interfaces.ixx">
+      <Filter>Source Files\Internal\Utils</Filter>
     </ClCompile>
   </ItemGroup>
 </Project>

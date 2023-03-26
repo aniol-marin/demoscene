@@ -1,91 +1,125 @@
 export module demo;
 
-import timeline;
+import definitions;
 import injection;
+import timeline;
+import program;
+import input;
+import interfaces;
+import render;
+import cycle;
+import timer;
+import sound;
 import <string>;
+import <vector>;
 import <thread>;
-
-//debugging
-import <iostream>;
-
-using namespace Temp;
 
 namespace MoleDemo {
 
 
-	export class Demo {
-		Data data;
+	export class Demo :
+		public Initializable,
+		Loadable {
+		std::string source;
+		std::vector<Initializable*> initializables;
+		std::vector<Loadable*> loadables;
+		RenderManager* render;
+		SoundManager* sound;
+		Timeline* timeline;
+		Timer* timer;
+		Program* program;
+		// TODO multithread
 		std::thread mainThread;
 		std::thread musicThread;
 		std::thread loadingThread;
-		Timeline timeline;
 		void LoadData(std::string source) {}
 		void LoadTimeline(std::string source) {	}
 		void InstallBindings() {
 			Container container{};
-			//container.BindUnique<Point2D, Point2D>();
-			container.BindShared<Point2D, Point3D>();
-			Point2D* point = container.Inject<Point2D>();
-			Point2D* point2 = container.Inject<Point2D>();
-			Point2D* point3 = container.Inject<Point2D>(1);
 
-			std::cout << "uninitialized: [" << point->x << "][" << point->y << "]\n";
-			std::cout << "uninitialized: [" << point2->x << "][" << point2->y << "]\n";
-			std::cout << "uninitialized: [" << point3->x << "][" << point3->y << "]\n";
+			container.BindShared<Screen, Screen>();
+			container.BindShared<Timer, Timer>();
+			container.BindShared<SoundManager, SoundManager>();
+			container.BindShared<InputManager, InputManager>();
 
-			point->x = 4;
-			point2->y = 5;
-			point3->x = 37;
-			point3->y = 37;
-
-
-			std::cout << "initialized: [" << point->x << "][" << point->y << "]\n";
-			std::cout << "initialized: [" << point2->x << "][" << point2->y << "]\n";
-			std::cout << "initialized: [" << point3->x << "][" << point3->y << "]\n";
-
-
-			point->x = 4;
+			// TODO replace default constructor with parametrized injection and/or binding
+			// TODO replace manual resolution with Factories. Examples follow:
 			/*
-			std::unique_ptr<Point2D> uPoint1 = container.InjectNewInstance<Point2D>();
-			std::unique_ptr<Point2D> uPoint2 = container.InjectNewInstance<Point2D>();
+			container.BindSharingFactory<Program, Program, Screen>();
+			container.BindSharingFactory<RenderManager, RenderManager, Screen>();
+			container.BindUniqueFactory<Cycle, Cycle, Program, Timer, RenderManager>();
+			container.BindSharingFactory<Timeline, Timeline, Timer, Cycle>();
 			*/
-			/*
-			std::shared_ptr<Point2D> sPoint1 = container.InjectSharedInstance<Point2D>();
-			std::shared_ptr<Point2D> sPoint2 = container.InjectSharedInstance<Point2D>();
-			std::shared_ptr<Point2D> sPoint3 = container.InjectSharedInstance<Point2D>(1);
-			*/
+			InputManager* input = container.Inject<InputManager>();
+			timer = container.Inject<Timer>();
+			sound = container.Inject<SoundManager>();
+			program = new Program(
+				container.Inject<Screen>());
+			render = new RenderManager(
+				container.Inject<Screen>());
+			Cycle* cycle = new Cycle(
+				program,
+				container.Inject<Timer>(),
+				container.Inject<InputManager>(),
+				render);
+			timeline = new Timeline(
+				container.Inject<Timer>(),
+				program,
+				cycle,
+				container.Inject<SoundManager>(),
+				container.Inject<Screen>());
 
-			//point->x = 5;
+			initializables.push_back(render);
+			initializables.push_back(timeline);
+			initializables.push_back(sound);
 
-			//std::cout << std::string("point: [") << (int)point->x << "][" << (int)point->y << "]" << std::endl;
-
-			//container.BindShared<Star, Star>(); //ok
-			//container.BindUnique<Star, Star>(); //ok
-			//container.BindSharingFactory<Star, Star, Screen, uint8_t, const int>(); // WIP
-			//container.BindNewInstancesFactory<Star, Star, Screen, uint8_t, const int>(); // TODO
+			loadables.push_back(timeline);
+			loadables.push_back(sound);
+		}
+		void Load(std::string source) {
+			for (Loadable* item : loadables) {
+				item->Load(source);
+			}
+		}
+		void Unload() {
+			for (Loadable* item : loadables) {
+				item->Unload();
+			}
 		}
 	public:
 		Demo(std::string project) :
-			data{ Point2D{640, 480},100, 100, 24 } {}
-
+			source{ project },
+			Initializable{},
+			Loadable() {}
 		void Init() {
+
 			InstallBindings();
-			Temp::Init(data);
+
+			timer->SetFPS(60);
+
+			for (Initializable* item : initializables) {
+				item->Init();
+			}
+
+			Load(source);
 		}
-
 		void Run() {
+			// TODO create and manage separate threads
+			sound->Play();
+			timeline->Start();
 
-			while (data.Running()) {
-				PollEvents(data);
-				Update(data);
-				Draw(data);
-				Synch(data);
+			while (program->Running()) {
+				sound->Update();
+				timeline->Update();
 			}
 		}
-
 		void Finalize() {
-			Temp::Finalize(data);
+
+			Unload();
+
+			for (Initializable* item : initializables) {
+				item->Finalize();
+			}
 		}
 	};
-
 }

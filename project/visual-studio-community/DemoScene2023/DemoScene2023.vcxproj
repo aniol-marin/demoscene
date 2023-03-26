@@ -136,13 +136,20 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
+    <ClCompile Include="..\..\..\src\cycle.ixx" />
     <ClCompile Include="..\..\..\src\definitions.ixx" />
     <ClCompile Include="..\..\..\src\effects\demo.ixx" />
     <ClCompile Include="..\..\..\src\effects\effects.ixx" />
-    <ClCompile Include="..\..\..\src\main.ixx" />
+    <ClCompile Include="..\..\..\src\input.ixx" />
+    <ClCompile Include="..\..\..\src\injection.ixx" />
+    <ClCompile Include="..\..\..\src\interfaces.ixx" />
+    <ClCompile Include="..\..\..\src\main.cpp" />
+    <ClCompile Include="..\..\..\src\program.ixx" />
+    <ClCompile Include="..\..\..\src\render.ixx" />
     <ClCompile Include="..\..\..\src\sdl.ixx" />
+    <ClCompile Include="..\..\..\src\sound.ixx" />
     <ClCompile Include="..\..\..\src\timeline.ixx" />
-    <ClCompile Include="injection.ixx" />
+    <ClCompile Include="..\..\..\src\timer.ixx" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">

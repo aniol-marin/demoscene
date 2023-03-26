@@ -10,6 +10,16 @@ export enum class ProgramStatus {
 	RUNNING,
 };
 
+export enum class BlendMode {
+	Override,
+	AlphaBlend,
+	Additive,
+	Subtractive,
+	Multiply,
+	Divide,
+	Screen,
+};
+
 export struct Point2D {
 	uint16_t x, y;
 	Point2D() :
@@ -23,27 +33,40 @@ export struct Point2D {
 
 export struct Screen {
 	const uint16_t w, h;
+	Screen() :
+		w{ 640 },
+		h{ 480 } {} // TODO delete after injection tests
 	Screen(uint16_t width, uint16_t heigth) :
 		w{ width },
 		h{ heigth } {}
 };
 
-export struct Color {
-	uint8_t r, g, b, a;
-	uint32_t rgba() const { return to32(a, r, g, b); }
-	uint32_t mLerp(uint16_t milliUnits) {
-		return to32(
-			a * milliUnits / 1000,
-			r * milliUnits / 1000,
-			g * milliUnits / 1000,
-			b * milliUnits / 1000
-		);
-	};
-private:
+export class Color {
+	uint8_t m_r, m_g, m_b, m_a;
 	const uint32_t to32(uint8_t a, uint8_t r, uint8_t g, uint8_t b) const {
 		return b |
 			(g << 8) |
 			(r << 16) |
 			(a << 24);
 	}
+public:
+	void SetRGBA(uint8_t r, uint8_t g, uint8_t b, uint8_t a = 0xFF) {
+		m_a = a;
+		m_r = r;
+		m_g = g;
+		m_b = b;
+	}
+	uint8_t r() const { return m_r; }
+	uint8_t g() const { return m_g; }
+	uint8_t b() const { return m_b; }
+	uint8_t a() const { return m_a; }
+	uint32_t rgba() const { return to32(m_a, m_r, m_g, m_b); }
+	uint32_t mLerp(const Color& base, const uint16_t milliUnits) {
+		return to32(
+			base.a() + (m_a - base.a()) * milliUnits / 1000,
+			base.r() + (m_r - base.r()) * milliUnits / 1000,
+			base.g() + (m_g - base.g()) * milliUnits / 1000,
+			base.b() + (m_b - base.b()) * milliUnits / 1000
+		);
+	};
 };

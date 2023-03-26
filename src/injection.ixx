@@ -83,7 +83,7 @@ public:
 		}
 	}
 
-	Interface* GetObject(uint8_t id = 0) {
+	Interface* GetObject(uint8_t _ = 0) {
 		Interface* instance = functor();
 		instances.push_back(instance);
 		return instance;
@@ -97,7 +97,7 @@ export class Container {
 	std::map<uint8_t, std::unique_ptr<Factory>> newInstanceFactories; // UniqueFactories
 	std::map<uint8_t, std::unique_ptr<Factory>> sharedInstancesFactories; // SharingFactories
 	*/
-	std::map<uint8_t, Factory*> testFactories; // Raw Pointers
+	std::map<size_t, Factory*> testFactories; // Raw Pointers
 
 	/*
 	// Register one instances of an object (needs instancer)
@@ -194,11 +194,16 @@ public:
 		BindUnique<TInterface>(std::make_unique<TConcrete>(InjectSharedInstance<TArguments>()...));
 	};
 	*/
+	template<typename TInterface, typename TConcrete, typename ...TArguments>
+	void BindSharingFactory() {}
+
+	template<typename TInterface, typename TConcrete, typename ...TArguments>
+	void BindUniqueFactory() {}
 
 	// A factory that will return the same instances to every request
 	template<typename TInterface, typename TConcrete, typename ...TArguments>
 	void BindShared() {
-		uint8_t id = typeid(TInterface).hash_code();
+		size_t id = typeid(TInterface).hash_code();
 		Factory* factory = new TestSharingFactory<TInterface>([] {return new TConcrete{}; });
 		testFactories[id] = factory;
 		//BindShared<TInterface>(std::make_shared<TConcrete>(InjectSharedInstance<TArguments>()...));
@@ -207,7 +212,7 @@ public:
 	// A factory that will call the constructor, per instances required
 	template<typename TInterface, typename TConcrete, typename ...TArguments>
 	void BindUnique() {
-		uint8_t id = typeid(TInterface).hash_code();
+		size_t id = typeid(TInterface).hash_code();
 		Factory* factory = new TestInstanceFactory<TInterface>([] {return new TConcrete{}; });
 		testFactories[id] = factory;
 	};
