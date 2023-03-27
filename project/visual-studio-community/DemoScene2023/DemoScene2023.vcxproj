@@ -142,10 +142,18 @@
     <ClCompile Include="..\..\..\src\definitions.ixx" />
     <ClCompile Include="..\..\..\src\demo.ixx" />
     <ClCompile Include="..\..\..\src\effects.ixx" />
-    <ClCompile Include="..\..\..\src\effects\Effect.cpp" />
-    <ClCompile Include="..\..\..\src\effects\Fire.cpp" />
-    <ClCompile Include="..\..\..\src\effects\Plasma.cpp" />
-    <ClCompile Include="..\..\..\src\effects\Stars.cpp" />
+    <ClCompile Include="..\..\..\src\effects\Effect.cpp">
+      <CompileAs Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">CompileAsCpp</CompileAs>
+    </ClCompile>
+    <ClCompile Include="..\..\..\src\effects\Fire.cpp">
+      <CompileAs Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">CompileAsCpp</CompileAs>
+    </ClCompile>
+    <ClCompile Include="..\..\..\src\effects\Plasma.cpp">
+      <CompileAs Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">CompileAsCpp</CompileAs>
+    </ClCompile>
+    <ClCompile Include="..\..\..\src\effects\Stars.cpp">
+      <CompileAs Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">CompileAsCpp</CompileAs>
+    </ClCompile>
     <ClCompile Include="..\..\..\src\input.ixx" />
     <ClCompile Include="..\..\..\src\injection.ixx" />
     <ClCompile Include="..\..\..\src\interfaces.ixx" />

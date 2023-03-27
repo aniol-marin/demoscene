@@ -10,11 +10,11 @@ namespace MoleDemo {
 	export using PixeBuffer = std::vector<uint32_t>;
 
 	export class Effect;
-	export class Stars;
+	export class Fire;
 	export class Plasma;
+	export class Stars;
 
-	// TODO don't export
-	export class Star;
+	class Star;
 }
 
 class MoleDemo::Effect {
@@ -48,24 +48,16 @@ public:
 	virtual void Cache(std::vector<bool>& mask) = 0;
 };
 
-class MoleDemo::Star {
-
-	Screen* const screen;
-	Point2D position;
-	uint8_t speed;
-	uint16_t miliBrightness;
-	Color color;
-	Color transparent;
-
-	void Reset(const Screen& screen, const uint8_t maxSpeed, const bool initial);
+class MoleDemo::Fire : public Effect {
 
 public:
+	Fire(Timer* timer, Screen* screen);
+	~Fire();
 
-	Star(Screen* screenSize, const int maxSpeed);
-	~Star();
-
-	void Update(const Screen& screen, uint16_t deltaTime, const int maxSpeed);
-	void Draw(std::function<void(Point2D pixel, uint32_t color)> putPixel);
+	void Load() override;
+	void Unload() override;
+	void Update(uint_fast16_t intensity) override;
+	void Cache(std::vector<bool>& mask)  override;
 };
 
 class MoleDemo::Plasma : public Effect {
@@ -93,10 +85,31 @@ class MoleDemo::Stars : public Effect {
 	std::vector<Star> stars;
 public:
 	Stars(Timer* timer, Screen* screen);
+	~Stars();
 
 	void Load() override;
 	void Unload()  override;
 
 	void Update(uint_fast16_t intensity) override;
 	void Cache(std::vector<bool>& mask) override;
+};
+
+class MoleDemo::Star {
+
+	Screen* const screen;
+	Point2D position;
+	uint8_t speed;
+	uint16_t miliBrightness;
+	Color color;
+	Color transparent;
+
+	void Reset(const Screen& screen, const uint8_t maxSpeed, const bool initial);
+
+public:
+
+	Star(Screen* screenSize, const int maxSpeed);
+	~Star();
+
+	void Update(const Screen& screen, uint16_t deltaTime, const int maxSpeed);
+	void Draw(std::function<void(Point2D pixel, uint32_t color)> putPixel);
 };

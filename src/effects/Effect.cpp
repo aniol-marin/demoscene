@@ -1,4 +1,4 @@
-import effects;
+module effects;
 
 namespace MoleDemo {
 	Effect::Effect(Timer* timer, Screen* screen) :
@@ -12,7 +12,7 @@ namespace MoleDemo {
 		return (size_t)screen->w * (size_t)point.y + (size_t)point.x;
 	}
 
-	void Effect:: PutPixel(Point2D point, uint32_t color) {
+	void Effect::PutPixel(Point2D point, uint32_t color) {
 		size_t index = GetPixelIndex(point);
 		if (index > buffer.size()) {
 			int d = 0;

@@ -1,4 +1,4 @@
-import effects;
+module effects;
 
 namespace MoleDemo {
 
@@ -53,6 +53,9 @@ namespace MoleDemo {
 		Effect{ timer, screen }
 	{
 		ClearBuffer(0x0);
+	}
+
+	Stars::~Stars() {
 	}
 
 	void Stars::Load() {

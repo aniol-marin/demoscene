@@ -72,15 +72,17 @@ namespace MoleDemo {
 
 			Stars* stars = new Stars{ timer, screen };
 			Plasma* plasma = new Plasma{ timer, screen };
+			Fire* fire = new Fire{ timer, screen };
 
 			Layer* first = new Layer{ BlendMode::AlphaBlend, stars };
 			Layer* second = new Layer{ BlendMode::Override, plasma };
+			Layer* third = new Layer{ BlendMode::AlphaBlend, fire };
 
 
 			std::vector<Layer*> initialLayers{ first };
 			events.push_back({ 2, new std::vector<Layer*>{ second} });
 			events.push_back({ 6, new std::vector<Layer*>{first, second} });
-			events.push_back({ 8, new std::vector<Layer*>{second, first} });
+			events.push_back({ 8, new std::vector<Layer*>{third, second} });
 			events.push_back({ 12, new std::vector<Layer*>{first} });
 
 			layers.insert(layers.end(), initialLayers.begin(), initialLayers.end());

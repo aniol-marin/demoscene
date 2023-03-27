@@ -1,4 +1,4 @@
-import effects;
+module effects;
 
 namespace MoleDemo {
 
@@ -24,6 +24,7 @@ namespace MoleDemo {
 
 	void Plasma::Unload() {
 	}
+
 	void Plasma::Update(uint_fast16_t intensity) {
 
 		accumulatedTime += intensity;
@@ -42,6 +43,7 @@ namespace MoleDemo {
 		src2 = Windowy2 * (screen->w * 2) + Windowx2;
 
 	}
+
 	void Plasma::Cache(std::vector<bool>& mask) {
 		int indexColor;
 		for (uint16_t y = 0; y < screen->h; y++) {
