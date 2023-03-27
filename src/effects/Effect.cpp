@@ -9,6 +9,10 @@ namespace MoleDemo {
 	Effect::~Effect() {};
 
 	uint_fast16_t Effect::GetPixelIndex(Point2D& point) {
+		return GetPixelIndex(point, buffer);
+	}
+
+	uint_fast16_t Effect::GetPixelIndex(Point2D& point, PixelBuffer& pixelBuffer) {
 		return (size_t)screen->w * (size_t)point.y + (size_t)point.x;
 	}
 
@@ -27,14 +31,18 @@ namespace MoleDemo {
 	}
 
 	void Effect::ClearBuffer(uint32_t color) {
-		buffer.assign((size_t)screen->w * (size_t)screen->h, color);
+		ClearBuffer(color, buffer);
+	}
+
+	void Effect::ClearBuffer(uint32_t color, PixelBuffer& pixelBuffer) {
+		pixelBuffer.assign((size_t)screen->w * (size_t)screen->h, color);
 	}
 
 	uint32_t Effect::GetPixel(Point2D p) {
 		return buffer[p.y];
 	}
 
-	PixeBuffer& Effect::GetBuffer() {
+	PixelBuffer& Effect::GetBuffer() {
 		return buffer;
 	}
 }

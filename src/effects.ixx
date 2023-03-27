@@ -7,7 +7,7 @@ import <functional>;
 
 namespace MoleDemo {
 
-	export using PixeBuffer = std::vector<uint32_t>;
+	export using PixelBuffer = std::vector<uint32_t>;
 
 	export class Effect;
 	export class Fire;
@@ -19,7 +19,7 @@ namespace MoleDemo {
 
 class MoleDemo::Effect {
 
-	PixeBuffer buffer;
+	PixelBuffer buffer;
 
 protected:
 	const Timer* const timer;
@@ -28,17 +28,19 @@ protected:
 	Effect(Timer* timer, Screen* screen);
 
 	uint_fast16_t GetPixelIndex(Point2D& point);
+	uint_fast16_t GetPixelIndex(Point2D& point, PixelBuffer& pixelBuffer);
 	void PutPixel(Point2D point, uint32_t color);
 
 	void ReserveBuffer(size_t size);
 	void ClearBuffer(uint32_t color);
+	void ClearBuffer(uint32_t color, PixelBuffer& pixelBuffer);
 
 public:
 
 	virtual ~Effect();
 
 	uint32_t GetPixel(Point2D p);
-	PixeBuffer& GetBuffer();
+	PixelBuffer& GetBuffer();
 
 	virtual void Load() = 0;
 	virtual void Unload() = 0;
@@ -49,6 +51,13 @@ public:
 };
 
 class MoleDemo::Fire : public Effect {
+
+	PixelBuffer first;
+	PixelBuffer second;
+
+	void GeneratePalette();
+	void GenerateHotspots();
+	void FilterPrevious();
 
 public:
 	Fire(Timer* timer, Screen* screen);
