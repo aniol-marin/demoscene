@@ -25,11 +25,11 @@
     <Filter Include="Source Files\Internal\Utils">
       <UniqueIdentifier>{2cf832ce-6416-44df-9d83-6928db92333c}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Source Files\Effects">
+      <UniqueIdentifier>{93197dd1-6980-4608-94a3-1d75081699e2}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
-    <ClCompile Include="..\..\..\src\effects\demo.ixx">
-      <Filter>Source Files</Filter>
-    </ClCompile>
     <ClCompile Include="..\..\..\src\main.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
@@ -41,9 +41,6 @@
     </ClCompile>
     <ClCompile Include="..\..\..\src\timer.ixx">
       <Filter>Source Files\Internal\Utils</Filter>
-    </ClCompile>
-    <ClCompile Include="..\..\..\src\effects\effects.ixx">
-      <Filter>Source Files\Internal\Visuals</Filter>
     </ClCompile>
     <ClCompile Include="..\..\..\src\render.ixx">
       <Filter>Source Files\Internal\Visuals</Filter>
@@ -68,6 +65,24 @@
     </ClCompile>
     <ClCompile Include="..\..\..\src\interfaces.ixx">
       <Filter>Source Files\Internal\Utils</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\src\demo.ixx">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\src\effects\Fire.cpp">
+      <Filter>Source Files\Effects</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\src\effects.ixx">
+      <Filter>Source Files\Internal</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\src\effects\Effect.cpp">
+      <Filter>Source Files\Effects</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\src\effects\Plasma.cpp">
+      <Filter>Source Files\Effects</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\src\effects\Stars.cpp">
+      <Filter>Source Files\Effects</Filter>
     </ClCompile>
   </ItemGroup>
 </Project>

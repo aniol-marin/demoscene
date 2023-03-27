@@ -62,6 +62,19 @@ public:
 	uint8_t a() const { return m_a; }
 	uint32_t rgba() const { return to32(m_a, m_r, m_g, m_b); }
 	uint32_t mLerp(const Color& base, const uint16_t milliUnits) {
+		uint8_t bA = base.a();
+		uint8_t bR = base.r();
+		uint8_t bG = base.g();
+		uint8_t bb = base.b();
+		uint8_t cA = m_a;
+		uint8_t cR = m_r;
+		uint8_t cG = m_g;
+		uint8_t cb = m_b;
+		uint8_t vA = base.a() + (m_a - base.a()) * milliUnits / 1000;
+		uint8_t vR = base.r() + (m_r - base.r()) * milliUnits / 1000;
+		uint8_t vG = base.g() + (m_g - base.g()) * milliUnits / 1000;
+		uint8_t vb = base.b() + (m_b - base.b()) * milliUnits / 1000;
+
 		return to32(
 			base.a() + (m_a - base.a()) * milliUnits / 1000,
 			base.r() + (m_r - base.r()) * milliUnits / 1000,

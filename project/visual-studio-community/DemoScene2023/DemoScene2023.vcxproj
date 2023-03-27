@@ -112,6 +112,8 @@
       <ConformanceMode>true</ConformanceMode>
       <LanguageStandard>stdcpp20</LanguageStandard>
       <CompileAs>CompileAsCppModule</CompileAs>
+      <EnableModules>true</EnableModules>
+      <EnforceTypeConversionRules>true</EnforceTypeConversionRules>
     </ClCompile>
     <Link>
       <SubSystem>Console</SubSystem>
@@ -138,8 +140,12 @@
   <ItemGroup>
     <ClCompile Include="..\..\..\src\cycle.ixx" />
     <ClCompile Include="..\..\..\src\definitions.ixx" />
-    <ClCompile Include="..\..\..\src\effects\demo.ixx" />
-    <ClCompile Include="..\..\..\src\effects\effects.ixx" />
+    <ClCompile Include="..\..\..\src\demo.ixx" />
+    <ClCompile Include="..\..\..\src\effects.ixx" />
+    <ClCompile Include="..\..\..\src\effects\Effect.cpp" />
+    <ClCompile Include="..\..\..\src\effects\Fire.cpp" />
+    <ClCompile Include="..\..\..\src\effects\Plasma.cpp" />
+    <ClCompile Include="..\..\..\src\effects\Stars.cpp" />
     <ClCompile Include="..\..\..\src\input.ixx" />
     <ClCompile Include="..\..\..\src\injection.ixx" />
     <ClCompile Include="..\..\..\src\interfaces.ixx" />
