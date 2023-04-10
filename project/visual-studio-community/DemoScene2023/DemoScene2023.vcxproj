@@ -148,7 +148,13 @@
     <ClCompile Include="..\..\..\src\effects\Fire.cpp">
       <CompileAs Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">CompileAsCpp</CompileAs>
     </ClCompile>
+    <ClCompile Include="..\..\..\src\effects\Gradient.cpp">
+      <CompileAs Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">CompileAsCpp</CompileAs>
+    </ClCompile>
     <ClCompile Include="..\..\..\src\effects\Plasma.cpp">
+      <CompileAs Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">CompileAsCpp</CompileAs>
+    </ClCompile>
+    <ClCompile Include="..\..\..\src\effects\Solid.cpp">
       <CompileAs Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">CompileAsCpp</CompileAs>
     </ClCompile>
     <ClCompile Include="..\..\..\src\effects\Stars.cpp">
@@ -157,6 +163,7 @@
     <ClCompile Include="..\..\..\src\input.ixx" />
     <ClCompile Include="..\..\..\src\injection.ixx" />
     <ClCompile Include="..\..\..\src\interfaces.ixx" />
+    <ClCompile Include="..\..\..\src\renderables.ixx" />
     <ClCompile Include="..\..\..\src\main.cpp" />
     <ClCompile Include="..\..\..\src\program.ixx" />
     <ClCompile Include="..\..\..\src\render.ixx" />

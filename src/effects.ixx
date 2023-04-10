@@ -2,16 +2,15 @@ export module effects;
 
 import definitions;
 import timer;
-import <vector>;
 import <functional>;
 
 namespace MoleDemo {
 
-	export using PixelBuffer = std::vector<uint32_t>;
-
 	export class Effect;
 	export class Fire;
 	export class Plasma;
+	export class Solid;
+	export class Gradient;
 	export class Stars;
 
 	class Star;
@@ -27,27 +26,28 @@ protected:
 
 	Effect(Timer* timer, Screen* screen);
 
-	uint_fast16_t GetPixelIndex(Point2D& point);
-	uint_fast16_t GetPixelIndex(Point2D& point, PixelBuffer& pixelBuffer);
-	void PutPixel(Point2D point, uint32_t color);
+	index GetPixelIndex(Point2D& point);
+	index GetPixelIndex(Point2D& point, PixelBuffer& pixelBuffer);
+	void PutPixel(Point2D point, rgbaColor color);
 
-	void ReserveBuffer(size_t size);
-	void ClearBuffer(uint32_t color);
-	void ClearBuffer(uint32_t color, PixelBuffer& pixelBuffer);
+	void ReserveBuffer();
+	void ClearBuffer(rgbaColor color);
+	void ClearBuffer(rgbaColor color, PixelBuffer& pixelBuffer);
 
 public:
 
 	virtual ~Effect();
 
-	uint32_t GetPixel(Point2D p);
+	rgbaColor GetPixel(Point2D p);
+	rgbaColor GetPixel(index index);
 	PixelBuffer& GetBuffer();
 
 	virtual void Load() = 0;
 	virtual void Unload() = 0;
 
-	virtual void Update(uint_fast16_t intensity) = 0;
+	virtual void Update(permille intensity) = 0;
 
-	virtual void Cache(std::vector<bool>& mask) = 0;
+	virtual void Cache(StencilBuffer& mask) = 0;
 };
 
 class MoleDemo::Fire : public Effect {
@@ -65,14 +65,14 @@ public:
 
 	void Load() override;
 	void Unload() override;
-	void Update(uint_fast16_t intensity) override;
-	void Cache(std::vector<bool>& mask)  override;
+	void Update(permille intensity) override;
+	void Cache(StencilBuffer& mask)  override;
 };
 
 class MoleDemo::Plasma : public Effect {
 	long long accumulatedTime{};
-	std::vector<uint8_t> plasma1;
-	std::vector<uint8_t> plasma2;
+	std::vector<channel> plasma1;
+	std::vector<channel> plasma2;
 	int Windowx1, Windowy1, Windowx2, Windowy2;
 	long src1, src2;
 	Color palette[256];
@@ -86,7 +86,35 @@ public:
 	void Load() override;
 	void Unload() override;
 	void Update(uint_fast16_t intensity) override;
-	void Cache(std::vector<bool>& mask)  override;
+	void Cache(StencilBuffer& mask)  override;
+};
+
+class MoleDemo::Solid : public Effect {
+	Color color;
+public:
+	Solid(Timer* timer, Screen* screen);
+	~Solid();
+
+	void SetColor(Color color);
+
+	void Load() override;
+	void Unload() override;
+	void Update(permille intensity) override;
+	void Cache(StencilBuffer& mask)  override;
+};
+
+class MoleDemo::Gradient : public Effect {
+	Color NE, NW, SW, SE;
+public:
+	Gradient(Timer* timer, Screen* screen);
+	~Gradient();
+
+	void SetColors(Color NE, Color NW, Color SW, Color SE);
+
+	void Load() override;
+	void Unload() override;
+	void Update(permille intensity) override;
+	void Cache(StencilBuffer& mask)  override;
 };
 
 class MoleDemo::Stars : public Effect {
@@ -99,26 +127,28 @@ public:
 	void Load() override;
 	void Unload()  override;
 
-	void Update(uint_fast16_t intensity) override;
-	void Cache(std::vector<bool>& mask) override;
+	void Update(permille intensity) override;
+	void Cache(StencilBuffer& mask) override;
 };
 
 class MoleDemo::Star {
 
 	Screen* const screen;
+	const speed maxSpeed;
 	Point2D position;
-	uint8_t speed;
-	uint16_t miliBrightness;
+	speed speed;
+	permille brightness;
 	Color color;
 	Color transparent;
 
-	void Reset(const Screen& screen, const uint8_t maxSpeed, const bool initial);
+	void Reset(const Screen& screen, const uint_fast16_t& maxSpeed, const bool initial);
 
 public:
 
-	Star(Screen* screenSize, const int maxSpeed);
+	Star(Screen* screenSize, const uint_fast16_t& maxSpeed);
+	Star(const Star& star);
 	~Star();
 
-	void Update(const Screen& screen, uint16_t deltaTime, const int maxSpeed);
-	void Draw(std::function<void(Point2D pixel, uint32_t color)> putPixel);
+	void Update(const Screen& screen, milliseconds deltaTime, const int maxSpeed);
+	void Draw(std::function<void(Point2D pixel, rgbaColor color)> putPixel);
 };

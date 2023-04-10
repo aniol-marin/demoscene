@@ -4,42 +4,46 @@ namespace MoleDemo {
 	Effect::Effect(Timer* timer, Screen* screen) :
 		timer{ timer },
 		screen{ screen },
-		buffer{} {}
+		buffer{} {
+
+		ReserveBuffer();
+	}
 
 	Effect::~Effect() {};
 
-	uint_fast16_t Effect::GetPixelIndex(Point2D& point) {
+	index Effect::GetPixelIndex(Point2D& point) {
 		return GetPixelIndex(point, buffer);
 	}
 
-	uint_fast16_t Effect::GetPixelIndex(Point2D& point, PixelBuffer& pixelBuffer) {
+	index Effect::GetPixelIndex(Point2D& point, PixelBuffer& pixelBuffer) {
 		return (size_t)screen->w * (size_t)point.y + (size_t)point.x;
 	}
 
-	void Effect::PutPixel(Point2D point, uint32_t color) {
-		size_t index = GetPixelIndex(point);
-		if (index > buffer.size()) {
-			int d = 0;
-		}
-		uint32_t& position = buffer.at(GetPixelIndex(point));
-		position = color;
+	void Effect::PutPixel(Point2D point, rgbaColor color) {
+
+		rgbaColor& pixel = buffer.at(GetPixelIndex(point));
+		pixel = color;
 	}
 
-	void Effect::ReserveBuffer(size_t size) {
+	void Effect::ReserveBuffer() {
 		ClearBuffer(0x0);
 		//buffer.reserve(size);
 	}
 
-	void Effect::ClearBuffer(uint32_t color) {
+	void Effect::ClearBuffer(rgbaColor color) {
 		ClearBuffer(color, buffer);
 	}
 
-	void Effect::ClearBuffer(uint32_t color, PixelBuffer& pixelBuffer) {
+	void Effect::ClearBuffer(rgbaColor color, PixelBuffer& pixelBuffer) {
 		pixelBuffer.assign((size_t)screen->w * (size_t)screen->h, color);
 	}
 
-	uint32_t Effect::GetPixel(Point2D p) {
-		return buffer[p.y];
+	rgbaColor Effect::GetPixel(Point2D p) {
+		return GetPixel(GetPixelIndex(p));
+	}
+
+	rgbaColor Effect::GetPixel(index index) {
+		return buffer[index];
 	}
 
 	PixelBuffer& Effect::GetBuffer() {

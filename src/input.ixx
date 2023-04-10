@@ -3,7 +3,12 @@ export module input;
 import definitions;
 import sdl;
 
-export struct InputManager {
+namespace MoleDemo {
+
+	export struct InputManager;
+}
+
+struct MoleDemo::InputManager {
 	ProgramStatus PollEvents() {
 		return SDL::PollSDLEvents();
 	}

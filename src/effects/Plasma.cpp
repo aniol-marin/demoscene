@@ -3,19 +3,16 @@ module effects;
 namespace MoleDemo {
 
 	Plasma::Plasma(Timer* timer, Screen* screen) :
-		Effect{ timer, screen }
-	{
-		ReserveBuffer(screen->w * screen->h);
-	}
+		Effect{ timer, screen } {}
 
 	Plasma::~Plasma() {
 	}
 
 	void Plasma::Load() {
 		buildPalette(0);
-		for (int j = 0; j < screen->h * 2; ++j) {
-			for (int i = 0; i < screen->w * 2; ++i) {
-				plasma1.push_back(64 + 63 * (sin((double)hypot(screen->h - j, screen->w - i) / 16)));
+		for (unsigned int j = 0; j < screen->h * 2; ++j) {
+			for (unsigned int i = 0; i < screen->w * 2; ++i) {
+				plasma1.push_back((channel)(64 + 63 * (sin((double)hypot(screen->h - j, screen->w - i) / 16))));
 				plasma2.push_back((unsigned char)(64 + 63 * sin((float)i / (37 + 15 * cos((float)j / 74)))
 					* cos((float)j / (31 + 11 * sin((float)i / 57)))));
 			}
@@ -25,7 +22,7 @@ namespace MoleDemo {
 	void Plasma::Unload() {
 	}
 
-	void Plasma::Update(uint_fast16_t intensity) {
+	void Plasma::Update(permille intensity) {
 
 		accumulatedTime += intensity;
 		// setup some nice colours, different every frame
@@ -44,7 +41,7 @@ namespace MoleDemo {
 
 	}
 
-	void Plasma::Cache(std::vector<bool>& mask) {
+	void Plasma::Cache(StencilBuffer& mask) {
 		int indexColor;
 		for (uint16_t y = 0; y < screen->h; y++) {
 			for (uint16_t x = 0; x < screen->w; x++) {

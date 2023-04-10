@@ -1,0 +1,44 @@
+module effects;
+
+namespace MoleDemo {
+
+	Gradient::Gradient(Timer* timer, Screen* screen) :
+		Effect{ timer, screen }
+	{
+	}
+
+	Gradient::~Gradient() {
+	}
+
+	void Gradient::Load() {
+		Color left;
+		Color right;
+		for (point1D y = 0; y < screen->h; ++y) {
+
+			permille vertical{ (permille)(y * permilleFactor / screen->w )};
+			right = NE.lerp(SE, vertical);
+			left = NW.lerp(SW, vertical);
+
+			for (point1D x = 0; x < screen->w; ++x) {
+				permille horizontal{ (permille)(x * permilleFactor /screen->w )};
+				PutPixel(Point2D{ x, y }, left.lerp(right, horizontal).rgba());
+			}
+		}
+	}
+
+	void Gradient::Unload() {
+	}
+
+	void Gradient::Update(permille intensity) {
+	}
+
+	void Gradient::Cache(StencilBuffer& mask) {
+	}
+
+	void Gradient::SetColors(Color NE, Color NW, Color SW, Color SE) {
+		this->NE = NE;
+		this->NW = NW;
+		this->SE = SE;
+		this->SW = SW;
+	}
+}

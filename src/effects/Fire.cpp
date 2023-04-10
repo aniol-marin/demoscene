@@ -19,10 +19,10 @@ namespace MoleDemo {
 	void Fire::Unload() {
 	}
 
-	void Fire::Update(uint_fast16_t intensity) {
+	void Fire::Update(permille intensity) {
 	}
 
-	void Fire::Cache(std::vector<bool>& mask) {
+	void Fire::Cache(StencilBuffer& mask) {
 	}
 
 	void  Fire::GeneratePalette() {
@@ -31,20 +31,20 @@ namespace MoleDemo {
 
 	void  Fire::GenerateHotspots() {
 
-		uint_fast16_t start{ (uint_fast16_t)(rand() % screen->w) };
-		uint_fast16_t end{ std::min(start + (uint_fast16_t)(rand() % 256), (uint_fast16_t)screen->w) };
+		point1D start{ rand() % screen->w };
+		point1D end{ std::min(start + (point1D)(rand() % 256), screen->w) };
 		Color random{};
 
 		for (uint_fast8_t i = start; i < end; ++i) {
 
-			uint_fast16_t i1{ GetPixel(Point2D{i, (uint_fast16_t)(screen->h - 1)}) };
-			uint_fast16_t i2{ GetPixel(Point2D{i, (uint_fast16_t)(screen->h - 2)}) };
-			uint_fast16_t i3{ GetPixel(Point2D{i, (uint_fast16_t)(screen->h - 3)}) };
+			point1D i1{ GetPixel(Point2D{i, (point1D)(screen->h - 1)}) };
+			point1D i2{ GetPixel(Point2D{i, (point1D)(screen->h - 2)}) };
+			point1D i3{ GetPixel(Point2D{i, (point1D)(screen->h - 3)}) };
 
 			random.SetRGBA(
-				(uint8_t)(200 + (rand() % 55)),
-				(uint8_t)(50 + (rand() % 55)),
-				(uint8_t)(50 + (rand() % 55)));
+				(channel)(200 + (rand() % 55)),
+				(channel)(50 + (rand() % 55)),
+				(channel)(50 + (rand() % 55)));
 			first[i1] = random.rgba();
 			first[i2] = random.rgba();
 			first[i3] = random.rgba();

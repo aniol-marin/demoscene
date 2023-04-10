@@ -28,6 +28,9 @@
     <Filter Include="Source Files\Effects">
       <UniqueIdentifier>{93197dd1-6980-4608-94a3-1d75081699e2}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Source Files\Internal\3rd party wrappers">
+      <UniqueIdentifier>{5eb7ff40-2cdb-4101-bad7-9279af0b6cd4}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="..\..\..\src\main.cpp">
@@ -45,20 +48,8 @@
     <ClCompile Include="..\..\..\src\render.ixx">
       <Filter>Source Files\Internal\Visuals</Filter>
     </ClCompile>
-    <ClCompile Include="..\..\..\src\sdl.ixx">
-      <Filter>Source Files\Internal\Visuals</Filter>
-    </ClCompile>
-    <ClCompile Include="..\..\..\src\cycle.ixx">
-      <Filter>Source Files\Internal</Filter>
-    </ClCompile>
-    <ClCompile Include="..\..\..\src\timeline.ixx">
-      <Filter>Source Files\Internal</Filter>
-    </ClCompile>
     <ClCompile Include="..\..\..\src\sound.ixx">
       <Filter>Source Files\Internal\Sound</Filter>
-    </ClCompile>
-    <ClCompile Include="..\..\..\src\input.ixx">
-      <Filter>Source Files\Internal</Filter>
     </ClCompile>
     <ClCompile Include="..\..\..\src\injection.ixx">
       <Filter>Source Files\Internal\Utils</Filter>
@@ -72,9 +63,6 @@
     <ClCompile Include="..\..\..\src\effects\Fire.cpp">
       <Filter>Source Files\Effects</Filter>
     </ClCompile>
-    <ClCompile Include="..\..\..\src\effects.ixx">
-      <Filter>Source Files\Internal</Filter>
-    </ClCompile>
     <ClCompile Include="..\..\..\src\effects\Effect.cpp">
       <Filter>Source Files\Effects</Filter>
     </ClCompile>
@@ -82,6 +70,33 @@
       <Filter>Source Files\Effects</Filter>
     </ClCompile>
     <ClCompile Include="..\..\..\src\effects\Stars.cpp">
+      <Filter>Source Files\Effects</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\src\effects.ixx">
+      <Filter>Source Files\Internal\Visuals</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\src\sdl.ixx">
+      <Filter>Source Files\Internal\3rd party wrappers</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\src\cycle.ixx">
+      <Filter>Source Files\Internal\Utils</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\src\input.ixx">
+      <Filter>Source Files\Internal\Utils</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\src\timeline.ixx">
+      <Filter>Source Files\Internal\Utils</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\src\transitions.ixx">
+      <Filter>Source Files\Internal\Visuals</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\src\layers.ixx">
+      <Filter>Source Files\Internal\Visuals</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\src\effects\Gradient.cpp">
+      <Filter>Source Files\Effects</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\src\effects\Solid.cpp">
       <Filter>Source Files\Effects</Filter>
     </ClCompile>
   </ItemGroup>
