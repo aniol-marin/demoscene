@@ -118,8 +118,12 @@
     <Link>
       <SubSystem>Console</SubSystem>
       <GenerateDebugInformation>true</GenerateDebugInformation>
-      <AdditionalDependencies>SDL2_x64_debug.lib;SDL2main_x64_debug.lib;%(AdditionalDependencies)</AdditionalDependencies>
+      <AdditionalDependencies>SDL2_x64_debug.lib;SDL2main_x64_debug.lib;raudio_debug64.lib;%(AdditionalDependencies)</AdditionalDependencies>
     </Link>
+    <PostBuildEvent>
+      <Command>xcopy ..\..\..\resources\ $(ProjectDir)\resources\ /Y /E /D
+xcopy ..\..\..\resources\ $(ProjectDir)\..\..\..\bin\resources\ /Y /E /D</Command>
+    </PostBuildEvent>
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'">
     <ClCompile>
@@ -163,6 +167,7 @@
     <ClCompile Include="..\..\..\src\input.ixx" />
     <ClCompile Include="..\..\..\src\injection.ixx" />
     <ClCompile Include="..\..\..\src\interfaces.ixx" />
+    <ClCompile Include="..\..\..\src\raudio.ixx" />
     <ClCompile Include="..\..\..\src\renderables.ixx" />
     <ClCompile Include="..\..\..\src\main.cpp" />
     <ClCompile Include="..\..\..\src\program.ixx" />

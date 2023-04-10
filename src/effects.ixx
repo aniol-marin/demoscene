@@ -45,7 +45,7 @@ public:
 	virtual void Load() = 0;
 	virtual void Unload() = 0;
 
-	virtual void Update(permille intensity) = 0;
+	virtual void Update(permille intensity, milliseconds delta) = 0;
 
 	virtual void Cache(StencilBuffer& mask) = 0;
 };
@@ -65,7 +65,7 @@ public:
 
 	void Load() override;
 	void Unload() override;
-	void Update(permille intensity) override;
+	void Update(permille intensity, milliseconds delta) override;
 	void Cache(StencilBuffer& mask)  override;
 };
 
@@ -85,7 +85,7 @@ public:
 
 	void Load() override;
 	void Unload() override;
-	void Update(uint_fast16_t intensity) override;
+	void Update(permille intensity, milliseconds delta) override;
 	void Cache(StencilBuffer& mask)  override;
 };
 
@@ -99,7 +99,7 @@ public:
 
 	void Load() override;
 	void Unload() override;
-	void Update(permille intensity) override;
+	void Update(permille intensity, milliseconds delta) override;
 	void Cache(StencilBuffer& mask)  override;
 };
 
@@ -113,12 +113,14 @@ public:
 
 	void Load() override;
 	void Unload() override;
-	void Update(permille intensity) override;
+	void Update(permille intensity, milliseconds delta) override;
 	void Cache(StencilBuffer& mask)  override;
 };
 
 class MoleDemo::Stars : public Effect {
-	const int maxSpeed = 10;
+	const int maxStars = 100;
+	const int newStarsPerFrame = 2;
+	const speed maxSpeed = 100;
 	std::vector<Star> stars;
 public:
 	Stars(Timer* timer, Screen* screen);
@@ -127,28 +129,31 @@ public:
 	void Load() override;
 	void Unload()  override;
 
-	void Update(permille intensity) override;
+	void Update(permille intensity, milliseconds delta) override;
 	void Cache(StencilBuffer& mask) override;
 };
 
 class MoleDemo::Star {
 
-	Screen* const screen;
-	const speed maxSpeed;
-	Point2D position;
-	speed speed;
-	permille brightness;
+	const Screen& screen;
+	const speed& maxSpeed;
+	Color empty { transparent };
+	Color dessaturated{ white };
 	Color color;
-	Color transparent;
+	Point2D position;
+	int progress;
+	permille brightness;
+	speed currentSpeed;
+	speed baseSpeed;
+	Color currentColor;
 
-	void Reset(const Screen& screen, const uint_fast16_t& maxSpeed, const bool initial);
+	void Reset();
 
 public:
 
-	Star(Screen* screenSize, const uint_fast16_t& maxSpeed);
-	Star(const Star& star);
+	Star(const Screen& screen, const speed& maxSpeed);
 	~Star();
 
-	void Update(const Screen& screen, milliseconds deltaTime, const int maxSpeed);
+	void Update(milliseconds deltaTime, permille intensity);
 	void Draw(std::function<void(Point2D pixel, rgbaColor color)> putPixel);
 };

@@ -6,10 +6,10 @@ import <exception>;
 
 export constexpr double PI = 3.14159265358979323846264338327950288;
 
-export using seconds = uint_fast8_t;
+export using seconds = uint_fast16_t;
 export using milliseconds = uint_fast16_t;
 export using permille = uint_fast16_t;
-export using speed = uint_fast8_t;
+export using speed = uint_fast16_t;
 export using index = uint_fast32_t;
 export using point1D = uint_fast16_t;
 export using rgbaColor = uint32_t;
@@ -30,7 +30,9 @@ export constexpr rgbaColor mask_red{ 0x00FF0000 };
 export constexpr rgbaColor mask_green{ 0x0000FF00 };
 export constexpr rgbaColor mask_blue{ 0x000000FF };
 
-export constexpr rgbaColor transparent{ ~mask_opaque };
+export constexpr channel clear{ 0x0 };
+export constexpr channel saturated{ 0xFF };
+export constexpr rgbaColor transparent{ clear };
 export constexpr rgbaColor black{ mask_opaque };
 export constexpr rgbaColor white{ mask_opaque | mask_red | mask_green | mask_blue };
 export constexpr rgbaColor red{ mask_opaque | mask_red };

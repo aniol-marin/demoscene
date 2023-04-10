@@ -1,3 +1,7 @@
 [submodule "src/external/sdl"]
 	path = src/external/sdl
 	url = https://github.com/libsdl-org/SDL.git
+[submodule "src/external/raudio"]
+	path = src/external/raudio
+	url = git@gitlab.com:amarinat/moleraudio.git
+	branch = moleEngine/raudio-as-library-2023-04-10

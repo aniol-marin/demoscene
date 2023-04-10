@@ -114,6 +114,8 @@ public:
 			sound->Update();
 			timeline->Update();
 		}
+
+		sound->Stop();
 	}
 	void Finalize() {
 

@@ -25,13 +25,14 @@ struct MoleDemo::Layer : public Renderable {
 		blend{ mode },
 		effect{ effect } {}
 	~Layer() {
-		delete effect;
 	}
 
-	void Update(permille intensity, permille deltaTime) override {
-		effect->Update(intensity);
+	void Update(permille intensity, milliseconds deltaTime) override {
+		effect->Update(intensity, deltaTime);
 	}
-	void Cache(StencilBuffer& mask) override {}
+	void Cache(StencilBuffer& mask) override {
+		effect->Cache(mask);
+	}
 	rgbaColor GetPixel(Point2D point) override {
 		return effect->GetPixel(point);
 	}
@@ -66,7 +67,7 @@ public:
 		this->background = background;
 		this->foreground = foreground;
 	}
-	void Update(permille intensity, permille deltaTime) sealed {
+	void Update(permille intensity, milliseconds deltaTime) sealed {
 		m_elapsed += deltaTime;
 	}
 	bool IsDone() {
@@ -85,7 +86,10 @@ public:
 	Cut(Timestamp time) :
 		Transition{ time, TransitionType::Cut } {}
 	~Cut() override {}
-	void Cache(StencilBuffer& mask) override {}
+	void Cache(StencilBuffer& mask) override {
+		background->Cache(mask);
+		foreground->Cache(mask);
+	}
 	rgbaColor GetPixel(Point2D point) override {
 		return ActiveLayer()->GetPixel(point);
 	}
@@ -102,7 +106,10 @@ public:
 	Fade(Timestamp time) :
 		Transition{ time, TransitionType::Fade } {}
 	~Fade() override {};
-	void Cache(StencilBuffer& mask) override {}
+	void Cache(StencilBuffer& mask) override {
+		background->Cache(mask);
+		foreground->Cache(mask);
+	}
 	rgbaColor GetPixel(index index) override {
 
 		Color next{ foreground->GetPixel(index) };

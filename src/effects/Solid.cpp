@@ -15,7 +15,7 @@ namespace MoleDemo {
 	void Solid::Unload() {
 	}
 
-	void Solid::Update(permille intensity) {
+	void Solid::Update(permille intensity, milliseconds delta) {
 	}
 
 	void Solid::Cache(StencilBuffer& mask) {

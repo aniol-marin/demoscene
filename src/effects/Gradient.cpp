@@ -29,7 +29,7 @@ namespace MoleDemo {
 	void Gradient::Unload() {
 	}
 
-	void Gradient::Update(permille intensity) {
+	void Gradient::Update(permille intensity, milliseconds delta) {
 	}
 
 	void Gradient::Cache(StencilBuffer& mask) {

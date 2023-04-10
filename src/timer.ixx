@@ -51,7 +51,7 @@ public:
 	void SetFPS(uint_fast8_t fps) {
 		frameTime = ms{ permilleFactor / fps };
 	}
-	void SetEndTime(uint_fast8_t seconds) {
+	void SetEndTime(seconds seconds) {
 		endTime = initialTime + std::chrono::seconds(seconds);
 	}
 	void WaitUntilNextFrame() {

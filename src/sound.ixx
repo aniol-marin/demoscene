@@ -2,6 +2,7 @@ export module sound;
 
 import definitions;
 import interfaces;
+import raudio;
 import <string>;
 
 namespace MoleDemo {
@@ -14,13 +15,38 @@ class MoleDemo::SoundManager :
 	public Loadable {
 
 public:
-	void Init() {}
-	void Load(std::string file) {}
-	void Play() {}
-	void Update() {}
-	void Unload() {}
-	void Finalize() {}
-	permille GetCurrentIntensity() { return 100; } // TODO send volume intensity
-	seconds GetMusicDuration() { return 30; } // TODO measure main track duration
+	void Init() {
+		RAudio::InitAudio();
+	}
+	void Finalize() {
+		RAudio::FinalizeAudio();
+	}
 
+	void Load(std::string file) {
+		RAudio::LoadMusic(std::string("resources/molelofi.mp3"));
+	}
+	void Unload() {
+		RAudio::UnloadMusic();
+	}
+
+	void Play() {
+		RAudio::PlayMusic();
+	}
+	
+
+	void Stop() {
+		RAudio::StopMusic();
+	}
+
+
+	void Update() {
+		RAudio::Update();
+	}
+
+	permille GetCurrentIntensity() {
+		return RAudio::GetMusicIntensity();
+	}
+	seconds GetMusicDuration() { 
+		return RAudio::GetMusicDuration();
+	}
 };

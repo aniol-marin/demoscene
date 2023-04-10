@@ -53,7 +53,6 @@ struct  MoleDemo::AlphaBlend : public  MoleDemo::Blending {
 	~AlphaBlend() {}
 
 	rgbaColor Blend(const rgbaColor base, const rgbaColor next) override {
-		return 0x0;
 		Color ref_base{ base };
 		Color ref_next{ next };
 		return Blend(ref_base, ref_next);
@@ -75,13 +74,7 @@ struct  MoleDemo::AlphaBlend : public  MoleDemo::Blending {
 		channel g{ (channel)(a == 0x0 ? 0x0 : (gN * aN + gB * (0xFF - aN)) / a) };
 		channel b{ (channel)(a == 0x0 ? 0x0 : (bN * aN + bB * (0xFF - aN)) / a) };
 
-		rgbaColor result{ (rgbaColor)(
-			(a << 24) |
-			(r << 16) |
-			(g << 8) |
-			b) };
-
-		return result;
+		return Color(r, g, b, a).rgba();
 	};
 };
 
@@ -91,6 +84,12 @@ public:
 	RenderQueue() {
 		blending[BlendMode::Override] = std::make_unique<OverrideBlend>();
 		blending[BlendMode::AlphaBlend] = std::make_unique<AlphaBlend>();
+	}
+
+	void Cache(Renderables& renderables, StencilBuffer& mask) {
+		for (Renderable* renderable: renderables) {
+			renderable->Cache(mask);
+		}
 	}
 
 	void Render(Renderables& renderables, PixelBuffer& buffer) {
@@ -135,20 +134,21 @@ public:
 
 	}
 	void Init() {
-		SDL::Init(*screen);
-		buffer.assign(size_t{ (uint_fast16_t)screen->w * (uint_fast16_t)screen->h }, uint32_t{ 0xFF000000 });
+		SDL::InitVideo(*screen);
+		buffer.assign(size_t{ screen->w * screen->h }, black);
 	}
 
 	void Finalize() {
-		SDL::Finalize();
+		SDL::FinalizeVideo();
 	}
 
 	void Draw(Renderables& renderables) {
 
 		if (BlendMode::Override != renderables.front()->GetBlend()) {
-			buffer.assign(size_t{ (point1D)screen->w * (point1D)screen->h }, black);
+			buffer.assign(size_t{ screen->w * screen->h }, black);
 		}
 
+		queue->Cache(renderables, mask);
 		queue->Render(renderables, buffer);
 
 		Lock();

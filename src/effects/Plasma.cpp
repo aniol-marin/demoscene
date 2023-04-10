@@ -22,9 +22,9 @@ namespace MoleDemo {
 	void Plasma::Unload() {
 	}
 
-	void Plasma::Update(permille intensity) {
+	void Plasma::Update(permille intensity, milliseconds delta) {
 
-		accumulatedTime += intensity;
+		accumulatedTime += delta;
 		// setup some nice colours, different every frame
 		// this is a palette that wraps around itself, with different period sine
 		// functions to prevent monotonous colours
@@ -46,7 +46,7 @@ namespace MoleDemo {
 		for (uint16_t y = 0; y < screen->h; y++) {
 			for (uint16_t x = 0; x < screen->w; x++) {
 
-				indexColor = (plasma1[src1] + plasma2[src2]) % 256;
+				indexColor = (plasma1[src1 % plasma1.size()] + plasma2[src2 % plasma2.size()]) % 256;
 				PutPixel(Point2D{ x, y }, palette[indexColor].rgba());
 
 				src1++; src2++;

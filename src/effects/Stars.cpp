@@ -1,83 +1,96 @@
 module effects;
 
+import definitions;
+import <cstdint>;
+import <iostream>;
+
 namespace MoleDemo {
 
-	Star::Star(Screen* screenSize, const uint_fast16_t& maxSpeed) :
-		maxSpeed{ (uint_fast8_t)(maxSpeed) },
-		screen{ screenSize } {
-		Reset(*screenSize, maxSpeed, true);
-	}
+	Star::Star(const Screen& screen, const speed& maxSpeed) :
+		maxSpeed{ maxSpeed },
+		screen{ screen } {
 
-	Star::Star(const Star& star) :
-		Star{ star.screen, star.maxSpeed } {}
+		Reset();
+	}
 
 	Star::~Star() {
 	}
 
-	void Star::Reset(const Screen& screen, const uint_fast16_t& maxSpeed, const bool initial) {
-		position.x = initial * (rand() % screen.w);
-		position.y = rand() % screen.h;
-		speed = rand() % maxSpeed;
-		brightness = permilleFactor * speed / maxSpeed;
+	void Star::Reset() {
+		progress = 0;
+		position.x = rand() % screen.w;
+		position.y = 0;
+		baseSpeed = 1 + rand() % maxSpeed;
+		currentSpeed = baseSpeed;
+		brightness = permilleFactor * baseSpeed / maxSpeed;
 		color.SetRGBA(
-			0xFF - (rand() % 0x3A),
-			0xFF - (rand() % 0x5F),
-			0xFF - (rand() % 0x2C),
-			0xFF);
-		transparent.SetRGBA(
-			color.r(),
-			color.g(),
-			color.b(),
-			0x0);
+			rand() % saturated,
+			rand() % saturated,
+			rand() % saturated);
 	}
+	void Star::Update(permille intensity, milliseconds deltaTime) {
+		currentSpeed += deltaTime;
+		progress += currentSpeed;
+		position.y += progress / permilleFactor;
 
-	void Star::Update(const Screen& screen, milliseconds deltaTime, const int maxSpeed) {
-		position.x += 1 + speed * deltaTime * maxSpeed / 100; // position shift must be at least 1 in order to avoid stalling for very low delta times at very slow speeds
-		if (position.x >= screen.w) {
-			Reset(screen, maxSpeed, false);
+		if (position.y >= screen.h) {
+			Reset();
+		}
+		else {
+			currentColor = dessaturated.lerp(color, intensity);
 		}
 	}
 
-	void Star::Draw(std::function<void(Point2D pixel, rgbaColor color)> putPixel) {
+	void Star::Draw(std::function<void(Point2D, rgbaColor)> putPixel) {
 
-		int_fast64_t trail{ brightness };
-		int_fast64_t x{ position.x };
-		while (trail > 0 && x >= 0) {
+		int_fast64_t y{ position.y };
+		int_fast16_t trail{ (int_fast16_t)brightness };
+		permille fade{ permilleFactor / (int)(1 + currentSpeed / maxSpeed) };
+		while (trail > 0 && y >= 0) {
+			rgbaColor finalColor{ empty.lerp(currentColor, (permille)trail).rgba() };
 
-			putPixel(Point2D{ (point1D)x, position.y }, color.lerp(transparent, (permille)trail).rgba());
+			putPixel(Point2D{ position.x, (point1D)y }, finalColor);
 
-			--x;
-			trail -= 20;
+			if (0 < position.x) {
+				point1D left{ position.x - 1 };
+				putPixel(Point2D{ left, (point1D)y }, finalColor);
+			}
+			if (screen.w > position.x) {
+				point1D right{ position.x + 1 };
+				putPixel(Point2D{ right, (point1D)y }, finalColor);
+			}
+
+			--y;
+			trail -= fade;
 		}
 	}
 
 	Stars::Stars(Timer* timer, Screen* screen) :
 		Effect{ timer, screen }
 	{
-		ClearBuffer(0x0);
+		ClearBuffer(transparent);
 	}
 
 	Stars::~Stars() {
 	}
 
 	void Stars::Load() {
-		uint_fast8_t maxStars = 100;
-		uint_fast8_t maxSpeed = 10;
 		srand(0);
-		for (int i = 0; i < maxStars; i++) {
-			Star star{ screen, maxSpeed };
-			stars.push_back(star);
-		}
 	}
 
 	void Stars::Unload() {
 	}
 
-	void Stars::Update(permille intensity) {
+	void Stars::Update(permille intensity, milliseconds delta) {
 
-		milliseconds time = timer->GetDeltaTime();
+		if (stars.size() < maxStars) {
+			for (int i = 0; i < newStarsPerFrame; i++) {
+				stars.push_back(Star{ *screen, maxSpeed });
+			}
+		}
+
 		for (Star& star : stars) {
-			star.Update(*screen, time, 1 + maxSpeed * intensity / 100);
+			star.Update(intensity, delta);
 		}
 	}
 

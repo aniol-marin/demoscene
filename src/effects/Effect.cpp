@@ -26,7 +26,7 @@ namespace MoleDemo {
 	}
 
 	void Effect::ReserveBuffer() {
-		ClearBuffer(0x0);
+		ClearBuffer(transparent);
 		//buffer.reserve(size);
 	}
 

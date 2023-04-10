@@ -19,7 +19,7 @@ namespace MoleDemo {
 	void Fire::Unload() {
 	}
 
-	void Fire::Update(permille intensity) {
+	void Fire::Update(permille intensity, milliseconds delta) {
 	}
 
 	void Fire::Cache(StencilBuffer& mask) {

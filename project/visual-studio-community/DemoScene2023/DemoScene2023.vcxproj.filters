@@ -78,26 +78,26 @@
     <ClCompile Include="..\..\..\src\sdl.ixx">
       <Filter>Source Files\Internal\3rd party wrappers</Filter>
     </ClCompile>
-    <ClCompile Include="..\..\..\src\cycle.ixx">
-      <Filter>Source Files\Internal\Utils</Filter>
-    </ClCompile>
     <ClCompile Include="..\..\..\src\input.ixx">
       <Filter>Source Files\Internal\Utils</Filter>
-    </ClCompile>
-    <ClCompile Include="..\..\..\src\timeline.ixx">
-      <Filter>Source Files\Internal\Utils</Filter>
-    </ClCompile>
-    <ClCompile Include="..\..\..\src\transitions.ixx">
-      <Filter>Source Files\Internal\Visuals</Filter>
-    </ClCompile>
-    <ClCompile Include="..\..\..\src\layers.ixx">
-      <Filter>Source Files\Internal\Visuals</Filter>
     </ClCompile>
     <ClCompile Include="..\..\..\src\effects\Gradient.cpp">
       <Filter>Source Files\Effects</Filter>
     </ClCompile>
     <ClCompile Include="..\..\..\src\effects\Solid.cpp">
       <Filter>Source Files\Effects</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\src\timeline.ixx">
+      <Filter>Source Files\Internal\Visuals</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\src\cycle.ixx">
+      <Filter>Source Files\Internal\Visuals</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\src\renderables.ixx">
+      <Filter>Source Files\Internal\Visuals</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\src\raudio.ixx">
+      <Filter>Source Files\Internal\3rd party wrappers</Filter>
     </ClCompile>
   </ItemGroup>
 </Project>

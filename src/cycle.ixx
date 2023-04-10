@@ -42,10 +42,6 @@ public:
 	}
 
 	void Draw() {
-		for (Renderable* renderable : renderables) {
-			renderable->Cache(renderManager->GetMask());
-		}
-
 		renderManager->Draw(renderables);
 	}
 

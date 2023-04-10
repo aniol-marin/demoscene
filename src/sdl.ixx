@@ -4,11 +4,16 @@ module;
 export module sdl;
 
 import definitions;
+import <string>;
+import <iostream>;
 
 namespace SDL {
 
-	export bool Init(const Screen& screen);
-	export void Finalize();
+	export bool InitAudio();
+	export void FinalizeAudio();
+
+	export bool InitVideo(const Screen& screen);
+	export void FinalizeVideo();
 
 	export ProgramStatus PollSDLEvents();
 
@@ -17,16 +22,38 @@ namespace SDL {
 	export void UpdateSurface();
 	export void PutPixel(uint16_t x, uint16_t y, const uint32_t rgba);
 
+	export void LoadMusic(std::string source);
+	export void PlayMusic();
+	export Uint16 GetMusicDuration();
+	export Uint16 GetMusicIntensity();
+
 	SDL_Window* window;
 	SDL_Surface* surface;
 	SDL_Event events;
+
+	SDL_AudioDeviceID audioDeviceId;
+	SDL_AudioSpec wavSpec;
+	Uint32 wavLength;
+	Uint8* wavBuffer;
 
 	using Pixel = uint32_t;
 	Pixel* getPixel(uint16_t x, uint16_t y);
 }
 
-bool SDL::Init(const Screen& screen) {
-	if (SDL_Init(SDL_INIT_VIDEO) >= 0) {
+bool SDL::InitAudio() {
+
+	return 0 != SDL_InitSubSystem(SDL_INIT_AUDIO);
+}
+
+void SDL::FinalizeAudio() {
+
+	SDL_CloseAudioDevice(audioDeviceId);
+	SDL_FreeWAV(wavBuffer);
+	SDL_QuitSubSystem(SDL_INIT_AUDIO);
+}
+
+bool SDL::InitVideo(const Screen& screen) {
+	if (SDL_InitSubSystem(SDL_INIT_VIDEO) >= 0) {
 
 		window = SDL_CreateWindow("Mole Demo", SDL_WINDOWPOS_UNDEFINED, SDL_WINDOWPOS_UNDEFINED, screen.w, screen.h, SDL_WINDOW_SHOWN);
 		surface = SDL_GetWindowSurface(window);
@@ -35,9 +62,9 @@ bool SDL::Init(const Screen& screen) {
 	return window != nullptr;
 }
 
-void SDL::Finalize() {
+void SDL::FinalizeVideo() {
 	SDL_DestroyWindow(window);
-	SDL_Quit();
+	SDL_Quit(); // assumes video is the last
 }
 
 ProgramStatus SDL::PollSDLEvents() {
@@ -78,4 +105,26 @@ SDL::Pixel* SDL::getPixel(uint16_t x, uint16_t y) {
 void SDL::PutPixel(uint16_t x, uint16_t y, const uint32_t rgba) {
 	Pixel* pixel = getPixel(x, y);
 	*pixel = rgba;
+}
+
+void SDL::LoadMusic(std::string source) {
+
+	SDL_LoadWAV(source.c_str(), &wavSpec, &wavBuffer, &wavLength);
+	audioDeviceId = SDL_OpenAudioDevice(NULL, 0, &wavSpec, NULL, 0);
+	std::cout << "id: " << (int)audioDeviceId << "\n";
+}
+
+void SDL::PlayMusic() {
+	SDL_QueueAudio(audioDeviceId, wavBuffer, wavLength);
+	SDL_PauseAudioDevice(audioDeviceId, 0);
+	std::cout << "buffer " << (int)wavBuffer << "\n";
+	std::cout << "length " << (int)wavLength << "\n";
+}
+
+
+export Uint16  SDL::GetMusicDuration() {
+	return 255; // wavLength;
+}
+export Uint16  SDL::GetMusicIntensity() {
+	return 1000;
 }
