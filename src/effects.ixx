@@ -28,7 +28,9 @@ protected:
 
 	index GetPixelIndex(Point2D& point);
 	index GetPixelIndex(Point2D& point, PixelBuffer& pixelBuffer);
+	rgbaColor GetColorAt(Point2D point, PixelBuffer& pixelBuffer);
 	void PutPixel(Point2D point, rgbaColor color);
+	void PutPixel(Point2D point, rgbaColor color, PixelBuffer& buffer);
 
 	void ReserveBuffer();
 	void ClearBuffer(rgbaColor color);
@@ -38,9 +40,8 @@ public:
 
 	virtual ~Effect();
 
-	rgbaColor GetPixel(Point2D p);
-	rgbaColor GetPixel(index index);
-	PixelBuffer& GetBuffer();
+	virtual rgbaColor GetPixel(Point2D p);
+	virtual rgbaColor GetPixel(index index);
 
 	virtual void Load() = 0;
 	virtual void Unload() = 0;
@@ -52,12 +53,13 @@ public:
 
 class MoleDemo::Fire : public Effect {
 
-	PixelBuffer first;
-	PixelBuffer second;
+	PixelBuffer firstBuffer;
+	PixelBuffer secondBuffer;
+	std::vector<Color> palette;
 
 	void GeneratePalette();
-	void GenerateHotspots();
-	void FilterPrevious();
+	void GenerateHotspots(PixelBuffer& buffer, permille intensity);
+	void FilterPrevious(PixelBuffer& src, PixelBuffer& dest, milliseconds delta);
 
 public:
 	Fire(Timer* timer, Screen* screen);
@@ -67,6 +69,8 @@ public:
 	void Unload() override;
 	void Update(permille intensity, milliseconds delta) override;
 	void Cache(StencilBuffer& mask)  override;
+	rgbaColor GetPixel(Point2D p) override;
+	rgbaColor GetPixel(index index) override;
 };
 
 class MoleDemo::Plasma : public Effect {
@@ -137,7 +141,7 @@ class MoleDemo::Star {
 
 	const Screen& screen;
 	const speed& maxSpeed;
-	Color empty { transparent };
+	Color empty{ transparent };
 	Color dessaturated{ white };
 	Color color;
 	Point2D position;

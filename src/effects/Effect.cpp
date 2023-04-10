@@ -19,7 +19,15 @@ namespace MoleDemo {
 		return (size_t)screen->w * (size_t)point.y + (size_t)point.x;
 	}
 
+	rgbaColor Effect::GetColorAt(Point2D point, PixelBuffer& pixelBuffer) {
+		return pixelBuffer[GetPixelIndex(point, pixelBuffer)];
+	}
+
 	void Effect::PutPixel(Point2D point, rgbaColor color) {
+		PutPixel(point, color, buffer);
+	}
+
+	void Effect::PutPixel(Point2D point, rgbaColor color, PixelBuffer& buffer) {
 
 		rgbaColor& pixel = buffer.at(GetPixelIndex(point));
 		pixel = color;
@@ -44,9 +52,5 @@ namespace MoleDemo {
 
 	rgbaColor Effect::GetPixel(index index) {
 		return buffer[index];
-	}
-
-	PixelBuffer& Effect::GetBuffer() {
-		return buffer;
 	}
 }

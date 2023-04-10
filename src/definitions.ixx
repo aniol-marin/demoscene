@@ -40,7 +40,7 @@ export constexpr rgbaColor green{ mask_opaque | mask_green };
 export constexpr rgbaColor blue{ mask_opaque | mask_blue };
 export constexpr rgbaColor orange{ red | green };
 export constexpr rgbaColor magenta{ red | blue };
-export constexpr rgbaColor tile{ blue | green };
+export constexpr rgbaColor teal{ blue | green };
 
 export enum class ProgramStatus {
 	TERMINATE_OK,
@@ -99,7 +99,7 @@ export struct Screen {
 	Screen(point1D width, point1D heigth) :
 		w{ width },
 		h{ heigth } {}
-	index GetPixelIndex(Point2D& point) {
+	index GetPixelIndex(Point2D point) {
 		return (size_t)w * (size_t)point.y + (size_t)point.x;
 	}
 };
@@ -160,7 +160,7 @@ public:
 		m_l{},
 		rgbCached{ true },
 		hslCached{ false } {}
-	Color(channel r, channel g, channel b, channel a) :
+	Color(channel r, channel g, channel b, channel a = saturated) :
 		m_a{ a },
 		m_r{ r },
 		m_g{ g },
@@ -172,7 +172,7 @@ public:
 		hslCached{ false } {}
 	~Color() {}
 
-	void SetRGBA(channel r, channel g, channel b, channel a = 0xFF) {
+	void SetRGBA(channel r, channel g, channel b, channel a = saturated) {
 		m_a = a;
 		m_r = r;
 		m_g = g;
@@ -180,7 +180,7 @@ public:
 		rgbCached = true;
 		hslCached = false;
 	}
-	void SetHSLA(hue h, saturation s, lightness l, channel a = 0xFF) {
+	void SetHSLA(hue h, saturation s, lightness l, channel a = saturated) {
 		m_a = a;
 		m_h = h;
 		m_s = s;

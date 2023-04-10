@@ -11,49 +11,110 @@ namespace MoleDemo {
 
 	void Fire::Load() {
 		srand(0);
-		ClearBuffer(0x55005500);
-		ClearBuffer(0x55005500, first);
-		ClearBuffer(0x55005500, second);
+
+		firstBuffer.assign( screen->w * (screen->h + 4), transparent);
+		secondBuffer.assign( screen->w * (screen->h + 4), transparent);
+
+		palette.assign(256, transparent);
+		GeneratePalette();
 	}
 
 	void Fire::Unload() {
 	}
 
 	void Fire::Update(permille intensity, milliseconds delta) {
+		std::swap(firstBuffer, secondBuffer);
+		GenerateHotspots(secondBuffer, intensity);
+		FilterPrevious(secondBuffer, firstBuffer, delta);
 	}
 
 	void Fire::Cache(StencilBuffer& mask) {
 	}
 
-	void  Fire::GeneratePalette() {
-
-	}
-
-	void  Fire::GenerateHotspots() {
-
-		point1D start{ rand() % screen->w };
-		point1D end{ std::min(start + (point1D)(rand() % 256), screen->w) };
-		Color random{};
-
-		for (uint_fast8_t i = start; i < end; ++i) {
-
-			point1D i1{ GetPixel(Point2D{i, (point1D)(screen->h - 1)}) };
-			point1D i2{ GetPixel(Point2D{i, (point1D)(screen->h - 2)}) };
-			point1D i3{ GetPixel(Point2D{i, (point1D)(screen->h - 3)}) };
-
-			random.SetRGBA(
-				(channel)(200 + (rand() % 55)),
-				(channel)(50 + (rand() % 55)),
-				(channel)(50 + (rand() % 55)));
-			first[i1] = random.rgba();
-			first[i2] = random.rgba();
-			first[i3] = random.rgba();
-
+	void Shade_Pal(std::vector<Color>& palette, int s, int e, int r1, int g1, int b1, int r2, int g2, int b2)
+	{
+		int i;
+		float k;
+		for (i = 0; i <= e - s; i++)
+		{
+			k = (float)i / (float)(e - s);
+			palette[s + i] = Color(
+				(channel)(r1 + (r2 - r1) * k),
+				(channel)(g1 + (g2 - g1) * k),
+				(channel)(b1 + (b2 - b1) * k));
 		}
 	}
 
-	void Fire::FilterPrevious() {
+	void  Fire::GeneratePalette() {
+		Shade_Pal(palette, 0, 23, 0, 0, 0, 32, 0, 64);
+		Shade_Pal(palette, 24, 47, 32, 0, 64, 255, 0, 0);
+		Shade_Pal(palette, 48, 63, 255, 0, 0, 255, 255, 0);
+		Shade_Pal(palette, 64, 127, 255, 255, 0, 255, 255, 255);
+		Shade_Pal(palette, 128, 255, 255, 255, 255, 255, 255, 255);
 
 	}
-}
 
+	void  Fire::GenerateHotspots(PixelBuffer& buffer, permille intensity) {
+
+		uint_fast8_t newFires = 1 + intensity / 100;
+
+		for (int f = 0; f < newFires; ++f) {
+			point1D start{ rand() % screen->w };
+			point1D end{ std::min(start + (point1D)(rand() % (1 + intensity / 10)), screen->w - 3) };
+			Color random{};
+			index paletteStart{ rand() % palette.size() };
+			for (int i = start; i < end; ++i) {
+
+				index i1{ screen->GetPixelIndex(Point2D{(point1D)i, (point1D)(screen->h + 1)}) };
+				index i2{ screen->GetPixelIndex(Point2D{(point1D)i, (point1D)(screen->h + 2)}) };
+				index i3{ screen->GetPixelIndex(Point2D{(point1D)i, (point1D)(screen->h + 3)}) };
+
+				random = palette[(paletteStart + i) % palette.size()];
+				buffer[i1] = random.rgba();
+				buffer[i2] = random.rgba();
+				buffer[i3] = random.rgba();
+
+			}
+		}
+	}
+
+	void Fire::FilterPrevious(PixelBuffer& src, PixelBuffer& dest, milliseconds delta) {
+		Color S{};
+		Color SE{};
+		Color SW{};
+		rgbaColor blurred{};
+		for (point1D y = (point1D)(screen->h / 2); y < screen->h + 3; ++y) {
+			for (point1D x = 1; x < screen->w - 1; ++x) {
+
+				S = { GetColorAt(Point2D{ x, y + 1 }, src) };
+				SW = { GetColorAt(Point2D{ x + 1, y + 1 }, src) };
+				SW = { GetColorAt(Point2D{ x - 1, y + 1 }, src) };
+
+				blurred = Color(
+					(channel)((S.r() * 10  + SE.r() * 2 + SW.r()) / 12),
+					(channel)((S.g() * 10  + SE.g() * 10 + SW.g()) / 20),
+					(channel)((S.b() * 10  + SE.b() * 5 + SW.b() * 10) / 24),
+					saturated// std::min((channel)0, (channel)((int)S.a() - (10 / (1 + delta))))
+				).rgba();
+
+				PutPixel(Point2D{ x, y }, blurred, dest);
+			}
+		}
+
+		for (point1D y = screen->h; y < screen->h + 3; ++y) {
+			for (point1D x = 1; x < screen->w - 1; ++x) {
+				Color original{ GetColorAt(Point2D{x, y}, dest) };
+				Color matte{ black };
+				PutPixel(Point2D{ x, y }, original.lerp(matte, 300).rgba(), dest);
+			}
+		}
+	}
+
+	rgbaColor Fire::GetPixel(Point2D p) {
+		return GetColorAt(p, firstBuffer);
+	}
+
+	rgbaColor Fire::GetPixel(index index) {
+		return firstBuffer[index];
+	}
+}

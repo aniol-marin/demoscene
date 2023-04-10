@@ -229,7 +229,7 @@ public:
 		gradient3->SetColors(white, red, green, blue);
 
 		Gradient* gradient4{ CreateEffect<Gradient>() };
-		gradient4->SetColors(black, tile, magenta, orange);
+		gradient4->SetColors(black, teal, magenta, orange);
 
 		channel low{ 30 };
 		channel high{ 100 };
@@ -243,7 +243,7 @@ public:
 		// Layers
 		Layer* stars{ CreateLayer(BlendMode::AlphaBlend, CreateEffect<Stars>()) };
 		Layer* plasma{ CreateLayer(BlendMode::Override, CreateEffect<Plasma>()) };
-		Layer* fire{ CreateLayer(BlendMode::AlphaBlend, CreateEffect<Fire>()) };
+		Layer* fire{ CreateLayer(BlendMode::Override, CreateEffect<Fire>()) };
 		Layer* black{ CreateLayer(BlendMode::Override, solid1) };
 		Layer* white{ CreateLayer(BlendMode::Override, solid2) };
 		Layer* verticalGradient{ CreateLayer(BlendMode::Override, gradient1) };
@@ -258,26 +258,16 @@ public:
 		}
 
 		// OK timeline
-		renderables.push_back(black);
-		events.push(std::make_unique<Event>(Timestamp{ 1, 2000 }, black, white, TransitionType::Fade));
-		events.push(std::make_unique<Event>(Timestamp{ 3, 2000 }, white, verticalGradient, TransitionType::Fade));
-		events.push(std::make_unique<Event>(Timestamp{ 5, 2000 }, verticalGradient, diagonalGradient, TransitionType::Fade));
-		events.push(std::make_unique<Event>(Timestamp{ 7, 4000 }, diagonalGradient, primaries, TransitionType::Fade));
-		events.push(std::make_unique<Event>(Timestamp{ 11, 10000 }, primaries, plasma, TransitionType::Fade));
-		events.push(std::make_unique<Event>(Timestamp{ 22, 1000 }, plasma, black, TransitionType::Fade));
-		events.push(std::make_unique<Event>(Timestamp{ 23, 0 }, Renderables{ stars }));
-		events.push(std::make_unique<Event>(Timestamp{ 27, 1000 }, stars, sky, TransitionType::Fade));
-		events.push(std::make_unique<Event>(Timestamp{ 28, 0 }, Renderables{ sky, fire }));
-
-		// Experimental
-		/*
-		renderables.push_back(sky);
-		events.push(std::make_unique<Event>(Timestamp{ 1, 0 }, Renderables{ sky, fire }));
-		events.push(std::make_unique<Event>(Timestamp{ 10, 0 }, Renderables{ plasma }));
-		events.push(std::make_unique<Event>(Timestamp{ 12, 0 }, Renderables{ stars, secondaries, stars }));
-		events.push(std::make_unique<Event>(Timestamp{ 12, 0 }, Renderables{ fire }));
-		events.push(std::make_unique<Event>(Timestamp{ 17, 512 }, plasma, secondaries, TransitionType::Fade));
-		*/
+		renderables.push_back(fire);
+		events.push(std::make_unique<Event>(Timestamp{ 10, 0 }, Renderables{ black }));
+		events.push(std::make_unique<Event>(Timestamp{ 11, 2000 }, black, white, TransitionType::Fade));
+		events.push(std::make_unique<Event>(Timestamp{ 13, 2000 }, white, verticalGradient, TransitionType::Fade));
+		events.push(std::make_unique<Event>(Timestamp{ 15, 2000 }, verticalGradient, diagonalGradient, TransitionType::Fade));
+		events.push(std::make_unique<Event>(Timestamp{ 17, 4000 }, diagonalGradient, primaries, TransitionType::Fade));
+		events.push(std::make_unique<Event>(Timestamp{ 21, 10000 }, primaries, plasma, TransitionType::Fade));
+		events.push(std::make_unique<Event>(Timestamp{ 32, 1000 }, plasma, black, TransitionType::Fade));
+		events.push(std::make_unique<Event>(Timestamp{ 40, 0 }, Renderables{ stars }));
+		events.push(std::make_unique<Event>(Timestamp{ 50, 1000 }, stars, sky, TransitionType::Fade));
 
 		UpdateRenderables(renderables);
 	}
