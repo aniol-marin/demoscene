@@ -24,6 +24,7 @@ export struct PixelBuffer : std::vector<rgbaColor> {};
 export struct StencilBuffer : std::vector<bool> {};
 
 export constexpr permille permilleFactor{ 1024 };
+export constexpr double permilleRad{ 2 * PI / permilleFactor };
 
 export constexpr rgbaColor mask_opaque{ 0xFF000000 };
 export constexpr rgbaColor mask_red{ 0x00FF0000 };
@@ -32,6 +33,7 @@ export constexpr rgbaColor mask_blue{ 0x000000FF };
 
 export constexpr channel clear{ 0x0 };
 export constexpr channel saturated{ 0xFF };
+export constexpr channel halfValue{ 0xFF/2 };
 export constexpr rgbaColor transparent{ clear };
 export constexpr rgbaColor black{ mask_opaque };
 export constexpr rgbaColor white{ mask_opaque | mask_red | mask_green | mask_blue };

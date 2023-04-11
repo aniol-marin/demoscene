@@ -11,6 +11,7 @@ namespace MoleDemo {
 	export class Plasma;
 	export class Solid;
 	export class Gradient;
+	export class Wheel;
 	export class Stars;
 
 	class Star;
@@ -59,7 +60,7 @@ class MoleDemo::Fire : public Effect {
 
 	void GeneratePalette();
 	void GenerateHotspots(PixelBuffer& buffer, permille intensity);
-	void FilterPrevious(PixelBuffer& src, PixelBuffer& dest, milliseconds delta);
+	void FilterPrevious(PixelBuffer& src, PixelBuffer& dest, milliseconds delta, permille intensity);
 
 public:
 	Fire(Timer* timer, Screen* screen);
@@ -119,6 +120,26 @@ public:
 	void Unload() override;
 	void Update(permille intensity, milliseconds delta) override;
 	void Cache(StencilBuffer& mask)  override;
+};
+
+class MoleDemo::Wheel : public Effect {
+	Color color;
+	Color base;
+	Color top;
+	rgbaColor rgbColor;
+	double rotation;
+	void SetColor();
+
+public:
+	Wheel(Timer* timer, Screen* screen);
+	~Wheel();
+
+	void Load() override;
+	void Unload() override;
+	void Update(permille intensity, milliseconds delta) override;
+	void Cache(StencilBuffer& mask)  override;
+	rgbaColor GetPixel(Point2D p) override;
+	rgbaColor GetPixel(index index) override;
 };
 
 class MoleDemo::Stars : public Effect {

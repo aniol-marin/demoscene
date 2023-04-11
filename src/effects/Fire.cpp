@@ -12,8 +12,8 @@ namespace MoleDemo {
 	void Fire::Load() {
 		srand(0);
 
-		firstBuffer.assign( screen->w * (screen->h + 4), transparent);
-		secondBuffer.assign( screen->w * (screen->h + 4), transparent);
+		firstBuffer.assign(screen->w * (screen->h + 4), transparent);
+		secondBuffer.assign(screen->w * (screen->h + 4), transparent);
 
 		palette.assign(256, transparent);
 		GeneratePalette();
@@ -25,7 +25,7 @@ namespace MoleDemo {
 	void Fire::Update(permille intensity, milliseconds delta) {
 		std::swap(firstBuffer, secondBuffer);
 		GenerateHotspots(secondBuffer, intensity);
-		FilterPrevious(secondBuffer, firstBuffer, delta);
+		FilterPrevious(secondBuffer, firstBuffer, delta, intensity);
 	}
 
 	void Fire::Cache(StencilBuffer& mask) {
@@ -56,12 +56,12 @@ namespace MoleDemo {
 
 	void  Fire::GenerateHotspots(PixelBuffer& buffer, permille intensity) {
 
-		uint_fast8_t newFires = 1 + intensity / 100;
+		uint_fast8_t newFires = 1 + intensity / 32;
 
 		for (int f = 0; f < newFires; ++f) {
 			point1D start{ rand() % screen->w };
-			point1D end{ std::min(start + (point1D)(rand() % (1 + intensity / 10)), screen->w - 3) };
-			Color random{};
+			point1D end{ std::min(start + (point1D)(rand() % (1 + intensity / 32)), screen->w - 3) };
+			rgbaColor random{};
 			index paletteStart{ rand() % palette.size() };
 			for (int i = start; i < end; ++i) {
 
@@ -69,33 +69,49 @@ namespace MoleDemo {
 				index i2{ screen->GetPixelIndex(Point2D{(point1D)i, (point1D)(screen->h + 2)}) };
 				index i3{ screen->GetPixelIndex(Point2D{(point1D)i, (point1D)(screen->h + 3)}) };
 
-				random = palette[(paletteStart + i) % palette.size()];
-				buffer[i1] = random.rgba();
-				buffer[i2] = random.rgba();
-				buffer[i3] = random.rgba();
+				random = Color(white).lerp(palette[rand() % palette.size()], rand() % 1000).rgba();
+				buffer[i1] = random;
+				buffer[i2] = random;
+				buffer[i3] = random;
 
 			}
 		}
 	}
 
-	void Fire::FilterPrevious(PixelBuffer& src, PixelBuffer& dest, milliseconds delta) {
-		Color S{};
+	void Fire::FilterPrevious(PixelBuffer& src, PixelBuffer& dest, milliseconds delta, permille intensity) {
+		Color NW{};
+		Color N{};
+		Color NE{};
+		Color E{};
 		Color SE{};
+		Color S{};
 		Color SW{};
+		Color W{};
 		rgbaColor blurred{};
 		for (point1D y = (point1D)(screen->h / 2); y < screen->h + 3; ++y) {
 			for (point1D x = 1; x < screen->w - 1; ++x) {
 
-				S = { GetColorAt(Point2D{ x, y + 1 }, src) };
-				SW = { GetColorAt(Point2D{ x + 1, y + 1 }, src) };
+				NE = { GetColorAt(Point2D{ x + 1, y - 1 }, src) };
+				N = { GetColorAt(Point2D{ x, y - 1 }, src) };
+				NW = { GetColorAt(Point2D{ x - 1, y - 1 }, src) };
+				W = { GetColorAt(Point2D{ x - 1, y }, src) };
 				SW = { GetColorAt(Point2D{ x - 1, y + 1 }, src) };
+				S = { GetColorAt(Point2D{ x, y + 1 }, src) };
+				SE = { GetColorAt(Point2D{ x + 1, y + 1 }, src) };
+				E = { GetColorAt(Point2D{ x + 1, y  }, src) };
 
-				blurred = Color(
-					(channel)((S.r() * 10  + SE.r() * 2 + SW.r()) / 12),
-					(channel)((S.g() * 10  + SE.g() * 10 + SW.g()) / 20),
-					(channel)((S.b() * 10  + SE.b() * 5 + SW.b() * 10) / 24),
-					saturated// std::min((channel)0, (channel)((int)S.a() - (10 / (1 + delta))))
-				).rgba();
+				auto part = permilleFactor / 16;
+				blurred = S
+					.lerp(E, part)
+					.lerp(W, part)
+					.lerp(SE, part)
+					.lerp(SW, part)
+					/*
+					.lerp(N, part)
+					.lerp(NW, part)
+					.lerp(NE, part)
+					*/
+					.rgba();
 
 				PutPixel(Point2D{ x, y }, blurred, dest);
 			}

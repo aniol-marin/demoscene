@@ -251,23 +251,27 @@ public:
 		Layer* primaries{ CreateLayer(BlendMode::Override, gradient3) };
 		Layer* secondaries{ CreateLayer(BlendMode::Override, gradient4) };
 		Layer* sky{ CreateLayer(BlendMode::Override, gradient5) };
+		Layer* wheel{ CreateLayer(BlendMode::Override, CreateEffect<Wheel>()) };
 
 		// Layers initialization
 		for (std::unique_ptr<Effect>& effect : availableEffects) {
 			effect->Load();
 		}
 
-		// OK timeline
 		renderables.push_back(fire);
-		events.push(std::make_unique<Event>(Timestamp{ 10, 0 }, Renderables{ black }));
-		events.push(std::make_unique<Event>(Timestamp{ 11, 2000 }, black, white, TransitionType::Fade));
-		events.push(std::make_unique<Event>(Timestamp{ 13, 2000 }, white, verticalGradient, TransitionType::Fade));
-		events.push(std::make_unique<Event>(Timestamp{ 15, 2000 }, verticalGradient, diagonalGradient, TransitionType::Fade));
-		events.push(std::make_unique<Event>(Timestamp{ 17, 4000 }, diagonalGradient, primaries, TransitionType::Fade));
-		events.push(std::make_unique<Event>(Timestamp{ 21, 10000 }, primaries, plasma, TransitionType::Fade));
-		events.push(std::make_unique<Event>(Timestamp{ 32, 1000 }, plasma, black, TransitionType::Fade));
-		events.push(std::make_unique<Event>(Timestamp{ 40, 0 }, Renderables{ stars }));
-		events.push(std::make_unique<Event>(Timestamp{ 50, 1000 }, stars, sky, TransitionType::Fade));
+		events.push(std::make_unique<Event>(Timestamp{ 31, 2000 }, fire, wheel, TransitionType::Fade));
+		events.push(std::make_unique<Event>(Timestamp{ 40, 2000 }, wheel, black, TransitionType::Fade));
+		events.push(std::make_unique<Event>(Timestamp{ 43, 2000 }, black, white, TransitionType::Fade));
+		events.push(std::make_unique<Event>(Timestamp{ 47, 2000 }, white, verticalGradient, TransitionType::Fade));
+		events.push(std::make_unique<Event>(Timestamp{ 50, 2000 }, verticalGradient, diagonalGradient, TransitionType::Fade));
+		events.push(std::make_unique<Event>(Timestamp{ 53, 4000 }, diagonalGradient, primaries, TransitionType::Fade));
+		events.push(std::make_unique<Event>(Timestamp{ 60, 4000 }, primaries, secondaries, TransitionType::Fade));
+		events.push(std::make_unique<Event>(Timestamp{ 65, 10000 }, secondaries, plasma, TransitionType::Fade));
+		events.push(std::make_unique<Event>(Timestamp{ 77, 1000 }, plasma, black, TransitionType::Fade));
+		events.push(std::make_unique<Event>(Timestamp{ 78, 0 }, Renderables{ stars }));
+		events.push(std::make_unique<Event>(Timestamp{ 85, 5000 }, stars, sky, TransitionType::Fade));
+		events.push(std::make_unique<Event>(Timestamp{ 100, 1000 }, sky, wheel, TransitionType::Fade));
+		events.push(std::make_unique<Event>(Timestamp{ 300, 10000 }, wheel, black, TransitionType::Fade));
 
 		UpdateRenderables(renderables);
 	}

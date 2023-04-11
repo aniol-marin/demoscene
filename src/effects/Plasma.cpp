@@ -28,16 +28,16 @@ namespace MoleDemo {
 		// setup some nice colours, different every frame
 		// this is a palette that wraps around itself, with different period sine
 		// functions to prevent monotonous colours
-		buildPalette(intensity);
+		buildPalette(accumulatedTime / 10 + intensity);
 
 		// move plasma with more sine functions :)
-		Windowx1 = (screen->w / 2) + (int)(((screen->w / 2) - 1) * cos((double)accumulatedTime / 970));
-		Windowx2 = (screen->w / 2) + (int)(((screen->w / 2) - 1) * sin((double)-accumulatedTime / 1140));
-		Windowy1 = (screen->h / 2) + (int)(((screen->h / 2) - 1) * sin((double)accumulatedTime / 1230));
-		Windowy2 = (screen->h / 2) + (int)(((screen->h / 2) - 1) * cos((double)-accumulatedTime / 750));
+		Windowx1 = (screen->w / 2) + (int)(((int)(screen->w / 2) - 1) * cos((double)accumulatedTime / 970));
+		Windowx2 = (screen->w / 2) + (int)(((int)(screen->w / 2) - 1) * sin((double)-accumulatedTime / 1140));
+		Windowy1 = (screen->h / 2) + (int)(((int)(screen->h / 2) - 1) * sin((double)accumulatedTime / 1230));
+		Windowy2 = (screen->h / 2) + (int)(((int)(screen->h / 2) - 1) * cos((double)-accumulatedTime / 750));
 		// we only select the part of the precalculated buffer that we need
-		src1 = Windowy1 * (screen->w * 2) + Windowx1;
-		src2 = Windowy2 * (screen->w * 2) + Windowx2;
+		src1 = Windowy1 * (int)(screen->w * 2) + Windowx1;
+		src2 = Windowy2 * (int)(screen->w * 2) + Windowx2;
 
 	}
 

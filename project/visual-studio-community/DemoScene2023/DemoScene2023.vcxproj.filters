@@ -99,5 +99,8 @@
     <ClCompile Include="..\..\..\src\raudio.ixx">
       <Filter>Source Files\Internal\3rd party wrappers</Filter>
     </ClCompile>
+    <ClCompile Include="..\..\..\src\effects\Wheel.cpp">
+      <Filter>Source Files\Effects</Filter>
+    </ClCompile>
   </ItemGroup>
 </Project>
