@@ -22,6 +22,9 @@ export using lightness = uint_fast8_t;
 
 export struct PixelBuffer : std::vector<rgbaColor> {};
 export struct StencilBuffer : std::vector<bool> {};
+export struct ChannelBuffer : std::vector<channel> {};
+class Color;
+export struct ColorBuffer : std::vector<Color> {};
 
 export constexpr permille permilleFactor{ 1024 };
 export constexpr double permilleRad{ 2 * PI / permilleFactor };

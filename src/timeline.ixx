@@ -233,12 +233,10 @@ public:
 
 		channel low{ 30 };
 		channel high{ 100 };
-		Color skyNE{ low, low, high, saturated };
-		Color skyNW{ low, low, high , saturated };
-		Color skySE{ low, low, clear, saturated };
-		Color skySW{ low, low, clear, saturated };
+		Color skyN{ low, low, high, saturated };
+		Color skyS{ low, low, clear, saturated };
 		Gradient* gradient5{ CreateEffect<Gradient>() };
-		gradient5->SetColors(skyNE, skyNW, skySE, skySW);
+		gradient5->SetColors(skyN, skyN, skyS, skyS);
 
 		// Layers
 		Layer* stars{ CreateLayer(BlendMode::AlphaBlend, CreateEffect<Stars>()) };
