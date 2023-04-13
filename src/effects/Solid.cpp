@@ -9,7 +9,6 @@ namespace MoleDemo {
 	}
 
 	void Solid::Load() {
-		ClearBuffer(color.rgba());
 	}
 
 	void Solid::Unload() {
@@ -22,6 +21,14 @@ namespace MoleDemo {
 	}
 
 	void Solid::SetColor(Color color) {
-		this->color = color;
+		rgbColor = color.rgba();
+	}
+
+	rgbaColor Solid::GetPixel(Point2D p) {
+		return rgbColor;
+	}
+
+	rgbaColor Solid::GetPixel(index index) {
+		return rgbColor;
 	}
 }

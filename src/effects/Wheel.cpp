@@ -14,7 +14,7 @@ namespace MoleDemo {
 	}
 
 	void Wheel::Load() {
-		rgbColor = red;
+		rgbColor = transparent;
 	}
 
 	void Wheel::Unload() {
@@ -23,7 +23,10 @@ namespace MoleDemo {
 	void Wheel::Update(permille intensity, milliseconds delta) {
 		rotation = (permille)(rotation + delta * permilleFactor / 8192) % permilleFactor;
 		SetColor();
-		rgbColor = base.lerp(top, intensity).lerp(color, intensity).rgba();
+		rgbColor = base
+			.lerp(top, intensity)
+			.lerp(color, intensity)
+			.rgba();
 	}
 
 	void Wheel::Cache(StencilBuffer& mask) {

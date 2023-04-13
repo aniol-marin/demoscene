@@ -23,6 +23,7 @@ class MoleDemo::Demo :
 	public Initializable,
 	Loadable {
 	std::string source;
+	Container container;
 	std::vector<Initializable*> initializables;
 	std::vector<Loadable*> loadables;
 	RenderManager* render;
@@ -37,7 +38,6 @@ class MoleDemo::Demo :
 	void LoadData(std::string source) {}
 	void LoadTimeline(std::string source) {	}
 	void InstallBindings() {
-		Container container{};
 
 		container.BindShared<Screen, Screen>();
 		container.BindShared<Timer, Timer>();
@@ -52,26 +52,44 @@ class MoleDemo::Demo :
 		container.BindUniqueFactory<Cycle, Cycle, Program, Timer, RenderManager>();
 		container.BindSharingFactory<Timeline, Timeline, Timer, Cycle>();
 		*/
-		InputManager* input = container.Inject<InputManager>();
-		timer = container.Inject<Timer>();
-		sound = container.Inject<SoundManager>();
-		program = new Program(
+
+
+		std::unique_ptr<Program> mockProgram = std::make_unique<Program>(
 			container.Inject<Screen>());
-		render = new RenderManager(
+		container.BindSharedWithoutDefaultMockup<Program, Program>();
+		container.PushInstance<Program>(std::move(mockProgram));
+
+		std::unique_ptr<RenderManager> mockRender = std::make_unique<RenderManager>(
 			container.Inject<Screen>());
-		Cycle* cycle = new Cycle(
-			program,
+		container.BindSharedWithoutDefaultMockup<RenderManager, RenderManager>();
+		container.PushInstance<RenderManager>(std::move(mockRender));
+
+		std::unique_ptr<Cycle> mockCycle = std::make_unique<Cycle>(
+			container.Inject<Program>(),
 			container.Inject<Timer>(),
 			container.Inject<InputManager>(),
-			render);
-		timeline = new Timeline(
+			container.Inject<RenderManager>());
+		container.BindSharedWithoutDefaultMockup<Cycle, Cycle>();
+		container.PushInstance<Cycle>(std::move(mockCycle));
+
+		std::unique_ptr<Timeline> mockTimeline = std::make_unique<Timeline>(
 			container.Inject<Timer>(),
-			program,
-			cycle,
+			container.Inject<Program>(),
+			container.Inject<Cycle>(),
 			container.Inject<SoundManager>(),
 			container.Inject<Screen>());
+		container.BindSharedWithoutDefaultMockup<Timeline, Timeline>();
+		container.PushInstance<Timeline>(std::move(mockTimeline));
 
-		initializables.push_back(render);
+		//Self injection
+		program = container.Inject<Program>();
+		timer = container.Inject<Timer>();
+		sound = container.Inject<SoundManager>();
+		timeline = container.Inject<Timeline>();
+
+
+		// Not really installing, but pre-initialization
+		initializables.push_back(container.Inject<RenderManager>());
 		initializables.push_back(timeline);
 		initializables.push_back(sound);
 
@@ -91,6 +109,7 @@ class MoleDemo::Demo :
 public:
 	Demo(std::string project) :
 		source{ project },
+		container{},
 		Initializable{},
 		Loadable() {}
 	void Init() {

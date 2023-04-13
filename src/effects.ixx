@@ -95,7 +95,7 @@ public:
 };
 
 class MoleDemo::Solid : public Effect {
-	Color color;
+	rgbaColor rgbColor;
 public:
 	Solid(Timer* timer, Screen* screen);
 	~Solid();
@@ -106,6 +106,8 @@ public:
 	void Unload() override;
 	void Update(permille intensity, milliseconds delta) override;
 	void Cache(StencilBuffer& mask)  override;
+	rgbaColor GetPixel(Point2D p) override;
+	rgbaColor GetPixel(index index) override;
 };
 
 class MoleDemo::Gradient : public Effect {

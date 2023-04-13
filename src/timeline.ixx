@@ -268,8 +268,8 @@ public:
 		events.push(std::make_unique<Event>(Timestamp{ 60, 4000 }, primaries, secondaries, TransitionType::Fade));
 		events.push(std::make_unique<Event>(Timestamp{ 65, 10000 }, secondaries, plasma, TransitionType::Fade));
 		events.push(std::make_unique<Event>(Timestamp{ 77, 1000 }, plasma, black, TransitionType::Fade));
-		events.push(std::make_unique<Event>(Timestamp{ 78, 0 }, Renderables{ stars }));
-		events.push(std::make_unique<Event>(Timestamp{ 85, 5000 }, stars, sky, TransitionType::Fade));
+		events.push(std::make_unique<Event>(Timestamp{ 78, 1000 }, black, sky, TransitionType::Fade));
+		events.push(std::make_unique<Event>(Timestamp{ 79, 0 }, Renderables{ stars, sky}));
 		events.push(std::make_unique<Event>(Timestamp{ 100, 1000 }, sky, wheel, TransitionType::Fade));
 		events.push(std::make_unique<Event>(Timestamp{ 300, 10000 }, wheel, black, TransitionType::Fade));
 
