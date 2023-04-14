@@ -39,7 +39,6 @@ class MoleDemo::Demo :
 	void LoadTimeline(std::string source) {	}
 	void InstallBindings() {
 
-		container.BindShared<Screen, Screen>();
 		container.BindShared<Timer, Timer>();
 		container.BindShared<SoundManager, SoundManager>();
 		container.BindShared<InputManager, InputManager>();
@@ -53,6 +52,9 @@ class MoleDemo::Demo :
 		container.BindSharingFactory<Timeline, Timeline, Timer, Cycle>();
 		*/
 
+		std::unique_ptr<Screen> screen = std::make_unique<Screen>(defaultScreen.w, defaultScreen.h);
+		container.BindSharedWithoutDefaultMockup<Screen, Screen>();
+		container.PushInstance<Screen>(std::move(screen));
 
 		std::unique_ptr<Program> mockProgram = std::make_unique<Program>(
 			container.Inject<Screen>());

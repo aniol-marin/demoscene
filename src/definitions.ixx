@@ -4,6 +4,8 @@ import <vector>;
 import <cstdint>;
 import <exception>;
 
+class Color;
+
 export constexpr double PI = 3.14159265358979323846264338327950288;
 
 export using seconds = uint_fast16_t;
@@ -23,7 +25,6 @@ export using lightness = uint_fast8_t;
 export struct PixelBuffer : std::vector<rgbaColor> {};
 export struct StencilBuffer : std::vector<bool> {};
 export struct ChannelBuffer : std::vector<channel> {};
-class Color;
 export struct ColorBuffer : std::vector<Color> {};
 
 export constexpr permille permilleFactor{ 1024 };
@@ -94,19 +95,6 @@ export struct Point2D {
 		x{ x },
 		y{ y } {}
 	virtual ~Point2D() {}
-};
-
-export struct Screen {
-	const point1D w, h;
-	Screen() :
-		w{ 640 },
-		h{ 480 } {} // TODO delete after injection tests
-	Screen(point1D width, point1D heigth) :
-		w{ width },
-		h{ heigth } {}
-	index GetPixelIndex(Point2D point) {
-		return (size_t)w * (size_t)point.y + (size_t)point.x;
-	}
 };
 
 export class Color {
@@ -231,3 +219,16 @@ public:
 		};
 	};
 };
+
+export struct Screen {
+	const point1D w, h;
+	Screen(point1D width, point1D heigth) :
+		w{ width },
+		h{ heigth } {}
+	index GetPixelIndex(Point2D point) {
+		return (size_t)w * (size_t)point.y + (size_t)point.x;
+	}
+};
+
+export const Screen defaultScreen{ 640, 480 };
+export Screen textureSize{ 512, 512 };

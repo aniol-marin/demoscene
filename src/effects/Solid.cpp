@@ -2,7 +2,11 @@ module effects;
 
 namespace MoleDemo {
 
+	Solid::Solid() :
+		Solid{ nullptr, &textureSize } {}
+
 	Solid::Solid(Timer* timer, Screen* screen) :
+		Texturable{},
 		Effect{ timer, screen } {}
 
 	Solid::~Solid() {
@@ -30,5 +34,10 @@ namespace MoleDemo {
 
 	rgbaColor Solid::GetPixel(index index) {
 		return rgbColor;
+	}
+
+
+	const Screen& Solid::GetDimensions() {
+		return *screen;
 	}
 }

@@ -1,6 +1,7 @@
 export module effects;
 
 import definitions;
+import interfaces;
 import timer;
 import <functional>;
 
@@ -94,9 +95,12 @@ public:
 	void Cache(StencilBuffer& mask)  override;
 };
 
-class MoleDemo::Solid : public Effect {
+class MoleDemo::Solid :
+	public Texturable,
+	public Effect {
 	rgbaColor rgbColor;
 public:
+	Solid(); // texturable-enfoced constructor
 	Solid(Timer* timer, Screen* screen);
 	~Solid();
 
@@ -106,6 +110,7 @@ public:
 	void Unload() override;
 	void Update(permille intensity, milliseconds delta) override;
 	void Cache(StencilBuffer& mask)  override;
+	const Screen& GetDimensions() override;
 	rgbaColor GetPixel(Point2D p) override;
 	rgbaColor GetPixel(index index) override;
 };

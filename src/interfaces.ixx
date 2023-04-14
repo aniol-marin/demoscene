@@ -23,4 +23,13 @@ namespace MoleDemo {
 		virtual BlendMode GetBlend() = 0;
 		virtual bool CheckStencil(index index) = 0;
 	};
+
+	export struct Texturable {
+		Texturable() = default; // enforced default non-copy, non-default-arguments constructor
+		virtual ~Texturable(){}
+
+		virtual const Screen& GetDimensions() = 0;
+		virtual rgbaColor GetPixel(Point2D point) = 0;
+		virtual rgbaColor GetPixel(index index) = 0;
+	};
 }
