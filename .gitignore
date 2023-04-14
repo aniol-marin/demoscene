@@ -403,3 +403,4 @@ FodyWeavers.xsd
 
 # JetBrains Rider
 *.sln.iml
+project/visual-studio-community/DemoScene2023/SDL2.dll

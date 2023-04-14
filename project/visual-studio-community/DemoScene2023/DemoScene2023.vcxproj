@@ -71,7 +71,7 @@
   </ImportGroup>
   <PropertyGroup Label="UserMacros" />
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">
-    <IncludePath>..\..\..\include\sdl;$(IncludePath)</IncludePath>
+    <IncludePath>..\..\..\src\external\sdl\include;..\..\..\src\external\raudio\src;$(IncludePath)</IncludePath>
     <LibraryPath>..\..\..\lib;$(LibraryPath)</LibraryPath>
     <OutDir>..\..\..\bin\</OutDir>
     <TargetName>$(ProjectName)_x64_debug</TargetName>
@@ -118,12 +118,18 @@
     <Link>
       <SubSystem>Console</SubSystem>
       <GenerateDebugInformation>true</GenerateDebugInformation>
-      <AdditionalDependencies>SDL2_x64_debug.lib;SDL2main_x64_debug.lib;raudio_debug64.lib;%(AdditionalDependencies)</AdditionalDependencies>
+      <AdditionalDependencies>SDL2.lib;raudio_debug64.lib;%(AdditionalDependencies)</AdditionalDependencies>
     </Link>
     <PostBuildEvent>
-      <Command>xcopy ..\..\..\resources\ $(ProjectDir)\resources\ /Y /E /D
+      <Command>copy ..\..\..\lib\SDL2.dll ..\..\..\bin\SDL2.dll /y
+copy ..\..\..\lib\SDL2.dll $(ProjectDir)\SDL2.dll /y
+xcopy ..\..\..\resources\ $(ProjectDir)\resources\ /Y /E /D
 xcopy ..\..\..\resources\ $(ProjectDir)\..\..\..\bin\resources\ /Y /E /D</Command>
     </PostBuildEvent>
+    <PreBuildEvent>
+      <Command>
+      </Command>
+    </PreBuildEvent>
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'">
     <ClCompile>
