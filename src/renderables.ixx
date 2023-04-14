@@ -1,9 +1,7 @@
 export module renderables;
 
 import definitions;
-import interfaces;
 import effects;
-import <functional>;
 
 namespace MoleDemo {
 
@@ -13,7 +11,6 @@ namespace MoleDemo {
 	export class Cut;
 	export class Fade;
 
-	export struct stencil : std::function<bool(Point2D)> {};
 }
 
 struct MoleDemo::Layer : public Renderable {

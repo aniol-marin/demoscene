@@ -102,5 +102,8 @@
     <ClCompile Include="..\..\..\src\effects\Wheel.cpp">
       <Filter>Source Files\Effects</Filter>
     </ClCompile>
+    <ClCompile Include="..\..\..\src\effects\Tunel.cpp">
+      <Filter>Source Files\Effects</Filter>
+    </ClCompile>
   </ItemGroup>
 </Project>

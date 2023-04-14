@@ -18,8 +18,10 @@ namespace MoleDemo {
 
 	void Star::Reset() {
 		progress = 0;
-		position.x = rand() % screen.w;
-		position.y = 0;
+		position = {
+			rand() % screen.w,
+			0
+		};
 		baseSpeed = 1 + rand() % maxSpeed;
 		currentSpeed = baseSpeed;
 		brightness = permilleFactor * baseSpeed / maxSpeed;
@@ -31,7 +33,10 @@ namespace MoleDemo {
 	void Star::Update(permille intensity, milliseconds deltaTime) {
 		currentSpeed += deltaTime;
 		progress += currentSpeed;
-		position.y += progress / permilleFactor;
+		position = {
+			position.x,
+			position.y + progress / permilleFactor
+		};
 
 		if (position.y >= screen.h) {
 			Reset();

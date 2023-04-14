@@ -67,4 +67,16 @@ namespace MoleDemo {
 		}
 
 	}
+
+	void Plasma::AssignTexture(Texture texture, Id id = 0) {
+		switch (id)
+		{
+		case 0: 
+			break;
+		case 1:
+			break;
+		default: throw;
+			break;
+		}
+	}
 }

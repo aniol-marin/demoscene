@@ -1,19 +1,27 @@
 export module definitions;
 
+import <string>;
 import <vector>;
+import <memory>;
+import <functional>;
 import <cstdint>;
 import <exception>;
 
 class Color;
+struct Point2D;
+struct Renderable;
+struct Texturable;
 
 export constexpr double PI = 3.14159265358979323846264338327950288;
 
+export using Id = uint_fast8_t;
 export using seconds = uint_fast16_t;
 export using milliseconds = uint_fast16_t;
 export using permille = uint_fast16_t;
 export using speed = uint_fast16_t;
 export using index = uint_fast32_t;
 export using point1D = uint_fast16_t;
+export using offset1D = int_fast64_t;
 export using rgbaColor = uint32_t;
 export using hslaColor = uint32_t;
 export using tempChannel = uint_fast16_t;
@@ -26,6 +34,9 @@ export struct PixelBuffer : std::vector<rgbaColor> {};
 export struct StencilBuffer : std::vector<bool> {};
 export struct ChannelBuffer : std::vector<channel> {};
 export struct ColorBuffer : std::vector<Color> {};
+export struct stencil : std::function<bool(Point2D)> {};
+export struct Texture : std::unique_ptr<Texturable> {};
+export using Renderables = std::vector<Renderable*>;
 
 export constexpr permille permilleFactor{ 1024 };
 export constexpr double permilleRad{ 2 * PI / permilleFactor };
@@ -37,7 +48,7 @@ export constexpr rgbaColor mask_blue{ 0x000000FF };
 
 export constexpr channel clear{ 0x0 };
 export constexpr channel saturated{ 0xFF };
-export constexpr channel halfValue{ 0xFF/2 };
+export constexpr channel halfValue{ 0xFF / 2 };
 export constexpr rgbaColor transparent{ clear };
 export constexpr rgbaColor black{ mask_opaque };
 export constexpr rgbaColor white{ mask_opaque | mask_red | mask_green | mask_blue };
@@ -87,16 +98,40 @@ export struct Timestamp {
 };
 
 export struct Point2D {
-	point1D x, y;
-	Point2D() :
-		x{},
-		y{} {}
+	const point1D x, y;
+
+	Point2D() : Point2D{ {},{} } {}
 	Point2D(point1D x, point1D y) :
 		x{ x },
 		y{ y } {}
-	virtual ~Point2D() {}
+	~Point2D() {}
+
+	const Point2D& operator=(const Point2D& point) {
+		return Point2D{ point.x, point.y };
+	}
 };
 
+export struct Offset2D {
+	const offset1D x, y;
+	Offset2D() :
+		x{},
+		y{} {}
+	Offset2D(offset1D x, offset1D y) :
+		x{ x },
+		y{ y } {}
+	~Offset2D() {}
+};
+
+export struct CoordinateUV {
+	const offset1D u, v;
+	CoordinateUV() :
+		u{},
+		v{} {}
+	CoordinateUV(offset1D x, offset1D y) :
+		u{ x },
+		v{ y } {}
+	~CoordinateUV() {}
+};
 export class Color {
 	channel m_r, m_g, m_b, m_a;
 	hue m_h;
@@ -225,10 +260,45 @@ export struct Screen {
 	Screen(point1D width, point1D heigth) :
 		w{ width },
 		h{ heigth } {}
-	index GetPixelIndex(Point2D point) {
+	index GetIndex(Point2D point) {
 		return (size_t)w * (size_t)point.y + (size_t)point.x;
+	}
+	const size_t GetPixelCount() const {
+		return size_t{ w * h };
 	}
 };
 
 export const Screen defaultScreen{ 640, 480 };
 export Screen textureSize{ 512, 512 };
+
+
+export struct Initializable {
+	virtual void Init() = 0;
+	virtual void Finalize() = 0;
+};
+
+export struct Loadable {
+	virtual void Load(std::string source) = 0;
+	virtual void Unload() = 0;
+};
+
+export struct Renderable {
+	virtual void Update(permille intenisty, milliseconds deltaTime) = 0;
+	virtual void Cache(StencilBuffer& mask) = 0;
+	virtual rgbaColor GetPixel(Point2D point) = 0;
+	virtual rgbaColor GetPixel(index index) = 0;
+	virtual BlendMode GetBlend() = 0;
+	virtual bool CheckStencil(index index) = 0;
+};
+
+export struct Texturable {
+	Texturable() = default; // enforced default non-copy, non-default-arguments constructor
+	virtual ~Texturable() {}
+
+	virtual rgbaColor GetMappedUV(CoordinateUV uv) = 0;
+};
+
+export struct Customizable {
+	virtual constexpr Id TextureLimit() const = 0;
+	virtual void AssignTexture(Texture texture, Id id = 0) = 0;
+};

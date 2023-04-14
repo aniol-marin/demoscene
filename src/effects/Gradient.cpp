@@ -2,9 +2,11 @@ module effects;
 
 namespace MoleDemo {
 
+	Gradient::Gradient() :
+		Gradient{ nullptr, &textureSize } {}
+
 	Gradient::Gradient(Timer* timer, Screen* screen) :
-		Effect{ timer, screen }
-	{
+		Effect{ timer, screen }	{
 	}
 
 	Gradient::~Gradient() {
@@ -15,12 +17,12 @@ namespace MoleDemo {
 		Color right;
 		for (point1D y = 0; y < screen->h; ++y) {
 
-			permille vertical{ (permille)(y * permilleFactor / screen->w )};
+			permille vertical{ (permille)(y * permilleFactor / screen->w) };
 			right = NE.lerp(SE, vertical);
 			left = NW.lerp(SW, vertical);
 
 			for (point1D x = 0; x < screen->w; ++x) {
-				permille horizontal{ (permille)(x * permilleFactor /screen->w )};
+				permille horizontal{ (permille)(x * permilleFactor / screen->w) };
 				PutPixel(Point2D{ x, y }, left.lerp(right, horizontal).rgba());
 			}
 		}
@@ -40,5 +42,13 @@ namespace MoleDemo {
 		this->NW = NW;
 		this->SE = SE;
 		this->SW = SW;
+	}
+
+	rgbaColor Gradient::GetMappedUV(CoordinateUV p) {
+		Point2D mapped{
+			abs((int)(p.u * permilleFactor / screen->w)) % screen->w,
+			abs((int)(p.v * permilleFactor / screen->h)) % screen->h
+		};
+		return Effect::GetPixel(mapped);
 	}
 }

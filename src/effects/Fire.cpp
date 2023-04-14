@@ -65,9 +65,9 @@ namespace MoleDemo {
 			index paletteStart{ rand() % palette.size() };
 			for (int i = start; i < end; ++i) {
 
-				index i1{ screen->GetPixelIndex(Point2D{(point1D)i, (point1D)(screen->h + 1)}) };
-				index i2{ screen->GetPixelIndex(Point2D{(point1D)i, (point1D)(screen->h + 2)}) };
-				index i3{ screen->GetPixelIndex(Point2D{(point1D)i, (point1D)(screen->h + 3)}) };
+				index i1{ screen->GetIndex(Point2D{(point1D)i, (point1D)(screen->h + 1)}) };
+				index i2{ screen->GetIndex(Point2D{(point1D)i, (point1D)(screen->h + 2)}) };
+				index i3{ screen->GetIndex(Point2D{(point1D)i, (point1D)(screen->h + 3)}) };
 
 				random = Color(white).lerp(palette[rand() % palette.size()], rand() % 1000).rgba();
 				buffer[i1] = random;

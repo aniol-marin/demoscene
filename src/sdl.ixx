@@ -17,6 +17,7 @@ namespace SDL {
 	export void LockSurface();
 	export void UnlockSurface();
 	export void UpdateSurface();
+
 	export void PutPixel(uint16_t x, uint16_t y, const uint32_t rgba);
 
 	SDL_Window* window;

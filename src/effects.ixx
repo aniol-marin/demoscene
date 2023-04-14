@@ -4,6 +4,7 @@ import definitions;
 import interfaces;
 import timer;
 import <functional>;
+import <memory>;
 
 namespace MoleDemo {
 
@@ -13,6 +14,7 @@ namespace MoleDemo {
 	export class Solid;
 	export class Gradient;
 	export class Wheel;
+	export class Tunel;
 	export class Stars;
 
 	class Star;
@@ -23,7 +25,7 @@ class MoleDemo::Effect {
 	PixelBuffer buffer;
 
 protected:
-	const Timer* const timer;
+	Timer* const timer;
 	Screen* const screen;
 
 	Effect(Timer* timer, Screen* screen);
@@ -75,7 +77,9 @@ public:
 	rgbaColor GetPixel(index index) override;
 };
 
-class MoleDemo::Plasma : public Effect {
+class MoleDemo::Plasma :
+	public Customizable,
+	public Effect {
 	long long accumulatedTime{};
 	std::vector<channel> plasma1;
 	std::vector<channel> plasma2;
@@ -88,6 +92,31 @@ class MoleDemo::Plasma : public Effect {
 public:
 	Plasma(Timer* timer, Screen* screen);
 	~Plasma();
+
+	void Load() override;
+	void Unload() override;
+	void Update(permille intensity, milliseconds delta) override;
+	void Cache(StencilBuffer& mask)  override;
+	constexpr Id TextureLimit() const override { return 2; }
+	void AssignTexture(Texture texture, Id id) override;
+};
+
+class MoleDemo::Tunel : public Effect {
+	long long accumulatedTime{};
+	std::vector<channel> Tunel1;
+	std::vector<Point2D> uv;
+	std::unique_ptr<Texturable> texture;
+	int Windowx1, Windowy1, Windowx2, Windowy2;
+	long src1, src2;
+	Color palette[256];
+
+	permille du, dv, speedU, speedV;
+
+	void buildPalette(uint16_t time);
+
+public:
+	Tunel(Timer* timer, Screen* screen);
+	~Tunel();
 
 	void Load() override;
 	void Unload() override;
@@ -110,14 +139,17 @@ public:
 	void Unload() override;
 	void Update(permille intensity, milliseconds delta) override;
 	void Cache(StencilBuffer& mask)  override;
-	const Screen& GetDimensions() override;
 	rgbaColor GetPixel(Point2D p) override;
 	rgbaColor GetPixel(index index) override;
+	rgbaColor GetMappedUV(CoordinateUV uv) override;
 };
 
-class MoleDemo::Gradient : public Effect {
+class MoleDemo::Gradient :
+	public Texturable,
+	public Effect {
 	Color NE, NW, SW, SE;
 public:
+	Gradient();
 	Gradient(Timer* timer, Screen* screen);
 	~Gradient();
 
@@ -127,6 +159,7 @@ public:
 	void Unload() override;
 	void Update(permille intensity, milliseconds delta) override;
 	void Cache(StencilBuffer& mask)  override;
+	rgbaColor GetMappedUV(CoordinateUV uv) override;
 };
 
 class MoleDemo::Wheel : public Effect {

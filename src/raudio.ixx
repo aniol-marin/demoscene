@@ -1,18 +1,18 @@
 module;
 
-#define RAUDIO_STANDALONE
-#define SUPPORT_MODULE_RAUDIO
-#define SUPPORT_FILEFORMAT_MP3
-extern "C" {
-#include "external/raudio/src/raudio.h"
-}
-
 export module raudio;
 
 import definitions;
 import <string>;
 import <cstdint>;
 import <queue>;
+
+#define RAUDIO_STANDALONE
+#define SUPPORT_MODULE_RAUDIO
+#define SUPPORT_FILEFORMAT_MP3
+extern "C" {
+#include "external/raudio/src/raudio.h"
+}
 
 namespace RAudio {
 
@@ -26,11 +26,11 @@ namespace RAudio {
 	export void StopMusic();
 	export void Update();
 
-	export uint_fast16_t GetMusicDuration();
-	export uint_fast16_t GetMusicIntensity();
+	export seconds GetMusicDuration();
+	export permille GetMusicIntensity();
 
 	Music music;
-	float intensity;
+	permille intensity;
 	std::queue<float> average;
 
 	void SampleIntensity(void* buffer, unsigned int frames) {
@@ -49,13 +49,13 @@ namespace RAudio {
 			average.pop();
 		}
 
-		float max{current};
+		float max{ current };
 		for (int i = 0; i < average.size(); ++i) {
 			max = max < average.front() ? average.front() : max;
 			average.push(average.front());
 			average.pop();
 		}
-		intensity = max * permilleFactor;
+		intensity = (permille)(max * permilleFactor);
 	}
 }
 
@@ -90,10 +90,10 @@ void RAudio::Update() {
 	UpdateMusicStream(music);
 }
 
-export uint_fast16_t  RAudio::GetMusicDuration() {
-	return GetMusicTimeLength(music);
+export seconds  RAudio::GetMusicDuration() {
+	return (seconds)GetMusicTimeLength(music);
 }
 
-export uint_fast16_t  RAudio::GetMusicIntensity() {
-	return intensity;
+export permille  RAudio::GetMusicIntensity() {
+	return (permille)intensity;
 }

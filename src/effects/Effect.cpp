@@ -34,8 +34,8 @@ namespace MoleDemo {
 	}
 
 	void Effect::ReserveBuffer() {
+		buffer.reserve(screen->GetPixelCount());
 		ClearBuffer(transparent);
-		//buffer.reserve(size);
 	}
 
 	void Effect::ClearBuffer(rgbaColor color) {
@@ -43,7 +43,7 @@ namespace MoleDemo {
 	}
 
 	void Effect::ClearBuffer(rgbaColor color, PixelBuffer& pixelBuffer) {
-		pixelBuffer.assign((size_t)screen->w * (size_t)screen->h, color);
+		pixelBuffer.assign(size_t{ screen->GetPixelCount() }, color);
 	}
 
 	rgbaColor Effect::GetPixel(Point2D p) {

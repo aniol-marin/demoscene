@@ -36,8 +36,7 @@ namespace MoleDemo {
 		return rgbColor;
 	}
 
-
-	const Screen& Solid::GetDimensions() {
-		return *screen;
+	rgbaColor Solid::GetMappedUV(CoordinateUV uv) {
+		return rgbColor;
 	}
 }

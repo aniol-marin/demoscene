@@ -17,11 +17,6 @@ namespace MoleDemo {
 	struct Blending;
 	struct OverrideBlend;
 	struct AlphaBlend;
-
-	export using Renderables = std::vector<Renderable*>;
-	/*
-	export struct Renderables : std::vector<Renderable*> { using  vector::vector; };
-	*/
 }
 
 struct  MoleDemo::Blending {
@@ -87,7 +82,7 @@ public:
 	}
 
 	void Cache(Renderables& renderables, StencilBuffer& mask) {
-		for (Renderable* renderable: renderables) {
+		for (Renderable* renderable : renderables) {
 			renderable->Cache(mask);
 		}
 	}
@@ -113,7 +108,7 @@ public:
 	}
 };
 
-class  MoleDemo::RenderManager : public MoleDemo::Initializable {
+class  MoleDemo::RenderManager : public Initializable {
 	Screen* const screen;
 	RenderQueue* queue;
 	PixelBuffer buffer;
@@ -134,8 +129,8 @@ public:
 
 	}
 	void Init() {
-		SDL::InitVideo(*screen);
-		buffer.assign(size_t{ screen->w * screen->h }, black);
+		SDL::InitVideo({ defaultScreen.w, defaultScreen.h });
+		buffer.assign(size_t{ defaultScreen.GetPixelCount() }, black);
 	}
 
 	void Finalize() {
@@ -145,7 +140,7 @@ public:
 	void Draw(Renderables& renderables) {
 
 		if (BlendMode::Override != renderables.front()->GetBlend()) {
-			buffer.assign(size_t{ screen->w * screen->h }, black);
+			buffer.assign(size_t{ screen->GetPixelCount() }, black);
 		}
 
 		queue->Cache(renderables, mask);

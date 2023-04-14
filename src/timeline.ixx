@@ -250,6 +250,7 @@ public:
 		Layer* secondaries{ CreateLayer(BlendMode::Override, gradient4) };
 		Layer* sky{ CreateLayer(BlendMode::Override, gradient5) };
 		Layer* wheel{ CreateLayer(BlendMode::Override, CreateEffect<Wheel>()) };
+		Layer* tunel{ CreateLayer(BlendMode::Override, CreateEffect<Tunel>()) };
 
 		// Layers initialization
 		for (std::unique_ptr<Effect>& effect : availableEffects) {
@@ -267,8 +268,9 @@ public:
 		events.push(std::make_unique<Event>(Timestamp{ 65, 10000 }, secondaries, plasma, TransitionType::Fade));
 		events.push(std::make_unique<Event>(Timestamp{ 77, 1000 }, plasma, black, TransitionType::Fade));
 		events.push(std::make_unique<Event>(Timestamp{ 78, 1000 }, black, sky, TransitionType::Fade));
-		events.push(std::make_unique<Event>(Timestamp{ 79, 0 }, Renderables{ stars, sky}));
+		events.push(std::make_unique<Event>(Timestamp{ 79, 0 }, Renderables{ stars, sky }));
 		events.push(std::make_unique<Event>(Timestamp{ 100, 1000 }, sky, wheel, TransitionType::Fade));
+		events.push(std::make_unique<Event>(Timestamp{ 79, 0 }, Renderables{ tunel }));
 		events.push(std::make_unique<Event>(Timestamp{ 300, 10000 }, wheel, black, TransitionType::Fade));
 
 		UpdateRenderables(renderables);
