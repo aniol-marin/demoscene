@@ -108,5 +108,8 @@
     <ClCompile Include="..\..\..\src\effects\ChessBoard.cpp">
       <Filter>Source Files\Effects</Filter>
     </ClCompile>
+    <ClCompile Include="..\..\..\src\effects\RandomNoise.cpp">
+      <Filter>Source Files\Effects</Filter>
+    </ClCompile>
   </ItemGroup>
 </Project>

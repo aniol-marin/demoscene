@@ -167,6 +167,9 @@ xcopy ..\..\..\resources\ $(ProjectDir)\..\..\..\bin\resources\ /Y /E /D</Comman
     <ClCompile Include="..\..\..\src\effects\Plasma.cpp">
       <CompileAs Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">CompileAsCpp</CompileAs>
     </ClCompile>
+    <ClCompile Include="..\..\..\src\effects\RandomNoise.cpp">
+      <CompileAs Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">CompileAsCpp</CompileAs>
+    </ClCompile>
     <ClCompile Include="..\..\..\src\effects\Solid.cpp">
       <CompileAs Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">CompileAsCpp</CompileAs>
     </ClCompile>

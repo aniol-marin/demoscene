@@ -18,7 +18,7 @@ export using Id = uint_fast8_t;
 export using bunch = uint_fast8_t;
 export using seconds = uint_fast16_t;
 export using milliseconds = uint_fast16_t;
-export using permille = uint_fast16_t;
+export using permille = int_fast16_t;
 export using speed = uint_fast16_t;
 export using index = uint_fast32_t;
 export using point1D = uint_fast16_t;
@@ -57,9 +57,10 @@ export constexpr rgbaColor red{ mask_opaque | mask_red };
 export constexpr rgbaColor green{ mask_opaque | mask_green };
 export constexpr rgbaColor blue{ mask_opaque | mask_blue };
 export constexpr rgbaColor yellow{ red | green };
-export constexpr rgbaColor orange{ 0xFFFF9933 };
 export constexpr rgbaColor magenta{ red | blue };
 export constexpr rgbaColor teal{ blue | green };
+export constexpr rgbaColor orange{ 0xFFFF9933 };
+export constexpr rgbaColor concrete{ 0xFF5D696B };
 
 export enum class ProgramStatus {
 	TERMINATE_OK,
@@ -125,13 +126,13 @@ export struct Offset2D {
 };
 
 export struct CoordinateUV {
-	const offset1D u, v;
+	const permille u, v;
 	CoordinateUV() :
 		u{},
 		v{} {}
 	CoordinateUV(offset1D x, offset1D y) :
-		u{ x },
-		v{ y } {}
+		u{ (permille)x },
+		v{ (permille)y } {}
 	~CoordinateUV() {}
 };
 export class Color {
@@ -272,6 +273,7 @@ export struct Screen {
 
 export const Screen defaultScreen{ 640, 480 };
 export Screen textureSize{ 512, 512 };
+export Screen superSampler{ 2048, 2048 };
 
 
 export struct Initializable {

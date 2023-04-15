@@ -5,8 +5,8 @@ namespace MoleDemo {
 	Tunel::Tunel(Timer* timer, Screen* screen) :
 		du{},
 		dv{},
-		speedU{ 30 },
-		speedV{ 5 },
+		speedU{ 128 },
+		speedV{ 32 },
 		Effect{ timer, screen } {}
 
 	Tunel::~Tunel() {

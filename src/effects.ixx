@@ -20,6 +20,7 @@ namespace MoleDemo {
 	export class Gradient;
 	export class Wheel;
 	export class ChessBoard;
+	export class RandomNoise;
 
 	class Star;
 }
@@ -105,7 +106,7 @@ public:
 	void AssignTexture(std::unique_ptr<Texturable> texture, Id id) override;
 };
 
-class MoleDemo::Tunel : 
+class MoleDemo::Tunel :
 	public Customizable,
 	public Effect {
 	long long accumulatedTime{};
@@ -175,13 +176,34 @@ class MoleDemo::ChessBoard :
 	public Effect {
 	Color A, B;
 	bunch repetitions;
-	
+
 public:
 	ChessBoard();
 	ChessBoard(Timer* timer, Screen* screen);
 	~ChessBoard();
 
 	void Set(Color A, Color B, bunch repetitions);
+
+	void Load() override;
+	void Unload() override;
+	void Update(permille intensity, milliseconds delta) override;
+	void Cache(StencilBuffer& mask)  override;
+	rgbaColor GetMappedUV(CoordinateUV uv) override;
+};
+
+class MoleDemo::RandomNoise :
+	public Texturable,
+	public Effect {
+	ChannelBuffer noise;
+	Color A, B;
+	bunch repetitions;
+
+public:
+	RandomNoise();
+	RandomNoise(Timer* timer, Screen* screen);
+	~RandomNoise();
+
+	void Set(Color a, Color b, bunch repetitions);
 
 	void Load() override;
 	void Unload() override;
@@ -247,6 +269,6 @@ public:
 	Star(const Screen& screen, const speed& maxSpeed);
 	~Star();
 
-	void Update(milliseconds deltaTime, permille intensity);
+	void Update(permille intensity, milliseconds delta);
 	void Draw(std::function<void(Point2D pixel, rgbaColor color)> putPixel);
 };
