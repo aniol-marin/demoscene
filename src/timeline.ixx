@@ -211,8 +211,9 @@ public:
 
 	void Load(std::string content) {
 		// TODO load project from JSON
-
 		// TODO argument forwarding on CreateEffect template
+
+		// Effects
 		Solid* solid1{ CreateEffect<Solid>() };
 		solid1->SetColor(black);
 
@@ -231,12 +232,29 @@ public:
 		Gradient* gradient4{ CreateEffect<Gradient>() };
 		gradient4->SetColors(black, teal, magenta, orange);
 
+		// Effects with custom settings
 		channel low{ 30 };
 		channel high{ 100 };
 		Color skyN{ low, low, high, saturated };
 		Color skyS{ low, low, clear, saturated };
 		Gradient* gradient5{ CreateEffect<Gradient>() };
 		gradient5->SetColors(skyN, skyN, skyS, skyS);
+
+		ChessBoard* chessBoard{ CreateEffect<ChessBoard>() };
+		chessBoard->Set(0x4DA424, 0xA42479, 8);
+
+		// Effects with custom textures
+		std::unique_ptr<Texturable> tunnelGradientTexture = std::unique_ptr<Texturable>(std::make_unique<Gradient>());
+		Gradient& TGT = *static_cast<Gradient*>(tunnelGradientTexture.get());
+		TGT.SetColors(blue, teal, red, green);
+		Tunel* tunnelGradient = CreateEffect<Tunel>();
+		tunnelGradient->AssignTexture(std::move(tunnelGradientTexture), 0);
+
+		std::unique_ptr<Texturable> tunnelChessTexture = std::make_unique<ChessBoard>();
+		ChessBoard& TCT = *static_cast<ChessBoard*>(tunnelChessTexture.get());
+		TCT.Set(yellow, orange, 16);
+		Tunel* tunnelChess = CreateEffect<Tunel>();
+		tunnelChess->AssignTexture(std::move(tunnelChessTexture), 0);
 
 		// Layers
 		Layer* stars{ CreateLayer(BlendMode::AlphaBlend, CreateEffect<Stars>()) };
@@ -250,7 +268,9 @@ public:
 		Layer* secondaries{ CreateLayer(BlendMode::Override, gradient4) };
 		Layer* sky{ CreateLayer(BlendMode::Override, gradient5) };
 		Layer* wheel{ CreateLayer(BlendMode::Override, CreateEffect<Wheel>()) };
-		Layer* tunel{ CreateLayer(BlendMode::Override, CreateEffect<Tunel>()) };
+		Layer* tunnelSmooth{ CreateLayer(BlendMode::Override, tunnelGradient) };
+		Layer* tunnelEpilepsy{ CreateLayer(BlendMode::Override, tunnelChess) };
+		Layer* chess{ CreateLayer(BlendMode::Override, chessBoard) };
 
 		// Layers initialization
 		for (std::unique_ptr<Effect>& effect : availableEffects) {
@@ -261,16 +281,19 @@ public:
 		events.push(std::make_unique<Event>(Timestamp{ 31, 2000 }, fire, wheel, TransitionType::Fade));
 		events.push(std::make_unique<Event>(Timestamp{ 40, 2000 }, wheel, black, TransitionType::Fade));
 		events.push(std::make_unique<Event>(Timestamp{ 43, 2000 }, black, white, TransitionType::Fade));
-		events.push(std::make_unique<Event>(Timestamp{ 47, 2000 }, white, verticalGradient, TransitionType::Fade));
-		events.push(std::make_unique<Event>(Timestamp{ 50, 2000 }, verticalGradient, diagonalGradient, TransitionType::Fade));
-		events.push(std::make_unique<Event>(Timestamp{ 53, 4000 }, diagonalGradient, primaries, TransitionType::Fade));
-		events.push(std::make_unique<Event>(Timestamp{ 60, 4000 }, primaries, secondaries, TransitionType::Fade));
-		events.push(std::make_unique<Event>(Timestamp{ 65, 10000 }, secondaries, plasma, TransitionType::Fade));
+		events.push(std::make_unique<Event>(Timestamp{ 45, 2000 }, white, verticalGradient, TransitionType::Fade));
+		events.push(std::make_unique<Event>(Timestamp{ 47, 2000 }, verticalGradient, diagonalGradient, TransitionType::Fade));
+		events.push(std::make_unique<Event>(Timestamp{ 49, 4000 }, diagonalGradient, primaries, TransitionType::Fade));
+		events.push(std::make_unique<Event>(Timestamp{ 53, 3000 }, primaries, secondaries, TransitionType::Fade));
+		events.push(std::make_unique<Event>(Timestamp{ 56, 512 }, secondaries, chess, TransitionType::Fade));
+		events.push(std::make_unique<Event>(Timestamp{ 58, 512 }, chess, secondaries, TransitionType::Fade));// TODO to noise
+		events.push(std::make_unique<Event>(Timestamp{ 65, 10000 }, secondaries, plasma, TransitionType::Fade));//TODO from noise
 		events.push(std::make_unique<Event>(Timestamp{ 77, 1000 }, plasma, black, TransitionType::Fade));
 		events.push(std::make_unique<Event>(Timestamp{ 78, 1000 }, black, sky, TransitionType::Fade));
-		events.push(std::make_unique<Event>(Timestamp{ 79, 0 }, Renderables{ stars, sky }));
-		events.push(std::make_unique<Event>(Timestamp{ 100, 1000 }, sky, wheel, TransitionType::Fade));
-		events.push(std::make_unique<Event>(Timestamp{ 79, 0 }, Renderables{ tunel }));
+		events.push(std::make_unique<Event>(Timestamp{ 79, 0 }, Renderables{ sky, stars }));
+		events.push(std::make_unique<Event>(Timestamp{ 90, 0 }, Renderables{ tunnelSmooth }));
+		events.push(std::make_unique<Event>(Timestamp{ 100, 0 }, Renderables{ tunnelEpilepsy }));
+		events.push(std::make_unique<Event>(Timestamp{ 105, 1000 }, tunnelEpilepsy, wheel, TransitionType::Fade));
 		events.push(std::make_unique<Event>(Timestamp{ 300, 10000 }, wheel, black, TransitionType::Fade));
 
 		UpdateRenderables(renderables);

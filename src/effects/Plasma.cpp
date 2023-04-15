@@ -68,7 +68,7 @@ namespace MoleDemo {
 
 	}
 
-	void Plasma::AssignTexture(Texture texture, Id id = 0) {
+	void Plasma::AssignTexture(std::unique_ptr<Texturable> texture, Id id = 0) {
 		switch (id)
 		{
 		case 0: 

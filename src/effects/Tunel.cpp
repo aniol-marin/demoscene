@@ -38,13 +38,7 @@ namespace MoleDemo {
 
 	void Tunel::Load() {
 
-		std::unique_ptr<Gradient> p_Gradient = std::make_unique<Gradient>();
-		Gradient& gradient = *(p_Gradient.get());
-
-		texture = std::move(p_Gradient);
-		gradient.SetColors(blue, teal, red, green);
-		gradient.Load();
-
+		texture->Load();
 
 		uv.reserve(screen->GetPixelCount());
 		Offset2D center{ screen->w / 2, screen->h / 2 };
@@ -117,5 +111,10 @@ namespace MoleDemo {
 	}
 
 	void Tunel::buildPalette(uint16_t time) {
+	}
+
+
+	void Tunel::AssignTexture(std::unique_ptr<Texturable> texture, Id id = 0) {
+		this->texture = std::move(texture);
 	}
 }

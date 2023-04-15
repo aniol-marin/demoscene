@@ -15,6 +15,7 @@ struct Texturable;
 export constexpr double PI = 3.14159265358979323846264338327950288;
 
 export using Id = uint_fast8_t;
+export using bunch = uint_fast8_t;
 export using seconds = uint_fast16_t;
 export using milliseconds = uint_fast16_t;
 export using permille = uint_fast16_t;
@@ -35,7 +36,7 @@ export struct StencilBuffer : std::vector<bool> {};
 export struct ChannelBuffer : std::vector<channel> {};
 export struct ColorBuffer : std::vector<Color> {};
 export struct stencil : std::function<bool(Point2D)> {};
-export struct Texture : std::unique_ptr<Texturable> {};
+struct Texture : std::unique_ptr<Texturable> {}; // TODO
 export using Renderables = std::vector<Renderable*>;
 
 export constexpr permille permilleFactor{ 1024 };
@@ -55,7 +56,8 @@ export constexpr rgbaColor white{ mask_opaque | mask_red | mask_green | mask_blu
 export constexpr rgbaColor red{ mask_opaque | mask_red };
 export constexpr rgbaColor green{ mask_opaque | mask_green };
 export constexpr rgbaColor blue{ mask_opaque | mask_blue };
-export constexpr rgbaColor orange{ red | green };
+export constexpr rgbaColor yellow{ red | green };
+export constexpr rgbaColor orange{ 0xFFFF9933 };
 export constexpr rgbaColor magenta{ red | blue };
 export constexpr rgbaColor teal{ blue | green };
 
@@ -295,10 +297,13 @@ export struct Texturable {
 	Texturable() = default; // enforced default non-copy, non-default-arguments constructor
 	virtual ~Texturable() {}
 
+	virtual void Load() = 0;
+	virtual void Unload() = 0;
+
 	virtual rgbaColor GetMappedUV(CoordinateUV uv) = 0;
 };
 
 export struct Customizable {
 	virtual constexpr Id TextureLimit() const = 0;
-	virtual void AssignTexture(Texture texture, Id id = 0) = 0;
+	virtual void AssignTexture(std::unique_ptr<Texturable> texture, Id id = 0) = 0;
 };
