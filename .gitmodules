@@ -1,7 +1,8 @@
 [submodule "src/external/sdl"]
 	path = src/external/sdl
-	url=git@gitlab.com:amarinat/molesdl.git
+	url = https://gitlab.com/amarinat/molesdl.git
+	branch = mole/minimal-moleification
 [submodule "src/external/raudio"]
 	path = src/external/raudio
-	url = git@gitlab.com:amarinat/moleraudio.git
+	url	= https://gitlab.com/amarinat/moleraudio.git
 	branch = moleEngine/raudio-as-library-2023-04-10
