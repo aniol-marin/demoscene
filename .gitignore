@@ -1,6 +1,7 @@
 ## Mole Customs
 lib/
 bin/
+build/
 project/Debug
 project/visual-studio-community/DemoScene2023/resources/
 *.idb
