@@ -21,8 +21,34 @@ namespace MoleDemo {
 		virtual ~Factory() {};
 	};
 
-	export struct Container
+	template<typename T>
+	class SharingFactory :
+		public Factory
 	{
+		const std::map<uint8_t, std::unique_ptr<T>> instances;
+		const std::function<std::unique_ptr<T>()> functor;
+
+	public:
+		SharingFactory(std::function<std::unique_ptr<T>()> functor) :
+			instances{},
+			functor{ functor },
+			Factory{}
+		{
+		}
+
+		~SharingFactory() override {}
+
+		T& GetSharedObject(uint8_t id = 0) {
+			instances.insert({ id, functor() });
+			return  *instances[id].get();
+		}
+	};
+
+	export class Container
+	{
+		std::map<size_t, std::unique_ptr<Factory>> sharingFactories {};
+
+		public:
 		Container()
 		{
 			std::cout << "[MOCK] Creating Container" << std::endl;
@@ -38,26 +64,25 @@ namespace MoleDemo {
 		void BindShared()
 		{
 			std::cout << "[MOCK] Binding shared instances of type " << typeid(TInterface).name() << std::endl;
+
+			size_t id { typeid(TInterface).hash_code() };
+
+			sharingFactories[id] = {
+				std::make_unique<SharingFactory<TInterface>>( [] { return std::move( std::make_unique<TConcrete>()); })
+			};
+			//BindShared<TInterface>(std::make_shared<TConcrete>(InjectSharedInstance<TArguments>()...));
+
 		}
 
 	};
-	/*
-	export class Container;
 
-	class Factory;
+	/*
 	template<typename Interface> class TestSharingFactory;
 	template<typename Interface> class TestInstanceFactory;
 	template<typename Interface> class MockupSharingFactory;
 	*/
 }
 
-/*
-class MoleDemo::Factory
-{
-public:
-	virtual ~Factory() {};
-};
-*/
 /*
 template<typename T>
 class UniqueFactory : public Factory {
@@ -70,24 +95,6 @@ public:
 
 	std::unique_ptr<T> GetUniqueObject() {
 		return functor();
-	}
-};
-
-template<typename T>
-class SharingFactory : public Factory {
-private:
-	const std::map < uint8_t, std::shared_ptr<T>> instances;//TODO make IDd instances
-	const std::function<std::shared_ptr<T>()> functor;
-public:
-	SharingFactory(std::function<std::shared_ptr<T>()> functor, uint8_t id = 0) :
-		instances{},
-		functor{ functor },
-		Factory{} {}
-	~SharingFactory() override {}
-
-	std::shared_ptr<T> GetSharedObject(uint8_t id = 0) {
-		instances.insert({ id, functor() });
-		return  std::make_shared(instances[id]);
 	}
 };
 */
