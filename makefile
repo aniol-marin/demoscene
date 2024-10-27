@@ -7,5 +7,7 @@ generate:
 run: build
 	./bin/demoscene
 
+changes:
+	cd src/; vim; cd ..
 clean:
 	git clean -fdx
