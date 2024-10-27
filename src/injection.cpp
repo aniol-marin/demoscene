@@ -1,6 +1,7 @@
 module;
 
 #include <map>
+#include <string>
 #include <iostream>
 #include <memory>
 #include <functional>
@@ -21,6 +22,17 @@ namespace MoleDemo {
 		{
 			std::cout << "[MOCK] Creating Container" << std::endl;
 		}
+
+		template<typename TInterface, typename TConcrete, typename ...TArguments>
+		void BindUnique() {
+			std::cout << "[MOCK] Binding unique instances of type " << typeid(TInterface).name() << std::endl;
+		}
+
+		template<typename TInterface, typename TConcrete, typename ...TArguments>
+		void BindShared() {
+			std::cout << "[MOCK] Binding shared instances of type " << typeid(TInterface).name() << std::endl;
+		}
+
 	};
 	/*
 	export class Container;

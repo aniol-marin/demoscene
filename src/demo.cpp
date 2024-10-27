@@ -21,6 +21,14 @@ import injection;
  import <thread>;
  */
 
+using Container = MoleDemo::Container;
+
+// TO DO temporary mocks
+class Timer {};
+class SoundManager {};
+class InputManager {};
+
+
 namespace MoleDemo {
 
 	export class Demo;
@@ -35,6 +43,22 @@ class MoleDemo::Demo
 	{
 		std::cout << "[MOCK] Initializing..." << std::endl;
 		InstallBindings();
+
+		/*
+
+		//Self injection
+		program = container.Inject<Program>();
+		timer = container.Inject<Timer>();
+		sound = container.Inject<SoundManager>();
+		timeline = container.Inject<Timeline>();
+
+		initializables.push_back(container.Inject<RenderManager>());
+		initializables.push_back(timeline);
+		initializables.push_back(sound);
+
+		loadables.push_back(timeline);
+		loadables.push_back(sound);
+		*/
 	}
 
 
@@ -46,6 +70,51 @@ class MoleDemo::Demo
 	void InstallBindings()
 	{
 		std::cout << "[MOCK] Installing bindings.." << std::endl;
+		container.BindShared<Timer, Timer>();
+		container.BindShared<SoundManager, SoundManager>();
+		container.BindShared<InputManager, InputManager>();
+
+		// TODO replace default constructor with parametrized injection and/or binding
+		// TODO replace manual resolution with Factories. Examples follow:
+		/*
+		 container.BindSharingFactory<Program, Program, Screen>();
+		 container.BindSharingFactory<RenderManager, RenderManager, Screen>();
+		 container.BindUniqueFactory<Cycle, Cycle, Program, Timer, RenderManager>();
+		 container.BindSharingFactory<Timeline, Timeline, Timer, Cycle>();
+		 */
+
+	/*
+		std::unique_ptr<Screen> screen = std::make_unique<Screen>(defaultScreen.w, defaultScreen.h);
+		container.BindSharedWithoutDefaultMockup<Screen, Screen>();
+		container.PushInstance<Screen>(std::move(screen));
+
+		std::unique_ptr<Program> mockProgram = std::make_unique<Program>(
+				container.Inject<Screen>());
+		container.BindSharedWithoutDefaultMockup<Program, Program>();
+		container.PushInstance<Program>(std::move(mockProgram));
+
+		std::unique_ptr<RenderManager> mockRender = std::make_unique<RenderManager>(
+				container.Inject<Screen>());
+		container.BindSharedWithoutDefaultMockup<RenderManager, RenderManager>();
+		container.PushInstance<RenderManager>(std::move(mockRender));
+
+		std::unique_ptr<Cycle> mockCycle = std::make_unique<Cycle>(
+				container.Inject<Program>(),
+				container.Inject<Timer>(),
+				container.Inject<InputManager>(),
+				container.Inject<RenderManager>());
+		container.BindSharedWithoutDefaultMockup<Cycle, Cycle>();
+		container.PushInstance<Cycle>(std::move(mockCycle));
+
+		std::unique_ptr<Timeline> mockTimeline = std::make_unique<Timeline>(
+				container.Inject<Timer>(),
+				container.Inject<Program>(),
+				container.Inject<Cycle>(),
+				container.Inject<SoundManager>(),
+				container.Inject<Screen>());
+		container.BindSharedWithoutDefaultMockup<Timeline, Timeline>();
+		container.PushInstance<Timeline>(std::move(mockTimeline));
+	*/
 	}
 
 public:
@@ -83,68 +152,7 @@ class MoleDemo::Demo :
 		std::thread loadingThread;
 		void LoadData(std::string source) {}
 		void LoadTimeline(std::string source) {	}
-		void InstallBindings() {
-
-			container.BindShared<Timer, Timer>();
-			container.BindShared<SoundManager, SoundManager>();
-			container.BindShared<InputManager, InputManager>();
-
-			// TODO replace default constructor with parametrized injection and/or binding
-			// TODO replace manual resolution with Factories. Examples follow:
-			/*
-			 container.BindSharingFactory<Program, Program, Screen>();
-			 container.BindSharingFactory<RenderManager, RenderManager, Screen>();
-			 container.BindUniqueFactory<Cycle, Cycle, Program, Timer, RenderManager>();
-			 container.BindSharingFactory<Timeline, Timeline, Timer, Cycle>();
-			 */
-/*
-			std::unique_ptr<Screen> screen = std::make_unique<Screen>(defaultScreen.w, defaultScreen.h);
-			container.BindSharedWithoutDefaultMockup<Screen, Screen>();
-			container.PushInstance<Screen>(std::move(screen));
-
-			std::unique_ptr<Program> mockProgram = std::make_unique<Program>(
-					container.Inject<Screen>());
-			container.BindSharedWithoutDefaultMockup<Program, Program>();
-			container.PushInstance<Program>(std::move(mockProgram));
-
-			std::unique_ptr<RenderManager> mockRender = std::make_unique<RenderManager>(
-					container.Inject<Screen>());
-			container.BindSharedWithoutDefaultMockup<RenderManager, RenderManager>();
-			container.PushInstance<RenderManager>(std::move(mockRender));
-
-			std::unique_ptr<Cycle> mockCycle = std::make_unique<Cycle>(
-					container.Inject<Program>(),
-					container.Inject<Timer>(),
-					container.Inject<InputManager>(),
-					container.Inject<RenderManager>());
-			container.BindSharedWithoutDefaultMockup<Cycle, Cycle>();
-			container.PushInstance<Cycle>(std::move(mockCycle));
-
-			std::unique_ptr<Timeline> mockTimeline = std::make_unique<Timeline>(
-					container.Inject<Timer>(),
-					container.Inject<Program>(),
-					container.Inject<Cycle>(),
-					container.Inject<SoundManager>(),
-					container.Inject<Screen>());
-			container.BindSharedWithoutDefaultMockup<Timeline, Timeline>();
-			container.PushInstance<Timeline>(std::move(mockTimeline));
-
-			//Self injection
-			program = container.Inject<Program>();
-			timer = container.Inject<Timer>();
-			sound = container.Inject<SoundManager>();
-			timeline = container.Inject<Timeline>();
-
-
-			// Not really installing, but pre-initialization
-			initializables.push_back(container.Inject<RenderManager>());
-			initializables.push_back(timeline);
-			initializables.push_back(sound);
-
-			loadables.push_back(timeline);
-			loadables.push_back(sound);
-		}
-		void Load(std::string source) {
+			void Load(std::string source) {
 			for (Loadable* item : loadables) {
 				item->Load(source);
 			}
