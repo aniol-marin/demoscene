@@ -9,5 +9,11 @@ run: build
 
 changes:
 	cd src/; vim; cd ..
+
+save:
+	git add .
+	git commit
+	git push
+
 clean:
 	git clean -fdx

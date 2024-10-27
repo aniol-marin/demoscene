@@ -16,20 +16,27 @@ import <functional>;
 
 namespace MoleDemo {
 
-	export class Container{
-	public:
+	struct Factory
+	{
+		virtual ~Factory() {};
+	};
+
+	export struct Container
+	{
 		Container()
 		{
 			std::cout << "[MOCK] Creating Container" << std::endl;
 		}
 
 		template<typename TInterface, typename TConcrete, typename ...TArguments>
-		void BindUnique() {
+		void BindUnique()
+		{
 			std::cout << "[MOCK] Binding unique instances of type " << typeid(TInterface).name() << std::endl;
 		}
 
 		template<typename TInterface, typename TConcrete, typename ...TArguments>
-		void BindShared() {
+		void BindShared()
+		{
 			std::cout << "[MOCK] Binding shared instances of type " << typeid(TInterface).name() << std::endl;
 		}
 
