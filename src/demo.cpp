@@ -24,7 +24,9 @@ import injection;
 using Container = MoleDemo::Container;
 
 // TO DO temporary mocks
-class Timer {};
+struct Timer {
+	int value{4};
+};
 class SoundManager {};
 class InputManager {};
 
@@ -73,6 +75,20 @@ class MoleDemo::Demo
 		container.BindShared<Timer, Timer>();
 		container.BindShared<SoundManager, SoundManager>();
 		container.BindShared<InputManager, InputManager>();
+
+		Timer& a { container.Inject<Timer>() };
+		Timer& b { container.Inject<Timer>() };
+		std::cout << "before: \n"
+			<< "\t" << a.value << "\n" 
+			<< "\t" << b.value << "\n" ;
+
+		a.value = 5;
+		b.value = 7;
+
+		std::cout << "after: \n"
+			<< "\t" << a.value << "\n" 
+			<< "\t" << b.value << "\n" ;
+
 
 		// TODO replace default constructor with parametrized injection and/or binding
 		// TODO replace manual resolution with Factories. Examples follow:
