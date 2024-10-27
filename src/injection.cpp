@@ -1,24 +1,44 @@
+module;
+
+#include <map>
+#include <iostream>
+#include <memory>
+#include <functional>
+
 export module injection;
 
+/*
 import <map>;
 import <memory>;
 import <functional>;
+*/
 
 namespace MoleDemo {
 
+	export class Container{
+	public:
+		Container()
+		{
+			std::cout << "[MOCK] Creating Container" << std::endl;
+		}
+	};
+	/*
 	export class Container;
 
 	class Factory;
 	template<typename Interface> class TestSharingFactory;
 	template<typename Interface> class TestInstanceFactory;
 	template<typename Interface> class MockupSharingFactory;
+	*/
 }
 
+/*
 class MoleDemo::Factory
 {
 public:
 	virtual ~Factory() {};
 };
+*/
 /*
 template<typename T>
 class UniqueFactory : public Factory {
@@ -53,6 +73,7 @@ public:
 };
 */
 
+/*
 template<typename Interface>
 class MoleDemo::TestSharingFactory : public Factory {
 	std::map<uint8_t, std::unique_ptr<Interface>> instances;
@@ -117,14 +138,17 @@ public:
 
 class MoleDemo::Container {
 
+*/
 	/*
 	std::map<uint8_t, std::unique_ptr<Factory>> newInstanceFactories; // UniqueFactories
 	std::map<uint8_t, std::unique_ptr<Factory>> sharedInstancesFactories; // SharingFactories
 	*/
+/*
 	std::map<size_t, std::unique_ptr<Factory>> testFactories;
 	std::vector<std::unique_ptr<Factory>> mockOwnerships;
 	std::map<size_t, Factory*> mockFactories;
 
+*/
 	/*
 	// Register one instances of an object (needs instancer)
 	template<typename TInterface>
@@ -156,6 +180,7 @@ class MoleDemo::Container {
 
 	*/
 
+/*
 public:
 	/*
 	// Returns a unique pointer to a new instance
@@ -168,6 +193,7 @@ public:
 	};
 	*/
 
+/*
 	// Returns a shared pointer to a unique instances
 	template<typename T>
 	T* Inject(uint8_t id = 0) {
@@ -237,6 +263,7 @@ public:
 		BindUnique<TInterface>(std::make_unique<TConcrete>(InjectSharedInstance<TArguments>()...));
 	};
 	*/
+/*
 	template<typename TInterface, typename TConcrete, typename ...TArguments>
 	void BindSharingFactory() {}
 
@@ -320,3 +347,4 @@ public:
 		factory->PushInstance(std::move(instance));
 	}
 };
+*/

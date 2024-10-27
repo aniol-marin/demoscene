@@ -5,9 +5,9 @@ module;
 
 export module demo;
 
+import injection;
 /*
  import definitions;
- import injection;
  import timeline;
  import program;
  import input;
@@ -28,27 +28,39 @@ namespace MoleDemo {
 
 class MoleDemo::Demo
 {
-	std::string m_project;
-public:
-	Demo(std::string project) 
-	{
-		m_project = project;
-		std::cout << "[MOCK] Loading project: " << project << std::endl;
-	}
+	const std::string project;
+	Container container;
 
 	void Init()
 	{
 		std::cout << "[MOCK] Initializing..." << std::endl;
+		InstallBindings();
 	}
 
-	void Run()
-	{
-		std::cout << "[MOCK] Running..." << std::endl;
-	}
 
 	void Finalize()
 	{
 		std::cout << "[MOCK] Finalizing" << std::endl;
+	}
+
+	void InstallBindings()
+	{
+		std::cout << "[MOCK] Installing bindings.." << std::endl;
+	}
+
+public:
+	Demo(std::string project) :
+		project {project},
+		container {}
+	{
+		std::cout << "[MOCK] Loading project: " << project << std::endl;
+	}
+
+	void Run()
+	{
+		Init();
+		std::cout << "[MOCK] Running..." << std::endl;
+		Finalize();
 	}
 };
 
@@ -180,5 +192,5 @@ class MoleDemo::Demo :
 				item->Finalize();
 			}
 		}
-	};
+};
 */
