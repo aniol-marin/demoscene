@@ -5,6 +5,7 @@ module;
 #include <iostream>
 #include <memory>
 #include <functional>
+#include <any>
 
 export module injection;
 
@@ -19,6 +20,8 @@ namespace MoleDemo {
 	struct Factory
 	{
 		virtual ~Factory() {};
+
+		virtual std::any GetValue(uint8_t id = 0) = 0;
 	};
 
 	template<typename T>
@@ -37,6 +40,15 @@ namespace MoleDemo {
 		}
 
 		~SharingFactory() override {}
+
+		std::any GetValue(uint8_t id = 0) override
+		{
+			if (!instances.count(id)){
+				instances.emplace(id, functor());
+			}
+
+			return std::any{ *(instances[id].get()) };
+		}
 
 		T& GetInstance(uint8_t id = 0) {
 			if (!instances.count(id)){
@@ -83,8 +95,9 @@ namespace MoleDemo {
 		{
 			Factory* factoryBase { factories[typeid(T).hash_code()].get() };
 			auto* factory { dynamic_cast<SharingFactory<T>*>(factoryBase) };
+			std::any value{ factory->GetValue(id) };
 
-			return factory->GetInstance(id);
+			return *std::any_cast<T>(&value);
 		}
 	};
 
