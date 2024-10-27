@@ -1,16 +1,13 @@
-//import demo;
-import test_module;
+import demo;
 
 int main()
 {
-	/*
-	 MoleDemo::Demo demo{ "resources/project.json" }; // TODO load from project timeline
+	MoleDemo::Demo demo{ "resources/project.json" }; // TODO load from project timeline
 
-	 demo.Init();
-	 demo.Run();
-	 demo.Finalize();
-	 */
-	test_function();
+	demo.Init();
+	demo.Run();
+	demo.Finalize();
 
 	return 0;
 }
+

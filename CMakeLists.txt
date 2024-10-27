@@ -20,9 +20,9 @@ set(CMAKE_SOURCE_DIRECTORY ${CMAKE_BINARY_DIR}/../src)
 add_executable(demoscene)
 
 target_sources(demoscene PRIVATE
-	FILE_SET test_module TYPE CXX_MODULES
+	FILE_SET demo TYPE CXX_MODULES
 	FILES
-	test_module.cpp
+	src/demo.cpp
 )
 
 target_sources(demoscene PRIVATE
