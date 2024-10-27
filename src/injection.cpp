@@ -17,6 +17,17 @@ import <functional>;
 
 namespace MoleDemo {
 
+	template<typename T>
+		struct AnyWrapper
+		{
+			T& value;
+
+			AnyWrapper(T& any) :
+				value { any }
+			{
+			}
+		};
+
 	struct Factory
 	{
 		virtual ~Factory() {};
@@ -47,15 +58,7 @@ namespace MoleDemo {
 				instances.emplace(id, functor());
 			}
 
-			return std::any{ *(instances[id].get()) };
-		}
-
-		T& GetInstance(uint8_t id = 0) {
-			if (!instances.count(id)){
-				instances.emplace(id, functor());
-			}
-
-			return *instances[id].get();
+			return std::any{ AnyWrapper{*instances[id].get()} };
 		}
 	};
 
@@ -97,7 +100,8 @@ namespace MoleDemo {
 			auto* factory { dynamic_cast<SharingFactory<T>*>(factoryBase) };
 			std::any value{ factory->GetValue(id) };
 
-			return *std::any_cast<T>(&value);
+			auto wrapper = std::any_cast<AnyWrapper<T>>(&value);
+			return wrapper->value;
 		}
 	};
 
