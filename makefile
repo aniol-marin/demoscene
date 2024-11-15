@@ -2,9 +2,10 @@ build: generate
 	cmake --build build
 
 generate:
-	cmake -Bbuild -GNinja -D CMAKE_CXX_COMPILER=/usr/bin/g++-14
+	cmake -Bbuild -GNinja -D CMAKE_CXX_COMPILER=/usr/local/bin/g++
 
 run: build
+	export LD_LIBRARY_PATH=$LD_LIBRARY_PATH:/usr/local/lib64/
 	./bin/demoscene
 
 changes:
