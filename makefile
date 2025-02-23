@@ -1,20 +1,18 @@
+main: run
+	@echo main done
+
 build: generate
-	cmake --build build
+	cmake --build build --target demoscene
 
 generate:
-	cmake -Bbuild -GNinja -D CMAKE_CXX_COMPILER=/usr/local/bin/g++
+	cmake\
+		-S.\
+		-Bbuild\
+		-GNinja\
+		--log-level=NOTICE
 
 run: build
-	export LD_LIBRARY_PATH=$LD_LIBRARY_PATH:/usr/local/lib64/
 	./bin/demoscene
 
-changes:
-	cd src/; vim; cd ..
-
-save:
-	git add .
-	git commit
-	git push
-
 clean:
-	git clean -fdx
+	git clean -ffdx
