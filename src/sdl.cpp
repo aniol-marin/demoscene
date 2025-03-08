@@ -1,11 +1,17 @@
 module;
-#include <SDL.h>
+
+#include <string>
+#include <iostream>
+
+#include "SDL2/SDL.h"
 
 export module sdl;
 
 import definitions;
+/*
 import <string>;
 import <iostream>;
+*/
 
 namespace SDL {
 
