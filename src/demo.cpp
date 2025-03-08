@@ -27,8 +27,6 @@ using Container = MoleDemo::Container;
 struct Timer {
 	int value{4};
 };
-class SoundManager {};
-class InputManager {};
 
 
 namespace MoleDemo {
@@ -73,8 +71,6 @@ class MoleDemo::Demo
 	{
 		std::cout << "[MOCK] Installing bindings.." << std::endl;
 		container.BindShared<Timer, Timer>();
-		container.BindShared<SoundManager, SoundManager>();
-		container.BindShared<InputManager, InputManager>();
 
 		Timer& a { container.Inject<Timer>() };
 		Timer& b { container.Inject<Timer>() };
@@ -93,6 +89,8 @@ class MoleDemo::Demo
 		// TODO replace default constructor with parametrized injection and/or binding
 		// TODO replace manual resolution with Factories. Examples follow:
 		/*
+		   container.BindShared<SoundManager, SoundManager>();
+		   container.BindShared<InputManager, InputManager>();
 		 container.BindSharingFactory<Program, Program, Screen>();
 		 container.BindSharingFactory<RenderManager, RenderManager, Screen>();
 		 container.BindUniqueFactory<Cycle, Cycle, Program, Timer, RenderManager>();

@@ -1,16 +1,27 @@
+module;
+
+#include <string>
+#include <iostream>
+#include <memory>
+#include <functional>
+#include <cstdint>
+#include <exception>
+
 export module definitions;
 
+/*
 import <string>;
 import <vector>;
 import <memory>;
 import <functional>;
 import <cstdint>;
 import <exception>;
+*/
 
-class Color;
-struct Point2D;
-struct Renderable;
-struct Texturable;
+export class Color;
+export struct Point2D;
+export struct Renderable;
+export struct Texturable;
 
 export constexpr double PI = 3.14159265358979323846264338327950288;
 
@@ -100,17 +111,19 @@ export struct Timestamp {
 	~Timestamp() {}
 };
 
-export struct Point2D {
-	const point1D x, y;
+struct Point2D {
+	point1D x{};
+	point1D y{};
 
-	Point2D() : Point2D{ {},{} } {}
-	Point2D(point1D x, point1D y) :
-		x{ x },
-		y{ y } {}
-	~Point2D() {}
-
-	const Point2D& operator=(const Point2D& point) {
-		return Point2D{ point.x, point.y };
+	Point2D() = default;
+	~Point2D() = default;
+	Point2D(const Point2D&) = default;
+	Point2D(Point2D&&) = default;
+	
+	const Point2D& operator=(const Point2D& other) {
+		x = other.x;
+		y = other.y;
+		return *this;
 	}
 };
 
@@ -135,120 +148,56 @@ export struct CoordinateUV {
 		v{ (permille)y } {}
 	~CoordinateUV() {}
 };
-export class Color {
-	channel m_r, m_g, m_b, m_a;
-	hue m_h;
-	saturation m_s;
-	lightness m_l;
-	bool rgbCached;
-	bool hslCached;
-	const rgbaColor to32(channel a, channel r, channel g, channel b) const {
-		return b |
-			(g << 8) |
-			(r << 16) |
-			(a << 24);
-	}
-	const hslaColor tohsla(channel a, hue h, saturation s, lightness l) const {
-		return l |
-			(s << 8) |
-			(h << 16) |
-			(a << 24);
-	}
-	void cacheRGB() {
-		throw std::exception("tried to use an uncached RGB, but RGB caching is still not implemented");
-	}
-	void cacheHSL() {
-		throw std::exception("tried to use an uncached HSL, but HSL caching is still not implemented");
-	}
+
+class Color {
+	channel m_r{};
+	channel m_g{};
+	channel m_b{};
+	channel m_a{};
+
 public:
-	Color() :
-		m_a{},
-		m_r{},
-		m_g{},
-		m_b{},
-		m_h{},
-		m_s{},
-		m_l{},
-		rgbCached{ false },
-		hslCached{ false } {}
-	Color(const Color& color) :
-		m_a{ color.m_a },
-		m_r{ color.m_r },
-		m_g{ color.m_g },
-		m_b{ color.m_b },
-		m_h{},
-		m_s{},
-		m_l{},
-		rgbCached{ true },
-		hslCached{ false } {}
+
+	Color() = default;
+	~Color() {}
+	Color(const Color&) = default;
+	Color(Color&&) = default;
+
 	Color(const rgbaColor color) :
-		m_a{ (channel)((color & mask_opaque) >> 24) },
 		m_r{ (channel)((color & mask_red) >> 16) },
 		m_g{ (channel)((color & mask_green) >> 8) },
 		m_b{ (channel)(color & mask_blue) },
-		m_h{},
-		m_s{},
-		m_l{},
-		rgbCached{ true },
-		hslCached{ false } {}
+		m_a{ (channel)((color & mask_opaque) >> 24) }
+	{
+	}
+
+
 	Color(channel r, channel g, channel b, channel a = saturated) :
-		m_a{ a },
 		m_r{ r },
 		m_g{ g },
 		m_b{ b },
-		m_h{},
-		m_s{},
-		m_l{},
-		rgbCached{ true },
-		hslCached{ false } {}
-	~Color() {}
+		m_a{ a }
+	{
+	}
 
-	void SetRGBA(channel r, channel g, channel b, channel a = saturated) {
-		m_a = a;
-		m_r = r;
-		m_g = g;
-		m_b = b;
-		rgbCached = true;
-		hslCached = false;
+	const channel r() const {
+		return m_r;
 	}
-	void SetHSLA(hue h, saturation s, lightness l, channel a = saturated) {
-		m_a = a;
-		m_h = h;
-		m_s = s;
-		m_l = l;
-		rgbCached = false;
-		hslCached = true;
+	const channel g() const {
+		return m_g;
 	}
-	const channel r() const { return m_r; }
-	const channel g() const { return m_g; }
-	const channel b() const { return m_b; }
-	const channel a() const { return m_a; }
-	const hue hue() const { return m_h; }
-	const lightness lightness() const { return m_l; }
-	const saturation saturation() const { return m_s; }
+	const channel b() const {
+		return m_b;
+	}
+	const channel a() const {
+		return m_a;
+	}
 	rgbaColor rgba() {
-
-		if (!rgbCached) {
-			cacheRGB();
-		}
-
-		return to32(m_a, m_r, m_g, m_b);
-	}
-	hslaColor hsla() {
-		if (!hslCached) {
-			cacheHSL();
-		}
-
-		return tohsla(m_a, m_h, m_s, m_l);
+		return m_b |
+			(m_g << 8) |
+			(m_r << 16) |
+			(m_a << 24);
 	}
 	Color lerp(const Color& next, const permille permille) {
-
-		// TODO allow lerping with cached HSL
-
-		if (!rgbCached) {
-			cacheRGB();
-		}
-
 		return Color{
 			(channel)(m_r + (next.r() - m_r) * permille / permilleFactor),
 			(channel)(m_g + (next.g() - m_g) * permille / permilleFactor),
@@ -257,7 +206,6 @@ public:
 		};
 	};
 };
-
 export struct Screen {
 	const point1D w, h;
 	Screen(point1D width, point1D heigth) :
@@ -286,7 +234,7 @@ export struct Loadable {
 	virtual void Unload() = 0;
 };
 
-export struct Renderable {
+struct Renderable {
 	virtual void Update(permille intenisty, milliseconds deltaTime) = 0;
 	virtual void Cache(StencilBuffer& mask) = 0;
 	virtual rgbaColor GetPixel(Point2D point) = 0;
@@ -295,7 +243,7 @@ export struct Renderable {
 	virtual bool CheckStencil(index index) = 0;
 };
 
-export struct Texturable {
+struct Texturable {
 	Texturable() = default; // enforced default non-copy, non-default-arguments constructor
 	virtual ~Texturable() {}
 
@@ -309,3 +257,4 @@ export struct Customizable {
 	virtual constexpr Id TextureLimit() const = 0;
 	virtual void AssignTexture(std::unique_ptr<Texturable> texture, Id id = 0) = 0;
 };
+
