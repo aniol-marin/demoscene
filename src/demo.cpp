@@ -8,13 +8,12 @@ export module demo;
 import injection;
  import definitions;
  import program;
+ import input;
+ import timer;
  /*
  import timeline;
- import input;
- import interfaces;
  import render;
  import cycle;
- import timer;
  import sound;
  import <string>;
  import <vector>;
@@ -24,9 +23,11 @@ import injection;
 using Container = MoleDemo::Container;
 
 // TO DO temporary mocks
-struct Timer {
-	int value{4};
-};
+namespace refactor {
+	struct Timer {
+		int value{4};
+	};
+}
 
 
 namespace MoleDemo {
@@ -70,10 +71,10 @@ class MoleDemo::Demo
 	void InstallBindings()
 	{
 		std::cout << "[MOCK] Installing bindings.." << std::endl;
-		container.BindShared<Timer, Timer>();
+		container.BindShared<refactor::Timer, refactor::Timer>();
 
-		Timer& a { container.Inject<Timer>() };
-		Timer& b { container.Inject<Timer>() };
+		refactor::Timer& a { container.Inject<refactor::Timer>() };
+		refactor::Timer& b { container.Inject<refactor::Timer>() };
 		std::cout << "before: \n"
 			<< "\t" << a.value << "\n" 
 			<< "\t" << b.value << "\n" ;

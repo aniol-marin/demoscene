@@ -18,12 +18,16 @@ target_sources(demoscene PRIVATE
 	FILE_SET definitions TYPE CXX_MODULES
 	FILE_SET sdl TYPE CXX_MODULES
 	FILE_SET program TYPE CXX_MODULES
+	FILE_SET input TYPE CXX_MODULES
+	FILE_SET timer TYPE CXX_MODULES
 	FILES
 	demo.cpp
 	injection.cpp
 	definitions.cpp
 	sdl.cpp
 	program.cpp
+	input.cpp
+	timer.cpp
 )
 
 target_sources(demoscene PRIVATE

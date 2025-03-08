@@ -1,12 +1,21 @@
+module;
+
+#include <chrono>
+#include <ratio>
+#include <thread>
+#include <iostream>
+
 export module timer;
 
 import definitions;
+/*
 import <chrono>;
 import <ratio>;
 import <thread>;
 // Debug
 import <iostream>;
 //!Debug
+*/
 
 namespace MoleDemo {
 
