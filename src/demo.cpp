@@ -7,9 +7,9 @@ export module demo;
 
 import injection;
  import definitions;
+ import program;
  /*
  import timeline;
- import program;
  import input;
  import interfaces;
  import render;
