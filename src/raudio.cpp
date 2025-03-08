@@ -1,11 +1,17 @@
 module;
 
+#include <string>
+#include <cstdint>
+#include <queue>
+
 export module raudio;
 
 import definitions;
+/*
 import <string>;
 import <cstdint>;
 import <queue>;
+ */
 
 #define RAUDIO_STANDALONE
 #define SUPPORT_MODULE_RAUDIO

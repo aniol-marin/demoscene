@@ -1,9 +1,14 @@
+module;
+
+#include <string>
+
 export module sound;
 
 import definitions;
-import interfaces;
 import raudio;
+/*
 import <string>;
+*/
 
 namespace MoleDemo {
 

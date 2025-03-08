@@ -1,7 +1,6 @@
 export module render;
 
 import definitions;
-import interfaces;
 import effects;
 import renderables;
 import sdl;
