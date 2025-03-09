@@ -17,7 +17,7 @@ import <queue>;
 #define SUPPORT_MODULE_RAUDIO
 #define SUPPORT_FILEFORMAT_MP3
 extern "C" {
-#include "external/raudio/src/raudio.h"
+#include "raudio.h"
 }
 
 namespace RAudio {
