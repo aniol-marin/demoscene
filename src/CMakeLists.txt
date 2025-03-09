@@ -33,8 +33,8 @@ target_sources(demoscene PRIVATE
 	FILE_SET effects TYPE CXX_MODULES
 	FILE_SET effect TYPE CXX_MODULES
 	FILE_SET stars TYPE CXX_MODULES
-	#FILE_SET renderables TYPE CXX_MODULES
-	#FILE_SET render TYPE CXX_MODULES
+	FILE_SET renderables TYPE CXX_MODULES
+	FILE_SET render TYPE CXX_MODULES
 	FILES
 	demo.cpp
 	injection.cpp
@@ -48,9 +48,9 @@ target_sources(demoscene PRIVATE
 	effects.cpp
 	effects/Effect.cpp
 	effects/Stars.cpp
-	#renderables.cpp
 	#effects/ChessBoard.cpp
-	#render.cpp
+	renderables.cpp
+	render.cpp
 )
 
 target_sources(demoscene PRIVATE

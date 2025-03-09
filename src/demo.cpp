@@ -11,8 +11,8 @@ import injection;
  import input;
  import timer;
  import sound;
+ import render;
  /*
-    import render;
  import timeline;
  import cycle;
  import <string>;

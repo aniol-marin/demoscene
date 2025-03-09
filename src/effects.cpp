@@ -7,6 +7,7 @@ module;
 export module effects;
 
 export import effect;
+export import stars;
 import definitions;
 import timer;
 /*
