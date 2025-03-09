@@ -2,6 +2,7 @@ module;
 
 #include <string>
 #include <iostream>
+//#include <thread>
 
 export module demo;
 
@@ -12,9 +13,9 @@ import injection;
  import timer;
  import sound;
  import render;
- /*
  import timeline;
  import cycle;
+ /*
  import <string>;
  import <vector>;
  import <thread>;
@@ -45,9 +46,9 @@ class MoleDemo::Demo
 		std::cout << "[MOCK] Initializing..." << std::endl;
 		InstallBindings();
 
-		/*
 
 		//Self injection
+		/*
 		program = container.Inject<Program>();
 		timer = container.Inject<Timer>();
 		sound = container.Inject<SoundManager>();
@@ -87,11 +88,11 @@ class MoleDemo::Demo
 			<< "\t" << b.value << "\n" ;
 
 
+		container.BindShared<SoundManager, SoundManager>();
+		container.BindShared<InputManager, InputManager>();
 		// TODO replace default constructor with parametrized injection and/or binding
 		// TODO replace manual resolution with Factories. Examples follow:
 		/*
-		   container.BindShared<SoundManager, SoundManager>();
-		   container.BindShared<InputManager, InputManager>();
 		 container.BindSharingFactory<Program, Program, Screen>();
 		 container.BindSharingFactory<RenderManager, RenderManager, Screen>();
 		 container.BindUniqueFactory<Cycle, Cycle, Program, Timer, RenderManager>();
