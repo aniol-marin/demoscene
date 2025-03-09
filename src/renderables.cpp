@@ -64,13 +64,13 @@ public:
 		this->background = background;
 		this->foreground = foreground;
 	}
-	void Update(permille intensity, milliseconds deltaTime) sealed {
+	void Update(permille intensity, milliseconds deltaTime) final {
 		m_elapsed += deltaTime;
 	}
 	bool IsDone() {
 		return m_elapsed > time.duration;
 	}
-	bool CheckStencil(index index) sealed {
+	bool CheckStencil(index index) final {
 		return true; //transitions by now are always be full screen
 	}
 };

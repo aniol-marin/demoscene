@@ -1,3 +1,8 @@
+module;
+
+#include <cstdint>
+#include <cstddef>
+
 module effects;
 
 namespace MoleDemo {

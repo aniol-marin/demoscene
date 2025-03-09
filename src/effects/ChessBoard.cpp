@@ -1,6 +1,8 @@
 module effects;
 
+/*
 import <iostream>;
+*/
 
 namespace MoleDemo {
 

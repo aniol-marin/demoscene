@@ -10,11 +10,11 @@ import injection;
  import program;
  import input;
  import timer;
+ import render;
+ import sound;
  /*
  import timeline;
- import render;
  import cycle;
- import sound;
  import <string>;
  import <vector>;
  import <thread>;

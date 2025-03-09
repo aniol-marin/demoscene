@@ -1,12 +1,20 @@
+module;
+
+#include <map>
+#include <memory>
+#include <vector>
+
 export module render;
 
 import definitions;
 import effects;
 import renderables;
 import sdl;
+/*
 import <map>;
 import <memory>;
 import <vector>;
+*/
 
 namespace MoleDemo {
 
