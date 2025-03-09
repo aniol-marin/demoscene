@@ -43,6 +43,7 @@ export using saturation = uint_fast8_t;
 export using lightness = uint_fast8_t;
 
 export struct PixelBuffer : std::vector<rgbaColor> {};
+export using pixel_count = PixelBuffer::size_type;
 export struct StencilBuffer : std::vector<bool> {};
 export struct ChannelBuffer : std::vector<channel> {};
 export struct ColorBuffer : std::vector<Color> {};
@@ -212,10 +213,10 @@ export struct Screen {
 		w{ width },
 		h{ heigth } {}
 	index GetIndex(Point2D point) {
-		return (size_t)w * (size_t)point.y + (size_t)point.x;
+		return (pixel_count)w * (pixel_count)point.y + (pixel_count)point.x;
 	}
-	const size_t GetPixelCount() const {
-		return size_t{ w * h };
+	const pixel_count GetPixelCount() const {
+		return pixel_count{ w * h };
 	}
 };
 

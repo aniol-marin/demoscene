@@ -1,7 +1,5 @@
 module;
 
-#include <cstdint>
-#include <cstddef>
 
 export module effect;
 
@@ -49,15 +47,14 @@ public:
 };
 
 namespace MoleDemo {
-	/*
 	Effect::Effect(Timer* timer, Screen* screen) :
 		timer{ timer },
 		screen{ screen },
-		buffer{} {
+		buffer{}
+	{
 
 		ReserveBuffer();
 	}
-	*/
 
 	Effect::~Effect() {};
 
@@ -66,7 +63,7 @@ namespace MoleDemo {
 	}
 
 	index Effect::GetPixelIndex(Point2D& point, PixelBuffer& pixelBuffer) {
-		return (size_t)screen->w * (size_t)point.y + (size_t)point.x;
+		return (pixel_count)screen->w * (pixel_count)point.y + (pixel_count)point.x;
 	}
 
 	rgbaColor Effect::GetColorAt(Point2D point, PixelBuffer& pixelBuffer) {
@@ -83,22 +80,22 @@ namespace MoleDemo {
 		pixel = color;
 	}
 
-	/*
 	void Effect::ReserveBuffer() {
-		buffer.reserve(screen->GetPixelCount());
+		/*
+		buffer.reserve(static_cast<pixel_count>(screen->GetPixelCount()));
+		*/
 		ClearBuffer(transparent);
 	}
 
 	void Effect::ClearBuffer(rgbaColor color) {
 		ClearBuffer(color, buffer);
 	}
-	*/
 
-	/*
 	void Effect::ClearBuffer(rgbaColor color, PixelBuffer& pixelBuffer) {
+		/*
 		pixelBuffer.assign(size_t{ screen->GetPixelCount() }, color);
+		*/
 	}
-	*/
 
 	rgbaColor Effect::GetPixel(Point2D p) {
 		return GetPixel(GetPixelIndex(p));
