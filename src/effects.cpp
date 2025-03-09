@@ -15,8 +15,8 @@ import <memory>;
 
 namespace MoleDemo {
 
-	export class Effect;
 	/*
+	export class Effect;
 	// regular effects
 	export class Stars;
 	export class Fire;
@@ -34,6 +34,7 @@ namespace MoleDemo {
 	*/
 }
 
+/*
 class MoleDemo::Effect {
 
 	PixelBuffer buffer;
@@ -69,7 +70,6 @@ public:
 	virtual void Cache(StencilBuffer& mask) = 0;
 };
 
-/*
 namespace MoleDemo {
 	Effect::Effect(Timer* timer, Screen* screen) :
 		timer{ timer },

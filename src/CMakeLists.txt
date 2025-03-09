@@ -30,7 +30,7 @@ target_sources(demoscene PRIVATE
 	FILE_SET timer TYPE CXX_MODULES
 	FILE_SET raudio TYPE CXX_MODULES
 	FILE_SET sound TYPE CXX_MODULES
-	#FILE_SET effects TYPE CXX_MODULES
+	FILE_SET effects TYPE CXX_MODULES
 	#FILE_SET renderables TYPE CXX_MODULES
 	#FILE_SET render TYPE CXX_MODULES
 	FILES
@@ -43,8 +43,8 @@ target_sources(demoscene PRIVATE
 	timer.cpp
 	raudio.cpp
 	sound.cpp
+	effects.cpp
 	#renderables.cpp
-	#effects.cpp
 	#effects/ChessBoard.cpp
 	#render.cpp
 )

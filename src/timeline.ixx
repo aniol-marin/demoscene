@@ -1,7 +1,14 @@
+module;
+
+#include <string>
+#include <queue>
+#include <vector>
+#include <memory>
+#include <functional>
+
 export module timeline;
 
 import definitions;
-import interfaces;
 import effects;
 import renderables;
 import timer;
@@ -9,11 +16,13 @@ import cycle;
 import sound;
 import program;
 import render;
+/*
 import <string>;
 import <queue>;
 import <vector>;
 import <memory>;
 import <functional>;
+*/
 
 namespace MoleDemo {
 
