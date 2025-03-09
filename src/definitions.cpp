@@ -120,6 +120,7 @@ struct Point2D {
 	~Point2D() = default;
 	Point2D(const Point2D&) = default;
 	Point2D(Point2D&&) = default;
+	Point2D(point1D x, point1D y): x{x}, y{y} {}
 	
 	const Point2D& operator=(const Point2D& other) {
 		x = other.x;
@@ -159,9 +160,10 @@ class Color {
 public:
 
 	Color() = default;
-	~Color() {}
+	~Color() = default;
 	Color(const Color&) = default;
 	Color(Color&&) = default;
+	constexpr Color& operator=(const Color&) = default;
 
 	Color(const rgbaColor color) :
 		m_r{ (channel)((color & mask_red) >> 16) },
@@ -179,6 +181,7 @@ public:
 		m_a{ a }
 	{
 	}
+
 
 	const channel r() const {
 		return m_r;
