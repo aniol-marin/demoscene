@@ -1,3 +1,7 @@
+module;
+
+#include <exception>
+
 export module cycle;
 
 import definitions;
@@ -14,7 +18,7 @@ namespace MoleDemo {
 }
 
 class MoleDemo::Cycle {
-	Renderables renderables;
+	Renderables renderables {};
 	Program* const program;
 	Timer* const timer;
 	InputManager* const inputManager;
@@ -36,9 +40,12 @@ public:
 	}
 
 	void Update(permille intensity) {
+		throw std::exception();
+		/*
 		for (Renderable* renderable : renderables) {
 			renderable->Update(intensity, timer->GetDeltaTime());
 		}
+		*/
 	}
 
 	void Draw() {
@@ -49,7 +56,11 @@ public:
 		timer->WaitUntilNextFrame();
 	}
 
-	void SetRenderables(Renderables& renderables) {
-		this->renderables = renderables;
+	void SetRenderables(const Renderables& aRenderables) {
+		renderables.clear();
+		throw std::exception();
+		/*
+		renderables.insert(renderables.begin(), aRenderables.cbegin(), aRenderables.end());
+		*/
 	}
 };
