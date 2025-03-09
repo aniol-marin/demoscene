@@ -222,6 +222,7 @@ public:
 		// TODO load project from JSON
 		// TODO argument forwarding on CreateEffect template
 
+		/*
 		// Effects
 		Solid* solid1{ CreateEffect<Solid>() };
 		solid1->SetColor(black);
@@ -273,9 +274,11 @@ public:
 		TDT.Set(concrete, black, 32);
 		Tunel* tunnelDirty = CreateEffect<Tunel>();
 		tunnelDirty->AssignTexture(std::move(tunnelDirtyTexture), 0);
+		*/
 
 		// Layers
 		Layer* stars{ CreateLayer(BlendMode::AlphaBlend, CreateEffect<Stars>()) };
+		/*
 		Layer* plasma{ CreateLayer(BlendMode::Override, CreateEffect<Plasma>()) };
 		Layer* fire{ CreateLayer(BlendMode::Override, CreateEffect<Fire>()) };
 		Layer* black{ CreateLayer(BlendMode::Override, solid1) };
@@ -291,12 +294,15 @@ public:
 		Layer* chess{ CreateLayer(BlendMode::Override, chessBoard) };
 		Layer* sonicPollution{ CreateLayer(BlendMode::Override, noise) };
 		Layer* sanitaryPollution{ CreateLayer(BlendMode::Override, tunnelDirty) };
+		*/
 
 		// Layers initialization
 		for (std::unique_ptr<Effect>& effect : availableEffects) {
 			effect->Load();
 		}
 
+		renderables.push_back(stars);
+		/*
 		renderables.push_back(sanitaryPollution);
 		events.push(std::make_unique<Event>(Timestamp{ 31, 2000 }, fire, wheel, TransitionType::Fade));
 		events.push(std::make_unique<Event>(Timestamp{ 40, 2000 }, wheel, black, TransitionType::Fade));
@@ -310,12 +316,16 @@ public:
 		events.push(std::make_unique<Event>(Timestamp{ 65, 10000 }, sonicPollution, plasma, TransitionType::Fade));
 		events.push(std::make_unique<Event>(Timestamp{ 77, 1000 }, plasma, black, TransitionType::Fade));
 		events.push(std::make_unique<Event>(Timestamp{ 78, 1000 }, black, sky, TransitionType::Fade));
+		*/
+		events.push(std::make_unique<Event>(Timestamp{ 79, 0 }, Renderables{ stars, stars }));
+		/*
 		events.push(std::make_unique<Event>(Timestamp{ 79, 0 }, Renderables{ sky, stars }));
 		events.push(std::make_unique<Event>(Timestamp{ 90, 0 }, Renderables{ tunnelSmooth }));
 		events.push(std::make_unique<Event>(Timestamp{ 100, 0 }, Renderables{ tunnelEpilepsy }));
 		events.push(std::make_unique<Event>(Timestamp{ 105, 0 }, Renderables{ sanitaryPollution }));
 		events.push(std::make_unique<Event>(Timestamp{ 110, 1000 }, sanitaryPollution, wheel, TransitionType::Fade));
 		events.push(std::make_unique<Event>(Timestamp{ 300, 10000 }, wheel, black, TransitionType::Fade));
+		*/
 
 		UpdateRenderables(renderables);
 	}
