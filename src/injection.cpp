@@ -35,15 +35,15 @@ namespace MoleDemo {
 		virtual std::any GetValue(uint8_t id = 0) = 0;
 	};
 
-	template<typename T>
+	template<typename T, typename ... TA>
 	class SharingFactory :
 		public Factory
 	{
 		std::map<uint8_t, std::unique_ptr<T>> instances;
-		const std::function<std::unique_ptr<T>()> functor;
+		const std::function<std::unique_ptr<T>(TA...)> functor;
 
 	public:
-		SharingFactory(std::function<std::unique_ptr<T>()> functor) :
+		SharingFactory(std::function<std::unique_ptr<T>(TA...)> functor) :
 			instances{},
 			functor{ functor },
 			Factory{}
@@ -87,7 +87,7 @@ namespace MoleDemo {
 			size_t id { typeid(TInterface).hash_code() };
 
 			factories[id] = {
-				std::make_unique<SharingFactory<TInterface>>( [] { return std::move( std::make_unique<TConcrete>()); })
+				std::make_unique<SharingFactory<TInterface>>( [&](TArguments ... args) { return std::move( std::make_unique<TConcrete, TArguments...>(std::forward(args...))); })
 			};
 			//BindShared<TInterface>(std::make_shared<TConcrete>(InjectSharedInstance<TArguments>()...));
 
