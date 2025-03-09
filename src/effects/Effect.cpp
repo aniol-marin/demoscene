@@ -1,5 +1,6 @@
 module;
 
+#include <exception>
 
 export module effect;
 
@@ -82,7 +83,7 @@ namespace MoleDemo {
 
 	void Effect::ReserveBuffer() {
 		/*
-		buffer.reserve(static_cast<pixel_count>(screen->GetPixelCount()));
+		buffer.reserve(screen->GetPixelCount());
 		*/
 		ClearBuffer(transparent);
 	}
@@ -93,8 +94,9 @@ namespace MoleDemo {
 
 	void Effect::ClearBuffer(rgbaColor color, PixelBuffer& pixelBuffer) {
 		/*
-		pixelBuffer.assign(size_t{ screen->GetPixelCount() }, color);
+		pixelBuffer.assign(screen->GetPixelCount(), color);
 		*/
+		throw std::exception();
 	}
 
 	rgbaColor Effect::GetPixel(Point2D p) {

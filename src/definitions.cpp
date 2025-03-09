@@ -213,7 +213,7 @@ export struct Screen {
 		w{ width },
 		h{ heigth } {}
 	index GetIndex(Point2D point) {
-		return (pixel_count)w * (pixel_count)point.y + (pixel_count)point.x;
+		return (index)w * (index)point.y + (index)point.x;
 	}
 	const pixel_count GetPixelCount() const {
 		return pixel_count{ w * h };
