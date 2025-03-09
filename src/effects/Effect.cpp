@@ -35,17 +35,17 @@ protected:
 
 public:
 
-	/*virtual*/ ~Effect();
+	virtual ~Effect();
 
-	/*virtual*/ rgbaColor GetPixel(Point2D p);
-	/*virtual*/ rgbaColor GetPixel(index index);
+	virtual rgbaColor GetPixel(Point2D p);
+	virtual rgbaColor GetPixel(index index);
 
-	/*virtual*/ void Load()/* = 0 */;
-	/*virtual*/ void Unload()/* = 0 */;
+	virtual void Load() = 0;
+	virtual void Unload() = 0;
 
-	/*virtual*/ void Update(permille intensity, milliseconds delta)/* = 0 */;
+	virtual void Update(permille intensity, milliseconds delta) = 0;
 
-	/*virtual*/ void Cache(StencilBuffer& mask)/* = 0 */;
+	virtual void Cache(StencilBuffer& mask) = 0;
 };
 
 namespace MoleDemo {
