@@ -31,6 +31,7 @@ target_sources(demoscene PRIVATE
 	FILE_SET raudio TYPE CXX_MODULES
 	FILE_SET sound TYPE CXX_MODULES
 	FILE_SET effects TYPE CXX_MODULES
+	FILE_SET effect TYPE CXX_MODULES
 	#FILE_SET renderables TYPE CXX_MODULES
 	#FILE_SET render TYPE CXX_MODULES
 	FILES
@@ -44,6 +45,7 @@ target_sources(demoscene PRIVATE
 	raudio.cpp
 	sound.cpp
 	effects.cpp
+	effects/Effect.cpp
 	#renderables.cpp
 	#effects/ChessBoard.cpp
 	#render.cpp
@@ -51,5 +53,4 @@ target_sources(demoscene PRIVATE
 
 target_sources(demoscene PRIVATE
 	main.cpp
-	#effects/Effect.cpp
 )
