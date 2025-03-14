@@ -13,12 +13,15 @@ FetchContent_Declare(
 	raudio
 	GIT_REPOSITORY https://github.com/raysan5/raudio.git
 	GIT_TAG 711c86eae17db9a94af575f7a5b496244b48b22d # master
+	SOURCE_SUBDIR projects/CMake
 )
 FetchContent_MakeAvailable(raudio)
+
 target_link_libraries(demoscene
 	PRIVATE SDL2
 	PRIVATE raudio
 )
+
 
 target_sources(demoscene PRIVATE
 	FILE_SET demo TYPE CXX_MODULES

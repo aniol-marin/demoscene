@@ -5,12 +5,6 @@ build: generate
 	cmake --build build --target demoscene
 
 generate:
-	@#workaround
-	mkdir -p ./build
-	mkdir -p ./build/_deps
-	mkdir -p ./build/_deps/raudio-src
-	cp ./resources/CMakeLists.txt ./build/_deps/raudio-src/CMakeLists.txt
-	@#end workaround
 	cmake\
 		-S.\
 		-Bbuild\
