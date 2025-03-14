@@ -41,11 +41,30 @@ namespace MoleDemo {
 	{
 		std::map<uint8_t, std::unique_ptr<T>> instances;
 		const std::function<std::unique_ptr<T>(TA...)> functor;
+		const std::function<T(TA...)> aux_functor;
+		const std::function<T()> empty_aux_functor;
 
 	public:
+		/*
 		SharingFactory(std::function<std::unique_ptr<T>(TA...)> functor) :
 			instances{},
 			functor{ functor },
+			Factory{}
+		{
+		}
+		*/
+
+		SharingFactory(std::function<T()> functor) :
+			instances{},
+			empty_aux_functor{ functor },
+			aux_functor{ },
+			Factory{}
+		{
+		}
+		SharingFactory(std::function<T(TA...)> functor) :
+			instances{},
+			empty_aux_functor{ },
+			aux_functor{ functor },
 			Factory{}
 		{
 		}
@@ -79,6 +98,25 @@ namespace MoleDemo {
 			// TO DO
 		}
 
+		template<typename TInterface, typename TConcrete>
+		void BindShared()
+		{
+			std::cout << "[MOCK] Binding shared instances of type " << typeid(TInterface).name() << std::endl;
+
+			size_t id { typeid(TInterface).hash_code() };
+
+			/*
+			factories[id] = {
+				//std::make_unique<SharingFactory<TInterface>>( [&](TArguments ... args) { return std::move( std::make_unique<TConcrete, TArguments...>(std::forward(args...))); })
+			};
+			std::make_unique<SharingFactory<TInterface>>( [&](TArguments ... args) { return  TConcrete{std::forward(args...)}; })
+			*/
+
+			auto i = TConcrete();
+			//auto t = std::make_unique<SharingFactory<TInterface>>( [&]() { return  TConcrete{}; });
+			//BindShared<TInterface>(std::make_shared<TConcrete>(InjectSharedInstance<TArguments>()...));
+
+		}
 		template<typename TInterface, typename TConcrete, typename ...TArguments>
 		void BindShared()
 		{
@@ -86,9 +124,15 @@ namespace MoleDemo {
 
 			size_t id { typeid(TInterface).hash_code() };
 
+			/*
 			factories[id] = {
-				std::make_unique<SharingFactory<TInterface>>( [&](TArguments ... args) { return std::move( std::make_unique<TConcrete, TArguments...>(std::forward(args...))); })
+				//std::make_unique<SharingFactory<TInterface>>( [&](TArguments ... args) { return std::move( std::make_unique<TConcrete, TArguments...>(std::forward(args...))); })
 			};
+			std::make_unique<SharingFactory<TInterface>>( [&](TArguments ... args) { return  TConcrete{std::forward(args...)}; })
+			*/
+
+			//auto i = TConcrete(std::forward<TArguments...>(args...));
+			//auto t = std::make_unique<SharingFactory<TInterface>>( [&]() { return  TConcrete{}; });
 			//BindShared<TInterface>(std::make_shared<TConcrete>(InjectSharedInstance<TArguments>()...));
 
 		}
