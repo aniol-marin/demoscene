@@ -17,15 +17,16 @@ FetchContent_Declare(
 )
 FetchContent_MakeAvailable(raudio)
 
+add_subdirectory(engine)
+
 target_link_libraries(demoscene
 	PRIVATE SDL2
 	PRIVATE raudio
+	PRIVATE engine
 )
 
-
-target_sources(demoscene PRIVATE
+target_sources(demoscene PUBLIC
 	FILE_SET demo TYPE CXX_MODULES
-	FILE_SET injection TYPE CXX_MODULES
 	FILE_SET definitions TYPE CXX_MODULES
 	FILE_SET sdl TYPE CXX_MODULES
 	FILE_SET program TYPE CXX_MODULES
@@ -42,7 +43,6 @@ target_sources(demoscene PRIVATE
 	FILE_SET timeline TYPE CXX_MODULES
 	FILES
 	demo.cpp
-	injection.cpp
 	definitions.cpp
 	sdl.cpp
 	program.cpp

@@ -17,22 +17,37 @@ import <functional>;
 
 namespace MoleDemo {
 
+	// TO DO delete unnecessary wrapper
 	template<typename T>
-		struct AnyWrapper
-		{
-			T& value;
+	struct AnyWrapper
+	{
+		T& value;
 
-			AnyWrapper(T& any) :
-				value { any }
-			{
-			}
-		};
+		AnyWrapper(T& any) :
+			value { any }
+		{
+		}
+	};
 
 	struct Factory
 	{
 		virtual ~Factory() {};
 
 		virtual std::any GetValue(uint8_t id = 0) = 0;
+	};
+
+	template<typename T>
+	class UniqueFactory : public Factory {
+		const std::function<T()> functor;
+	public:
+		UniqueFactory(std::function<T()> instancer) :
+			functor{ instancer },
+			Factory{} {}
+		~UniqueFactory() override {}
+
+		std::unique_ptr<T> GetUniqueObject() {
+			return std::make_unique(functor());
+		}
 	};
 
 	template<typename T>
@@ -62,11 +77,30 @@ namespace MoleDemo {
 		}
 	};
 
+	struct dummy{};
+	template<typename T>
+	class MockFactory :
+		public Factory
+	{
+		public:
+		MockFactory() :
+			Factory{}
+		{
+		}
+
+		~MockFactory() override {}
+
+		std::any GetValue(uint8_t id = 0) override
+		{
+			return std::make_any<dummy>( dummy{} );
+		}
+	};
+
 	export class Container
 	{
 		std::map<size_t, std::unique_ptr<Factory>> factories {};
 
-		public:
+	public:
 		Container() = default;
 		~Container() = default;
 		Container(const Container&) = delete;
@@ -76,20 +110,26 @@ namespace MoleDemo {
 		void BindUnique()
 		{
 			std::cout << "[MOCK] Binding unique instances of type " << typeid(TInterface).name() << std::endl;
-			// TO DO
+			size_t id { typeid(TInterface).hash_code() };
+			//factories[id] = { std::make_unique<UniqueFactory<TInterface>>()
 		}
 
 		template<typename TInterface, typename TConcrete, typename ...TArguments>
 		void BindShared()
 		{
 			std::cout << "[MOCK] Binding shared instances of type " << typeid(TInterface).name() << std::endl;
-
 			size_t id { typeid(TInterface).hash_code() };
+			factories[id] = {
+				std::make_unique<MockFactory<TInterface>>()
+			};
+			/*
+			   BindShared<TInterface>(std::make_shared<TConcrete>(InjectSharedInstance<TArguments>()...));
+
 
 			factories[id] = {
 				std::make_unique<SharingFactory<TInterface>>( [] { return std::move( std::make_unique<TConcrete>()); })
 			};
-			//BindShared<TInterface>(std::make_shared<TConcrete>(InjectSharedInstance<TArguments>()...));
+			*/
 
 		}
 
@@ -105,27 +145,9 @@ namespace MoleDemo {
 		}
 	};
 
-	/*
-	template<typename Interface> class TestSharingFactory;
-	template<typename Interface> class TestInstanceFactory;
-	template<typename Interface> class MockupSharingFactory;
-	*/
 }
 
 /*
-template<typename T>
-class UniqueFactory : public Factory {
-	const std::function<std::unique_ptr<T>()> functor;
-public:
-	UniqueFactory(std::function<std::unique_ptr<T>()> instancer) :
-		functor{ instancer },
-		Factory{} {}
-	~UniqueFactory() override {}
-
-	std::unique_ptr<T> GetUniqueObject() {
-		return functor();
-	}
-};
 */
 
 /*

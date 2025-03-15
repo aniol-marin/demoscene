@@ -14,6 +14,10 @@ generate:
 run: build
 	./bin/demoscene
 
+test: generate
+	cmake --build build --target test
+	./bin/test
+
 clean:
 	rm -rf build
 	rm -rf lib

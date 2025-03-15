@@ -88,12 +88,12 @@ class MoleDemo::Demo
 			<< "\t" << b.value << "\n" ;
 
 
+		/*
 		container.BindShared<SoundManager, SoundManager>();
 		container.BindShared<InputManager, InputManager>();
+		container.BindShared<Program, Program, Screen>();
 		// TODO replace default constructor with parametrized injection and/or binding
 		// TODO replace manual resolution with Factories. Examples follow:
-		/*
-		 container.BindSharingFactory<Program, Program, Screen>();
 		 container.BindSharingFactory<RenderManager, RenderManager, Screen>();
 		 container.BindUniqueFactory<Cycle, Cycle, Program, Timer, RenderManager>();
 		 container.BindSharingFactory<Timeline, Timeline, Timer, Cycle>();
