@@ -14,7 +14,8 @@ generate:
 run: build
 	./bin/demoscene
 
-test: generate
+.PHONY: test
+test:
 	cmake --build build --target test
 	./bin/test
 

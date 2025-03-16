@@ -5,6 +5,7 @@ module;
 #include <iostream>
 #include <memory>
 #include <functional>
+#include <exception>
 #include <any>
 
 export module injection;
@@ -138,6 +139,11 @@ namespace MoleDemo {
 		{
 			Factory* factoryBase { factories[typeid(T).hash_code()].get() };
 			auto* factory { dynamic_cast<SharingFactory<T>*>(factoryBase) };
+
+			if(!factory){
+				throw std::exception{};
+			}
+
 			std::any value{ factory->GetValue(id) };
 
 			auto wrapper = std::any_cast<AnyWrapper<T>>(&value);
