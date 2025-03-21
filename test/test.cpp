@@ -59,7 +59,6 @@ TEST_CASE("Container supports unique instances", "[Injection]")
 		REQUIRE_THROWS( std::invoke( [&] { auto _ { c.Inject<test_derived_class>() }; }));
 	}
 
-	/*
 	SECTION("Injects binded unique instances")
 	{
 		REQUIRE_NOTHROW( std::invoke(
@@ -69,6 +68,7 @@ TEST_CASE("Container supports unique instances", "[Injection]")
 				auto _ { c.Inject<test_class>() };
 			}
 		));
+		/*
 		 REQUIRE( 2 == std::invoke(
 			 [&]()
 			 {
@@ -78,8 +78,8 @@ TEST_CASE("Container supports unique instances", "[Injection]")
 				return 2;
 			 }
 		 ));
+		 */
 	}
-	 */
 }
 
 /*
