@@ -62,30 +62,38 @@ TEST_CASE("Container supports unique instances", "[Injection]")
 
 	SECTION("Injects binded unique instances")
 	{
-		REQUIRE_NOTHROW( std::invoke(
-			[&]()
-			{
-				std::cout << "Injecting value: 5\n";
-				c.BindUnique<int,int>([]{ return 5; });
-				int& a { c.Inject<int>() };
-				std::cout << "Value of injected instance a is " << a << "\n";
-				int& b { c.Inject<int>() };
-				std::cout << "Value of injected instance b is " << a << "\n";
-				a = 6;
-				std::cout << "Value of modified instances are: (" << a << "), (" << b <<")\n";
-			}
-		));
-		/*
-		 REQUIRE( 2 == std::invoke(
-			 [&]()
-			 {
-				 c.BindUnique<test_class,test_class>();
-				//test_class instance { c.Inject<test_class()>() };
-				//return instance.transform();
-				return 2;
-			 }
-		 ));
-		 */
+		REQUIRE_NOTHROW( std::invoke([&]
+		{
+			c.BindUnique<int,int>();
+			int& _ { c.Inject<int>() };
+		}));
+
+		 REQUIRE( std::invoke([&]
+		 {
+			const int value { 2 };
+			c.BindUnique<int,int>([]{ return value; });
+			int& instance { c.Inject<int>() };
+			return instance = value;
+		 }));
+
+		 REQUIRE( std::invoke([&]
+		 {
+			const int value { 5 };
+			c.BindUnique<int,int>([]{ return value; });
+			int& a { c.Inject<int>() };
+			int& b { c.Inject<int>() };
+			++a;
+			return a != b;
+		 }));
+
+		 REQUIRE( std::invoke([&]
+		 {
+			const int value { 5 };
+			c.BindUnique<int,int>([]{ return value; });
+			int& a { c.Inject<int>() };
+			int& b { c.Inject<int>() };
+			return a = 6;
+		 }));
 	}
 }
 
