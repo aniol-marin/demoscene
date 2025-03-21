@@ -27,13 +27,13 @@ namespace MoleDemo
 		Factory() = default;
 		virtual ~Factory() {};
 
-		virtual std::any GetValue(id_capacity id = 0) = 0;
+		virtual std::any& GetValue(id_capacity id = 0) = 0;
 	};
 
 	template<typename T, typename ...TArguments>
 	class UniqueFactory : public Factory
 	{
-		std::vector<T> instances;
+		std::vector<std::any> instances;
 		const std::function<T()> functor;
 	public:
 		UniqueFactory() :
@@ -46,9 +46,9 @@ namespace MoleDemo
 		}
 		~UniqueFactory() override = default;
 
-		std::any GetValue(id_capacity id = 0) override
+		std::any& GetValue(id_capacity id = 0) override
 		{
-			return std::any{ instances.emplace_back(functor()) };
+			return instances.emplace_back(std::make_any<T>(functor()));
 		}
 	};
 
@@ -121,12 +121,11 @@ namespace MoleDemo
 		template<typename T, typename ... TArguments>
 		T& Inject(size_t id = 0)
 		{
-			Factory& factoryBase { *factories[typeid(T).hash_code()].get() };
-			auto& factory { dynamic_cast<SharingFactory<T>&>(factoryBase) };
+			Factory& factory{ *factories[typeid(T).hash_code()].get() };
 
-			std::any value{ factory->GetValue() };
+			std::any& value{ factory.GetValue() };
 
-			return std::any_cast<T>(&value);
+			return std::any_cast<T&>(value);
 		}
 	};
 }
