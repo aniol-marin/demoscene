@@ -33,7 +33,7 @@ TEST_CASE("Container instantiates", "[Injection]")
 TEST_CASE("Container supports unique instances", "[Injection]")
 {
 	MoleDemo::Container c {};
-	auto int_functor { []{ return int{}; } };
+	auto int_functor { []{ return int{ 6 }; } };
 	auto test_functor { []{ return test_class{}; } };
 	auto test__derived_functor { []{ return test_derived_class{}; } };
 
