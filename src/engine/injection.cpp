@@ -40,8 +40,8 @@ namespace MoleDemo
 			UniqueFactory { []{ return T{}; } }
 		{
 		}
-		UniqueFactory(std::function<T()> instancer) :
-			functor{ instancer }
+		UniqueFactory(std::function<T()>&& instancer) :
+			functor{ std::move(instancer) }
 		{
 		}
 		~UniqueFactory() override = default;
@@ -78,24 +78,6 @@ namespace MoleDemo
 		}
 	};
 
-	struct dummy{};
-	template<typename T>
-	class MockFactory : public Factory
-	{
-		public:
-			MockFactory() :
-				Factory{}
-			{
-			}
-
-			~MockFactory() override {}
-
-			std::any GetValue(id_capacity id = 0) override
-			{
-				return std::make_any<dummy>( dummy{} );
-			}
-	};
-
 	export class Container
 	{
 		std::map<size_t, std::unique_ptr<Factory>> factories {};
@@ -111,6 +93,13 @@ namespace MoleDemo
 		{
 			size_t id { typeid(TInterface).hash_code() };
 			factories[id] = { std::make_unique<UniqueFactory<TInterface>>() };
+		}
+		
+		template<typename TInterface, typename TConcrete, typename ...TArguments>
+		void BindUnique(std::function<TInterface()>&& functor)
+		{
+			size_t id { typeid(TInterface).hash_code() };
+			factories[id] = { std::make_unique<UniqueFactory<TInterface>>(std::move(functor)) };
 		}
 
 		template<typename TInterface, typename TConcrete, typename ...TArguments>
