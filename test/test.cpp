@@ -36,9 +36,10 @@ TEST_CASE("Container supports unique instances", "[Injection]")
 	{
 		REQUIRE(true);
 		REQUIRE_NOTHROW( std::invoke( [&] { c.BindUnique<int, int>(); }));
-		/*
 		REQUIRE_NOTHROW( std::invoke( [&] { c.BindUnique<test_class, test_class>(); }));
 		REQUIRE_NOTHROW( std::invoke( [&] { c.BindUnique<test_class, test_derived_class>(); }));
+		/*
+		REQUIRE_NOTHROW( std::invoke( [&] { c.BindUnique<test_class, test_class>( test_class{}); }));
 		*/
 	}
 
