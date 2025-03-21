@@ -2,6 +2,7 @@
 
 #include <functional>
 #include <type_traits>
+#include <iostream>
 
 import injection; 
 
@@ -64,8 +65,14 @@ TEST_CASE("Container supports unique instances", "[Injection]")
 		REQUIRE_NOTHROW( std::invoke(
 			[&]()
 			{
-				c.BindUnique<test_class,test_class>();
-				auto _ { c.Inject<test_class>() };
+				std::cout << "Injecting value: 5\n";
+				c.BindUnique<int,int>([]{ return 5; });
+				int& a { c.Inject<int>() };
+				std::cout << "Value of injected instance a is " << a << "\n";
+				int& b { c.Inject<int>() };
+				std::cout << "Value of injected instance b is " << a << "\n";
+				a = 6;
+				std::cout << "Value of modified instances are: (" << a << "), (" << b <<")\n";
 			}
 		));
 		/*
