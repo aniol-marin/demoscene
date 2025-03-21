@@ -20,6 +20,8 @@ struct test_class
 
 struct test_derived_class : public test_class
 {
+	using test_class::test_class;
+
 	int transform() final override { return 3; }
 };
 
@@ -31,15 +33,18 @@ TEST_CASE("Container instantiates", "[Injection]")
 TEST_CASE("Container supports unique instances", "[Injection]")
 {
 	MoleDemo::Container c {};
+	const test_class i { test_class{} };
 
 	SECTION("binds unique instances")
 	{
-		REQUIRE(true);
 		REQUIRE_NOTHROW( std::invoke( [&] { c.BindUnique<int, int>(); }));
 		REQUIRE_NOTHROW( std::invoke( [&] { c.BindUnique<test_class, test_class>(); }));
 		REQUIRE_NOTHROW( std::invoke( [&] { c.BindUnique<test_class, test_derived_class>(); }));
+
 		/*
-		REQUIRE_NOTHROW( std::invoke( [&] { c.BindUnique<test_class, test_class>( test_class{}); }));
+		REQUIRE_NOTHROW( std::invoke( [&] { c.BindUnique<int, int>( []{ return int{}; } ); }));
+		REQUIRE_NOTHROW( std::invoke( [&] { c.BindUnique<test_class, test_class>(); }));
+		REQUIRE_NOTHROW( std::invoke( [&] { c.BindUnique<test_class, test_derived_class>( []{ return test_derived_class{}; } ); }));
 		*/
 	}
 

@@ -41,8 +41,7 @@ namespace MoleDemo
 		{
 		}
 		UniqueFactory(std::function<T()> instancer) :
-			functor{ instancer },
-			Factory{}
+			functor{ instancer }
 		{
 		}
 		~UniqueFactory() override = default;
