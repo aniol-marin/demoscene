@@ -121,11 +121,22 @@ namespace MoleDemo
 		template<typename T, typename ... TArguments>
 		T& Inject(size_t id = 0)
 		{
+			auto it { factories.find(typeid(T).hash_code())}; 
+
+			if (it == factories.end())
+			{
+				throw std::exception{};
+			}
+
+			static T t {};
+			return t;
+			/*
 			Factory& factory{ *factories[typeid(T).hash_code()].get() };
 
 			std::any& value{ factory.GetValue() };
 
 			return std::any_cast<T&>(value);
+			*/
 		}
 	};
 }

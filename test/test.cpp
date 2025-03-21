@@ -55,8 +55,8 @@ TEST_CASE("Container supports unique instances", "[Injection]")
 	SECTION("throws when asked to inject an unbinded type")
 	{
 		REQUIRE(true);
-		/*
 		REQUIRE_THROWS( std::invoke( [&] { auto _ { c.Inject<int>() }; }));
+		/*
 		*/
 	}
 
