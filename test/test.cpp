@@ -33,6 +33,7 @@ TEST_CASE("Container instantiates", "[Injection]")
 TEST_CASE("Container supports unique instances", "[Injection]")
 {
 	MoleDemo::Container c {};
+	auto int_functor { []{ return int{}; } };
 
 	SECTION("binds unique instances")
 	{
@@ -43,6 +44,12 @@ TEST_CASE("Container supports unique instances", "[Injection]")
 		REQUIRE_NOTHROW( std::invoke( [&]{ c.BindUnique<int, int>( []{ return int{}; } ); }));
 		REQUIRE_NOTHROW( std::invoke( [&]{ c.BindUnique<test_class, test_class>( []{ return test_class{}; } ); }));
 		REQUIRE_NOTHROW( std::invoke( [&]{ c.BindUnique<test_class, test_derived_class>( []{ return test_derived_class{}; } ); }));
+
+		REQUIRE_NOTHROW( std::invoke( [&]{ c.BindUnique<int, int>( int_functor ); }));
+		/*
+		REQUIRE_NOTHROW( std::invoke( [&]{ c.BindUnique<test_class, test_class>( []{ return test_class{}; } ); }));
+		REQUIRE_NOTHROW( std::invoke( [&]{ c.BindUnique<test_class, test_derived_class>( []{ return test_derived_class{}; } ); }));
+		*/
 	}
 
 	/*
