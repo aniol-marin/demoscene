@@ -1,10 +1,8 @@
-
 #include<catch2/catch_test_macros.hpp>
 
-#include <iostream>
-#include <any>
+#include <any> //needed due to injection for some reason
 #include <functional>
-#include <type_traits>
+#include <iostream>
 
 import injection; 
 
@@ -61,16 +59,16 @@ TEST_CASE("Container supports unique instances", "[Injection]")
 
 	SECTION("throws when asked to inject an unbinded type")
 	{
-		REQUIRE_THROWS( std::invoke( [&] { auto _ { c.Inject<int>() }; }));
-		REQUIRE_THROWS( std::invoke( [&] { auto _ { c.Inject<test_class>() }; }));
-		REQUIRE_THROWS( std::invoke( [&] { auto _ { c.Inject<test_derived_class>() }; }));
+		REQUIRE_THROWS( c.Inject<int>() );
+		REQUIRE_THROWS( c.Inject<test_class>() );
+		REQUIRE_THROWS( c.Inject<test_derived_class>() );
 	}
 
 	SECTION("Injects binded unique instances")
 	{
 		REQUIRE_NOTHROW( std::invoke([&]
 		{
-			c.BindUnique<int,int>();
+			c.BindUnique<int>();
 			int& _ { c.Inject<int>() };
 		}));
 
@@ -81,14 +79,7 @@ TEST_CASE("Container supports unique instances", "[Injection]")
 			int& instance { c.Inject<int>() };
 			return instance = value;
 		 }));
-	}
-}
 
-TEST_CASE("Container supports unique instances WIP", "[Injection]")
-{
-	MoleDemo::Container c {};
-	SECTION("WIP injection of binded unique instances")
-	{
 		 REQUIRE( std::invoke([&]
 		 {
 			const int value { 5 };
@@ -104,8 +95,12 @@ TEST_CASE("Container supports unique instances WIP", "[Injection]")
 			const int value { 5 };
 			c.BindUnique<int,int>([]{ return value; });
 			int& a { c.Inject<int>() };
+			std::cout << "a before move: " << a << "\n";
 			int& b { c.Inject<int>() };
-			return a = 6;
+			++a;
+			std::cout << "a after move: " << a << "\n";
+			std::cout << "b: " << b << "\n";
+			return a == 6 && b == 5;
 		 }));
 	}
 }
