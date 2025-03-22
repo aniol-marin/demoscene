@@ -79,7 +79,14 @@ TEST_CASE("Container supports unique instances", "[Injection]")
 			int& instance { c.Inject<int>() };
 			return instance = value;
 		 }));
+	}
+}
 
+TEST_CASE("Container supports unique instances WIP", "[Injection]")
+{
+	MoleDemo::Container c {};
+	SECTION("WIP injection of binded unique instances")
+	{
 		 REQUIRE( std::invoke([&]
 		 {
 			const int value { 5 };

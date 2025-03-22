@@ -140,15 +140,34 @@ namespace MoleDemo
 				throw std::exception{};
 			}
 
+			std::string s {"hi"};
+			auto a0 = std::make_any<decltype(s)>("Hello, std::any!\n");
+			std::cout
+				<< "s: " << typeid(decltype(s)).name() << "\n"
+				<< "a0: " << a0.type().name() << "\n";
+			/*
+			std::cout << std::any_cast<decltype(s)>(a0);
+			*/
+
+			std::string i { "hi" };
+			auto w1 { std::any{i} };
+			auto w2 { std::make_any<std::string>(i) };
+			/*
+			auto c1 { std::any_cast<std::string&>(w2) };
+			int c { std::any_cast<int&>(w) };
+
+			auto& value { it->second->GetValue() };
+			auto instance { std::any_cast<T>(value) };
+			std::cout
+				<< "type: " << typeid(T).name() << "\n"
+				<< "contains: " << typeid(decltype(value)).name() << "\n"
+				<< "instance: " << typeid(decltype(instance)).name() << "\n"
+				;
+			return std::any_cast<T>(value);
+			*/
+
 			static T t {};
 			return t;
-			/*
-			Factory& factory{ *factories[typeid(T).hash_code()].get() };
-
-			std::any& value{ factory.GetValue() };
-
-			return std::any_cast<T&>(value);
-			*/
 		}
 	};
 }
