@@ -116,7 +116,7 @@ public:
 };
 
 class  MoleDemo::RenderManager : public Initializable {
-	Screen* const screen;
+	const Screen m_screen;
 	RenderQueue* queue;
 	PixelBuffer buffer;
 	StencilBuffer mask;
@@ -130,8 +130,8 @@ class  MoleDemo::RenderManager : public Initializable {
 		SDL::UpdateSurface();
 	}
 public:
-	RenderManager(Screen* screen) :
-		screen{ screen },
+	RenderManager(Screen screen) :
+		m_screen{ screen },
 		queue{ new RenderQueue() } {
 
 	}
@@ -147,7 +147,7 @@ public:
 	void Draw(Renderables& renderables) {
 
 		if (BlendMode::Override != renderables.front()->GetBlend()) {
-			buffer.assign(size_t{ screen->GetPixelCount() }, black);
+			buffer.assign(size_t{ m_screen.GetPixelCount() }, black);
 		}
 
 		queue->Cache(renderables, mask);
@@ -155,8 +155,8 @@ public:
 
 		Lock();
 		index i{ 0 };
-		for (point1D y{ 0 }; y < screen->h; ++y) {
-			for (point1D x{ 0 }; x < screen->w; ++x) {
+		for (point1D y{ 0 }; y < m_screen.h; ++y) {
+			for (point1D x{ 0 }; x < m_screen.w; ++x) {
 				SDL::PutPixel(x, y, buffer[i]);
 				i++;
 			}

@@ -76,7 +76,7 @@ namespace MoleDemo
 				instances.emplace(id, functor());
 			}
 
-			return std::make_any<T*>( &instances[id] );
+			return std::make_any<T*>( &instances.at(id) );
 		}
 	};
 

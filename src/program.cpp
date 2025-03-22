@@ -9,12 +9,13 @@ namespace MoleDemo {
 
 class MoleDemo::Program {
 	ProgramStatus status;
-	const Screen* const screen;
+	const Screen m_screen;
 public:
-	Program(Screen* screen) :
+	Program() : Program{Screen{600, 450}} {}
+	Program(const Screen& screen) :
 		status{ ProgramStatus::RUNNING },
-		screen{ screen } {}
+		m_screen{ screen } {}
 	void SetStatus(ProgramStatus status) { this->status = status; }
-	const Screen* GetScreen() const { return screen; }
+	const Screen* GetScreen() const { return &m_screen; }
 	bool Running() { return ProgramStatus::RUNNING == status; }
 };

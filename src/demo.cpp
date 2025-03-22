@@ -23,14 +23,6 @@ import injection;
 
 using Container = MoleDemo::Container;
 
-// TO DO temporary mocks
-namespace refactor {
-	struct Timer {
-		int value{4};
-	};
-}
-
-
 namespace MoleDemo {
 
 	export class Demo;
@@ -38,6 +30,7 @@ namespace MoleDemo {
 
 class MoleDemo::Demo
 {
+	Screen screen {600, 300};
 	const std::string project;
 	Container container;
 
@@ -72,26 +65,13 @@ class MoleDemo::Demo
 	void InstallBindings()
 	{
 		std::cout << "[MOCK] Installing bindings.." << std::endl;
-		container.BindShared<refactor::Timer, refactor::Timer>();
+		
 
-		refactor::Timer& a { container.Inject<refactor::Timer>() };
-		refactor::Timer& b { container.Inject<refactor::Timer>() };
-		std::cout << "before: \n"
-			<< "\t" << a.value << "\n" 
-			<< "\t" << b.value << "\n" ;
-
-		a.value = 5;
-		b.value = 7;
-
-		std::cout << "after: \n"
-			<< "\t" << a.value << "\n" 
-			<< "\t" << b.value << "\n" ;
-
-
+		container.BindShared<SoundManager>();
+		container.BindShared<InputManager>();
+		container.BindShared<Program>([]{ return Program{ Screen{600, 480} }; });
+		container.BindShared<RenderManager>([]{ return RenderManager{ Screen{600, 480} }; });
 		/*
-		container.BindShared<SoundManager, SoundManager>();
-		container.BindShared<InputManager, InputManager>();
-		container.BindShared<Program, Program, Screen>();
 		// TODO replace default constructor with parametrized injection and/or binding
 		// TODO replace manual resolution with Factories. Examples follow:
 		 container.BindSharingFactory<RenderManager, RenderManager, Screen>();
