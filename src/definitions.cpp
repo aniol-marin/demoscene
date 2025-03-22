@@ -210,11 +210,18 @@ public:
 		};
 	};
 };
-export struct Screen {
+export struct Screen
+{
 	const point1D w, h;
+
 	Screen(point1D width, point1D heigth) :
 		w{ width },
 		h{ heigth } {}
+	Screen(const Screen&) = default;
+	Screen(Screen&&) = default;
+	~Screen() = default;
+	Screen& operator=(const Screen&) = default;
+
 	index GetIndex(Point2D point) {
 		return (index)w * (index)point.y + (index)point.x;
 	}

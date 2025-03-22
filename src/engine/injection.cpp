@@ -26,7 +26,7 @@ namespace MoleDemo
 		Factory() = default;
 		virtual ~Factory() {};
 
-		virtual std::any GetPointerToInstance(id_capacity id = 0) = 0;
+		virtual std::any GetAnyToInstance(id_capacity id = 0) = 0;
 	};
 
 	template<typename I, typename T, typename ...TArguments>
@@ -46,37 +46,37 @@ namespace MoleDemo
 		}
 		~UniqueFactory() override = default;
 
-		std::any GetPointerToInstance(id_capacity id = 0) override
+		std::any GetAnyToInstance(id_capacity id = 0) override
 		{
 			return std::make_any<I*>(instances.emplace_back(std::make_unique<T>(functor())).get());
 		}
 	};
 
-	template<typename T>
+	template<typename I, typename T>
 	class SharingFactory : public Factory
 	{
-		std::map<id_capacity, T> instances {};
+		std::map<id_capacity, std::unique_ptr<T>> instances {};
 		const std::function<T()> functor;
 	public:
 		SharingFactory() :
 			SharingFactory { []{ return T{}; } }
 		{
 		}
-		SharingFactory(std::function<T()> functor) :
-			functor{ functor }
+		SharingFactory(std::function<T()>&& instancer) :
+			functor{ std::move(instancer) }
 		{
 		}
 		~SharingFactory() override {}
 
 
-		std::any GetPointerToInstance(id_capacity id = 0) override
+		std::any GetAnyToInstance(id_capacity id = 0) override
 		{
 			if (!instances.count(id))
 			{
-				instances.emplace(id, functor());
+				instances.emplace(id, std::make_unique<T>(functor()));
 			}
 
-			return std::make_any<T*>( &instances.at(id) );
+			return std::make_any<I*>( instances.at(id).get() );
 		}
 	};
 
@@ -135,7 +135,7 @@ namespace MoleDemo
 		void BindShared()
 		{
 			size_t id { typeid(TInterface).hash_code() };
-			factories[id] = { std::make_unique<SharingFactory<TInterface>>() };
+			factories[id] = { std::make_unique<SharingFactory<TInterface, TConcrete>>() };
 		}
 
 		template<typename TInterface, typename TConcrete, typename ...TArguments>
@@ -143,7 +143,7 @@ namespace MoleDemo
 		void BindShared(std::function<TConcrete()>&& functor)
 		{
 			size_t id { typeid(TInterface).hash_code() };
-			factories[id] = { std::make_unique<SharingFactory<TInterface>>(std::move(functor)) };
+			factories[id] = { std::make_unique<SharingFactory<TInterface, TConcrete>>(std::move(functor)) };
 		}
 
 		template<typename T, typename ... TArguments>
@@ -156,7 +156,7 @@ namespace MoleDemo
 				throw std::exception{};
 			}
 
-			auto value { it->second->GetPointerToInstance() };
+			std::any value { it->second->GetAnyToInstance() };
 			auto* instance { std::any_cast<T*>(value) };
 
 			return *instance;
