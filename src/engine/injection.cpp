@@ -140,19 +140,29 @@ namespace MoleDemo
 				throw std::exception{};
 			}
 
+			int v { 4 };
+			std::any a { v };
+			std::any ma { std::make_any<int>(v) };
+			int i { std::any_cast<int>(a) };
+			int mi { std::any_cast<int>(ma) };
+			std::cout
+				<< "any: \t" << a.type().name() << "\n"
+				<< "value: \t" << i << "\n"
+				<< "mval: \t" << mi << "\n"
+				<< "done" << "\n";
+			/*
 			std::string s {"hi"};
 			auto a0 = std::make_any<decltype(s)>("Hello, std::any!\n");
 			std::cout
 				<< "s: " << typeid(decltype(s)).name() << "\n"
 				<< "a0: " << a0.type().name() << "\n";
-			/*
 			std::cout << std::any_cast<decltype(s)>(a0);
 			*/
 
+			/*
 			std::string i { "hi" };
 			auto w1 { std::any{i} };
 			auto w2 { std::make_any<std::string>(i) };
-			/*
 			auto c1 { std::any_cast<std::string&>(w2) };
 			int c { std::any_cast<int&>(w) };
 
