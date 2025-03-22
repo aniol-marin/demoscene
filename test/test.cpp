@@ -50,6 +50,9 @@ TEST_CASE("Container supports unique instances", "[Injection]")
 	const auto int_functor { []{ return int{}; } };
 	const auto test_functor { []{ return test_class{}; } };
 	const auto test_derived_functor { []{ return test_derived_class{}; } };
+	/*
+	auto value = GENERATE(1, 2, 3);
+	*/
 
 	SECTION("binds unique instances")
 	{
@@ -72,7 +75,6 @@ TEST_CASE("Container supports unique instances", "[Injection]")
 
 	SECTION("Injects binded unique instances")
 	{
-		REQUIRE(true);
 		REQUIRE_NOTHROW( std::invoke([&]
 		{
 			c.BindUnique<int>();
@@ -116,6 +118,16 @@ TEST_CASE("Container supports unique instances", "[Injection]")
 
 			test_class& a { c.Inject<test_class>() };
 			test_class b { };
+
+			return a.transform() == b.transform();
+		}));
+
+		REQUIRE( std::invoke([&]
+		{
+			c.BindUnique<test_derived_class>();
+
+			test_class& a { c.Inject<test_derived_class>() };
+			test_derived_class b { };
 
 			return a.transform() == b.transform();
 		}));

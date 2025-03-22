@@ -33,14 +33,14 @@ namespace MoleDemo
 	requires std::convertible_to<T, I>
 	class UniqueFactory : public Factory
 	{
-		std::vector<std::unique_ptr<I>> instances;
-		const std::function<I()> functor;
+		std::vector<std::unique_ptr<T>> instances;
+		const std::function<T()> functor;
 	public:
 		UniqueFactory() :
 			UniqueFactory { []{ return T{}; } }
 		{
 		}
-		UniqueFactory(std::function<I()>&& instancer) :
+		UniqueFactory(std::function<T()>&& instancer) :
 			functor{ std::move(instancer) }
 		{
 		}
@@ -48,7 +48,7 @@ namespace MoleDemo
 
 		std::any GetPointerToInstance(id_capacity id = 0) override
 		{
-			return std::make_any<I*>(instances.emplace_back(std::make_unique<I>(functor())).get());
+			return std::make_any<I*>(instances.emplace_back(std::make_unique<T>(functor())).get());
 		}
 	};
 
@@ -103,6 +103,7 @@ namespace MoleDemo
 		}
 
 		template<typename TInterface, typename TConcrete, typename ...TArguments>
+		requires std::convertible_to<TConcrete, TInterface>
 		void BindUnique()
 		{
 			size_t id { typeid(TInterface).hash_code() };
@@ -110,7 +111,8 @@ namespace MoleDemo
 		}
 		
 		template<typename TInterface, typename TConcrete, typename ...TArguments>
-		void BindUnique(std::function<TInterface()>&& functor)
+		requires std::convertible_to<TConcrete, TInterface>
+		void BindUnique(std::function<TConcrete()>&& functor)
 		{
 			size_t id { typeid(TInterface).hash_code() };
 			factories[id] = { std::make_unique<UniqueFactory<TInterface, TConcrete>>(std::move(functor)) };
@@ -129,6 +131,7 @@ namespace MoleDemo
 		}
 
 		template<typename TInterface, typename TConcrete, typename ...TArguments>
+		requires std::convertible_to<TConcrete, TInterface>
 		void BindShared()
 		{
 			size_t id { typeid(TInterface).hash_code() };
@@ -136,7 +139,8 @@ namespace MoleDemo
 		}
 
 		template<typename TInterface, typename TConcrete, typename ...TArguments>
-		void BindShared(std::function<TInterface()>&& functor)
+		requires std::convertible_to<TConcrete, TInterface>
+		void BindShared(std::function<TConcrete()>&& functor)
 		{
 			size_t id { typeid(TInterface).hash_code() };
 			factories[id] = { std::make_unique<SharingFactory<TInterface>>(std::move(functor)) };
