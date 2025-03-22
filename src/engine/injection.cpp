@@ -27,13 +27,13 @@ namespace MoleDemo
 		Factory() = default;
 		virtual ~Factory() {};
 
-		virtual std::any& GetValue(id_capacity id = 0) = 0;
+		virtual std::any GetPointerToInstance(id_capacity id = 0) = 0;
 	};
 
 	template<typename T, typename ...TArguments>
 	class UniqueFactory : public Factory
 	{
-		std::vector<std::any> instances;
+		std::vector<T> instances;
 		const std::function<T()> functor;
 	public:
 		UniqueFactory() :
@@ -46,9 +46,9 @@ namespace MoleDemo
 		}
 		~UniqueFactory() override = default;
 
-		std::any& GetValue(id_capacity id = 0) override
+		std::any GetPointerToInstance(id_capacity id = 0) override
 		{
-			return instances.emplace_back(std::make_any<T>(functor()));
+			return std::make_any<T*>(&instances.emplace_back(functor()));
 		}
 	};
 
@@ -67,7 +67,7 @@ namespace MoleDemo
 
 		~SharingFactory() override {}
 
-		std::any GetValue(id_capacity id = 0) override
+		std::any GetPointerToInstance(id_capacity id = 0) override
 		{
 			if (!instances.count(id))
 			{
@@ -140,44 +140,10 @@ namespace MoleDemo
 				throw std::exception{};
 			}
 
-			int v { 4 };
-			std::any a { v };
-			std::any ma { std::make_any<int>(v) };
-			int i { std::any_cast<int>(a) };
-			int mi { std::any_cast<int>(ma) };
-			std::cout
-				<< "any: \t" << a.type().name() << "\n"
-				<< "value: \t" << i << "\n"
-				<< "mval: \t" << mi << "\n"
-				<< "done" << "\n";
-			/*
-			std::string s {"hi"};
-			auto a0 = std::make_any<decltype(s)>("Hello, std::any!\n");
-			std::cout
-				<< "s: " << typeid(decltype(s)).name() << "\n"
-				<< "a0: " << a0.type().name() << "\n";
-			std::cout << std::any_cast<decltype(s)>(a0);
-			*/
+			auto value { it->second->GetPointerToInstance() };
+			auto* instance { std::any_cast<T*>(value) };
 
-			/*
-			std::string i { "hi" };
-			auto w1 { std::any{i} };
-			auto w2 { std::make_any<std::string>(i) };
-			auto c1 { std::any_cast<std::string&>(w2) };
-			int c { std::any_cast<int&>(w) };
-
-			auto& value { it->second->GetValue() };
-			auto instance { std::any_cast<T>(value) };
-			std::cout
-				<< "type: " << typeid(T).name() << "\n"
-				<< "contains: " << typeid(decltype(value)).name() << "\n"
-				<< "instance: " << typeid(decltype(instance)).name() << "\n"
-				;
-			return std::any_cast<T>(value);
-			*/
-
-			static T t {};
-			return t;
+			return *instance;
 		}
 	};
 }
