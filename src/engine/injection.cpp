@@ -88,6 +88,12 @@ namespace MoleDemo
 		Container(const Container&) = delete;
 		Container(Container&&) = delete;
 
+		template<typename T>
+		void BindUnique()
+		{
+			BindUnique<T, T>();
+		}
+
 		template<typename TInterface, typename TConcrete, typename ...TArguments>
 		void BindUnique()
 		{
@@ -100,6 +106,12 @@ namespace MoleDemo
 		{
 			size_t id { typeid(TInterface).hash_code() };
 			factories[id] = { std::make_unique<UniqueFactory<TInterface>>(std::move(functor)) };
+		}
+
+		template<typename T>
+		void BindShared()
+		{
+			BindShared<T,T>();
 		}
 
 		template<typename TInterface, typename TConcrete, typename ...TArguments>
