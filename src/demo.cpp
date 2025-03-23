@@ -32,77 +32,84 @@ namespace MoleDemo {
 class MoleDemo::Demo
 {
 	Screen screen {600, 300};
-	const std::string project;
+	const std::string project{};
+	std::string source{};
 	Container container;
+	std::vector<Initializable*> initializables;
+	std::vector<Loadable*> loadables;
+	RenderManager* render;
+	SoundManager* sound;
+	Timeline* timeline;
+	Timer* timer;
+	Program* program;
+
+	void LoadData(std::string source) {}
+	void LoadTimeline(std::string source) {	}
+	void Load(std::string source)
+	{
+		for (Loadable* item : loadables) {
+			item->Load(source);
+		}
+	}
+	
+	void Unload()
+	{
+		for (Loadable* item : loadables) {
+			item->Unload();
+		}
+	}
 
 	void Init()
 	{
-		std::cout << "[MOCK] Initializing..." << std::endl;
 		InstallBindings();
 
+		//Self injection (TO DO separate concerns)
+		program = &container.Inject<Program>();
+		timer = &container.Inject<Timer>();
+		sound = &container.Inject<SoundManager>();
+		timeline = &container.Inject<Timeline>();
 
-		//Self injection
-		/*
-		program = container.Inject<Program>();
-		timer = container.Inject<Timer>();
-		sound = container.Inject<SoundManager>();
-		timeline = container.Inject<Timeline>();
-
-		initializables.push_back(container.Inject<RenderManager>());
+		initializables.push_back(&container.Inject<RenderManager>());
 		initializables.push_back(timeline);
 		initializables.push_back(sound);
 
 		loadables.push_back(timeline);
 		loadables.push_back(sound);
-		*/
 	}
 
 
 	void Finalize()
 	{
-		std::cout << "[MOCK] Finalizing" << std::endl;
 	}
 
 	void InstallBindings()
 	{
-		std::cout << "[MOCK] Installing bindings.." << std::endl;
-		
 		container.BindShared<Timer>();
 		container.BindShared<SoundManager>();
 		container.BindShared<InputManager>();
-		container.BindShared<Screen>([]{ return Screen{600, 480}; });
+		container.BindShared<Screen>([this]{ return Screen{this->screen}; });
 		container.BindShared<Program>([&]{ return Program{ container.Inject<Screen>() }; });
 		container.BindShared<RenderManager>([&]{ return RenderManager{ container.Inject<Screen>() }; });
-		container.BindShared<Cycle>(
-			[&]
-			{
-				return Cycle{
-					container.Inject<Program>(),
-					container.Inject<Timer>(),
-					container.Inject<InputManager>(),
-					container.Inject<RenderManager>()
-				};
-			}
-		);
-		container.BindShared<Timeline>(
-			[&]
-			{
-				return Timeline{
-					container.Inject<Timer>(),
-					container.Inject<Program>(),
-					container.Inject<Cycle>(),
-					container.Inject<SoundManager>(),
-					container.Inject<Screen>()
-				};
-			}
-		);
+		container.BindShared<Cycle>( [&] { return Cycle
+		{
+			container.Inject<Program>(),
+			container.Inject<Timer>(),
+			container.Inject<InputManager>(),
+			container.Inject<RenderManager>()
+		};});
+		container.BindShared<Timeline>( [&] { return Timeline
+		{
+			container.Inject<Timer>(),
+			container.Inject<Program>(),
+			container.Inject<Cycle>(),
+			container.Inject<SoundManager>(),
+			container.Inject<Screen>()
+		};});
 
-		/*
-		// TODO replace default constructor with parametrized injection and/or binding
-		// TODO replace manual resolution with Factories. Examples follow:
-		 container.BindUniqueFactory<Cycle, Cycle, Program, Timer, RenderManager>();
-		 container.BindSharingFactory<Timeline, Timeline, Timer, Cycle>();
-		 */
+		/* TODO replace manual functor resolution with in-place factories. Examples follow:
+		container.BindUniqueFromFactory<Cycle, Cycle, Program, Timer, InputManager, RenderManager>();
+		container.BindSharingFromFactory<Timeline, Timeline, Timer, Cycle, SoundManager, Screen>();
+		*/
 	}
 
 public:
@@ -110,7 +117,6 @@ public:
 		project {project},
 		container {}
 	{
-		std::cout << "[MOCK] Loading project: " << project << std::endl;
 	}
 
 	void Run()
@@ -125,15 +131,6 @@ public:
 class MoleDemo::Demo :
 	public Initializable,
 	Loadable {
-		std::string source;
-		Container container;
-		std::vector<Initializable*> initializables;
-		std::vector<Loadable*> loadables;
-		RenderManager* render;
-		SoundManager* sound;
-		Timeline* timeline;
-		Timer* timer;
-		Program* program;
 		// TODO multithread
 		std::thread mainThread;
 		std::thread musicThread;
