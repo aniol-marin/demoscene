@@ -19,23 +19,23 @@ namespace MoleDemo {
 
 class MoleDemo::Cycle {
 	Renderables renderables {};
-	Program* const program;
-	Timer* const timer;
-	InputManager* const inputManager;
-	RenderManager* const renderManager;
+	Program& program;
+	Timer& timer;
+	InputManager& inputManager;
+	RenderManager& renderManager;
 public:
-	Cycle(Program* program, Timer* timer, InputManager* input, RenderManager* render) :
+	Cycle(Program& program, Timer& timer, InputManager& input, RenderManager& render) :
 		program{ program },
 		inputManager{ input },
 		renderManager{ render },
 		timer{ timer } {}
 
 	void PollEvents() {
-		if (timer->EndReached()) {
-			program->SetStatus(ProgramStatus::TERMINATE_OK);
+		if (timer.EndReached()) {
+			program.SetStatus(ProgramStatus::TERMINATE_OK);
 		}
 		else {
-			program->SetStatus(inputManager->PollEvents());
+			program.SetStatus(inputManager.PollEvents());
 		}
 	}
 
@@ -43,17 +43,17 @@ public:
 		throw std::exception();
 		/*
 		for (Renderable* renderable : renderables) {
-			renderable->Update(intensity, timer->GetDeltaTime());
+			renderable.Update(intensity, timer.GetDeltaTime());
 		}
 		*/
 	}
 
 	void Draw() {
-		renderManager->Draw(renderables);
+		renderManager.Draw(renderables);
 	}
 
 	void Synch() {
-		timer->WaitUntilNextFrame();
+		timer.WaitUntilNextFrame();
 	}
 
 	void SetRenderables(const Renderables& aRenderables) {

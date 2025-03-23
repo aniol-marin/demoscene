@@ -126,11 +126,11 @@ private:
 class MoleDemo::Timeline :
 	public Initializable,
 	public Loadable {
-	SoundManager* const sound;
-	Screen* const screen;
-	Timer* const timer;
-	Program* const program;
-	Cycle* const cycle;
+	SoundManager& sound;
+	Screen& screen;
+	Timer& timer;
+	Program& program;
+	Cycle& cycle;
 	LayersRepository availableLayers;
 	EffectsRepository availableEffects;
 	Renderables renderables;
@@ -157,15 +157,15 @@ class MoleDemo::Timeline :
 		}
 
 		renderables = newLayers;
-		cycle->SetRenderables(renderables);
+		cycle.SetRenderables(renderables);
 	}
 	void HandleTimeline() {
 
 		if (currentEvent != nullptr) {
 
-			if (!currentEvent->Done(timer->GetDeltaTime())) {
+			if (!currentEvent->Done(timer.GetDeltaTime())) {
 
-				currentEvent->Update(sound->GetCurrentIntensity(), timer->GetDeltaTime());
+				currentEvent->Update(sound.GetCurrentIntensity(), timer.GetDeltaTime());
 			}
 			else {
 
@@ -174,17 +174,17 @@ class MoleDemo::Timeline :
 				events.pop();
 			}
 		}
-		else if (!events.empty() && events.front()->TriggerReached(timer->GetTime())) {
+		else if (!events.empty() && events.front()->TriggerReached(timer.GetTime())) {
 
 			currentEvent = events.front().get();
 			UpdateRenderables(currentEvent->GetRenderables());
-			cycle->SetRenderables(renderables);
+			cycle.SetRenderables(renderables);
 		}
 	}
 
 	template <typename T>
 	T* CreateEffect() {
-		std::unique_ptr<T> p_effect{ std::make_unique<T>(timer, screen) };
+		std::unique_ptr<T> p_effect{ std::make_unique<T>(&timer, &screen) };
 		T* effect{ p_effect.get() };
 		availableEffects.push_back(std::move(p_effect));
 		return effect;
@@ -206,7 +206,7 @@ class MoleDemo::Timeline :
 	}
 
 public:
-	Timeline(Timer* timer, Program* program, Cycle* cycle, SoundManager* sound, Screen* screen) :
+	Timeline(Timer& timer, Program& program, Cycle& cycle, SoundManager& sound, Screen& screen) :
 		currentEvent{ nullptr },
 		timer{ timer },
 		program{ program },
@@ -331,17 +331,17 @@ public:
 	}
 
 	void Start() {
-		timer->SetEndTime(sound->GetMusicDuration());
+		timer.SetEndTime(sound.GetMusicDuration());
 	}
 
 	void Update() {
 
 		HandleTimeline();
 
-		cycle->PollEvents();
-		cycle->Update(sound->GetCurrentIntensity());
-		cycle->Draw();
-		cycle->Synch();
+		cycle.PollEvents();
+		cycle.Update(sound.GetCurrentIntensity());
+		cycle.Draw();
+		cycle.Synch();
 	}
 
 	void Unload() {
