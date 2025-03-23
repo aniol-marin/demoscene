@@ -1,6 +1,7 @@
 module;
 
 #include <string>
+#include <any> //needed due to injection for some reason
 #include <iostream>
 //#include <thread>
 
@@ -69,9 +70,10 @@ class MoleDemo::Demo
 		container.BindShared<SoundManager>();
 		container.BindShared<InputManager>();
 		container.BindShared<Screen>([]{ return Screen{600, 480}; });
+		container.BindShared<Program>([&]{ return Program{ container.Inject<Screen>() }; });
+		container.BindShared<RenderManager>([&]{ return RenderManager{ container.Inject<Screen>() }; });
+
 		/*
-		   container.BindShared<Program>([&]{ return Program{ container.Inject<Screen>() }; });
-		   container.BindShared<RenderManager>([&]{ return RenderManager{ container.Inject<Screen>() }; });
 		// TODO replace default constructor with parametrized injection and/or binding
 		// TODO replace manual resolution with Factories. Examples follow:
 		 container.BindUniqueFactory<Cycle, Cycle, Program, Timer, RenderManager>();
