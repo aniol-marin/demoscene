@@ -63,23 +63,30 @@ class MoleDemo::Demo
 	{
 		InstallBindings();
 
-		//Self injection (TO DO separate concerns)
-		program = &container.Inject<Program>();
-		timer = &container.Inject<Timer>();
-		sound = &container.Inject<SoundManager>();
-		timeline = &container.Inject<Timeline>();
-
 		initializables.push_back(&container.Inject<RenderManager>());
 		initializables.push_back(timeline);
 		initializables.push_back(sound);
 
 		loadables.push_back(timeline);
 		loadables.push_back(sound);
+
+		timer->SetFPS(60);
+
+		for (Initializable* item : initializables) {
+			item->Init();
+		}
+
+		Load(source);
 	}
 
 
 	void Finalize()
 	{
+		Unload();
+
+		for (Initializable* item : initializables) {
+			item->Finalize();
+		}
 	}
 
 	void InstallBindings()
@@ -110,6 +117,13 @@ class MoleDemo::Demo
 		container.BindUniqueFromFactory<Cycle, Cycle, Program, Timer, InputManager, RenderManager>();
 		container.BindSharingFromFactory<Timeline, Timeline, Timer, Cycle, SoundManager, Screen>();
 		*/
+		//
+		//Self injection (TO DO separate concerns)
+		program = &container.Inject<Program>();
+		timer = &container.Inject<Timer>();
+		sound = &container.Inject<SoundManager>();
+		timeline = &container.Inject<Timeline>();
+
 	}
 
 public:
@@ -123,67 +137,16 @@ public:
 	{
 		Init();
 		std::cout << "[MOCK] Running..." << std::endl;
+		sound->Play();
+		timeline->Start();
+
+		while (program->Running()) {
+			sound->Update();
+			timeline->Update();
+		}
+
+		sound->Stop();
 		Finalize();
 	}
 };
 
-/*
-class MoleDemo::Demo :
-	public Initializable,
-	Loadable {
-		// TODO multithread
-		std::thread mainThread;
-		std::thread musicThread;
-		std::thread loadingThread;
-		void LoadData(std::string source) {}
-		void LoadTimeline(std::string source) {	}
-			void Load(std::string source) {
-			for (Loadable* item : loadables) {
-				item->Load(source);
-			}
-		}
-		void Unload() {
-			for (Loadable* item : loadables) {
-				item->Unload();
-			}
-		}
-		public:
-		Demo(std::string project) :
-			source{ project },
-			container{},
-			Initializable{},
-			Loadable() {}
-		void Init() {
-
-			InstallBindings();
-
-			timer->SetFPS(60);
-
-			for (Initializable* item : initializables) {
-				item->Init();
-			}
-
-			Load(source);
-		}
-		void Run() {
-			// TODO create and manage separate threads
-			sound->Play();
-			timeline->Start();
-
-			while (program->Running()) {
-				sound->Update();
-				timeline->Update();
-			}
-
-			sound->Stop();
-		}
-		void Finalize() {
-
-			Unload();
-
-			for (Initializable* item : initializables) {
-				item->Finalize();
-			}
-		}
-};
-*/
