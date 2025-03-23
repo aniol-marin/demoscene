@@ -162,7 +162,7 @@ public:
 
 		Lock();
 		index i{ 0 };
-		std::cout << "put pixel disabled";
+		std::cout << "put pixel disabled\n";
 		for (point1D y{ 0 }; y < m_screen.h; ++y) {
 			for (point1D x{ 0 }; x < m_screen.w; ++x) {
 				/*

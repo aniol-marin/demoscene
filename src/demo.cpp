@@ -63,13 +63,15 @@ class MoleDemo::Demo
 	{
 		InstallBindings();
 
-		/*
 		initializables.push_back(&container.Inject<RenderManager>());
 		initializables.push_back(timeline);
 		initializables.push_back(sound);
 
 		loadables.push_back(timeline);
+		/*
+		 * sound temporarily disabled
 		loadables.push_back(sound);
+		*/
 
 		timer->SetFPS(60);
 
@@ -78,7 +80,6 @@ class MoleDemo::Demo
 		}
 
 		Load(source);
-		*/
 	}
 
 
@@ -138,7 +139,6 @@ public:
 	void Run()
 	{
 		Init();
-		std::cout << "[MOCK] Running..." << std::endl;
 		/*
 		sound->Play();
 		*/
@@ -149,7 +149,6 @@ public:
 			sound->Update();
 			*/
 			timeline->Update();
-			std::cout << "updating\n";
 		}
 
 		/*
