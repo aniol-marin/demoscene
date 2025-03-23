@@ -12,7 +12,7 @@ generate:
 		-S.\
 		-Bbuild\
 		-GNinja\
-		-DCMAKE_BUILD_TYPE=Debug
+		-DCMAKE_BUILD_TYPE=Debug\
 		--log-level=NOTICE
 
 run: build

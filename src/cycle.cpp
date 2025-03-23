@@ -1,6 +1,6 @@
 module;
 
-#include <exception>
+#include <vector> // required while including due to unexported symbols
 
 export module cycle;
 
@@ -40,12 +40,10 @@ public:
 	}
 
 	void Update(permille intensity) {
-		throw std::exception();
-		/*
-		for (Renderable* renderable : renderables) {
-			renderable.Update(intensity, timer.GetDeltaTime());
+		for(Renderable* renderable : renderables )
+		{
+			renderable->Update(intensity, timer.GetDeltaTime());
 		}
-		*/
 	}
 
 	void Draw() {
@@ -56,11 +54,9 @@ public:
 		timer.WaitUntilNextFrame();
 	}
 
-	void SetRenderables(const Renderables& aRenderables) {
+	void SetRenderables(const Renderables& aRenderables)
+	{
 		renderables.clear();
-		throw std::exception();
-		/*
-		renderables.insert(renderables.begin(), aRenderables.cbegin(), aRenderables.end());
-		*/
+		renderables.insert(renderables.begin(), aRenderables.cbegin(), aRenderables.cend());
 	}
 };

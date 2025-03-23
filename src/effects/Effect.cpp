@@ -93,10 +93,7 @@ namespace MoleDemo {
 	}
 
 	void Effect::ClearBuffer(rgbaColor color, PixelBuffer& pixelBuffer) {
-		/*
 		pixelBuffer.assign(screen->GetPixelCount(), color);
-		*/
-		throw std::exception();
 	}
 
 	rgbaColor Effect::GetPixel(Point2D p) {
