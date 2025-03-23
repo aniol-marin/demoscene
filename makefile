@@ -1,8 +1,11 @@
-main: run
+main: build run
 	@echo main done
 
 debug: build
 	gdb ./bin/demoscene
+
+profile: build
+	valgrind ./bin/demoscene
 
 build: generate
 	cmake --build build --target demoscene
@@ -15,7 +18,7 @@ generate:
 		-DCMAKE_BUILD_TYPE=Debug\
 		--log-level=NOTICE
 
-run: build
+run: 
 	./bin/demoscene
 
 .PHONY: test

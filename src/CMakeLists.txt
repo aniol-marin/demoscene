@@ -27,7 +27,7 @@ target_link_libraries(demoscene
 
 target_sources(demoscene PUBLIC
 	FILE_SET demo TYPE CXX_MODULES
-	FILE_SET definitions TYPE CXX_MODULES
+	#FILE_SET definitions TYPE CXX_MODULES
 	FILE_SET sdl TYPE CXX_MODULES
 	FILE_SET program TYPE CXX_MODULES
 	FILE_SET input TYPE CXX_MODULES
@@ -43,7 +43,7 @@ target_sources(demoscene PUBLIC
 	FILE_SET timeline TYPE CXX_MODULES
 	FILES
 	demo.cpp
-	definitions.cpp
+	#definitions.cpp
 	sdl.cpp
 	program.cpp
 	input.cpp

@@ -210,7 +210,7 @@ public:
 		};
 	};
 };
-export st}ruct Screen
+export struct Screen
 {
 	const point1D w, h;
 

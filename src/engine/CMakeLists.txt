@@ -28,7 +28,7 @@ target_link_libraries(demoscene
 target_sources(${ENGINE_LIBRARY_NAME} PUBLIC
 	#FILE_SET demo TYPE CXX_MODULES
 	FILE_SET injection TYPE CXX_MODULES
-	#FILE_SET definitions TYPE CXX_MODULES
+	FILE_SET definitions TYPE CXX_MODULES
 	#FILE_SET sdl TYPE CXX_MODULES
 	#FILE_SET program TYPE CXX_MODULES
 	#FILE_SET input TYPE CXX_MODULES
@@ -45,7 +45,7 @@ target_sources(${ENGINE_LIBRARY_NAME} PUBLIC
 	FILES
 	#demo.cpp
 	injection.cpp
-	#definitions.cpp
+	definitions.cpp
 	#sdl.cpp
 	#program.cpp
 	#input.cpp

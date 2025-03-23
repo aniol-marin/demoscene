@@ -3,6 +3,7 @@ module;
 #include <map>
 #include <memory>
 #include <vector>
+#include <iostream>
 
 export module render;
 
@@ -121,12 +122,18 @@ class  MoleDemo::RenderManager : public Initializable {
 	PixelBuffer buffer;
 	StencilBuffer mask;
 	void Lock() {
+		std::cout << "should be locking surface\n";
+		return;
 		SDL::LockSurface();
 	}
 	void Unlock() {
+		std::cout << "should be unlocking surface\n";
+		return;
 		SDL::UnlockSurface();
 	}
 	void Render() {
+		std::cout << "should be rendering surface\n";
+		return;
 		SDL::UpdateSurface();
 	}
 public:
@@ -146,7 +153,7 @@ public:
 
 	void Draw(Renderables& renderables) {
 
-		if (BlendMode::Override != renderables.front()->GetBlend()) {
+		if (!renderables.empty() && BlendMode::Override != renderables.front()->GetBlend()) {
 			buffer.assign(size_t{ m_screen.GetPixelCount() }, black);
 		}
 
@@ -155,9 +162,12 @@ public:
 
 		Lock();
 		index i{ 0 };
+		std::cout << "put pixel disabled";
 		for (point1D y{ 0 }; y < m_screen.h; ++y) {
 			for (point1D x{ 0 }; x < m_screen.w; ++x) {
+				/*
 				SDL::PutPixel(x, y, buffer[i]);
+				*/
 				i++;
 			}
 		}
