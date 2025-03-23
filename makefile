@@ -1,6 +1,9 @@
 main: run
 	@echo main done
 
+debug: build
+	gdb ./bin/demoscene
+
 build: generate
 	cmake --build build --target demoscene
 
@@ -9,6 +12,7 @@ generate:
 		-S.\
 		-Bbuild\
 		-GNinja\
+		-DCMAKE_BUILD_TYPE=Debug
 		--log-level=NOTICE
 
 run: build
