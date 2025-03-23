@@ -222,10 +222,10 @@ public:
 		// TODO load project from JSON
 		// TODO argument forwarding on CreateEffect template
 
-		/*
 		// Effects
 		Solid* solid1{ CreateEffect<Solid>() };
 		solid1->SetColor(black);
+		/*
 
 		Solid* solid2{ CreateEffect<Solid>() };
 		solid2->SetColor(white);
@@ -281,7 +281,9 @@ public:
 		/*
 		Layer* plasma{ CreateLayer(BlendMode::Override, CreateEffect<Plasma>()) };
 		Layer* fire{ CreateLayer(BlendMode::Override, CreateEffect<Fire>()) };
+		*/
 		Layer* black{ CreateLayer(BlendMode::Override, solid1) };
+		/*
 		Layer* white{ CreateLayer(BlendMode::Override, solid2) };
 		Layer* verticalGradient{ CreateLayer(BlendMode::Override, gradient1) };
 		Layer* diagonalGradient{ CreateLayer(BlendMode::Override, gradient2) };
@@ -302,6 +304,7 @@ public:
 		}
 
 		renderables.push_back(stars);
+		events.push(std::make_unique<Event>(Timestamp{ 5, 2000 }, stars, black, TransitionType::Fade));
 		/*
 		renderables.push_back(sanitaryPollution);
 		events.push(std::make_unique<Event>(Timestamp{ 31, 2000 }, fire, wheel, TransitionType::Fade));

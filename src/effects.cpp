@@ -7,6 +7,7 @@ module;
 export module effects;
 
 export import effect;
+export import solid;
 export import stars;
 import definitions;
 import timer;
@@ -108,27 +109,9 @@ public:
 	constexpr Id TextureLimit() const override { return 1; }
 	void AssignTexture(std::unique_ptr<Texturable> texture, Id id) override;
 };
+*/
 
-class MoleDemo::Solid :
-	public Texturable,
-	public Effect {
-	rgbaColor rgbColor;
-public:
-	Solid(); // texturable-enfoced constructor
-	Solid(Timer* timer, Screen* screen);
-	~Solid();
-
-	void SetColor(Color color);
-
-	void Load() override;
-	void Unload() override;
-	void Update(permille intensity, milliseconds delta) override;
-	void Cache(StencilBuffer& mask)  override;
-	rgbaColor GetPixel(Point2D p) override;
-	rgbaColor GetPixel(index index) override;
-	rgbaColor GetMappedUV(CoordinateUV uv) override;
-};
-
+/*
 class MoleDemo::Gradient :
 	public Texturable,
 	public Effect {

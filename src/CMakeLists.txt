@@ -37,6 +37,7 @@ target_sources(demoscene PUBLIC
 	FILE_SET effects TYPE CXX_MODULES
 	FILE_SET effect TYPE CXX_MODULES
 	FILE_SET stars TYPE CXX_MODULES
+	FILE_SET solid TYPE CXX_MODULES
 	FILE_SET renderables TYPE CXX_MODULES
 	FILE_SET render TYPE CXX_MODULES
 	FILE_SET cycle TYPE CXX_MODULES
@@ -53,6 +54,7 @@ target_sources(demoscene PUBLIC
 	effects.cpp
 	effects/Effect.cpp
 	effects/Stars.cpp
+	effects/Solid.cpp
 	#effects/ChessBoard.cpp
 	renderables.cpp
 	render.cpp

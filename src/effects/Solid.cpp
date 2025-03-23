@@ -1,4 +1,38 @@
-module effects;
+module;
+
+#include <cstdint>
+#include <iostream>
+#include <functional>
+
+export module solid;
+
+import definitions;
+import timer;
+import effect;
+
+namespace MoleDemo {
+	export class Solid;
+}
+
+class MoleDemo::Solid :
+	public Texturable,
+	public Effect {
+	rgbaColor rgbColor;
+public:
+	Solid(); // texturable-enfoced constructor
+	Solid(Timer* timer, Screen* screen);
+	~Solid();
+
+	void SetColor(Color color);
+
+	void Load() override;
+	void Unload() override;
+	void Update(permille intensity, milliseconds delta) override;
+	void Cache(StencilBuffer& mask)  override;
+	rgbaColor GetPixel(Point2D p) override;
+	rgbaColor GetPixel(index index) override;
+	rgbaColor GetMappedUV(CoordinateUV uv) override;
+};
 
 namespace MoleDemo {
 
