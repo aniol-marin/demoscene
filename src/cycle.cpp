@@ -1,6 +1,7 @@
 module;
 
 #include <vector> // required while including due to unexported symbols
+#include <iostream> //temp
 
 export module cycle;
 
@@ -32,7 +33,10 @@ public:
 
 	void PollEvents() {
 		if (timer.EndReached()) {
+			std::cout << "end technically reached\n";
+			/*
 			program.SetStatus(ProgramStatus::TERMINATE_OK);
+			*/
 		}
 		else {
 			program.SetStatus(inputManager.PollEvents());
