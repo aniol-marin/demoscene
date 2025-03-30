@@ -32,6 +32,17 @@ namespace SDL {
 
 	using Pixel = uint32_t;
 	Pixel* getPixel(uint16_t x, uint16_t y);
+
+	export struct SDLManager
+	{
+		SDLManager() = default;
+		SDLManager(const SDLManager&) = delete;
+		SDLManager(SDLManager&&) = delete;
+		~SDLManager() = default;
+
+		void Init(const Screen& screen) { InitVideo(screen); };
+		void Finalize() { FinalizeVideo(); };
+	};
 }
 
 bool SDL::InitVideo(const Screen& screen) {

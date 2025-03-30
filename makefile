@@ -35,6 +35,12 @@ test:
 	$(CMAKE_PATH) --build build --target test
 	$(TEST_PATH)
 
+.PHONY: test-sdl
+test-sdl:
+	export LD_LIBRARY=/usr/lib64/
+	$(CMAKE_PATH) --build build --target test-sdl
+	$(TEST_PATH)-sdl
+
 clean:
 	$(CMAKE_PATH) --build build --target clean
 

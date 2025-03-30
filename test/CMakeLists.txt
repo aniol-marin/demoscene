@@ -15,6 +15,8 @@ target_link_libraries( ${TEST_TARGET}
     PRIVATE engine
 )
 
+add_subdirectory(sdl_wrapper)
+
 target_sources(${TEST_TARGET} PRIVATE
 	FILE_SET injection TYPE CXX_MODULES
 )
