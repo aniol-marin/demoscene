@@ -2,6 +2,7 @@ module;
 
 #include <vector> // required while including due to unexported symbols
 #include <iostream> //temp
+#include <string> //temp
 
 export module cycle;
 
@@ -12,6 +13,8 @@ import timer;
 import program;
 import input;
 import render;
+import solid;
+import stars;
 
 namespace MoleDemo {
 
@@ -65,5 +68,16 @@ public:
 	{
 		renderables.clear();
 		renderables.insert(renderables.begin(), aRenderables.cbegin(), aRenderables.cend());
+		std::cout <<  "\nrenderable count: " << renderables.size() << "\n";
+		std::string renderable_name{
+			dynamic_cast<Solid*>(renderables.front())
+			? "Solid"
+			: dynamic_cast<Stars*>(renderables.front())
+			? "Stars"
+			: dynamic_cast<Layer*>(renderables.front())
+			? "Layer"
+			: "UNKNOWN"
+		};
+		std::cout <<  "\nrenderable: " << renderable_name << "\n";
 	}
 };

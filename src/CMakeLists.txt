@@ -44,7 +44,6 @@ target_sources(demoscene PUBLIC
 	FILE_SET timeline TYPE CXX_MODULES
 	FILES
 	demo.cpp
-	#definitions.cpp
 	sdl.cpp
 	program.cpp
 	input.cpp
