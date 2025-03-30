@@ -1,21 +1,23 @@
-CMAKE_BINARY := /usr/bin/cmake
+CMAKE_PATH := /usr/local/bin/cmake
 NINJA_PATH := /usr/local/bin/ninja
 COMPILER_PATH := /usr/local/bin/g++
+BINARY_PATH := ./bin/demoscene
+TEST_PATH := ./bin/test
 
 main: build run
 	@echo main done
 
 debug: build
-	gdb ./bin/demoscene
+	gdb $(BINARY_PATH)
 
 profile: build
-	valgrind ./bin/demoscene
+	valgrind $(BINARY_PATH)
 
 build: generate
-	cmake --build build --target demoscene
+	$(CMAKE_PATH) --build build --target demoscene
 
 generate:
-	cmake\
+	$(CMAKE_PATH)\
 		-S.\
 		-Bbuild\
 		-GNinja\
@@ -25,15 +27,16 @@ generate:
 		--log-level=NOTICE
 
 run: 
-	./bin/demoscene
+	export LD_LIBRARY=/usr/lib64/
+	$(BINARY_PATH)
 
 .PHONY: test
 test:
-	cmake --build build --target test
-	./bin/test
+	$(CMAKE_PATH) --build build --target test
+	$(TEST_PATH)
 
 clean:
-	cmake --build build --target clean
+	$(CMAKE_PATH) --build build --target clean
 
 wipe:
 	rm -rf build
