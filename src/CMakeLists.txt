@@ -23,12 +23,12 @@ target_link_libraries(demoscene
 	PRIVATE SDL2
 	PRIVATE raudio
 	PRIVATE engine
+	PRIVATE engine_definitions
 )
 
 target_sources(demoscene PUBLIC
 	FILE_SET demo TYPE CXX_MODULES
 	#FILE_SET definitions TYPE CXX_MODULES
-	FILE_SET sdl TYPE CXX_MODULES
 	FILE_SET program TYPE CXX_MODULES
 	FILE_SET input TYPE CXX_MODULES
 	FILE_SET timer TYPE CXX_MODULES
@@ -44,7 +44,6 @@ target_sources(demoscene PUBLIC
 	FILE_SET timeline TYPE CXX_MODULES
 	FILES
 	demo.cpp
-	sdl.cpp
 	program.cpp
 	input.cpp
 	timer.cpp

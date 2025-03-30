@@ -1,13 +1,15 @@
-cmake_minimum_required(VERSION 4.0)
+cmake_minimum_required(VERSION 4.0...4.0)
 
-project(MoleDemoScene2025 VERSION 0.0.0)
+project(MoleDemoScene2025
+	VERSION 0.0.0
+	DESCRIPTION "A CPU based rendering creation"
+	LANGUAGES CXX
+)
 
 set(CMAKE_CXX_STANDARD 26)
 set(CMAKE_CXX_STANDARD_REQUIRED ON)
 set(CMAKE_CXX_SCAN_FOR_MODULES ON)
 
-# Configuration options
-# configure_file(config.h.in config.h)
 set(CMAKE_CONFIGURATION_TYPES "Debug;Release")
 
 set(CMAKE_ARCHIVE_OUTPUT_DIRECTORY ${CMAKE_SOURCE_DIR}/lib)

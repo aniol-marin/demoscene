@@ -1,15 +1,8 @@
-set(ENGINE_LIBRARY_NAME "engine")
+set(ENGINE_LIBRARY_NAME engine)
 add_library(${ENGINE_LIBRARY_NAME})
 
 include(FetchContent)
 #[[
-FetchContent_Declare(
-	SDL2
-	GIT_REPOSITORY https://github.com/libsdl-org/SDL.git
-	GIT_TAG e11183ea6caa3ae4895f4bc54cad2bbb0e365417 # 2.32.2
-)
-FetchContent_MakeAvailable(SDL2)
-
 FetchContent_Declare(
 	raudio
 	GIT_REPOSITORY https://github.com/raysan5/raudio.git
@@ -19,17 +12,23 @@ FetchContent_Declare(
 FetchContent_MakeAvailable(raudio)
 
 target_link_libraries(demoscene
-	PRIVATE SDL2
 	PRIVATE raudio
 )
 ]]#
 
+add_subdirectory(sdl)
+add_subdirectory(definitions)
 
-target_sources(${ENGINE_LIBRARY_NAME} PUBLIC
+target_link_libraries(${ENGINE_LIBRARY_NAME}
+	PRIVATE sdl_wrapper
+	PUBLIC engine_definitions
+)
+
+target_sources( ${ENGINE_LIBRARY_NAME} PUBLIC
 	#FILE_SET demo TYPE CXX_MODULES
 	FILE_SET injection TYPE CXX_MODULES
-	FILE_SET definitions TYPE CXX_MODULES
-	#FILE_SET sdl TYPE CXX_MODULES
+	FILE_SET engine_definitions TYPE CXX_MODULES
+	FILE_SET sdl_wrapper TYPE CXX_MODULES
 	#FILE_SET program TYPE CXX_MODULES
 	#FILE_SET input TYPE CXX_MODULES
 	#FILE_SET timer TYPE CXX_MODULES
@@ -45,8 +44,6 @@ target_sources(${ENGINE_LIBRARY_NAME} PUBLIC
 	FILES
 	#demo.cpp
 	injection.cpp
-	definitions.cpp
-	#sdl.cpp
 	#program.cpp
 	#input.cpp
 	#timer.cpp

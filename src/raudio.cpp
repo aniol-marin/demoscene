@@ -13,9 +13,6 @@ import <cstdint>;
 import <queue>;
  */
 
-#define RAUDIO_STANDALONE
-#define SUPPORT_MODULE_RAUDIO
-#define SUPPORT_FILEFORMAT_MP3
 extern "C" {
 #include "raudio.h"
 }
