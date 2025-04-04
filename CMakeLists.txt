@@ -17,4 +17,13 @@ set(CMAKE_LIBRARY_OUTPUT_DIRECTORY ${CMAKE_SOURCE_DIR}/lib)
 set(CMAKE_RUNTIME_OUTPUT_DIRECTORY ${CMAKE_SOURCE_DIR}/bin)
 
 add_subdirectory(src)
-add_subdirectory(test)
+
+if(EnableTesting)
+	message(NOTICE "enabling testing")
+	include(CTest)
+	enable_testing()
+	add_subdirectory(test)
+else()
+	message(STATUS "testing not enabled")
+endif()
+

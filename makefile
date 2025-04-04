@@ -3,6 +3,7 @@ NINJA_PATH := /usr/local/bin/ninja
 COMPILER_PATH := /usr/local/bin/g++
 BINARY_PATH := ./bin/demoscene
 TEST_PATH := ./bin/test
+CMAKE_LOG_LEVEL := NOTICE
 
 main: build run
 	@echo main done
@@ -24,7 +25,8 @@ generate:
 		-DCMAKE_CXX_COMPILER=$(COMPILER_PATH)\
 		-DCMAKE_MAKE_PROGRAM=$(NINJA_PATH)\
 		-DCMAKE_BUILD_TYPE=Debug\
-		--log-level=NOTICE
+		-DEnableTesting=ON\
+		--log-level=$(CMAKE_LOG_LEVEL)
 
 run: 
 	export LD_LIBRARY=/usr/lib64/
@@ -33,7 +35,6 @@ run:
 .PHONY: test
 test:
 	$(CMAKE_PATH) --build build --target test
-	$(TEST_PATH)
 
 .PHONY: test-sdl
 test-sdl:

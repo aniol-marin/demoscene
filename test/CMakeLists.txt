@@ -1,7 +1,3 @@
-set(TEST_TARGET "test")
-
-add_executable(${TEST_TARGET})
-
 include(FetchContent)
 FetchContent_Declare(
     Catch2
@@ -10,17 +6,6 @@ FetchContent_Declare(
 )
 FetchContent_MakeAvailable(Catch2)
 
-target_link_libraries( ${TEST_TARGET}
-    PRIVATE Catch2::Catch2WithMain
-    PRIVATE engine
-)
-
 add_subdirectory(sdl_wrapper)
+add_subdirectory(injection)
 
-target_sources(${TEST_TARGET} PRIVATE
-	FILE_SET injection TYPE CXX_MODULES
-)
-
-target_sources(${TEST_TARGET} PRIVATE
-	test.cpp
-)
