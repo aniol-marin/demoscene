@@ -36,6 +36,10 @@ run:
 test:
 	$(CMAKE_PATH) --build build --target test
 
+.PHONY: retest
+retest:
+	cd build/; ctest -R ^test.*\$
+
 .PHONY: test-sdl
 test-sdl:
 	export LD_LIBRARY=/usr/lib64/
