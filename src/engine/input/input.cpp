@@ -17,16 +17,10 @@ namespace MoleDemo {
 
 class MoleDemo::InputManager
 {
-	/*
 	SDL::SDLManager manager{};
-	*/
 public:
 	ProgramStatus PollEvents()
 	{
-		std::cout << "polling disabled\n";
-		return ProgramStatus::RUNNING;
-		/*
 		return manager.PollSDLEvents();
-		*/
 	}
 };

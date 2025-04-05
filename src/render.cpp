@@ -132,26 +132,15 @@ class  MoleDemo::RenderManager : public Initializable {
 	PixelBuffer buffer;
 	StencilBuffer mask;
 	SDL::SDLManager sdl {};
-	/*
-	*/
 
 	void Lock() {
-		std::cout << "should be locking surface\n";
-		return;
-		throw std::exception{};
-		//SDL::LockSurface();
+		sdl.LockSurface();
 	}
 	void Unlock() {
-		std::cout << "should be unlocking surface\n";
-		return;
-		throw std::exception{};
-		//SDL::UnlockSurface();
+		sdl.UnlockSurface();
 	}
 	void Render() {
-		std::cout << "should be rendering surface\n";
-		return;
-		throw std::exception{};
-		//SDL::UpdateSurface();
+		sdl.UpdateSurface();
 	}
 public:
 	RenderManager(Screen screen) :
@@ -160,14 +149,12 @@ public:
 
 	}
 	void Init() {
-		throw std::exception{};
-		//SDL::InitVideo({ defaultScreen.w, defaultScreen.h });
+		sdl.Init({ defaultScreen.w, defaultScreen.h });
 		buffer.assign(size_t{ defaultScreen.GetPixelCount() }, black);
 	}
 
 	void Finalize() {
-		throw std::exception{};
-		//SDL::FinalizeVideo();
+		sdl.Finalize();
 	}
 
 	void Draw(Renderables& renderables) {
@@ -181,12 +168,9 @@ public:
 
 		Lock();
 		index i{ 0 };
-		std::cout << "put pixel disabled\n";
 		for (point1D y{ 0 }; y < m_screen.h; ++y) {
 			for (point1D x{ 0 }; x < m_screen.w; ++x) {
-				/*
-				SDL::PutPixel(x, y, buffer[i]);
-				*/
+				sdl.PutPixel(x, y, buffer[i]);
 				i++;
 			}
 		}
