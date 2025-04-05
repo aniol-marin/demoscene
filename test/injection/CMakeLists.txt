@@ -5,7 +5,7 @@ add_executable(${TEST_TARGET})
 
 target_link_libraries( ${TEST_TARGET}
     PRIVATE Catch2::Catch2WithMain
-    PRIVATE engine
+    PRIVATE injection
 )
 
 target_sources(${TEST_TARGET} PRIVATE

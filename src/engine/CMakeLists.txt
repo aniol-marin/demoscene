@@ -16,11 +16,13 @@ target_link_libraries(demoscene
 )
 ]]#
 
-add_subdirectory(sdl)
+add_subdirectory(injection)
 add_subdirectory(definitions)
+add_subdirectory(sdl)
 
 target_link_libraries(${ENGINE_LIBRARY_NAME}
 	PRIVATE sdl_wrapper
+	PRIVATE injection
 	PUBLIC engine_definitions
 )
 
@@ -43,7 +45,6 @@ target_sources( ${ENGINE_LIBRARY_NAME} PUBLIC
 	#FILE_SET timeline TYPE CXX_MODULES
 	FILES
 	#demo.cpp
-	injection.cpp
 	#program.cpp
 	#input.cpp
 	#timer.cpp
