@@ -2,50 +2,52 @@ module;
 
 #include <string>
 #include <iostream>
+#include <exception>
 
 #include "SDL2/SDL.h"
 
 export module sdl;
 
 import definitions;
-/*
-import <string>;
-import <iostream>;
-*/
 
 namespace SDL {
 
-	export ProgramStatus PollSDLEvents();
-
-	export bool InitVideo(const Screen& screen);
-	export void FinalizeVideo();
-
-	export void LockSurface();
-	export void UnlockSurface();
-	export void UpdateSurface();
-
-	export void PutPixel(uint16_t x, uint16_t y, const uint32_t rgba);
-
-	SDL_Window* window;
-	SDL_Surface* surface;
-	SDL_Event events;
-
-	using Pixel = uint32_t;
-	Pixel* getPixel(uint16_t x, uint16_t y);
-
 	export struct SDLManager
 	{
+		using pixel = uint32_t;
+		using offset = uint_fast16_t;
+
 		SDLManager() = default;
 		SDLManager(const SDLManager&) = delete;
 		SDLManager(SDLManager&&) = delete;
 		~SDLManager() = default;
 
-		void Init(const Screen& screen) { InitVideo(screen); };
-		void Finalize() { FinalizeVideo(); };
+		bool Init(const Screen& screen);
+		void Finalize();
+		ProgramStatus PollSDLEvents();
+
+		void LockSurface();
+		void UnlockSurface();
+		void UpdateSurface();
+
+		void PutPixel(offset x, offset y, const pixel rgba);
+
+	private:
+		Screen screen { 0, 0 };
+		bool initialized { false };
+		bool locked { false };
+		SDL_Window* window {};
+		SDL_Surface* surface {};
+
+		pixel& getPixel(offset x, offset y);
+
 	};
 }
 
-bool SDL::InitVideo(const Screen& screen) {
+bool SDL::SDLManager::Init(const Screen& screen)
+{
+	this->screen = screen;
+
 	if (SDL_InitSubSystem(SDL_INIT_VIDEO) >= 0) {
 
 		window = SDL_CreateWindow("Mole Demo", SDL_WINDOWPOS_UNDEFINED, SDL_WINDOWPOS_UNDEFINED, screen.w, screen.h, SDL_WINDOW_SHOWN);
@@ -55,13 +57,16 @@ bool SDL::InitVideo(const Screen& screen) {
 	return window != nullptr;
 }
 
-void SDL::FinalizeVideo() {
+void SDL::SDLManager::Finalize() {
 	SDL_DestroyWindow(window);
 	SDL_Quit(); // assumes video is the last
 }
 
-ProgramStatus SDL::PollSDLEvents() {
-	ProgramStatus status = ProgramStatus::RUNNING;
+ProgramStatus SDL::SDLManager::PollSDLEvents()
+{
+	SDL_Event events {};
+	ProgramStatus status { ProgramStatus::RUNNING };
+
 	while (SDL_PollEvent(&events) != 0)
 	{
 		if (events.type == SDL_KEYDOWN) {
@@ -79,23 +84,35 @@ ProgramStatus SDL::PollSDLEvents() {
 	return status;
 }
 
-void SDL::LockSurface() {
+void SDL::SDLManager::LockSurface()
+{
 	SDL_LockSurface(surface);
+	locked = true;
 }
 
-void SDL::UnlockSurface() {
+void SDL::SDLManager::UnlockSurface()
+{
 	SDL_UnlockSurface(surface);
+	locked = false;
 }
 
-void SDL::UpdateSurface() {
+void SDL::SDLManager::UpdateSurface()
+{
+	if (!locked)
+	{
+		throw std::exception();
+	}
+
 	SDL_UpdateWindowSurface(window);
 }
 
-SDL::Pixel* SDL::getPixel(uint16_t x, uint16_t y) {
-	return reinterpret_cast<uint32_t*>((uint8_t*)surface->pixels + y * surface->pitch + x * surface->format->BytesPerPixel);
+SDL::SDLManager::pixel& SDL::SDLManager::getPixel(offset x, offset y)
+{
+	return *reinterpret_cast<uint32_t*>((uint8_t*)surface->pixels + y * surface->pitch + x * surface->format->BytesPerPixel);
 }
 
-void SDL::PutPixel(uint16_t x, uint16_t y, const uint32_t rgba) {
-	Pixel* pixel = getPixel(x, y);
-	*pixel = rgba;
+void SDL::SDLManager::PutPixel(const offset x, const offset y, const pixel rgba)
+{
+	pixel& pixel = getPixel(x, y);
+	pixel = rgba;
 }

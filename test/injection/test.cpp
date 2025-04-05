@@ -6,6 +6,7 @@
 
 
 import injection; 
+import definitions; 
 
 struct test_class
 {
@@ -86,7 +87,7 @@ TEST_CASE("Container supports unique instances", "[Injection]")
 			const int value { 2 };
 			c.BindUnique<int>([]{ return value; });
 			int& instance { c.Inject<int>() };
-			return instance = value;
+			return instance == value;
 		 }));
 
 		 REQUIRE( std::invoke([&]

@@ -212,7 +212,7 @@ public:
 };
 export struct Screen
 {
-	const point1D w, h;
+	point1D w, h;
 
 	Screen(point1D width, point1D heigth) :
 		w{ width },
@@ -221,8 +221,9 @@ export struct Screen
 	Screen(Screen&&) = default;
 	~Screen() = default;
 	Screen& operator=(const Screen&) = default;
+	Screen& operator=(Screen&&) = default;
 
-	index GetIndex(Point2D point) {
+	index GetIndex(Point2D point) const {
 		return (index)w * (index)point.y + (index)point.x;
 	}
 	const pixel_count GetPixelCount() const {
