@@ -13,7 +13,9 @@ import effects;
 import renderables;
 import timer;
 import cycle;
+/*
 import sound;
+*/
 import program;
 import render;
 /*
@@ -126,7 +128,9 @@ private:
 class MoleDemo::Timeline :
 	public Initializable,
 	public Loadable {
+		/*
 	SoundManager& sound;
+	*/
 	Screen& screen;
 	Timer& timer;
 	Program& program;
@@ -165,7 +169,10 @@ class MoleDemo::Timeline :
 
 			if (!currentEvent->Done(timer.GetDeltaTime())) {
 
+				currentEvent->Update({}, timer.GetDeltaTime());
+				/*
 				currentEvent->Update(sound.GetCurrentIntensity(), timer.GetDeltaTime());
+				*/
 			}
 			else {
 
@@ -206,12 +213,14 @@ class MoleDemo::Timeline :
 	}
 
 public:
-	Timeline(Timer& timer, Program& program, Cycle& cycle, SoundManager& sound, Screen& screen) :
+	Timeline(Timer& timer, Program& program, Cycle& cycle,/* SoundManager& sound,*/ Screen& screen) :
 		currentEvent{ nullptr },
 		timer{ timer },
 		program{ program },
 		cycle{ cycle },
+		/*
 		sound{ sound },
+		*/
 		screen{ screen },
 		renderables{} {}
 
@@ -334,7 +343,10 @@ public:
 	}
 
 	void Start() {
+		timer.SetEndTime(999);
+			/*
 		timer.SetEndTime(sound.GetMusicDuration());
+		*/
 	}
 
 	void Update() {
@@ -342,7 +354,10 @@ public:
 		HandleTimeline();
 
 		cycle.PollEvents();
+		cycle.Update({});
+		/*
 		cycle.Update(sound.GetCurrentIntensity());
+		*/
 		cycle.Draw();
 		cycle.Synch();
 	}

@@ -4,21 +4,22 @@ module;
 #include <iostream>
 #include <exception>
 
+/*
 #include "SDL2/SDL.h"
+*/
 
 export module sdl;
 
 import definitions;
 
+/*
 namespace
 {
 	//TO DO avoid global state
 	SDL_Window* window {};
 	SDL_Surface* surface {};
-	Screen g_screen { 0, 0 };
-	bool initialized { false };
-	bool locked { false };
 }
+*/
 
 namespace SDL {
 
@@ -26,6 +27,11 @@ namespace SDL {
 	{
 		using pixel = uint32_t;
 		using offset = uint_fast16_t;
+		pixel dummy{};
+
+		Screen g_screen { 0, 0 };
+		bool initialized { false };
+		bool locked { false };
 
 		SDLManager() = default;
 		SDLManager(const SDLManager&) = delete;
@@ -57,18 +63,22 @@ bool SDL::SDLManager::Init(const Screen& screen)
 {
 	g_screen = screen;
 
+	/*
 	if (SDL_InitSubSystem(SDL_INIT_VIDEO) >= 0) {
 
 		window = SDL_CreateWindow("Mole Demo", SDL_WINDOWPOS_UNDEFINED, SDL_WINDOWPOS_UNDEFINED, screen.w, screen.h, SDL_WINDOW_SHOWN);
 		surface = SDL_GetWindowSurface(window);
 		initialized = surface != nullptr;
 	}
+	*/
+	initialized = true;//TO DO delete
 
 	return initialized;
 }
 
 void SDL::SDLManager::Finalize()
 {
+	/*
 	if (initialized)
 	{
 		SDL_DestroyWindow(window);
@@ -76,13 +86,18 @@ void SDL::SDLManager::Finalize()
 	}
 
 	initialized = false;
+	*/
+	initialized = true;//TO DO delete
 }
 
 ProgramStatus SDL::SDLManager::PollSDLEvents()
 {
+	/*
 	SDL_Event events {};
+	*/
 	ProgramStatus status { ProgramStatus::RUNNING };
 
+	/*
 	while (SDL_PollEvent(&events) != 0)
 	{
 		if (events.type == SDL_KEYDOWN) {
@@ -97,6 +112,7 @@ ProgramStatus SDL::SDLManager::PollSDLEvents()
 		}
 	}
 
+*/
 	return status;
 }
 
@@ -107,7 +123,9 @@ void SDL::SDLManager::LockSurface()
 		throw std::exception{};
 	}
 
+	/*
 	SDL_LockSurface(surface);
+	*/
 	locked = true;
 }
 
@@ -118,7 +136,9 @@ void SDL::SDLManager::UnlockSurface()
 		throw std::exception{};
 	}
 
+	/*
 	SDL_UnlockSurface(surface);
+	*/
 	locked = false;
 }
 
@@ -134,7 +154,9 @@ void SDL::SDLManager::UpdateSurface()
 		throw std::exception();
 	}
 
+	/*
 	SDL_UpdateWindowSurface(window);
+	*/
 }
 
 SDL::SDLManager::pixel& SDL::SDLManager::getPixel(offset x, offset y)
@@ -148,7 +170,10 @@ SDL::SDLManager::pixel& SDL::SDLManager::getPixel(offset x, offset y)
 		throw std::exception{};
 	}
 
+	/*
 	return *reinterpret_cast<uint32_t*>((uint8_t*)surface->pixels + y * surface->pitch + x * surface->format->BytesPerPixel);
+	*/
+	return dummy;
 }
 
 void SDL::SDLManager::PutPixel(const offset x, const offset y, const pixel rgba)

@@ -19,11 +19,13 @@ target_link_libraries(demoscene
 add_subdirectory(injection)
 add_subdirectory(definitions)
 add_subdirectory(sdl)
+add_subdirectory(input)
 
 target_link_libraries(${ENGINE_LIBRARY_NAME}
 	INTERFACE injection
 	INTERFACE engine_definitions
 	INTERFACE sdl_wrapper
+	INTERFACE input
 )
 
 #[[

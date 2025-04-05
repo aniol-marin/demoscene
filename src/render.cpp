@@ -124,17 +124,20 @@ class  MoleDemo::RenderManager : public Initializable {
 	void Lock() {
 		std::cout << "should be locking surface\n";
 		return;
-		SDL::LockSurface();
+		throw std::exception{};
+		//SDL::LockSurface();
 	}
 	void Unlock() {
 		std::cout << "should be unlocking surface\n";
 		return;
-		SDL::UnlockSurface();
+		throw std::exception{};
+		//SDL::UnlockSurface();
 	}
 	void Render() {
 		std::cout << "should be rendering surface\n";
 		return;
-		SDL::UpdateSurface();
+		throw std::exception{};
+		//SDL::UpdateSurface();
 	}
 public:
 	RenderManager(Screen screen) :
@@ -143,12 +146,14 @@ public:
 
 	}
 	void Init() {
-		SDL::InitVideo({ defaultScreen.w, defaultScreen.h });
+		throw std::exception{};
+		//SDL::InitVideo({ defaultScreen.w, defaultScreen.h });
 		buffer.assign(size_t{ defaultScreen.GetPixelCount() }, black);
 	}
 
 	void Finalize() {
-		SDL::FinalizeVideo();
+		throw std::exception{};
+		//SDL::FinalizeVideo();
 	}
 
 	void Draw(Renderables& renderables) {

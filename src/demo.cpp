@@ -12,7 +12,9 @@ import definitions;
 import program;
 import input;
 import timer;
+/*
 import sound;
+*/
 import render;
 import timeline;
 import cycle;
@@ -38,7 +40,9 @@ class MoleDemo::Demo
 	std::vector<Initializable*> initializables;
 	std::vector<Loadable*> loadables;
 	RenderManager* render;
+	/*
 	SoundManager* sound;
+	*/
 	Timeline* timeline;
 	Timer* timer;
 	Program* program;
@@ -65,7 +69,9 @@ class MoleDemo::Demo
 
 		initializables.push_back(&container.Inject<RenderManager>());
 		initializables.push_back(timeline);
+		/*
 		initializables.push_back(sound);
+		*/
 
 		loadables.push_back(timeline);
 		/*
@@ -95,7 +101,9 @@ class MoleDemo::Demo
 	void InstallBindings()
 	{
 		container.BindShared<Timer>();
+		/*
 		container.BindShared<SoundManager>();
+		*/
 		container.BindShared<InputManager>();
 		container.BindShared<Screen>([this]{ return Screen{this->screen}; });
 		container.BindShared<Program>([&]{ return Program{ container.Inject<Screen>() }; });
@@ -112,7 +120,9 @@ class MoleDemo::Demo
 			container.Inject<Timer>(),
 			container.Inject<Program>(),
 			container.Inject<Cycle>(),
+			/*
 			container.Inject<SoundManager>(),
+			*/
 			container.Inject<Screen>()
 		};});
 
@@ -124,7 +134,9 @@ class MoleDemo::Demo
 		//Self injection (TO DO separate concerns)
 		program = &container.Inject<Program>();
 		timer = &container.Inject<Timer>();
+		/*
 		sound = &container.Inject<SoundManager>();
+		*/
 		timeline = &container.Inject<Timeline>();
 
 	}

@@ -1,7 +1,7 @@
 add_executable(demoscene)
 
+#[[
 include(FetchContent)
-
 FetchContent_Declare(
 	raudio
 	GIT_REPOSITORY https://github.com/raysan5/raudio.git
@@ -9,23 +9,22 @@ FetchContent_Declare(
 	SOURCE_SUBDIR projects/CMake
 )
 FetchContent_MakeAvailable(raudio)
+]]#
 
 add_subdirectory(engine)
 
 target_link_libraries(demoscene
-	PRIVATE raudio
+	#PRIVATE raudio
 	PRIVATE engine
-	PRIVATE engine_definitions
 )
 
 target_sources(demoscene PUBLIC
 	FILE_SET demo TYPE CXX_MODULES
 	#FILE_SET definitions TYPE CXX_MODULES
 	FILE_SET program TYPE CXX_MODULES
-	FILE_SET input TYPE CXX_MODULES
 	FILE_SET timer TYPE CXX_MODULES
-	FILE_SET raudio TYPE CXX_MODULES
-	FILE_SET sound TYPE CXX_MODULES
+	#FILE_SET raudio TYPE CXX_MODULES
+	#FILE_SET sound TYPE CXX_MODULES
 	FILE_SET effects TYPE CXX_MODULES
 	FILE_SET effect TYPE CXX_MODULES
 	FILE_SET stars TYPE CXX_MODULES
@@ -37,10 +36,9 @@ target_sources(demoscene PUBLIC
 	FILES
 	demo.cpp
 	program.cpp
-	input.cpp
 	timer.cpp
-	raudio.cpp
-	sound.cpp
+	#raudio.cpp
+	#sound.cpp
 	effects.cpp
 	effects/Effect.cpp
 	effects/Stars.cpp

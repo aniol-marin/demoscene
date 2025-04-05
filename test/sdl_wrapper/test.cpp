@@ -131,6 +131,7 @@ TEST_CASE("Manager interface: surface interaction", "[SDL Wrapper]")
 		REQUIRE_NOTHROW(std::invoke([&]()
 		{
 			m.Init({640, 480});
+			m.LockSurface();
 			m.PutPixel(0, 0, 0x000000);
 			m.Finalize();
 		}));

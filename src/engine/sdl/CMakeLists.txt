@@ -1,5 +1,5 @@
-set(SDL_WRAPPER_LIBRARY_NAME "sdl_wrapper")
-add_library(${SDL_WRAPPER_LIBRARY_NAME})
+set(MODULE_NAME "sdl_wrapper")
+add_library(${MODULE_NAME})
 
 include(FetchContent)
 
@@ -10,14 +10,13 @@ FetchContent_Declare(
 )
 FetchContent_MakeAvailable(SDL2)
 
-target_link_libraries(sdl_wrapper
+target_link_libraries( ${MODULE_NAME}
 	PRIVATE SDL2
 	PRIVATE engine_definitions
 )
 
-target_sources(${SDL_WRAPPER_LIBRARY_NAME} PUBLIC
+target_sources(${MODULE_NAME} PUBLIC
 	FILE_SET sdl_wrapper TYPE CXX_MODULES
-	FILE_SET engine_definitions TYPE CXX_MODULES
 	FILES
 	sdl.cpp
 )

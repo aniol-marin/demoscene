@@ -6,7 +6,6 @@
 
 
 import injection; 
-import definitions; 
 
 struct test_class
 {
