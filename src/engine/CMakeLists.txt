@@ -1,5 +1,5 @@
 set(ENGINE_LIBRARY_NAME engine)
-add_library(${ENGINE_LIBRARY_NAME} INTERFACE)
+add_library(${ENGINE_LIBRARY_NAME})
 
 include(FetchContent)
 #[[
@@ -26,6 +26,12 @@ target_link_libraries(${ENGINE_LIBRARY_NAME}
 	INTERFACE engine_definitions
 	INTERFACE sdl_wrapper
 	INTERFACE input
+)
+
+target_sources( ${ENGINE_LIBRARY_NAME} PUBLIC
+	FILE_SET engine TYPE CXX_MODULES
+	FILES
+	engine.cpp
 )
 
 #[[

@@ -8,9 +8,11 @@ target_link_libraries( ${TEST_TARGET}
     PRIVATE sdl_wrapper
 )
 
+#[[
 target_sources(${TEST_TARGET} PRIVATE
 	FILE_SET sdl_wrapper TYPE CXX_MODULES
 )
+]]#
 
 target_sources(${TEST_TARGET} PRIVATE
 	test.cpp
