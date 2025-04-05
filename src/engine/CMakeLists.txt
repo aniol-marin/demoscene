@@ -1,5 +1,5 @@
 set(ENGINE_LIBRARY_NAME engine)
-add_library(${ENGINE_LIBRARY_NAME})
+add_library(${ENGINE_LIBRARY_NAME} INTERFACE)
 
 include(FetchContent)
 #[[
@@ -21,13 +21,13 @@ add_subdirectory(definitions)
 add_subdirectory(sdl)
 
 target_link_libraries(${ENGINE_LIBRARY_NAME}
-	PRIVATE sdl_wrapper
-	PRIVATE injection
-	PUBLIC engine_definitions
+	INTERFACE injection
+	INTERFACE engine_definitions
+	INTERFACE sdl_wrapper
 )
 
+#[[
 target_sources( ${ENGINE_LIBRARY_NAME} PUBLIC
-	#FILE_SET demo TYPE CXX_MODULES
 	FILE_SET injection TYPE CXX_MODULES
 	FILE_SET engine_definitions TYPE CXX_MODULES
 	FILE_SET sdl_wrapper TYPE CXX_MODULES
@@ -59,3 +59,5 @@ target_sources( ${ENGINE_LIBRARY_NAME} PUBLIC
 	#cycle.cpp
 	#timeline.cpp
 )
+]]#
+
