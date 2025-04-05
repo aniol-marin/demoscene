@@ -8,8 +8,12 @@ namespace MoleDemo {
 	export struct InputManager;
 }
 
-struct MoleDemo::InputManager {
-	ProgramStatus PollEvents() {
-		return SDL::PollSDLEvents();
+class MoleDemo::InputManager
+{
+	SDL::SDLManager manager{};
+public:
+	ProgramStatus PollEvents()
+	{
+		return manager.PollSDLEvents();
 	}
 };

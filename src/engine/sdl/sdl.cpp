@@ -10,6 +10,16 @@ export module sdl;
 
 import definitions;
 
+namespace
+{
+	//TO DO avoid global state
+	SDL_Window* window {};
+	SDL_Surface* surface {};
+	Screen g_screen { 0, 0 };
+	bool initialized { false };
+	bool locked { false };
+}
+
 namespace SDL {
 
 	export struct SDLManager
@@ -20,7 +30,11 @@ namespace SDL {
 		SDLManager() = default;
 		SDLManager(const SDLManager&) = delete;
 		SDLManager(SDLManager&&) = delete;
-		~SDLManager() = default;
+		~SDLManager()
+		{
+			locked = false;
+			Finalize();
+		}
 
 		bool Init(const Screen& screen);
 		void Finalize();
@@ -33,11 +47,6 @@ namespace SDL {
 		void PutPixel(offset x, offset y, const pixel rgba);
 
 	private:
-		Screen screen { 0, 0 };
-		bool initialized { false };
-		bool locked { false };
-		SDL_Window* window {};
-		SDL_Surface* surface {};
 
 		pixel& getPixel(offset x, offset y);
 
@@ -46,7 +55,7 @@ namespace SDL {
 
 bool SDL::SDLManager::Init(const Screen& screen)
 {
-	this->screen = screen;
+	g_screen = screen;
 
 	if (SDL_InitSubSystem(SDL_INIT_VIDEO) >= 0) {
 
@@ -134,7 +143,7 @@ SDL::SDLManager::pixel& SDL::SDLManager::getPixel(offset x, offset y)
 	{
 		throw std::exception{};
 	}
-	if(screen.w <= x || screen.h <= y)
+	if(g_screen.w <= x || g_screen.h <= y)
 	{
 		throw std::exception{};
 	}
@@ -148,7 +157,7 @@ void SDL::SDLManager::PutPixel(const offset x, const offset y, const pixel rgba)
 	{
 		throw std::exception{};
 	}
-	if(screen.w <= x || screen.h <= y)
+	if(g_screen.w <= x || g_screen.h <= y)
 	{
 		throw std::exception{};
 	}
