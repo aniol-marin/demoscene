@@ -52,14 +52,21 @@ bool SDL::SDLManager::Init(const Screen& screen)
 
 		window = SDL_CreateWindow("Mole Demo", SDL_WINDOWPOS_UNDEFINED, SDL_WINDOWPOS_UNDEFINED, screen.w, screen.h, SDL_WINDOW_SHOWN);
 		surface = SDL_GetWindowSurface(window);
+		initialized = surface != nullptr;
 	}
 
-	return window != nullptr;
+	return initialized;
 }
 
-void SDL::SDLManager::Finalize() {
-	SDL_DestroyWindow(window);
-	SDL_Quit(); // assumes video is the last
+void SDL::SDLManager::Finalize()
+{
+	if (initialized)
+	{
+		SDL_DestroyWindow(window);
+		SDL_Quit(); // assumes video is the last
+	}
+
+	initialized = false;
 }
 
 ProgramStatus SDL::SDLManager::PollSDLEvents()
@@ -86,18 +93,33 @@ ProgramStatus SDL::SDLManager::PollSDLEvents()
 
 void SDL::SDLManager::LockSurface()
 {
+	if(!initialized)
+	{
+		throw std::exception{};
+	}
+
 	SDL_LockSurface(surface);
 	locked = true;
 }
 
 void SDL::SDLManager::UnlockSurface()
 {
+	if(!initialized)
+	{
+		throw std::exception{};
+	}
+
 	SDL_UnlockSurface(surface);
 	locked = false;
 }
 
 void SDL::SDLManager::UpdateSurface()
 {
+	if(!initialized)
+	{
+		throw std::exception{};
+	}
+
 	if (!locked)
 	{
 		throw std::exception();
@@ -108,11 +130,29 @@ void SDL::SDLManager::UpdateSurface()
 
 SDL::SDLManager::pixel& SDL::SDLManager::getPixel(offset x, offset y)
 {
+	if(!initialized)
+	{
+		throw std::exception{};
+	}
+	if(screen.w <= x || screen.h <= y)
+	{
+		throw std::exception{};
+	}
+
 	return *reinterpret_cast<uint32_t*>((uint8_t*)surface->pixels + y * surface->pitch + x * surface->format->BytesPerPixel);
 }
 
 void SDL::SDLManager::PutPixel(const offset x, const offset y, const pixel rgba)
 {
+	if(!initialized)
+	{
+		throw std::exception{};
+	}
+	if(screen.w <= x || screen.h <= y)
+	{
+		throw std::exception{};
+	}
+
 	pixel& pixel = getPixel(x, y);
 	pixel = rgba;
 }

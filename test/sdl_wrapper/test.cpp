@@ -84,10 +84,22 @@ TEST_CASE("Manager interface: surface interaction", "[SDL Wrapper]")
 		}));
 	}
 
-	SECTION("Manager allows to update a surface")
+	SECTION("Manager allows to update an initialized surface")
 	{
 		SDL::SDLManager m {};
 
+		REQUIRE_THROWS(std::invoke([&]()
+		{
+			m.LockSurface();
+		}));
+		REQUIRE_THROWS(std::invoke([&]()
+		{
+			m.UpdateSurface();
+		}));
+		REQUIRE_THROWS(std::invoke([&]()
+		{
+			m.UnlockSurface();
+		}));
 		REQUIRE_NOTHROW(std::invoke([&]()
 		{
 			m.Init({640, 480});
@@ -98,10 +110,24 @@ TEST_CASE("Manager interface: surface interaction", "[SDL Wrapper]")
 		}));
 	}
 
-	SECTION("Manager allows to update pixels within the window")
+	SECTION("Manager allows to update pixels within an initialized surface")
 	{
 		SDL::SDLManager m {};
 
+		REQUIRE_THROWS(std::invoke([&]()
+		{
+			m.PutPixel(0, 0, 0x000000);
+		}));
+		REQUIRE_THROWS(std::invoke([&]()
+		{
+			m.Init({640, 480});
+			m.PutPixel(640, 0, 0x000000);
+		}));
+		REQUIRE_THROWS(std::invoke([&]()
+		{
+			m.Init({640, 480});
+			m.PutPixel(0, 480, 0x000000);
+		}));
 		REQUIRE_NOTHROW(std::invoke([&]()
 		{
 			m.Init({640, 480});
