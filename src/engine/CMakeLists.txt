@@ -1,8 +1,11 @@
-set(ENGINE_LIBRARY_NAME engine)
-add_library(${ENGINE_LIBRARY_NAME})
 
-include(FetchContent)
+add_subdirectory(injection)
+add_subdirectory(definitions)
+add_subdirectory(sdl)
+add_subdirectory(input)
+
 #[[
+include(FetchContent)
 FetchContent_Declare(
 	raudio
 	GIT_REPOSITORY https://github.com/raysan5/raudio.git
@@ -15,24 +18,6 @@ target_link_libraries(demoscene
 	PRIVATE raudio
 )
 ]]#
-
-add_subdirectory(injection)
-add_subdirectory(definitions)
-add_subdirectory(sdl)
-add_subdirectory(input)
-
-target_link_libraries(${ENGINE_LIBRARY_NAME}
-	INTERFACE injection
-	INTERFACE engine_definitions
-	INTERFACE sdl_wrapper
-	INTERFACE input
-)
-
-target_sources( ${ENGINE_LIBRARY_NAME} PUBLIC
-	FILE_SET engine TYPE CXX_MODULES
-	FILES
-	engine.cpp
-)
 
 #[[
 target_sources( ${ENGINE_LIBRARY_NAME} PUBLIC

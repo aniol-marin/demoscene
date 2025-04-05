@@ -6,6 +6,7 @@
 #include <string>
 #include <iostream>
 #include <exception>
+#include <cstdint>
 
 import definitions;
 /*
@@ -34,9 +35,9 @@ namespace SDL {
 		bool locked { false };
 
 		SDLManager() = default;
-		SDLManager(const SDLManager&) = delete;
-		SDLManager(SDLManager&&) = delete;
-		~SDLManager();
+		SDLManager(const SDLManager&) = default;
+		SDLManager(SDLManager&&) = default;
+		~SDLManager() = default;
 
 		bool Init(const Screen& screen);
 		void Finalize();

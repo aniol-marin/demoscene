@@ -119,10 +119,22 @@ public:
 };
 
 class  MoleDemo::RenderManager : public Initializable {
+	public:
+
+	RenderManager() = default;
+	RenderManager(const RenderManager&) = default;
+	RenderManager(RenderManager&&) = default;
+	~RenderManager() = default;
+
+	private:
 	const Screen m_screen;
 	RenderQueue* queue;
 	PixelBuffer buffer;
 	StencilBuffer mask;
+	SDL::SDLManager sdl {};
+	/*
+	*/
+
 	void Lock() {
 		std::cout << "should be locking surface\n";
 		return;

@@ -21,10 +21,6 @@ namespace
 
 SDL::SDLManager::pixel dummy {};
 
-SDL::SDLManager:: ~SDLManager()
-{
-}
-
 bool SDL::SDLManager::Init(const Screen& screen)
 {
 	g_screen = screen;

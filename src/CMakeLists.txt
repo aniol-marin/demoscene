@@ -15,7 +15,10 @@ add_subdirectory(engine)
 
 target_link_libraries(demoscene
 	#PRIVATE raudio
-	PRIVATE engine
+	PRIVATE injection
+	PRIVATE engine_definitions
+	PRIVATE sdl_wrapper
+	PRIVATE input
 )
 
 target_sources(demoscene PUBLIC
