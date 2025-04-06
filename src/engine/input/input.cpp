@@ -1,14 +1,11 @@
 module;
 
-#include "sdl.h"
 #include <iostream>
 
 export module input;
 
 import definitions;
-/*
 import sdl;
-*/
 
 namespace MoleDemo {
 

@@ -1,12 +1,15 @@
-#include "sdl.h"
+module;
 
 #include <string>
 #include <iostream>
 #include <exception>
+#include <cstdint>
 
 /*
 #include "SDL2/SDL.h"
 */
+
+export module sdl;
 
 import definitions;
 
@@ -19,7 +22,39 @@ namespace
 }
 */
 
-SDL::SDLManager::pixel dummy {};
+namespace SDL {
+
+	export struct SDLManager
+	{
+		using pixel = uint32_t;
+		using offset = uint_fast16_t;
+		pixel dummy{};
+
+		Screen g_screen { 0, 0 };
+		bool initialized { false };
+		bool locked { false };
+
+		SDLManager() = default;
+		SDLManager(const SDLManager&) = delete;
+		SDLManager(SDLManager&&) = delete;
+		~SDLManager() = default;
+
+		bool Init(const Screen& screen);
+		void Finalize();
+		ProgramStatus PollSDLEvents();
+
+		void LockSurface();
+		void UnlockSurface();
+		void UpdateSurface();
+
+		void PutPixel(offset x, offset y, const pixel rgba);
+
+	private:
+
+		pixel& getPixel(offset x, offset y);
+
+	};
+}
 
 bool SDL::SDLManager::Init(const Screen& screen)
 {

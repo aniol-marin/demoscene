@@ -11,17 +11,12 @@ FetchContent_Declare(
 FetchContent_MakeAvailable(SDL2)
 
 target_link_libraries( ${MODULE_NAME}
-	PUBLIC SDL2
-	PUBLIC engine_definitions
-)
-
-target_include_directories( ${MODULE_NAME} PUBLIC
-	"${MODULE_NAME}_SOURCE_DIR"
+	PRIVATE SDL2
+	PRIVATE engine_definitions
 )
 
 target_sources(${MODULE_NAME} PUBLIC
-	sdl.cpp
-	PUBLIC FILE_SET HEADERS
+	FILE_SET sdl_wrapper TYPE CXX_MODULES
 	FILES
-	sdl.h
+	sdl.cpp
 )

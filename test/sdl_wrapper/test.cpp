@@ -1,13 +1,11 @@
 #include<catch2/catch_test_macros.hpp>
-#include <functional>
-#include "sdl.h"
 
 #include <any> //needed due to injection for some reason
+#include <functional>
 #include <iostream>
 
-/*
-   import sdl; 
-*/
+import sdl; 
+import definitions; 
 
 TEST_CASE("Manager basic behavior", "[SDL Wrapper]")
 {

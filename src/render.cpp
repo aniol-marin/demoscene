@@ -5,15 +5,13 @@ module;
 #include <vector>
 #include <iostream>
 
-#include "sdl.h"
-
 export module render;
 
 import definitions;
 import effects;
 import renderables;
+import sdl;
 /*
-   import sdl;
 import <map>;
 import <memory>;
 import <vector>;
