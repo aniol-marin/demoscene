@@ -1,4 +1,31 @@
-module effects;
+export module gradient;
+
+import std;
+import effect;
+import definitions;
+import timer;
+
+namespace MoleDemo {
+	export class Gradient;
+}
+
+class MoleDemo::Gradient :
+	public Texturable,
+	public Effect {
+	Color NE, NW, SW, SE;
+public:
+	Gradient();
+	Gradient(Timer* timer, Screen* screen);
+	~Gradient();
+
+	void SetColors(Color NE, Color NW, Color SW, Color SE);
+
+	void Load() override;
+	void Unload() override;
+	void Update(permille intensity, milliseconds delta) override;
+	void Cache(StencilBuffer& mask)  override;
+	rgbaColor GetMappedUV(CoordinateUV uv) override;
+};
 
 namespace MoleDemo {
 
@@ -46,8 +73,8 @@ namespace MoleDemo {
 
 	rgbaColor Gradient::GetMappedUV(CoordinateUV p) {
 		Point2D mapped{
-			abs((int)(p.u * permilleFactor / screen->w)) % screen->w,
-			abs((int)(p.v * permilleFactor / screen->h)) % screen->h
+			std::abs((int)(p.u * permilleFactor / screen->w)) % screen->w,
+			std::abs((int)(p.v * permilleFactor / screen->h)) % screen->h
 		};
 		return Effect::GetPixel(mapped);
 	}

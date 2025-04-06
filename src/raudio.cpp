@@ -1,21 +1,13 @@
 module;
 
-#include <string>
-#include <cstdint>
-#include <queue>
-
-export module raudio;
-
-import definitions;
-/*
-import <string>;
-import <cstdint>;
-import <queue>;
- */
-
 extern "C" {
 #include "raudio.h"
 }
+
+export module raudio;
+
+import std;
+import definitions;
 
 namespace RAudio {
 

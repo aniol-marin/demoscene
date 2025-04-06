@@ -1,20 +1,12 @@
-module;
-
-#include <functional>
-#include <memory>
-#include <cstddef>
-
 export module effects;
 
 export import effect;
 export import solid;
 export import stars;
+export import gradient;
+import std;
 import definitions;
 import timer;
-/*
-import <functional>;
-import <memory>;
-*/
 
 namespace MoleDemo {
 
@@ -112,23 +104,6 @@ public:
 */
 
 /*
-class MoleDemo::Gradient :
-	public Texturable,
-	public Effect {
-	Color NE, NW, SW, SE;
-public:
-	Gradient();
-	Gradient(Timer* timer, Screen* screen);
-	~Gradient();
-
-	void SetColors(Color NE, Color NW, Color SW, Color SE);
-
-	void Load() override;
-	void Unload() override;
-	void Update(permille intensity, milliseconds delta) override;
-	void Cache(StencilBuffer& mask)  override;
-	rgbaColor GetMappedUV(CoordinateUV uv) override;
-};
 
 class MoleDemo::ChessBoard :
 	public Texturable,

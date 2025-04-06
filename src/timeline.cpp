@@ -11,13 +11,6 @@ import sound;
 */
 import program;
 import render;
-/*
-import <string>;
-import <queue>;
-import <vector>;
-import <memory>;
-import <functional>;
-*/
 
 namespace MoleDemo {
 
@@ -227,11 +220,11 @@ public:
 		// Effects
 		Solid* solid1{ CreateEffect<Solid>() };
 		solid1->SetColor(black);
-		/*
 
 		Solid* solid2{ CreateEffect<Solid>() };
 		solid2->SetColor(white);
 
+		/*
 		Gradient* gradient1{ CreateEffect<Gradient>() };
 		gradient1->SetColors(white, black, black, white);
 

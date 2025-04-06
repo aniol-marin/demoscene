@@ -1,12 +1,6 @@
-module;
-
-#include <string>
-#include <any> //needed due to injection for some reason
-#include <iostream>
-//#include <thread>
-
 export module demo;
 
+import std;
 import injection;
 import definitions;
 import program;
@@ -18,11 +12,6 @@ import sound;
 import render;
 import timeline;
 import cycle;
- /*
- import <string>;
- import <vector>;
- import <thread>;
- */
 
 using Container = MoleDemo::Container;
 

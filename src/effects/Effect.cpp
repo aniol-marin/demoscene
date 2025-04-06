@@ -1,9 +1,6 @@
-module;
-
-#include <exception>
-
 export module effect;
 
+import std;
 import definitions;
 import timer;
 

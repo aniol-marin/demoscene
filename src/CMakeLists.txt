@@ -1,4 +1,5 @@
-add_executable(demoscene)
+set(MODULE_NAME demoscene)
+add_executable(${MODULE_NAME})
 
 #[[
 include(FetchContent)
@@ -12,8 +13,9 @@ FetchContent_MakeAvailable(raudio)
 ]]#
 
 add_subdirectory(engine)
+add_subdirectory(effects)
 
-target_link_libraries(demoscene
+target_link_libraries(${MODULE_NAME}
 	#PRIVATE raudio
 	PRIVATE injection
 	PRIVATE engine_definitions
@@ -21,9 +23,8 @@ target_link_libraries(demoscene
 	PRIVATE input
 )
 
-target_sources(demoscene PUBLIC
+target_sources(${MODULE_NAME} PUBLIC
 	FILE_SET demo TYPE CXX_MODULES
-	#FILE_SET definitions TYPE CXX_MODULES
 	FILE_SET program TYPE CXX_MODULES
 	FILE_SET timer TYPE CXX_MODULES
 	#FILE_SET raudio TYPE CXX_MODULES
@@ -32,6 +33,7 @@ target_sources(demoscene PUBLIC
 	FILE_SET effect TYPE CXX_MODULES
 	FILE_SET stars TYPE CXX_MODULES
 	FILE_SET solid TYPE CXX_MODULES
+	FILE_SET gradient TYPE CXX_MODULES
 	FILE_SET renderables TYPE CXX_MODULES
 	FILE_SET render TYPE CXX_MODULES
 	FILE_SET cycle TYPE CXX_MODULES
@@ -43,16 +45,12 @@ target_sources(demoscene PUBLIC
 	#raudio.cpp
 	#sound.cpp
 	effects.cpp
-	effects/Effect.cpp
-	effects/Stars.cpp
-	effects/Solid.cpp
-	#effects/ChessBoard.cpp
 	renderables.cpp
 	render.cpp
 	cycle.cpp
 	timeline.cpp
 )
 
-target_sources(demoscene PRIVATE
+target_sources(${MODULE_NAME} PUBLIC
 	main.cpp
 )

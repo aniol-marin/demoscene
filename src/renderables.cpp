@@ -1,10 +1,6 @@
-module;
-
-#include <iostream>
-#include <string>
-
 export module renderables;
 
+import std;
 import definitions;
 import effects;
 
@@ -15,7 +11,6 @@ namespace MoleDemo {
 	export class Transition;
 	export class Cut;
 	export class Fade;
-
 }
 
 struct MoleDemo::Layer : public Renderable {
@@ -30,17 +25,6 @@ struct MoleDemo::Layer : public Renderable {
 	}
 
 	void Update(permille intensity, milliseconds deltaTime) override {
-
-		std::string renderable_name{
-			dynamic_cast<Solid*>(effect)
-			? "Solid"
-			: dynamic_cast<Stars*>(effect)
-			? "Stars"
-			: dynamic_cast<Layer*>(effect)
-			? "Layer"
-			: "UNKNOWN"
-		};
-		std::cout <<  "\nlayer content: " << renderable_name << "\n";
 		effect->Update(intensity, deltaTime);
 	}
 	void Cache(StencilBuffer& mask) override {
