@@ -1,10 +1,6 @@
 #include<catch2/catch_test_macros.hpp>
 
-#include <any> //needed due to injection for some reason
-#include <functional>
-#include <iostream>
-
-
+import std;
 import injection; 
 
 struct test_class

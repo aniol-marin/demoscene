@@ -1,25 +1,12 @@
-module;
-
-#include <cstdint>
-#include <map>
-#include <memory>
-#include <functional>
-#include <exception>
-#include <any>
-#include <concepts>
-
 export module injection;
 
-/*
- import <map>;
- import <memory>;
- import <functional>;
- */
+import std;
 
 namespace MoleDemo
 {
 
-	using id_capacity = uint8_t;
+	using id_capacity = int;
+	using id_t = std::size_t;
 
 	struct Factory
 	{
@@ -82,7 +69,7 @@ namespace MoleDemo
 
 	export class Container
 	{
-		std::map<size_t, std::unique_ptr<Factory>> factories {};
+		std::map<id_t, std::unique_ptr<Factory>> factories {};
 
 		public:
 		Container() = default;
@@ -106,7 +93,7 @@ namespace MoleDemo
 		requires std::convertible_to<TConcrete, TInterface>
 		void BindUnique()
 		{
-			size_t id { typeid(TInterface).hash_code() };
+			id_t id { typeid(TInterface).hash_code() };
 			factories[id] = { std::make_unique<UniqueFactory<TInterface, TConcrete>>() };
 		}
 		
@@ -114,7 +101,7 @@ namespace MoleDemo
 		requires std::convertible_to<TConcrete, TInterface>
 		void BindUnique(std::function<TConcrete()>&& functor)
 		{
-			size_t id { typeid(TInterface).hash_code() };
+			id_t id { typeid(TInterface).hash_code() };
 			factories[id] = { std::make_unique<UniqueFactory<TInterface, TConcrete>>(std::move(functor)) };
 		}
 
@@ -134,7 +121,7 @@ namespace MoleDemo
 		requires std::convertible_to<TConcrete, TInterface>
 		void BindShared()
 		{
-			size_t id { typeid(TInterface).hash_code() };
+			id_t id { typeid(TInterface).hash_code() };
 			factories[id] = { std::make_unique<SharingFactory<TInterface, TConcrete>>() };
 		}
 
@@ -142,12 +129,12 @@ namespace MoleDemo
 		requires std::convertible_to<TConcrete, TInterface>
 		void BindShared(std::function<TConcrete()>&& functor)
 		{
-			size_t id { typeid(TInterface).hash_code() };
+			id_t id { typeid(TInterface).hash_code() };
 			factories[id] = { std::make_unique<SharingFactory<TInterface, TConcrete>>(std::move(functor)) };
 		}
 
 		template<typename T, typename ... TArguments>
-		T& Inject(size_t id = 0)
+		T& Inject(id_t id = 0)
 		{
 			auto it { factories.find(typeid(T).hash_code())}; 
 
