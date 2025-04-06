@@ -1,8 +1,5 @@
 module;
 
-#include <string>
-#include <iostream>
-#include <exception>
 #include <cstdint>
 
 /*
@@ -11,6 +8,7 @@ module;
 
 export module sdl;
 
+import std;
 import definitions;
 
 /*
@@ -36,7 +34,7 @@ namespace SDL {
 
 		SDLManager() = default;
 		SDLManager(const SDLManager&) = delete;
-		SDLManager(SDLManager&&) = delete;
+		SDLManager(SDLManager&&) = default;
 		~SDLManager() = default;
 
 		bool Init(const Screen& screen);

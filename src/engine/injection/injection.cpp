@@ -1,3 +1,7 @@
+module;
+
+#include <cstdint>
+
 export module injection;
 
 import std;
@@ -5,7 +9,7 @@ import std;
 namespace MoleDemo
 {
 
-	using id_capacity = int;
+	using id_capacity = uint_fast8_t;
 	using id_t = std::size_t;
 
 	struct Factory

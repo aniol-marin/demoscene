@@ -1,24 +1,14 @@
-module;
-
-#include <map>
-#include <memory>
-#include <vector>
-#include <iostream>
-
 export module render;
 
+import std;
 import definitions;
 import effects;
 import renderables;
 import sdl;
-/*
-import <map>;
-import <memory>;
-import <vector>;
-*/
 
 namespace MoleDemo {
 
+	using size_t = std::size_t;
 	export class RenderManager;
 
 	class RenderQueue;

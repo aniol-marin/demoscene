@@ -1,22 +1,10 @@
 module;
 
-#include <string>
-#include <iostream>
-#include <memory>
-#include <functional>
 #include <cstdint>
-#include <exception>
 
 export module definitions;
 
-/*
-import <string>;
-import <vector>;
-import <memory>;
-import <functional>;
-import <cstdint>;
-import <exception>;
-*/
+import std;
 
 export class Color;
 export struct Point2D;

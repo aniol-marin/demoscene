@@ -1,9 +1,6 @@
-module;
-
-#include <iostream>
-
 export module input;
 
+import std;
 import definitions;
 import sdl;
 
