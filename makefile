@@ -40,17 +40,15 @@ test:
 retest:
 	cd build/; ctest -R ^test.*\$
 
-.PHONY: test-sdl
-test-sdl:
+build-%: generate
+	echo "building $(%)"
+	$(CMAKE_PATH) --build build --target $(@)
+	
+test-%:
 	export LD_LIBRARY=/usr/lib64/
-	$(CMAKE_PATH) --build build --target test-sdl
-	$(TEST_PATH)-sdl
-
-.PHONY: test-injection
-test-injection:
-	export LD_LIBRARY=/usr/lib64/
-	$(CMAKE_PATH) --build build --target test-injection
-	$(TEST_PATH)-injection
+	echo "testing $(@)"
+	$(CMAKE_PATH) --build build --target $(@)
+	$(TEST_PATH)/$(@)
 
 clean:
 	$(CMAKE_PATH) --build build --target clean

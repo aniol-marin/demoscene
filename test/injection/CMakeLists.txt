@@ -1,7 +1,12 @@
 enable_testing()
 set(TEST_TARGET "test-injection")
 
-add_executable(${TEST_TARGET})
+add_executable(${TEST_TARGET} EXCLUDE_FROM_ALL)
+
+set_target_properties(${TEST_TARGET}
+	PROPERTIES
+	RUNTIME_OUTPUT_DIRECTORY ${CMAKE_RUNTIME_OUTPUT_DIRECTORY}/test
+)
 
 target_link_libraries( ${TEST_TARGET}
     PRIVATE Catch2::Catch2WithMain

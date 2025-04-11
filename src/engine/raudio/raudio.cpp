@@ -1,10 +1,9 @@
 module;
 
-extern "C" {
 #include "raudio.h"
-}
 
 export module raudio;
+
 
 import std;
 import definitions;

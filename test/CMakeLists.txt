@@ -8,4 +8,5 @@ FetchContent_MakeAvailable(Catch2)
 
 add_subdirectory(sdl_wrapper)
 add_subdirectory(injection)
+add_subdirectory(raudio)
 

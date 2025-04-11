@@ -3,6 +3,7 @@ add_subdirectory(injection)
 add_subdirectory(definitions)
 add_subdirectory(sdl)
 add_subdirectory(input)
+add_subdirectory(raudio)
 
 #[[
 include(FetchContent)
