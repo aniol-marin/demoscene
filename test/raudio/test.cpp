@@ -94,9 +94,7 @@ TEST_CASE("Manager basic behavior", "[RAudio Wrapper]")
 		RAudio::AudioManager m {};
 
 		REQUIRE_NOTHROW( m.Init() );
-		/*
 		REQUIRE_NOTHROW( m.Finalize() );
-		*/
 		REQUIRE_NOTHROW( std::invoke([&]()
 		{
 			m.Init();

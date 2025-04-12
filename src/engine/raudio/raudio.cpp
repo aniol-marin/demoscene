@@ -8,129 +8,158 @@ export module raudio;
 import std;
 import definitions;
 
-namespace RAudio {
+namespace RAudio
+{
+	export struct AudioManager
+	{
+		//AudioManager() = default;
+		AudioManager() { std:: cout << "constructing \n";}
+		AudioManager(const AudioManager&) = delete;
+		AudioManager(AudioManager&&) = default;
+		~AudioManager();
 
-	export struct AudioManager;
+		void Init();
+		void Finalize();
+		void Load(std::string_view source);
+		void Unload();
 
-	export void InitAudio();
-	export void FinalizeAudio();
+		void Play();
+		void Stop();
+		void Tick();
 
-	export void LoadMusic(std::string_view source);
-	export void UnloadMusic();
+		seconds GetDuration();
+		permille GetIntensity();
+	private:
+		bool initialized { false };
+		Music music {};
+		static permille intensity;
 
-	export void PlayMusic();
-	export void StopMusic();
-	export void Update();
+		static void SampleIntensity(void* buffer, unsigned int frames);
+	};
 
-	export seconds GetMusicDuration();
-	export permille GetMusicIntensity();
+	permille AudioManager::intensity = {};
 
-	Music music;
-	permille intensity;
-	std::queue<float> average;
+	AudioManager::~AudioManager()
+	{
+		if (initialized) Finalize();
+	}
 
-	void SampleIntensity(void* buffer, unsigned int frames) {
-
+	void AudioManager::SampleIntensity(void* buffer, unsigned int frames)
+	{
+		static std::queue<float> average {};
 		float* intensities{ static_cast<float*>(buffer) };
 
 		float accumulated{};
-		for (int i = 0; i < frames; ++i) {
+		for (int i = 0; i < frames; ++i)
+		{
 			accumulated += std::abs(intensities[i * 2 + 0]);
 			accumulated += std::abs(intensities[i * 2 + 1]);
 		}
 
 		float current{ accumulated / frames };
 		average.push(current);
-		while (average.size() > 100) {
+		while (average.size() > 100)
+		{
 			average.pop();
 		}
 
 		float max{ current };
-		for (int i = 0; i < average.size(); ++i) {
+		for (int i = 0; i < average.size(); ++i)
+		{
 			max = max < average.front() ? average.front() : max;
 			average.push(average.front());
 			average.pop();
 		}
 		intensity = (permille)(max * permilleFactor);
 	}
-}
 
-struct RAudio::AudioManager
-{
-	AudioManager() = default;
-	AudioManager(const AudioManager&) = delete;
-	AudioManager(AudioManager&&) = default;
-	~AudioManager() { if (initialized) Finalize(); }
-
-	void Init()
+	void AudioManager::Init()
 	{
 		if (initialized)
 		{
 			throw std::exception{};
 		}
 
-		InitAudio();
+		/*
+		InitAudioDevice();
+		SetAudioStreamBufferSizeDefault(4096);
+		*/
 		initialized = true;
 	}
-	void Finalize()
+
+	void AudioManager::Finalize()
 	{
 		if (!initialized)
 		{
 			throw std::exception{};
 		}
 
-		FinalizeAudio();
+		/*
+		StopMusicStream(music);
+		*/
 		initialized = false;
 	}
-	void Load(std::string_view source) { LoadMusic(source); }
-	void Unload() { UnloadMusic();}
 
-	void Play() { PlayMusic(); }
-	void Stop() { StopMusic(); }
-	void Tick() { Update(); }
+	void AudioManager::Load(std::string_view source)
+	{
+		if (!initialized)
+		{
+			throw std::exception{};
+		}
 
-	seconds GetDuration() { return GetMusicDuration(); }
-	permille GetIntensity() { return GetMusicIntensity(); }
-private:
-	bool initialized { false };
-};
+		std::string s { source };
+		music = LoadMusicStream(s.c_str());
+		AttachAudioStreamProcessor(music.stream, SampleIntensity);
+	}
 
-void RAudio::InitAudio() {
-	InitAudioDevice();
-	SetAudioStreamBufferSizeDefault(4096);
-}
+	void AudioManager::Unload()
+	{
+		if (!initialized)
+		{
+			throw std::exception{};
+		}
 
-void RAudio::FinalizeAudio() {
-	StopMusicStream(music);
-}
+		DetachAudioStreamProcessor(music.stream, SampleIntensity);
+		//UnloadMusicStream(music); // TODO fix exception while unloading
+	}
 
-void RAudio::LoadMusic(std::string_view source) {
-	std::string s { source };
-	music = LoadMusicStream(s.c_str());
-	AttachAudioStreamProcessor(music.stream, SampleIntensity);
-}
+	void AudioManager::Play()
+	{
+		if(!initialized)
+		{
+			throw std::exception{};
+		}
 
-void RAudio::UnloadMusic() {
-	DetachAudioStreamProcessor(music.stream, SampleIntensity);
-	//UnloadMusicStream(music); // TODO fix exception while unloading
-}
+		PlayMusicStream(music);
+	}
 
-void RAudio::PlayMusic() {
-	PlayMusicStream(music);
-}
+	void AudioManager::Stop()
+	{
+		if(!initialized)
+		{
+			throw std::exception{};
+		}
 
-void RAudio::StopMusic() {
-	StopMusicStream(music);
-}
+		StopMusicStream(music);
+	}
 
-void RAudio::Update() {
-	UpdateMusicStream(music);
-}
+	void AudioManager::Tick()
+	{
+		if(!initialized)
+		{
+			throw std::exception{};
+		}
 
-export seconds  RAudio::GetMusicDuration() {
-	return (seconds)GetMusicTimeLength(music);
-}
+		UpdateMusicStream(music);
+	}
 
-export permille  RAudio::GetMusicIntensity() {
-	return (permille)intensity;
+	seconds  AudioManager::GetDuration()
+	{
+		return (seconds)GetMusicTimeLength(music);
+	}
+
+	permille  AudioManager::GetIntensity()
+	{
+		return (permille)intensity;
+	}
 }
