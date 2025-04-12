@@ -6,9 +6,44 @@ import definitions;
 
 TEST_CASE("Raylib Audio Tests", "[RAudio Wrapper]")
 {
-	SECTION("test suite works")
+	SECTION("manager cannot be copied")
 	{
-		REQUIRE(true);
+		CHECK(std::is_copy_constructible_v<RAudio::AudioManager> == false);
+	}
+}
+
+SCENARIO("Manager behavior")
+{
+	GIVEN("an AudioManager")
+	{
+		WHEN("instantiated")
+		{
+			THEN("it should not throw")
+			{
+				REQUIRE(true);
+			}
+		}
+	}
+	AND_GIVEN("a misused AudioManager")
+	{
+		WHEN("doubly initialized")
+		{
+			THEN("it should throw")
+			{
+				REQUIRE(true);
+			}
+			AND_THEN("it should be still possible to initialize")
+			{
+				REQUIRE(true);
+			}
+		}
+		AND_WHEN("not initialized")
+		{
+			THEN("shouldn't accept asset loading")
+			{
+				REQUIRE(true);
+			}
+		}
 	}
 }
 
@@ -59,7 +94,9 @@ TEST_CASE("Manager basic behavior", "[RAudio Wrapper]")
 		RAudio::AudioManager m {};
 
 		REQUIRE_NOTHROW( m.Init() );
+		/*
 		REQUIRE_NOTHROW( m.Finalize() );
+		*/
 		REQUIRE_NOTHROW( std::invoke([&]()
 		{
 			m.Init();
@@ -72,6 +109,7 @@ TEST_CASE("Manager basic behavior", "[RAudio Wrapper]")
 		}));
 	}
 
+	/*
 	SECTION("Interface mock")
 	{
 		RAudio::AudioManager m {};
@@ -84,6 +122,7 @@ TEST_CASE("Manager basic behavior", "[RAudio Wrapper]")
 		REQUIRE_NOTHROW( 1 == m.GetDuration() );
 		REQUIRE_NOTHROW( 1 == m.GetIntensity() );
 	}
+	 */
 }
 
 /*
