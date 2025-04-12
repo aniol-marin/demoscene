@@ -10,10 +10,12 @@ import definitions;
 
 namespace RAudio {
 
+	export struct AudioManager;
+
 	export void InitAudio();
 	export void FinalizeAudio();
 
-	export void LoadMusic(std::string source);
+	export void LoadMusic(std::string_view source);
 	export void UnloadMusic();
 
 	export void PlayMusic();
@@ -53,6 +55,46 @@ namespace RAudio {
 	}
 }
 
+struct RAudio::AudioManager
+{
+	AudioManager() = default;
+	AudioManager(const AudioManager&) = delete;
+	AudioManager(AudioManager&&) = default;
+	~AudioManager() { if (initialized) Finalize(); }
+
+	void Init()
+	{
+		if (initialized)
+		{
+			throw std::exception{};
+		}
+
+		InitAudio();
+		initialized = true;
+	}
+	void Finalize()
+	{
+		if (!initialized)
+		{
+			throw std::exception{};
+		}
+
+		FinalizeAudio();
+		initialized = false;
+	}
+	void Load(std::string_view source) { LoadMusic(source); }
+	void Unload() { UnloadMusic();}
+
+	void Play() { PlayMusic(); }
+	void Stop() { StopMusic(); }
+	void Tick() { Update(); }
+
+	seconds GetDuration() { return GetMusicDuration(); }
+	permille GetIntensity() { return GetMusicIntensity(); }
+private:
+	bool initialized { false };
+};
+
 void RAudio::InitAudio() {
 	InitAudioDevice();
 	SetAudioStreamBufferSizeDefault(4096);
@@ -62,8 +104,9 @@ void RAudio::FinalizeAudio() {
 	StopMusicStream(music);
 }
 
-void RAudio::LoadMusic(std::string source) {
-	music = LoadMusicStream(source.c_str());
+void RAudio::LoadMusic(std::string_view source) {
+	std::string s { source };
+	music = LoadMusicStream(s.c_str());
 	AttachAudioStreamProcessor(music.stream, SampleIntensity);
 }
 

@@ -33,7 +33,7 @@ run:
 	$(BINARY_PATH)
 
 .PHONY: test
-test:
+test: generate
 	$(CMAKE_PATH) --build build --target test
 
 .PHONY: retest

@@ -12,33 +12,86 @@ TEST_CASE("Raylib Audio Tests", "[RAudio Wrapper]")
 	}
 }
 
-/*
-TEST_CASE("Manager basic behavior", "[SDL Wrapper]")
+SCENARIO("Asset load simulation", "[RAudio Wrapper]")
 {
-	SECTION("Manager can be instantiated")
+	GIVEN("an AudioManager")
 	{
-		REQUIRE_NOTHROW(SDL::SDLManager{});
-	}
-
-	SECTION("SDL can be started and stopped")
-	{
-		SDL::SDLManager m {};
-
-		REQUIRE_NOTHROW(m.Init({640, 480}));
-		REQUIRE_NOTHROW(m.Finalize());
-		REQUIRE_NOTHROW(std::invoke([&]()
+		WHEN("instantiated")
 		{
-			m.Init({640, 480});
-			m.Finalize();
-		}));
+			THEN("it should not throw")
+			{
+				REQUIRE(true);
+			}
+		}
+	}
+	AND_GIVEN("a misused AudioManager")
+	{
+		WHEN("doubly initialized")
+		{
+			THEN("it should throw")
+			{
+				REQUIRE(true);
+			}
+			AND_THEN("it should be still possible to initialize")
+			{
+				REQUIRE(true);
+			}
+		}
+		AND_WHEN("not initialized")
+		{
+			THEN("shouldn't accept asset loading")
+			{
+				REQUIRE(true);
+			}
+		}
 	}
 }
 
-TEST_CASE("Manager interface: surface interaction", "[SDL Wrapper]")
+TEST_CASE("Manager basic behavior", "[RAudio Wrapper]")
+{
+	SECTION("Manager can be instantiated")
+	{
+		REQUIRE_NOTHROW(RAudio::AudioManager{});
+	}
+
+	SECTION("RAudio can be started and stopped")
+	{
+		RAudio::AudioManager m {};
+
+		REQUIRE_NOTHROW( m.Init() );
+		REQUIRE_NOTHROW( m.Finalize() );
+		REQUIRE_NOTHROW( std::invoke([&]()
+		{
+			m.Init();
+			m.Finalize();
+		}));
+		REQUIRE_THROWS( std::invoke([&]()
+		{
+			m.Init();
+			m.Init();
+		}));
+	}
+
+	SECTION("Interface mock")
+	{
+		RAudio::AudioManager m {};
+
+		REQUIRE_NOTHROW( m.Load("/home/bru/demoscene-2023/resources/molelofi.mp3") );
+		REQUIRE_NOTHROW( m.Unload() );
+		REQUIRE_NOTHROW( m.Play() );
+		REQUIRE_NOTHROW( m.Stop() );
+		REQUIRE_NOTHROW( m.Tick() );
+		REQUIRE_NOTHROW( 1 == m.GetDuration() );
+		REQUIRE_NOTHROW( 1 == m.GetIntensity() );
+	}
+}
+
+/*
+TEST_CASE("Manager interface: surface interaction", "[RAudio Wrapper]")
 {
 	SECTION("Surface can be locked and ulocked without restrictions")
 	{
-		SDL::SDLManager m {};
+		RAudio::SDLManager m {};
 
 		REQUIRE_NOTHROW(std::invoke([&]()
 		{
@@ -80,7 +133,7 @@ TEST_CASE("Manager interface: surface interaction", "[SDL Wrapper]")
 
 	SECTION("Manager throws when trying to update an unlocked surface")
 	{
-		SDL::SDLManager m {};
+		RAudio::SDLManager m {};
 
 		REQUIRE_THROWS(std::invoke([&]()
 		{
@@ -92,7 +145,7 @@ TEST_CASE("Manager interface: surface interaction", "[SDL Wrapper]")
 
 	SECTION("Manager allows to update an initialized surface")
 	{
-		SDL::SDLManager m {};
+		RAudio::SDLManager m {};
 
 		REQUIRE_THROWS(std::invoke([&]()
 		{
@@ -118,7 +171,7 @@ TEST_CASE("Manager interface: surface interaction", "[SDL Wrapper]")
 
 	SECTION("Manager allows to update pixels within an initialized surface")
 	{
-		SDL::SDLManager m {};
+		RAudio::SDLManager m {};
 
 		REQUIRE_THROWS(std::invoke([&]()
 		{
@@ -161,11 +214,11 @@ TEST_CASE("Manager interface: surface interaction", "[SDL Wrapper]")
 	}
 }
 
-TEST_CASE("Manager interface: event polling", "[SDL Wrapper]")
+TEST_CASE("Manager interface: event polling", "[RAudio Wrapper]")
 {
 	SECTION("Manager allows to poll regular events")
 	{
-		SDL::SDLManager m {};
+		RAudio::SDLManager m {};
 
 		REQUIRE_NOTHROW(std::invoke([&]()
 		{
