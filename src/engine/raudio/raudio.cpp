@@ -12,8 +12,7 @@ namespace RAudio
 {
 	export struct AudioManager
 	{
-		//AudioManager() = default;
-		AudioManager() { std:: cout << "constructing \n";}
+		AudioManager() = default;
 		AudioManager(const AudioManager&) = delete;
 		AudioManager(AudioManager&&) = default;
 		~AudioManager();
@@ -77,6 +76,7 @@ namespace RAudio
 	{
 		if (initialized)
 		{
+			std::cerr << "already initialized\n";
 			throw std::exception{};
 		}
 
@@ -91,6 +91,7 @@ namespace RAudio
 	{
 		if (!initialized)
 		{
+			std::cerr << "already finalized\n";
 			throw std::exception{};
 		}
 
@@ -104,22 +105,28 @@ namespace RAudio
 	{
 		if (!initialized)
 		{
+			std::cerr << "load without initialization\n";
 			throw std::exception{};
 		}
 
 		std::string s { source };
+		/*
 		music = LoadMusicStream(s.c_str());
 		AttachAudioStreamProcessor(music.stream, SampleIntensity);
+		*/
 	}
 
 	void AudioManager::Unload()
 	{
 		if (!initialized)
 		{
+			std::cerr << "unload without initialization\n";
 			throw std::exception{};
 		}
 
+		/*
 		DetachAudioStreamProcessor(music.stream, SampleIntensity);
+		*/
 		//UnloadMusicStream(music); // TODO fix exception while unloading
 	}
 
@@ -127,30 +134,39 @@ namespace RAudio
 	{
 		if(!initialized)
 		{
+			std::cerr << "play without initialization\n";
 			throw std::exception{};
 		}
 
+		/*
 		PlayMusicStream(music);
+		*/
 	}
 
 	void AudioManager::Stop()
 	{
 		if(!initialized)
 		{
+			std::cerr << "stop without initialization\n";
 			throw std::exception{};
 		}
 
+		/*
 		StopMusicStream(music);
+		*/
 	}
 
 	void AudioManager::Tick()
 	{
 		if(!initialized)
 		{
+			std::cerr << "tick without initialization\n";
 			throw std::exception{};
 		}
 
+		/*
 		UpdateMusicStream(music);
+		*/
 	}
 
 	seconds  AudioManager::GetDuration()
