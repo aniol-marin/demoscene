@@ -116,12 +116,9 @@ namespace RAudio
 		}
 
 		std::string s { source };
-		std::cerr << "trying to load: [" << s << "]\n";
 		music = LoadMusicStream(s.c_str());
-		/*
-		std::cerr << "load status: [" << (IsMusicReady(music) ? "OK" : "FAIL") << "]\n";
 		AttachAudioStreamProcessor(music.stream, SampleIntensity);
-		*/
+
 		loaded = true;
 	}
 
@@ -139,9 +136,7 @@ namespace RAudio
 		}
 		 loaded = false;
 
-		/*
 		DetachAudioStreamProcessor(music.stream, SampleIntensity);
-		*/
 		//UnloadMusicStream(music); // TODO fix exception while unloading
 	}
 
@@ -153,9 +148,7 @@ namespace RAudio
 			throw std::exception{};
 		}
 
-		/*
 		PlayMusicStream(music);
-		*/
 	}
 
 	void AudioManager::Stop()
@@ -166,9 +159,7 @@ namespace RAudio
 			throw std::exception{};
 		}
 
-		/*
 		StopMusicStream(music);
-		*/
 	}
 
 	void AudioManager::Tick()
@@ -179,9 +170,7 @@ namespace RAudio
 			throw std::exception{};
 		}
 
-		/*
 		UpdateMusicStream(music);
-		*/
 	}
 
 	seconds  AudioManager::GetDuration()
