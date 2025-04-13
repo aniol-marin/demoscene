@@ -117,8 +117,8 @@ namespace RAudio
 
 		std::string s { source };
 		std::cerr << "trying to load: [" << s << "]\n";
-		/*
 		music = LoadMusicStream(s.c_str());
+		/*
 		std::cerr << "load status: [" << (IsMusicReady(music) ? "OK" : "FAIL") << "]\n";
 		AttachAudioStreamProcessor(music.stream, SampleIntensity);
 		*/
