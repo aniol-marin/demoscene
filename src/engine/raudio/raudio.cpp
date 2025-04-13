@@ -1,5 +1,6 @@
 module;
 
+#define SUPPORT_FILEFORMAT_MP3
 #include "raudio.h"
 
 export module raudio;
@@ -30,6 +31,7 @@ namespace RAudio
 		permille GetIntensity();
 	private:
 		bool initialized { false };
+		bool loaded { false };
 		Music music {};
 		static permille intensity;
 
@@ -80,10 +82,9 @@ namespace RAudio
 			throw std::exception{};
 		}
 
-		/*
 		InitAudioDevice();
 		SetAudioStreamBufferSizeDefault(4096);
-		*/
+
 		initialized = true;
 	}
 
@@ -95,9 +96,9 @@ namespace RAudio
 			throw std::exception{};
 		}
 
-		/*
 		StopMusicStream(music);
-		*/
+		CloseAudioDevice();
+
 		initialized = false;
 	}
 
@@ -108,12 +109,20 @@ namespace RAudio
 			std::cerr << "load without initialization\n";
 			throw std::exception{};
 		}
+		if (loaded)
+		{
+			std::cerr << "attempt at double load\n";
+			throw std::exception{};
+		}
 
 		std::string s { source };
+		std::cerr << "trying to load: [" << s << "]\n";
 		/*
 		music = LoadMusicStream(s.c_str());
+		std::cerr << "load status: [" << (IsMusicReady(music) ? "OK" : "FAIL") << "]\n";
 		AttachAudioStreamProcessor(music.stream, SampleIntensity);
 		*/
+		loaded = true;
 	}
 
 	void AudioManager::Unload()
@@ -123,6 +132,12 @@ namespace RAudio
 			std::cerr << "unload without initialization\n";
 			throw std::exception{};
 		}
+		if (!loaded)
+		{
+			std::cerr << "attempt at double unload\n";
+			throw std::exception{};
+		}
+		 loaded = false;
 
 		/*
 		DetachAudioStreamProcessor(music.stream, SampleIntensity);
