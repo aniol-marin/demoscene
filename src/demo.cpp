@@ -6,11 +6,13 @@ import definitions;
 import program;
 import input;
 import timer;
-import raudio;
 import sound;
 import render;
 import timeline;
 import cycle;
+// leaked implementation
+import raudio;
+import sdl;
 
 using Container = MoleDemo::Container;
 
@@ -84,10 +86,16 @@ class MoleDemo::Demo
 	{
 		container.BindShared<Timer>();
 		container.BindShared<SoundManager>();
-		container.BindShared<InputManager>();
 		container.BindShared<Screen>([this]{ return Screen{this->screen}; });
 		container.BindShared<Program>([&]{ return Program{ container.Inject<Screen>() }; });
-		container.BindShared<RenderManager>([&]{ return RenderManager{ container.Inject<Screen>() }; });
+		container.BindShared<SDL::SDLManager>();
+		container.BindShared<RenderManager>([&]{ return RenderManager{
+			container.Inject<Screen>(),
+			container.Inject<SDL::SDLManager>()
+		}; });
+		container.BindShared<InputManager>([&]{ return InputManager{
+			container.Inject<SDL::SDLManager>()
+		}; });
 		container.BindShared<Cycle>( [&] { return Cycle
 		{
 			container.Inject<Program>(),

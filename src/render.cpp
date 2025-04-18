@@ -109,7 +109,13 @@ public:
 class  MoleDemo::RenderManager : public Initializable {
 	public:
 
-	RenderManager() = default;
+	RenderManager() = delete;
+	RenderManager(Screen& screen, SDL::SDLManager& sdl) :
+		m_screen{ screen },
+		sdl{ sdl },
+		queue{ new RenderQueue() }
+	{
+	}
 	RenderManager(const RenderManager&) = default;
 	RenderManager(RenderManager&&) = default;
 	~RenderManager() = default;
@@ -119,7 +125,7 @@ class  MoleDemo::RenderManager : public Initializable {
 	RenderQueue* queue;
 	PixelBuffer buffer;
 	StencilBuffer mask;
-	SDL::SDLManager sdl {};
+	SDL::SDLManager& sdl;
 
 	void Lock() {
 		sdl.LockSurface();
@@ -130,12 +136,8 @@ class  MoleDemo::RenderManager : public Initializable {
 	void Render() {
 		sdl.UpdateSurface();
 	}
-public:
-	RenderManager(Screen screen) :
-		m_screen{ screen },
-		queue{ new RenderQueue() } {
 
-	}
+public:
 	void Init() {
 		sdl.Init({ defaultScreen.w, defaultScreen.h });
 		buffer.assign(size_t{ defaultScreen.GetPixelCount() }, black);

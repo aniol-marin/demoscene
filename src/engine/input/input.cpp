@@ -11,8 +11,16 @@ namespace MoleDemo {
 
 class MoleDemo::InputManager
 {
-	SDL::SDLManager manager{};
+	SDL::SDLManager& manager;
 public:
+	InputManager() = delete;
+	InputManager(SDL::SDLManager& manager) :
+		manager{ manager }
+	{
+	}
+	InputManager(const InputManager&) = delete;
+	InputManager(InputManager&&) = default;
+
 	ProgramStatus PollEvents()
 	{
 		return manager.PollSDLEvents();

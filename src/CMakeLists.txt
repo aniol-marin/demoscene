@@ -8,7 +8,6 @@ target_link_libraries(${MODULE_NAME}
 	PRIVATE injection
 	PRIVATE engine_definitions
 	PRIVATE sdl_wrapper
-	PRIVATE raudio_wrapper
 	PRIVATE input
 	PRIVATE sound
 )
