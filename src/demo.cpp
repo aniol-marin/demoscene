@@ -6,9 +6,8 @@ import definitions;
 import program;
 import input;
 import timer;
-/*
+import raudio;
 import sound;
-*/
 import render;
 import timeline;
 import cycle;
@@ -22,6 +21,7 @@ namespace MoleDemo {
 
 class MoleDemo::Demo
 {
+	RAudio::AudioManager am {};
 	Screen screen {600, 300};
 	const std::string project{};
 	std::string source{};
@@ -29,9 +29,7 @@ class MoleDemo::Demo
 	std::vector<Initializable*> initializables;
 	std::vector<Loadable*> loadables;
 	RenderManager* render;
-	/*
 	SoundManager* sound;
-	*/
 	Timeline* timeline;
 	Timer* timer;
 	Program* program;
@@ -58,14 +56,10 @@ class MoleDemo::Demo
 
 		initializables.push_back(&container.Inject<RenderManager>());
 		initializables.push_back(timeline);
-		/*
 		initializables.push_back(sound);
-		*/
 
 		loadables.push_back(timeline);
-		/*
 		loadables.push_back(sound);
-		 */
 
 		timer->SetFPS(60);
 
@@ -89,9 +83,7 @@ class MoleDemo::Demo
 	void InstallBindings()
 	{
 		container.BindShared<Timer>();
-		/*
 		container.BindShared<SoundManager>();
-		*/
 		container.BindShared<InputManager>();
 		container.BindShared<Screen>([this]{ return Screen{this->screen}; });
 		container.BindShared<Program>([&]{ return Program{ container.Inject<Screen>() }; });
@@ -108,9 +100,7 @@ class MoleDemo::Demo
 			container.Inject<Timer>(),
 			container.Inject<Program>(),
 			container.Inject<Cycle>(),
-			/*
 			container.Inject<SoundManager>(),
-			*/
 			container.Inject<Screen>()
 		};});
 
@@ -122,9 +112,7 @@ class MoleDemo::Demo
 		//Self injection (TO DO separate concerns)
 		program = &container.Inject<Program>();
 		timer = &container.Inject<Timer>();
-		/*
 		sound = &container.Inject<SoundManager>();
-		 */
 		timeline = &container.Inject<Timeline>();
 
 	}
@@ -139,21 +127,15 @@ public:
 	void Run()
 	{
 		Init();
-		/*
 		sound->Play();
-		*/
 		timeline->Start();
 
 		while (program->Running()) {
-			/*
 			sound->Update();
-			*/
 			timeline->Update();
 		}
 
-		/*
 		sound->Stop();
-		*/
 		Finalize();
 	}
 };
