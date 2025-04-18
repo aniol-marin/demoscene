@@ -116,6 +116,7 @@ class MoleDemo::Timeline :
 	public Loadable {
 		/*
 	SoundManager& sound;
+	SoundManager sound{}; // TO DO temp remove
 	*/
 	Screen& screen;
 	Timer& timer;
@@ -199,7 +200,11 @@ class MoleDemo::Timeline :
 	}
 
 public:
-	Timeline(Timer& timer, Program& program, Cycle& cycle,/* SoundManager& sound,*/ Screen& screen) :
+	Timeline(Timer& timer, Program& program, Cycle& cycle,
+			/*
+			SoundManager& sound,
+			*/
+			Screen& screen) :
 		currentEvent{ nullptr },
 		timer{ timer },
 		program{ program },
@@ -329,10 +334,9 @@ public:
 	}
 
 	void Start() {
-		timer.SetEndTime(999);
-			/*
+		/*
 		timer.SetEndTime(sound.GetMusicDuration());
-		*/
+				 */
 	}
 
 	void Update() {
@@ -340,10 +344,9 @@ public:
 		HandleTimeline();
 
 		cycle.PollEvents();
-		cycle.Update({});
 		/*
 		cycle.Update(sound.GetCurrentIntensity());
-		*/
+				 */
 		cycle.Draw();
 		cycle.Synch();
 	}

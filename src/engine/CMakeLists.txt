@@ -4,6 +4,7 @@ add_subdirectory(definitions)
 add_subdirectory(sdl)
 add_subdirectory(input)
 add_subdirectory(raudio)
+add_subdirectory(sound)
 
 #[[
 include(FetchContent)

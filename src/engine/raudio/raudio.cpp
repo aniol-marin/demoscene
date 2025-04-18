@@ -25,7 +25,7 @@ namespace RAudio
 
 		void Play();
 		void Stop();
-		void Tick();
+		void Update();
 
 		seconds GetDuration();
 		permille GetIntensity();
@@ -162,7 +162,7 @@ namespace RAudio
 		StopMusicStream(music);
 	}
 
-	void AudioManager::Tick()
+	void AudioManager::Update()
 	{
 		if(!initialized)
 		{

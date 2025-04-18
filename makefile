@@ -5,8 +5,10 @@ BINARY_PATH := ./bin/demoscene
 TEST_PATH := ./bin/test
 CMAKE_LOG_LEVEL := NOTICE
 
+listify = $(subst ., ,$(1))
+
 main: build run
-	@echo main done
+	echo main done
 
 debug: build
 	gdb $(BINARY_PATH)
@@ -28,7 +30,7 @@ generate:
 		-DEnableTesting=ON\
 		--log-level=$(CMAKE_LOG_LEVEL)
 
-run: 
+run: build 
 	export LD_LIBRARY=/usr/lib64/
 	$(BINARY_PATH)
 
@@ -40,15 +42,18 @@ test: generate
 retest:
 	cd build/; ctest -R ^test.*\$
 
-build-%: generate
-	echo "building $(%)"
-	$(CMAKE_PATH) --build build --target $(@)
-	
+build-%:
+	echo "building dot-separated targets: $(call listify,$(subst build-,,$@))"
+	$(CMAKE_PATH) --build build --target $(call listify,$(subst build-,,$@))
+
 test-%:
 	export LD_LIBRARY=/usr/lib64/
 	echo "testing $(@)"
 	$(CMAKE_PATH) --build build --target $(@)
 	$(TEST_PATH)/$(@)
+
+help-available-targets:
+	cmake --build build/ -t help | grep phony | grep -v -e cache -e _deps -e test -e lib -e Nightly -e Experimental -e Continuous -e Catch -e SDL2 -e raudio -e uninstall | tr -d : | awk '{ print $$1; }'
 
 clean:
 	$(CMAKE_PATH) --build build --target clean
@@ -57,3 +62,5 @@ wipe:
 	rm -rf build
 	rm -rf lib
 	rm -rf bin
+
+$(VERBOSE).SILENT: ;

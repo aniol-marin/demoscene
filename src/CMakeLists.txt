@@ -5,19 +5,18 @@ add_subdirectory(engine)
 add_subdirectory(effects)
 
 target_link_libraries(${MODULE_NAME}
-	#PRIVATE raudio
 	PRIVATE injection
 	PRIVATE engine_definitions
 	PRIVATE sdl_wrapper
+	PRIVATE raudio_wrapper
 	PRIVATE input
+	PRIVATE sound
 )
 
 target_sources(${MODULE_NAME} PUBLIC
 	FILE_SET demo TYPE CXX_MODULES
 	FILE_SET program TYPE CXX_MODULES
 	FILE_SET timer TYPE CXX_MODULES
-	#FILE_SET raudio TYPE CXX_MODULES
-	#FILE_SET sound TYPE CXX_MODULES
 	FILE_SET effects TYPE CXX_MODULES
 	FILE_SET effect TYPE CXX_MODULES
 	FILE_SET stars TYPE CXX_MODULES
@@ -31,8 +30,6 @@ target_sources(${MODULE_NAME} PUBLIC
 	demo.cpp
 	program.cpp
 	timer.cpp
-	#raudio.cpp
-	#sound.cpp
 	effects.cpp
 	renderables.cpp
 	render.cpp

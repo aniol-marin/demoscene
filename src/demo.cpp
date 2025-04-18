@@ -64,9 +64,8 @@ class MoleDemo::Demo
 
 		loadables.push_back(timeline);
 		/*
-		 * sound temporarily disabled
 		loadables.push_back(sound);
-		*/
+		 */
 
 		timer->SetFPS(60);
 
@@ -125,7 +124,7 @@ class MoleDemo::Demo
 		timer = &container.Inject<Timer>();
 		/*
 		sound = &container.Inject<SoundManager>();
-		*/
+		 */
 		timeline = &container.Inject<Timeline>();
 
 	}
@@ -154,7 +153,7 @@ public:
 
 		/*
 		sound->Stop();
-		 */
+		*/
 		Finalize();
 	}
 };

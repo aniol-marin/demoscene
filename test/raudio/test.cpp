@@ -92,7 +92,7 @@ SCENARIO("Manager behavior")
 				{
 					RAudio::AudioManager m {};
 					m.Init();
-					m.Tick();
+					m.Update();
 				}));
 			}
 			THEN("it should be possible to query its state")

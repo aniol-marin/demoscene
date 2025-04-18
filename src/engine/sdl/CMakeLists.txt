@@ -1,10 +1,10 @@
-set(MODULE_NAME "sdl_wrapper")
+set(MODULE_NAME sdl_wrapper)
 add_library(${MODULE_NAME})
 
 include(FetchContent)
-
 FetchContent_Declare(
 	SDL2
+	EXCLUDE_FROM_ALL
 	GIT_REPOSITORY https://github.com/libsdl-org/SDL.git
 	GIT_TAG e11183ea6caa3ae4895f4bc54cad2bbb0e365417 # 2.32.2
 )
