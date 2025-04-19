@@ -239,9 +239,9 @@ public:
 		Gradient* gradient5{ CreateEffect<Gradient>() };
 		gradient5->SetColors(skyN, skyN, skyS, skyS);
 
-		/*
 		ChessBoard* chessBoard{ CreateEffect<ChessBoard>() };
 		chessBoard->Set(0x4DA424, 0xA42479, 8);
+		/*
 
 		RandomNoise* noise{ CreateEffect<RandomNoise>() };
 		noise->Set(red, black, 128);
@@ -283,7 +283,9 @@ public:
 		/*
 		Layer* tunnelSmooth{ CreateLayer(BlendMode::Override, tunnelGradient) };
 		Layer* tunnelEpilepsy{ CreateLayer(BlendMode::Override, tunnelChess) };
+		*/
 		Layer* chess{ CreateLayer(BlendMode::Override, chessBoard) };
+		/*
 		Layer* sonicPollution{ CreateLayer(BlendMode::Override, noise) };
 		Layer* sanitaryPollution{ CreateLayer(BlendMode::Override, tunnelDirty) };
 		*/
@@ -305,8 +307,8 @@ public:
 		events.push(std::make_unique<Event>(Timestamp{ 47, 2000 }, verticalGradient, diagonalGradient, TransitionType::Fade));
 		events.push(std::make_unique<Event>(Timestamp{ 49, 4000 }, diagonalGradient, primaries, TransitionType::Fade));
 		events.push(std::make_unique<Event>(Timestamp{ 53, 3000 }, primaries, secondaries, TransitionType::Fade));
-		/*
 		events.push(std::make_unique<Event>(Timestamp{ 56, 512 }, secondaries, chess, TransitionType::Fade));
+		/*
 		events.push(std::make_unique<Event>(Timestamp{ 58, 512 }, chess, sonicPollution, TransitionType::Fade));
 		events.push(std::make_unique<Event>(Timestamp{ 65, 10000 }, sonicPollution, plasma, TransitionType::Fade));
 		events.push(std::make_unique<Event>(Timestamp{ 77, 1000 }, plasma, black, TransitionType::Fade));

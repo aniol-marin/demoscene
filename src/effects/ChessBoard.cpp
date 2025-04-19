@@ -1,8 +1,34 @@
-module effects;
+export module chess;
 
-/*
-import <iostream>;
-*/
+import std;
+import effect;
+import timer;
+import definitions;
+
+namespace MoleDemo
+{
+	export class ChessBoard;
+}
+
+class MoleDemo::ChessBoard :
+	public Texturable,
+	public Effect {
+	Color A, B;
+	bunch repetitions;
+
+public:
+	ChessBoard();
+	ChessBoard(Timer* timer, Screen* screen);
+	~ChessBoard();
+
+	void Set(Color A, Color B, bunch repetitions);
+
+	void Load() override;
+	void Unload() override;
+	void Update(permille intensity, milliseconds delta) override;
+	void Cache(StencilBuffer& mask)  override;
+	rgbaColor GetMappedUV(CoordinateUV uv) override;
+};
 
 namespace MoleDemo {
 
@@ -47,8 +73,8 @@ namespace MoleDemo {
 
 	rgbaColor ChessBoard::GetMappedUV(CoordinateUV p) {
 		Point2D mapped{
-			abs((int)(p.u * permilleFactor / screen->w)) % screen->w,
-			abs((int)(p.v * permilleFactor / screen->h)) % screen->h
+			std::abs((int)(p.u * permilleFactor / screen->w)) % screen->w,
+			std::abs((int)(p.v * permilleFactor / screen->h)) % screen->h
 		};
 		return Effect::GetPixel(mapped);
 	}

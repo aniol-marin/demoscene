@@ -5,6 +5,7 @@ export import solid;
 export import stars;
 export import gradient;
 export import wheel;
+export import chess;
 
 	/*
 	// regular effects
