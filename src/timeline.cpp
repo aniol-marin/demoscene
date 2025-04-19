@@ -267,9 +267,7 @@ public:
 		// Layers
 		Layer* stars{ CreateLayer(BlendMode::AlphaBlend, CreateEffect<Stars>()) };
 		Layer* plasma{ CreateLayer(BlendMode::Override, CreateEffect<Plasma>()) };
-		/*
 		Layer* fire{ CreateLayer(BlendMode::Override, CreateEffect<Fire>()) };
-		*/
 		Layer* black{ CreateLayer(BlendMode::Override, solid1) };
 		Layer* white{ CreateLayer(BlendMode::Override, solid2) };
 		Layer* verticalGradient{ CreateLayer(BlendMode::Override, gradient1) };
@@ -290,10 +288,8 @@ public:
 		}
 
 		renderables.push_back(stars);
-		events.push(std::make_unique<Event>(Timestamp{ 3, 2000 }, stars, sanitaryPollution, TransitionType::Fade));
-		/*
+		events.push(std::make_unique<Event>(Timestamp{ 5, 2000 }, stars, sanitaryPollution, TransitionType::Fade));
 		events.push(std::make_unique<Event>(Timestamp{ 31, 2000 }, fire, wheel, TransitionType::Fade));
-		*/
 		events.push(std::make_unique<Event>(Timestamp{ 40, 2000 }, wheel, black, TransitionType::Fade));
 		events.push(std::make_unique<Event>(Timestamp{ 43, 2000 }, black, white, TransitionType::Fade));
 		events.push(std::make_unique<Event>(Timestamp{ 45, 2000 }, white, verticalGradient, TransitionType::Fade));
@@ -305,7 +301,6 @@ public:
 		events.push(std::make_unique<Event>(Timestamp{ 65, 10000 }, sonicPollution, plasma, TransitionType::Fade));
 		events.push(std::make_unique<Event>(Timestamp{ 77, 1000 }, plasma, black, TransitionType::Fade));
 		events.push(std::make_unique<Event>(Timestamp{ 78, 1000 }, black, sky, TransitionType::Fade));
-		events.push(std::make_unique<Event>(Timestamp{ 79, 0 }, Renderables{ stars, stars }));
 		events.push(std::make_unique<Event>(Timestamp{ 79, 0 }, Renderables{ sky, stars }));
 		events.push(std::make_unique<Event>(Timestamp{ 90, 0 }, Renderables{ tunnelSmooth }));
 		events.push(std::make_unique<Event>(Timestamp{ 100, 0 }, Renderables{ tunnelEpilepsy }));

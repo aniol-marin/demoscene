@@ -1,6 +1,6 @@
 module;
 
-#include <stdlib.h>
+#include <cstdlib>
 
 export module noise;
 

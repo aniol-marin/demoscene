@@ -1,4 +1,41 @@
-module effects;
+module;
+
+#include <cstdlib>
+#include <cstdint>
+
+export module fire;
+
+import std;
+import effect;
+import definitions;
+import timer;
+
+namespace MoleDemo
+{
+	export class Fire;
+}
+
+class MoleDemo::Fire : public Effect {
+
+	PixelBuffer firstBuffer;
+	PixelBuffer secondBuffer;
+	std::vector<Color> palette;
+
+	void GeneratePalette();
+	void GenerateHotspots(PixelBuffer& buffer, permille intensity);
+	void FilterPrevious(PixelBuffer& src, PixelBuffer& dest, milliseconds delta, permille intensity);
+
+public:
+	Fire(Timer* timer, Screen* screen);
+	~Fire();
+
+	void Load() override;
+	void Unload() override;
+	void Update(permille intensity, milliseconds delta) override;
+	void Cache(StencilBuffer& mask)  override;
+	rgbaColor GetPixel(Point2D p) override;
+	rgbaColor GetPixel(index index) override;
+};
 
 namespace MoleDemo {
 	Fire::Fire(Timer* timer, Screen* screen) :
