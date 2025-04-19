@@ -22,7 +22,6 @@ class MoleDemo::Cycle {
 	Timer& timer;
 	InputManager& inputManager;
 	RenderManager& renderManager;
-	int failsafe {};
 public:
 	Cycle(Program& program, Timer& timer, InputManager& input, RenderManager& render) :
 		program{ program },
@@ -32,12 +31,7 @@ public:
 
 	void PollEvents() {
 		if (timer.EndReached()) {
-			++failsafe;
-			std::cout << "end technically reached\n";
-			if (failsafe > 120)
-			{
-				program.SetStatus(ProgramStatus::TERMINATE_OK);
-			}
+			program.SetStatus(ProgramStatus::TERMINATE_OK);
 		}
 		else {
 			program.SetStatus(inputManager.PollEvents());

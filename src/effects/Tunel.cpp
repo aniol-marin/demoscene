@@ -1,4 +1,46 @@
-module effects;
+module;
+
+#include <cstdint>
+
+export module tunel;
+
+import std;
+import effect;
+import definitions;
+import timer;
+
+namespace MoleDemo
+{
+	export class Tunel;
+}
+
+class MoleDemo::Tunel :
+	public Customizable,
+	public Effect
+{
+	long long accumulatedTime{};
+	std::vector<channel> Tunel1;
+	std::vector<Point2D> uv;
+	int Windowx1, Windowy1, Windowx2, Windowy2;
+	long src1, src2;
+	Color palette[256];
+	std::unique_ptr<Texturable> texture;
+
+	permille du, dv, speedU, speedV;
+
+	void buildPalette(uint16_t time);
+
+public:
+	Tunel(Timer* timer, Screen* screen);
+	~Tunel();
+
+	void Load() override;
+	void Unload() override;
+	void Update(permille intensity, milliseconds delta) override;
+	void Cache(StencilBuffer& mask)  override;
+	constexpr Id TextureLimit() const override { return 1; }
+	void AssignTexture(std::unique_ptr<Texturable> texture, Id id) override;
+};
 
 namespace MoleDemo {
 
@@ -17,7 +59,7 @@ namespace MoleDemo {
 	*/
 	float get_x_pos(float f)
 	{
-		return -16 * sin(f * PI / 256);
+		return -16 * std::sin(f * PI / 256);
 	};
 
 	/*
@@ -25,7 +67,7 @@ namespace MoleDemo {
 	*/
 	float get_y_pos(float f)
 	{
-		return -16 * sin(f * PI / 256);
+		return -16 * std::sin(f * PI / 256);
 	};
 
 	/*
@@ -41,7 +83,8 @@ namespace MoleDemo {
 		texture->Load();
 
 		uv.reserve(screen->GetPixelCount());
-		Offset2D center{ screen->w / 2, screen->h / 2 };
+		offset1D half { 2 };
+		Offset2D center{ static_cast<offset1D>(screen->w) / half, static_cast<offset1D>(screen->h) / half };
 		for (offset1D j{ -center.y }; j < center.y; ++j) {
 			for (offset1D i{ -center.x }; i < center.x; ++i) {
 
@@ -50,7 +93,7 @@ namespace MoleDemo {
 				float dy = (float)-j / screen->h;
 				float dz = 1;
 				// normalize them
-				float d = 20 / sqrt(dx * dx + dy * dy + 1);
+				float d = 20 / std::sqrt(dx * dx + dy * dy + 1);
 				dx *= d;
 				dy *= d;
 				dz *= d;
@@ -79,7 +122,7 @@ namespace MoleDemo {
 				// calculate the texture coordinates
 				x -= get_x_pos(z);
 				y -= get_y_pos(z);
-				float ang = atan2(y, x) * 256 / PI;
+				float ang = std::atan2(y, x) * 256 / PI;
 				unsigned char u = (unsigned char)ang;
 				unsigned char v = (unsigned char)z;
 				// store texture coordinates
@@ -104,7 +147,7 @@ namespace MoleDemo {
 				Point2D mapping{ uv[screen->GetIndex({x, y})] };
 				point1D u{ mapping.x + du };
 				point1D v{ mapping.y + dv };
-				Color base{ texture->GetMappedUV({u, v}) };
+				Color base{ texture->GetMappedUV({static_cast<offset1D>(u), static_cast<offset1D>(v)}) };
 				PutPixel({ x, y }, base.rgba());
 			}
 		}

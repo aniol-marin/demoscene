@@ -7,6 +7,7 @@ target_sources(${MODULE_NAME} PUBLIC
 	FILE_SET chess TYPE CXX_MODULES
 	FILE_SET plasma TYPE CXX_MODULES
 	FILE_SET noise TYPE CXX_MODULES
+	FILE_SET tunel TYPE CXX_MODULES
 	FILES
 	Effect.cpp
 	Stars.cpp
@@ -16,4 +17,5 @@ target_sources(${MODULE_NAME} PUBLIC
 	ChessBoard.cpp
 	Plasma.cpp
 	RandomNoise.cpp
+	Tunel.cpp
 )

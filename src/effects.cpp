@@ -8,6 +8,7 @@ export import wheel;
 export import chess;
 export import plasma;
 export import noise;
+export import tunel;
 
 	/*
 	// regular effects
@@ -41,34 +42,6 @@ public:
 	void Cache(StencilBuffer& mask)  override;
 	rgbaColor GetPixel(Point2D p) override;
 	rgbaColor GetPixel(index index) override;
-};
-
-
-class MoleDemo::Tunel :
-	public Customizable,
-	public Effect {
-	long long accumulatedTime{};
-	std::vector<channel> Tunel1;
-	std::vector<Point2D> uv;
-	int Windowx1, Windowy1, Windowx2, Windowy2;
-	long src1, src2;
-	Color palette[256];
-	std::unique_ptr<Texturable> texture;
-
-	permille du, dv, speedU, speedV;
-
-	void buildPalette(uint16_t time);
-
-public:
-	Tunel(Timer* timer, Screen* screen);
-	~Tunel();
-
-	void Load() override;
-	void Unload() override;
-	void Update(permille intensity, milliseconds delta) override;
-	void Cache(StencilBuffer& mask)  override;
-	constexpr Id TextureLimit() const override { return 1; }
-	void AssignTexture(std::unique_ptr<Texturable> texture, Id id) override;
 };
 
 */
