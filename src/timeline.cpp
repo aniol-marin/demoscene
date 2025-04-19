@@ -268,8 +268,8 @@ public:
 
 		// Layers
 		Layer* stars{ CreateLayer(BlendMode::AlphaBlend, CreateEffect<Stars>()) };
-		/*
 		Layer* plasma{ CreateLayer(BlendMode::Override, CreateEffect<Plasma>()) };
+		/*
 		Layer* fire{ CreateLayer(BlendMode::Override, CreateEffect<Fire>()) };
 		*/
 		Layer* black{ CreateLayer(BlendMode::Override, solid1) };
@@ -311,7 +311,9 @@ public:
 		/*
 		events.push(std::make_unique<Event>(Timestamp{ 58, 512 }, chess, sonicPollution, TransitionType::Fade));
 		events.push(std::make_unique<Event>(Timestamp{ 65, 10000 }, sonicPollution, plasma, TransitionType::Fade));
+		*/
 		events.push(std::make_unique<Event>(Timestamp{ 77, 1000 }, plasma, black, TransitionType::Fade));
+		/*
 		events.push(std::make_unique<Event>(Timestamp{ 78, 1000 }, black, sky, TransitionType::Fade));
 		*/
 		events.push(std::make_unique<Event>(Timestamp{ 79, 0 }, Renderables{ stars, stars }));
