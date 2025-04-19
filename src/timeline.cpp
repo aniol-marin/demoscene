@@ -219,7 +219,6 @@ public:
 		Solid* solid2{ CreateEffect<Solid>() };
 		solid2->SetColor(white);
 
-		/*
 		Gradient* gradient1{ CreateEffect<Gradient>() };
 		gradient1->SetColors(white, black, black, white);
 
@@ -240,6 +239,7 @@ public:
 		Gradient* gradient5{ CreateEffect<Gradient>() };
 		gradient5->SetColors(skyN, skyN, skyS, skyS);
 
+		/*
 		ChessBoard* chessBoard{ CreateEffect<ChessBoard>() };
 		chessBoard->Set(0x4DA424, 0xA42479, 8);
 
@@ -273,13 +273,13 @@ public:
 		Layer* fire{ CreateLayer(BlendMode::Override, CreateEffect<Fire>()) };
 		*/
 		Layer* black{ CreateLayer(BlendMode::Override, solid1) };
-		/*
 		Layer* white{ CreateLayer(BlendMode::Override, solid2) };
 		Layer* verticalGradient{ CreateLayer(BlendMode::Override, gradient1) };
 		Layer* diagonalGradient{ CreateLayer(BlendMode::Override, gradient2) };
 		Layer* primaries{ CreateLayer(BlendMode::Override, gradient3) };
 		Layer* secondaries{ CreateLayer(BlendMode::Override, gradient4) };
 		Layer* sky{ CreateLayer(BlendMode::Override, gradient5) };
+		/*
 		Layer* wheel{ CreateLayer(BlendMode::Override, CreateEffect<Wheel>()) };
 		Layer* tunnelSmooth{ CreateLayer(BlendMode::Override, tunnelGradient) };
 		Layer* tunnelEpilepsy{ CreateLayer(BlendMode::Override, tunnelChess) };
@@ -299,11 +299,13 @@ public:
 		renderables.push_back(sanitaryPollution);
 		events.push(std::make_unique<Event>(Timestamp{ 31, 2000 }, fire, wheel, TransitionType::Fade));
 		events.push(std::make_unique<Event>(Timestamp{ 40, 2000 }, wheel, black, TransitionType::Fade));
+		*/
 		events.push(std::make_unique<Event>(Timestamp{ 43, 2000 }, black, white, TransitionType::Fade));
 		events.push(std::make_unique<Event>(Timestamp{ 45, 2000 }, white, verticalGradient, TransitionType::Fade));
 		events.push(std::make_unique<Event>(Timestamp{ 47, 2000 }, verticalGradient, diagonalGradient, TransitionType::Fade));
 		events.push(std::make_unique<Event>(Timestamp{ 49, 4000 }, diagonalGradient, primaries, TransitionType::Fade));
 		events.push(std::make_unique<Event>(Timestamp{ 53, 3000 }, primaries, secondaries, TransitionType::Fade));
+		/*
 		events.push(std::make_unique<Event>(Timestamp{ 56, 512 }, secondaries, chess, TransitionType::Fade));
 		events.push(std::make_unique<Event>(Timestamp{ 58, 512 }, chess, sonicPollution, TransitionType::Fade));
 		events.push(std::make_unique<Event>(Timestamp{ 65, 10000 }, sonicPollution, plasma, TransitionType::Fade));
