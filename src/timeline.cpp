@@ -279,8 +279,8 @@ public:
 		Layer* primaries{ CreateLayer(BlendMode::Override, gradient3) };
 		Layer* secondaries{ CreateLayer(BlendMode::Override, gradient4) };
 		Layer* sky{ CreateLayer(BlendMode::Override, gradient5) };
-		/*
 		Layer* wheel{ CreateLayer(BlendMode::Override, CreateEffect<Wheel>()) };
+		/*
 		Layer* tunnelSmooth{ CreateLayer(BlendMode::Override, tunnelGradient) };
 		Layer* tunnelEpilepsy{ CreateLayer(BlendMode::Override, tunnelChess) };
 		Layer* chess{ CreateLayer(BlendMode::Override, chessBoard) };
@@ -298,8 +298,8 @@ public:
 		/*
 		renderables.push_back(sanitaryPollution);
 		events.push(std::make_unique<Event>(Timestamp{ 31, 2000 }, fire, wheel, TransitionType::Fade));
-		events.push(std::make_unique<Event>(Timestamp{ 40, 2000 }, wheel, black, TransitionType::Fade));
 		*/
+		events.push(std::make_unique<Event>(Timestamp{ 40, 2000 }, wheel, black, TransitionType::Fade));
 		events.push(std::make_unique<Event>(Timestamp{ 43, 2000 }, black, white, TransitionType::Fade));
 		events.push(std::make_unique<Event>(Timestamp{ 45, 2000 }, white, verticalGradient, TransitionType::Fade));
 		events.push(std::make_unique<Event>(Timestamp{ 47, 2000 }, verticalGradient, diagonalGradient, TransitionType::Fade));

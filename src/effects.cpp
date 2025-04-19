@@ -4,29 +4,18 @@ export import effect;
 export import solid;
 export import stars;
 export import gradient;
-import std;
-import definitions;
-import timer;
-
-namespace MoleDemo {
+export import wheel;
 
 	/*
 	// regular effects
-	export class Stars;
 	export class Fire;
 	// customizables
 	export class Plasma;
 	export class Tunel;
 	// texturizables
-	export class Solid;
-	export class Gradient;
-	export class Wheel;
 	export class ChessBoard;
 	export class RandomNoise;
-
-	class Star;
 	*/
-}
 
 /*
 class MoleDemo::Fire : public Effect {
@@ -101,9 +90,6 @@ public:
 	constexpr Id TextureLimit() const override { return 1; }
 	void AssignTexture(std::unique_ptr<Texturable> texture, Id id) override;
 };
-*/
-
-/*
 
 class MoleDemo::ChessBoard :
 	public Texturable,
@@ -145,26 +131,5 @@ public:
 	void Cache(StencilBuffer& mask)  override;
 	rgbaColor GetMappedUV(CoordinateUV uv) override;
 };
-
-class MoleDemo::Wheel : public Effect {
-	Color color;
-	Color base;
-	Color top;
-	rgbaColor rgbColor;
-	double rotation;
-	void SetColor();
-
-public:
-	Wheel(Timer* timer, Screen* screen);
-	~Wheel();
-
-	void Load() override;
-	void Unload() override;
-	void Update(permille intensity, milliseconds delta) override;
-	void Cache(StencilBuffer& mask)  override;
-	rgbaColor GetPixel(Point2D p) override;
-	rgbaColor GetPixel(index index) override;
-};
-
 */
 

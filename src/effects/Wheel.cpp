@@ -1,9 +1,37 @@
-module effects;
+export module wheel;
 
-import <iostream>;
+import std;
+import effect;
+import definitions;
+import timer;
 
-namespace MoleDemo {
+namespace MoleDemo
+{
+	export class Wheel;
+}
 
+class MoleDemo::Wheel : public Effect {
+	Color color;
+	Color base;
+	Color top;
+	rgbaColor rgbColor;
+	double rotation;
+	void SetColor();
+
+public:
+	Wheel(Timer* timer, Screen* screen);
+	~Wheel();
+
+	void Load() override;
+	void Unload() override;
+	void Update(permille intensity, milliseconds delta) override;
+	void Cache(StencilBuffer& mask)  override;
+	rgbaColor GetPixel(Point2D p) override;
+	rgbaColor GetPixel(index index) override;
+};
+
+namespace MoleDemo
+{
 	Wheel::Wheel(Timer* timer, Screen* screen) :
 		color{ black },
 		base{ halfValue, halfValue, halfValue},
@@ -35,11 +63,11 @@ namespace MoleDemo {
 	void Wheel::SetColor() {
 
 		double rad = rotation * permilleRad;
-		color.SetRGBA(
-			(channel)(halfValue * sin(rad) / 2 + halfValue),
-			(channel)(halfValue * cos(rad) / 2 + halfValue),
-			(channel)(halfValue * sin(PI + rad) / 2 + halfValue)
-		);
+		color = Color{
+			(channel)(halfValue * std::sin(rad) / 2 + halfValue),
+			(channel)(halfValue * std::cos(rad) / 2 + halfValue),
+			(channel)(halfValue * std::sin(PI + rad) / 2 + halfValue)
+		};
 	}
 
 	rgbaColor Wheel::GetPixel(Point2D p) {
