@@ -7,6 +7,7 @@ export import gradient;
 export import wheel;
 export import chess;
 export import plasma;
+export import noise;
 
 	/*
 	// regular effects
@@ -70,25 +71,5 @@ public:
 	void AssignTexture(std::unique_ptr<Texturable> texture, Id id) override;
 };
 
-class MoleDemo::RandomNoise :
-	public Texturable,
-	public Effect {
-	ChannelBuffer noise;
-	Color A, B;
-	bunch repetitions;
-
-public:
-	RandomNoise();
-	RandomNoise(Timer* timer, Screen* screen);
-	~RandomNoise();
-
-	void Set(Color a, Color b, bunch repetitions);
-
-	void Load() override;
-	void Unload() override;
-	void Update(permille intensity, milliseconds delta) override;
-	void Cache(StencilBuffer& mask)  override;
-	rgbaColor GetMappedUV(CoordinateUV uv) override;
-};
 */
 

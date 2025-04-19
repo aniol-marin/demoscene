@@ -1,5 +1,39 @@
-module effects;
+module;
 
+#include <stdlib.h>
+
+export module noise;
+
+import std;
+import effect;
+import definitions;
+import timer;
+
+namespace MoleDemo
+{
+	export class RandomNoise;
+}
+
+class MoleDemo::RandomNoise :
+	public Texturable,
+	public Effect {
+	ChannelBuffer noise;
+	Color A, B;
+	bunch repetitions;
+
+public:
+	RandomNoise();
+	RandomNoise(Timer* timer, Screen* screen);
+	~RandomNoise();
+
+	void Set(Color a, Color b, bunch repetitions);
+
+	void Load() override;
+	void Unload() override;
+	void Update(permille intensity, milliseconds delta) override;
+	void Cache(StencilBuffer& mask)  override;
+	rgbaColor GetMappedUV(CoordinateUV uv) override;
+};
 namespace MoleDemo {
 
 	RandomNoise::RandomNoise() :
@@ -74,8 +108,8 @@ namespace MoleDemo {
 
 	rgbaColor RandomNoise::GetMappedUV(CoordinateUV uv) {
 		Point2D mapped{
-			abs((int)(uv.u * permilleFactor / screen->w)) % screen->w,
-			abs((int)(uv.v * permilleFactor / screen->h)) % screen->h
+			std::abs((int)(uv.u * permilleFactor / screen->w)) % screen->w,
+			std::abs((int)(uv.v * permilleFactor / screen->h)) % screen->h
 		};
 		return Effect::GetPixel(mapped);
 	}

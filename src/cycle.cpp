@@ -63,16 +63,5 @@ public:
 	{
 		renderables.clear();
 		renderables.insert(renderables.begin(), aRenderables.cbegin(), aRenderables.cend());
-		std::cout <<  "\nrenderable count: " << renderables.size() << "\n";
-		std::string renderable_name{
-			dynamic_cast<Solid*>(renderables.front())
-			? "Solid"
-			: dynamic_cast<Stars*>(renderables.front())
-			? "Stars"
-			: dynamic_cast<Layer*>(renderables.front())
-			? "Layer"
-			: "UNKNOWN"
-		};
-		std::cout <<  "\nrenderable: " << renderable_name << "\n";
 	}
 };
