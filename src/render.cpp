@@ -139,8 +139,8 @@ class  MoleDemo::RenderManager : public Initializable {
 
 public:
 	void Init() {
-		sdl.Init({ defaultScreen.w, defaultScreen.h });
-		buffer.assign(size_t{ defaultScreen.GetPixelCount() }, black);
+		sdl.Init({ m_screen.w, m_screen.h });
+		buffer.assign(size_t{ m_screen.GetPixelCount() }, black);
 	}
 
 	void Finalize() {

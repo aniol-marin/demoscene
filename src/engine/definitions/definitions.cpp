@@ -219,7 +219,6 @@ export struct Screen
 	}
 };
 
-export const Screen defaultScreen{ 640, 480 };
 export Screen textureSize{ 512, 512 };
 export Screen superSampler{ 2048, 2048 };
 
