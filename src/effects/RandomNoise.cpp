@@ -1,10 +1,6 @@
-module;
-
-#include <cstdlib>
-
 export module noise;
 
-import std;
+import std.compat;
 import effect;
 import definitions;
 import timer;

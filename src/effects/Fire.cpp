@@ -1,11 +1,6 @@
-module;
-
-#include <cstdlib>
-#include <cstdint>
-
 export module fire;
 
-import std;
+import std.compat;
 import effect;
 import definitions;
 import timer;

@@ -1,10 +1,6 @@
-module;
-
-#include <cstdint>
-
 export module timer;
 
-import std;
+import std.compat;
 import definitions;
 
 namespace MoleDemo {
