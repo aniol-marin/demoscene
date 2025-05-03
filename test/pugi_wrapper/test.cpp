@@ -11,11 +11,7 @@ SCENARIO("Usage of Pugi XML Library")
 		{
 			std::string path { std::filesystem::temp_directory_path() / "test.xml" };
 
-			THEN("test suite should work")
-			{
-				REQUIRE_NOTHROW(Mock());
-			}
-			AND_THEN("it should be possible to create temporary xml files")
+			THEN("it should be possible to create temporary xml files")
 			{
 				REQUIRE_NOTHROW(std::invoke([&]
 				{
@@ -32,7 +28,7 @@ SCENARIO("Usage of Pugi XML Library")
 			{
 				CHECK(std::invoke([&]
 				{
-					return Load(path);
+					return mole::pugi_wrapper::Load(path);
 				}));
 			}
 		}
