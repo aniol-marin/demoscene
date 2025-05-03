@@ -16,3 +16,14 @@ bool mole::pugi_wrapper::Load(const std::string_view path)
 
 	return wrapper;
 }
+
+
+int mole::pugi_wrapper::node::get_number(std::string_view name)
+{
+	return 0;
+}
+
+std::string mole::pugi_wrapper::node::get_text(std::string_view name)
+{
+	return std::string{};
+}

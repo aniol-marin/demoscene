@@ -1,5 +1,6 @@
 #include "pugixml.hpp"
 
+#include <string>
 #include <string_view>
 
 
@@ -28,5 +29,8 @@ namespace mole::pugi_wrapper
 		{
 			return tmp_success;
 		}
+
+		int get_number(std::string_view name);
+		std::string get_text(std::string_view name);
 	};
 }

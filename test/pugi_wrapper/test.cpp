@@ -19,7 +19,7 @@ SCENARIO("Usage of Pugi XML Library")
 					if (!file) throw std::exception{};
 					if (!file.is_open()) throw std::exception{};
 
-					file << "<test/>\n";
+					file << "<test number=\"1\" word=\"hello\"/>\n";
 					file.flush();
 					file.close();
 				}));
@@ -29,6 +29,23 @@ SCENARIO("Usage of Pugi XML Library")
 				CHECK(std::invoke([&]
 				{
 					return mole::pugi_wrapper::Load(path);
+				}));
+				REQUIRE_NOTHROW(std::invoke([&]
+				{
+					mole::pugi_wrapper::node test{path};
+					int v { test.get_number("number") };
+					std::string w { test.get_text("word") };
+				}));
+				CHECK(std::string{ "hello" } == std::invoke([&]
+				{
+					mole::pugi_wrapper::node test{path};
+					int v { test.get_number("number") };
+					return test.get_text("word");
+				}));
+				CHECK(1 == std::invoke([&]
+				{
+					mole::pugi_wrapper::node test{path};
+					return test.get_number("number");
 				}));
 			}
 		}
