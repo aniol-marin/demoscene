@@ -3,19 +3,29 @@
 import std;
 import pugi_wrapper;
 
-SCENARIO("Timer")
+SCENARIO("Usage of Pugi XML Library")
 {
-	GIVEN("a timer")
+	GIVEN("the library")
 	{
-		WHEN("instantiated")
+		WHEN("tested")
 		{
 			THEN("test suite should work")
 			{
-				CHECK(true);
-				REQUIRE_NOTHROW([]
+				REQUIRE_NOTHROW(Mock());
+			}
+			AND_THEN("it should be possible to create temporary xml files")
+			{
+				REQUIRE_NOTHROW(std::invoke([]
 				{
-					Test();
-				});
+					std::string path { std::filesystem::temp_directory_path() / "test.xml" };
+					std::ofstream file {path};
+					if (!file) throw std::exception{};
+					if (!file.is_open()) throw std::exception{};
+
+					file << "<test/>\n";
+					file.flush();
+					file.close();
+				}));
 			}
 		}
 	}

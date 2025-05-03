@@ -2,6 +2,6 @@ export module pugi_wrapper;
 
 import std;
 
-export void Test()
+export void Mock()
 {
 }
