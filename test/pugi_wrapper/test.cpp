@@ -18,6 +18,12 @@ struct custom
 {
 	int number{};
 	std::string word{};
+
+	custom() = default;
+	custom(const custom&) = default;
+	custom(custom&&) = default;
+	custom& operator=(const custom&) = default;
+	~custom() = default;
 };
 struct nested_custom
 {
@@ -54,6 +60,9 @@ struct mole::pugi_wrapper::node<custom> : mole::pugi_wrapper::generic_node
 	node(std::string_view name, const pugi::xml_node& node)
 		: generic_node{}
 	{
+		mole::pugi_wrapper::generic_node content { name, node };
+		data.number = { content.get_number( "number" ) };
+		data.word = { content.get_text( "word" ) };
 	}
 	node(const generic_node& other)
 		: generic_node{}
@@ -63,12 +72,44 @@ struct mole::pugi_wrapper::node<custom> : mole::pugi_wrapper::generic_node
 	node(const node&&) = delete;
 	~node() override = default;
 
-	custom deserialize()
+	const custom& deserialize() const
 	{
 		return data;
 	}
 };
 
+template<>
+struct mole::pugi_wrapper::node<nested_custom> : mole::pugi_wrapper::generic_node
+{
+	nested_custom data{};
+
+	node() : generic_node{}
+	{
+	}
+	node(std::string_view name, const pugi::xml_node& node)
+		: generic_node{}
+	{
+		mole::pugi_wrapper::generic_node content { name, node };
+		const auto& children { content.get_children("child") };
+		for(const auto& child : children)
+		{
+			specialized_node<custom> nested { "child", child.node };
+			data.data.emplace_back( nested.deserialize() );
+		}
+	}
+	node(const generic_node& other)
+		: generic_node{}
+	{
+	}
+	node(const node&) = delete;
+	node(const node&&) = delete;
+	~node() override = default;
+
+	const nested_custom& deserialize() const
+	{
+		return data;
+	}
+};
 
 void replace_content(std::string file_path, std::string content)
 {
@@ -260,11 +301,45 @@ SCENARIO("Parsing with Pugi XML Library")
 			}
 			AND_THEN("should be able to parse custom structures")
 			{
-				CHECK(true);
+				REQUIRE_NOTHROW( std::invoke([]
+				{
+					tree test{path};
+					node parent{ test.get_generic_node("test") };
+					specialized_node<custom> custom { "child", parent.get_child("child").node };
+				}));
+				CHECK(std::invoke([&]
+				{
+					tree test{path};
+					node parent{ test.get_generic_node("test") };
+					specialized_node<custom> child { "child", parent.get_child("child").node };
+					custom deserialized { child.deserialize() };
+
+					return true
+						&& deserialized.number == 1
+						&& deserialized.word.compare("hello") == 0;
+				}));
 			}
 			AND_THEN("should be able to parse nested structures")
 			{
-				CHECK(true);
+				REQUIRE_NOTHROW( std::invoke([]
+				{
+					tree test{path};
+					node parent{ test.get_generic_node("test") };
+					specialized_node<nested_custom> custom { "test", parent.node };
+				}));
+				CHECK(std::invoke([&]
+				{
+					tree test{path};
+					node parent{ test.get_generic_node("test") };
+					specialized_node<nested_custom> custom { "test", parent.node };
+					nested_custom deserialized { custom.deserialize() };
+
+					return true
+						&& deserialized.data.front().number == 1
+						&& deserialized.data.front().word.compare("hello") == 0
+						&& deserialized.data.back().number == 2
+						&& deserialized.data.back().word.compare("world") == 0;
+				}));
 			}
 		}
 	}
