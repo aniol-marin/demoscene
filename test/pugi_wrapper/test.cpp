@@ -1,6 +1,8 @@
 #include<catch2/catch_test_macros.hpp>
-#include <exception>
 #include "pugi.h"
+
+#include <exception>
+#include <vector>
 
 import std;
 
@@ -11,11 +13,15 @@ template<typename T> using specialized_node = mole::pugi_wrapper::node<T>;
 std::string path { std::filesystem::temp_directory_path() / "test.xml" };
 
 struct unspecialized{};
-
-struct specialized
+struct specialized{};
+struct custom
 {
 	int number{};
 	std::string word{};
+};
+struct nested_custom
+{
+	std::vector<custom> data{};
 };
 
 template<>
@@ -35,6 +41,32 @@ struct mole::pugi_wrapper::node<specialized> : mole::pugi_wrapper::generic_node
 	node(const node&) = delete;
 	node(const node&&) = delete;
 	~node() override = default;
+};
+
+template<>
+struct mole::pugi_wrapper::node<custom> : mole::pugi_wrapper::generic_node
+{
+	custom data{};
+
+	node() : generic_node{}
+	{
+	}
+	node(std::string_view name, const pugi::xml_node& node)
+		: generic_node{}
+	{
+	}
+	node(const generic_node& other)
+		: generic_node{}
+	{
+	}
+	node(const node&) = delete;
+	node(const node&&) = delete;
+	~node() override = default;
+
+	custom deserialize()
+	{
+		return data;
+	}
 };
 
 
