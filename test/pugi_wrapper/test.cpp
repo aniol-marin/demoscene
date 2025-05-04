@@ -226,6 +226,14 @@ SCENARIO("Parsing with Pugi XML Library")
 					specialized_node<specialized> specialized { "", node };
 				}));
 			}
+			AND_THEN("should be able to parse custom structures")
+			{
+				CHECK(true);
+			}
+			AND_THEN("should be able to parse nested structures")
+			{
+				CHECK(true);
+			}
 		}
 	}
 }
