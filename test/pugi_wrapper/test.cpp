@@ -18,12 +18,6 @@ struct custom
 {
 	int number{};
 	std::string word{};
-
-	custom() = default;
-	custom(const custom&) = default;
-	custom(custom&&) = default;
-	custom& operator=(const custom&) = default;
-	~custom() = default;
 };
 struct nested_custom
 {
@@ -36,11 +30,11 @@ struct mole::pugi_wrapper::node<specialized> : mole::pugi_wrapper::generic_node
 	node() : generic_node{}
 	{
 	}
-	node(std::string_view name, const pugi::xml_node& node)
+	node(const pugi::xml_node&)
 		: generic_node{}
 	{
 	}
-	node(const generic_node& other)
+	node(const generic_node&)
 		: generic_node{}
 	{
 	}
@@ -57,14 +51,14 @@ struct mole::pugi_wrapper::node<custom> : mole::pugi_wrapper::generic_node
 	node() : generic_node{}
 	{
 	}
-	node(std::string_view name, const pugi::xml_node& node)
+	node(const pugi::xml_node& node)
 		: generic_node{}
 	{
-		mole::pugi_wrapper::generic_node content { name, node };
+		mole::pugi_wrapper::generic_node content { "child", node };
 		data.number = { content.get_number( "number" ) };
 		data.word = { content.get_text( "word" ) };
 	}
-	node(const generic_node& other)
+	node(const generic_node&)
 		: generic_node{}
 	{
 	}
@@ -86,14 +80,14 @@ struct mole::pugi_wrapper::node<nested_custom> : mole::pugi_wrapper::generic_nod
 	node() : generic_node{}
 	{
 	}
-	node(std::string_view name, const pugi::xml_node& node)
+	node(const pugi::xml_node& node)
 		: generic_node{}
 	{
-		mole::pugi_wrapper::generic_node content { name, node };
+		mole::pugi_wrapper::generic_node content { "test", node };
 		const auto& children { content.get_children("child") };
 		for(const auto& child : children)
 		{
-			specialized_node<custom> nested { "child", child.node };
+			specialized_node<custom> nested { child.node };
 			data.data.emplace_back( nested.deserialize() );
 		}
 	}
@@ -273,7 +267,7 @@ SCENARIO("Parsing with Pugi XML Library")
 				{
 					pugi::xml_document document {};
 					pugi::xml_node node {  document.child("child") };
-					specialized_node<unspecialized> unspecialized { "", node };
+					specialized_node<unspecialized> unspecialized { node };
 				}));
 			}
 		}
@@ -296,7 +290,7 @@ SCENARIO("Parsing with Pugi XML Library")
 				{
 					pugi::xml_document document {};
 					pugi::xml_node node {  document.child("child") };
-					specialized_node<specialized> specialized { "", node };
+					specialized_node<specialized> specialized { node };
 				}));
 			}
 			AND_THEN("should be able to parse custom structures")
@@ -305,13 +299,13 @@ SCENARIO("Parsing with Pugi XML Library")
 				{
 					tree test{path};
 					node parent{ test.get_generic_node("test") };
-					specialized_node<custom> custom { "child", parent.get_child("child").node };
+					specialized_node<custom> custom { parent.get_child("child").node };
 				}));
 				CHECK(std::invoke([&]
 				{
 					tree test{path};
 					node parent{ test.get_generic_node("test") };
-					specialized_node<custom> child { "child", parent.get_child("child").node };
+					specialized_node<custom> child { parent.get_child("child").node };
 					custom deserialized { child.deserialize() };
 
 					return true
@@ -325,13 +319,13 @@ SCENARIO("Parsing with Pugi XML Library")
 				{
 					tree test{path};
 					node parent{ test.get_generic_node("test") };
-					specialized_node<nested_custom> custom { "test", parent.node };
+					specialized_node<nested_custom> custom { parent.node };
 				}));
 				CHECK(std::invoke([&]
 				{
 					tree test{path};
 					node parent{ test.get_generic_node("test") };
-					specialized_node<nested_custom> custom { "test", parent.node };
+					specialized_node<nested_custom> custom { parent.node };
 					nested_custom deserialized { custom.deserialize() };
 
 					return true

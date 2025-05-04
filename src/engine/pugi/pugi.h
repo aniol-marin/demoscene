@@ -63,7 +63,7 @@ namespace mole::pugi_wrapper
 			// only specializations are allowed
 			throw std::exception{};
 		}
-		node(std::string_view name, const pugi::xml_node& node)
+		node(const pugi::xml_node& node)
 			: generic_node{}
 		{
 			// only specializations are allowed
