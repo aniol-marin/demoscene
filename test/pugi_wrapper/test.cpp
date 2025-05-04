@@ -11,10 +11,30 @@ template<typename T> using specialized_node = mole::pugi_wrapper::node<T>;
 std::string path { std::filesystem::temp_directory_path() / "test.xml" };
 
 struct unspecialized{};
+
 struct specialized
 {
 	int number{};
 	std::string word{};
+};
+
+template<>
+struct mole::pugi_wrapper::node<specialized> : mole::pugi_wrapper::generic_node
+{
+	node() : generic_node{}
+	{
+	}
+	node(std::string_view name, const pugi::xml_node& node)
+		: generic_node{}
+	{
+	}
+	node(const generic_node& other)
+		: generic_node{}
+	{
+	}
+	node(const node&) = delete;
+	node(const node&&) = delete;
+	~node() override = default;
 };
 
 
@@ -186,9 +206,25 @@ SCENARIO("Parsing with Pugi XML Library")
 		}
 		WHEN("a specialization exists")
 		{
-			THEN("is should be able to parse")
+			THEN("it should work")
 			{
 				CHECK(true);
+				CHECK_NOTHROW( std::invoke([]
+				{
+					specialized_node<specialized>();
+				}));
+				CHECK_NOTHROW( std::invoke([]
+				{
+					tree test{path};
+					node node{ test.get_generic_node("test") };
+					specialized_node<specialized> specialized { node };
+				}));
+				CHECK_NOTHROW( std::invoke([]
+				{
+					pugi::xml_document document {};
+					pugi::xml_node node {  document.child("child") };
+					specialized_node<specialized> specialized { "", node };
+				}));
 			}
 		}
 	}
