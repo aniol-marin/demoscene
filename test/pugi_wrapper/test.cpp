@@ -1,12 +1,22 @@
 #include<catch2/catch_test_macros.hpp>
+#include <exception>
 #include "pugi.h"
 
 import std;
 
 using tree = mole::pugi_wrapper::tree;
 using node = mole::pugi_wrapper::generic_node;
+template<typename T> using specialized_node = mole::pugi_wrapper::node<T>;
 
 std::string path { std::filesystem::temp_directory_path() / "test.xml" };
+
+struct unspecialized{};
+struct specialized
+{
+	int number{};
+	std::string word{};
+};
+
 
 void replace_content(std::string file_path, std::string content)
 {
@@ -149,6 +159,36 @@ SCENARIO("Parsing with Pugi XML Library")
 					std::vector<node> children {  parent.get_children("child") };
 					return children.back().get_text("word");
 				}));
+			}
+		}
+		WHEN("a specialization doesn't exist")
+		{
+			THEN("it should not work")
+			{
+				CHECK(true);
+				CHECK_THROWS( std::invoke([]
+				{
+					specialized_node<unspecialized>();
+				}));
+				CHECK_THROWS( std::invoke([]
+				{
+					tree test{path};
+					node node{ test.get_generic_node("test") };
+					specialized_node<unspecialized> unspecialized { node };
+				}));
+				CHECK_THROWS( std::invoke([]
+				{
+					pugi::xml_document document {};
+					pugi::xml_node node {  document.child("child") };
+					specialized_node<unspecialized> unspecialized { "", node };
+				}));
+			}
+		}
+		WHEN("a specialization exists")
+		{
+			THEN("is should be able to parse")
+			{
+				CHECK(true);
 			}
 		}
 	}

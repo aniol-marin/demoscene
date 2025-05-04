@@ -10,22 +10,19 @@ namespace mole::pugi_wrapper
 {
 	struct generic_node;
 	struct tree;
-	/*
 	template<typename T>
 	struct node;
-	*/
 }
 
 namespace mole::pugi_wrapper
 {
 	struct generic_node
 	{
-		const std::string_view name;
-		const pugi::xml_node node;
+		const std::string_view name{};
+		const pugi::xml_node node{};
 
-		generic_node() = delete;
 		generic_node(std::string_view name, const pugi::xml_node& node);
-		generic_node(const generic_node&) = delete;
+		generic_node(const generic_node&) = default;
 		generic_node(generic_node&&) = default;
 		virtual ~generic_node() = default;
 
@@ -34,6 +31,9 @@ namespace mole::pugi_wrapper
 
 		generic_node get_child(std::string_view name);
 		std::vector<generic_node> get_children(std::string_view name);
+
+	protected:
+		generic_node() = default;
 	};
 
 	struct tree
@@ -55,24 +55,29 @@ namespace mole::pugi_wrapper
 		generic_node get_generic_node(std::string_view name);
 	};
 
-	/*
 	template<typename T>
 	struct node: generic_node
 	{
-		node() = delete;
+		node() : generic_node{}
+		{
+			// only specializations are allowed
+			throw std::exception{};
+		}
+		node(std::string_view name, const pugi::xml_node& node)
+			: generic_node{}
+		{
+			// only specializations are allowed
+			throw std::exception{};
+		}
+		node(const generic_node& other)
+			: generic_node{}
+		{
+			// only specializations are allowed
+			throw std::exception{};
+		}
 		node(const node&) = delete;
-		node(const generic_node&)
-		{
-			// only specializations are allowed
-			throw std::exception{};
-		}
-		node(const node&&)
-		{
-			// only specializations are allowed
-			throw std::exception{};
-		}
+		node(const node&&) = delete;
 		~node() override = default;
 	};
-	*/
 }
 
