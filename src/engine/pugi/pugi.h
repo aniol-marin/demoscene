@@ -6,24 +6,24 @@
 
 namespace mole::pugi_wrapper
 {
-	bool Load(std::string_view path);
-	/*
-	 struct node;
+	struct tree;
+	struct generic_node;
+	template<typename T>
+		struct node;
+}
 
-	 }
-
-	 struct mole::pugi_wrapper::node
-	 */
-	struct node
+namespace mole::pugi_wrapper
+{
+	struct tree
 	{
 		pugi::xml_document document {};
 		bool tmp_success{};
 
-		node() = delete;
-		node(const std::string_view path);
-		node(const node&) = delete;
-		node(node&&) = default;
-		~node() = default;
+		tree() = delete;
+		tree(const std::string_view path);
+		tree(const tree&) = delete;
+		tree(tree&&) = default;
+		~tree() = default;
 
 		operator bool() const
 		{
@@ -32,5 +32,14 @@ namespace mole::pugi_wrapper
 
 		int get_number(std::string_view name);
 		std::string get_text(std::string_view name);
+	};
+
+	struct generic_node
+	{
+	};
+
+	template<typename T>
+	struct node
+	{
 	};
 }
