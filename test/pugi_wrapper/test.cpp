@@ -84,6 +84,72 @@ SCENARIO("Parsing with Pugi XML Library")
 					return node.get_number("number");
 				}));
 			}
+			AND_THEN("it should be possible to fetch attributes from children nodes")
+			{
+				replace_content(
+					path,
+					"<test>\n"
+					"   <child number=\"1\" word=\"hello\"/>\n"
+					"   <child number=\"2\" word=\"world\"/>\n"
+					"</test>\n"
+				);
+
+				CHECK(true);
+				REQUIRE_NOTHROW(std::invoke([&]
+				{
+					tree test{path};
+					node parent{ test.get_generic_node("test") };
+					node child { parent.get_child("child") };
+				}));
+				REQUIRE_NOTHROW(std::invoke([&]
+				{
+					tree test{path};
+					node parent{ test.get_generic_node("test") };
+					std::vector<node> children {  parent.get_children("child") };
+				}));
+				CHECK(2 == std::invoke([&]
+				{
+					tree test{path};
+					node parent{ test.get_generic_node("test") };
+					std::vector<node> children {  parent.get_children("child") };
+					return children.size();
+				}));
+				CHECK(1 == std::invoke([&]
+				{
+					tree test{path};
+					node parent{ test.get_generic_node("test") };
+					node child { parent.get_child("child") };
+					return child.get_number("number");
+				}));
+				CHECK(1 == std::invoke([&]
+				{
+					tree test{path};
+					node parent{ test.get_generic_node("test") };
+					std::vector<node> children {  parent.get_children("child") };
+					return children.front().get_number("number");
+				}));
+				CHECK(2 == std::invoke([&]
+				{
+					tree test{path};
+					node parent{ test.get_generic_node("test") };
+					std::vector<node> children {  parent.get_children("child") };
+					return children.back().get_number("number");
+				}));
+				CHECK(std::string { "hello" }  == std::invoke([&]
+				{
+					tree test{path};
+					node parent{ test.get_generic_node("test") };
+					std::vector<node> children {  parent.get_children("child") };
+					return children.front().get_text("word");
+				}));
+				CHECK(std::string { "world" } == std::invoke([&]
+				{
+					tree test{path};
+					node parent{ test.get_generic_node("test") };
+					std::vector<node> children {  parent.get_children("child") };
+					return children.back().get_text("word");
+				}));
+			}
 		}
 	}
 }
