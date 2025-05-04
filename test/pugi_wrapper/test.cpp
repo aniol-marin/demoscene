@@ -3,6 +3,9 @@
 
 import std;
 
+using tree = mole::pugi_wrapper::tree;
+using node = mole::pugi_wrapper::generic_node;
+
 std::string path { std::filesystem::temp_directory_path() / "test.xml" };
 
 void replace_content(std::string file_path, std::string content)
@@ -19,17 +22,6 @@ void replace_content(std::string file_path, std::string content)
 
 TEST_CASE("Test-exclusive dependencies before serialization", "[XML]")
 {
-	SECTION("Temporary file exists")
-	{
-		REQUIRE_NOTHROW(std::invoke([&]
-		{
-			std::ofstream file {path};
-			if (!file) throw std::exception{};
-			if (!file.is_open()) throw std::exception{};
-			file.close();
-		}));
-	}
-	
 	SECTION("Temporary file can be modified")
 	{
 		REQUIRE_NOTHROW(std::invoke([&]
@@ -48,28 +40,48 @@ SCENARIO("Parsing with Pugi XML Library")
 			THEN("it should be possible to load an xml file")
 			{
 				replace_content(path, "<test/>\n");
+
 				REQUIRE_NOTHROW(std::invoke([&]
 				{
-					mole::pugi_wrapper::tree test{path};
+					tree test{path};
 				}));
 
-				replace_content(path, "<test number=\"1\" word=\"hello\"/>\n");
 				REQUIRE_NOTHROW(std::invoke([&]
 				{
-					mole::pugi_wrapper::tree test{path};
-					int v { test.get_number("number") };
-					std::string w { test.get_text("word") };
+					tree test{path};
+					node  node{test.get_generic_node("test")};
 				}));
+			}
+			AND_THEN("it should be possible to read attributes")
+			{
+				replace_content(path, "<test t='55' number=\"1\" word=\"hello\"/>\n");
+
+				REQUIRE_NOTHROW(std::invoke([&]
+				{
+					tree test{path};
+					node node{test.get_generic_node("test")};
+					int v { node.get_number("number") };
+				}));
+
+				REQUIRE_NOTHROW(std::invoke([&]
+				{
+					tree test{path};
+					node node{test.get_generic_node("test")};
+					std::string w { node.get_text("word") };
+				}));
+
 				CHECK(std::string{ "hello" } == std::invoke([&]
 				{
-					mole::pugi_wrapper::tree test{path};
-					int v { test.get_number("number") };
-					return test.get_text("word");
+					tree test{path};
+					node node{test.get_generic_node("test")};
+					return node.get_text("word");
 				}));
+
 				CHECK(1 == std::invoke([&]
 				{
-					mole::pugi_wrapper::tree test{path};
-					return test.get_number("number");
+					tree test{path};
+					node node{test.get_generic_node("test")};
+					return node.get_number("number");
 				}));
 			}
 		}
