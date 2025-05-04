@@ -20,10 +20,15 @@ bool mole::pugi_wrapper::Load(const std::string_view path)
 
 int mole::pugi_wrapper::node::get_number(std::string_view name)
 {
-	return 0;
+	return document.child("test").attribute(std::string{name}.c_str()).as_int();
 }
 
 std::string mole::pugi_wrapper::node::get_text(std::string_view name)
 {
-	return std::string{};
+	std::string content
+	{
+		document.child("test").attribute(std::string{name}.c_str()).value()
+	};
+
+	return content;
 }
