@@ -31,7 +31,6 @@ generate:
 		--log-level=$(CMAKE_LOG_LEVEL)
 
 run: build 
-	export LD_LIBRARY=/usr/lib64/
 	$(BINARY_PATH)
 
 .PHONY: test
@@ -47,7 +46,6 @@ build-%:
 	$(CMAKE_PATH) --build build --target $(call listify,$(subst build-,,$@))
 
 test-%:
-	export LD_LIBRARY=/usr/lib64/
 	echo "testing $(@)"
 	$(CMAKE_PATH) --build build --target $(@)
 	$(TEST_PATH)/$(@)

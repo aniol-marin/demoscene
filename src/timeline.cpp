@@ -1,3 +1,7 @@
+module;
+
+#include "pugi.h"
+
 export module timeline;
 
 import std;
@@ -22,6 +26,42 @@ namespace MoleDemo {
 
 	using TransitionHandle = std::unique_ptr<Transition>;
 }
+
+/*
+template<>
+struct mole::pugi_wrapper::node<Solid> : mole::pugi_wrapper::generic_node
+{
+	Solid data;
+
+	node() : generic_node{}
+	{
+	}
+	node(const pugi::xml_node& node, Timer& timer, Screen& screen)
+		: generic_node{}
+		, data { timer, screen }
+	{
+		// TO DO preconditions and info filling
+		/*
+		mole::pugi_wrapper::generic_node content { "child", node };
+		data.number = { content.get_number( "number" ) };
+		data.word = { content.get_text( "word" ) };
+		* /
+	}
+	node(const generic_node&)
+		: generic_node{}
+	{
+	}
+	node(const node&) = delete;
+	node(const node&&) = delete;
+	~node() override = default;
+
+	const custom& deserialize() const
+	{
+		return data;
+	}
+};
+ */
+
 
 struct MoleDemo::Event {
 	const Timestamp time;

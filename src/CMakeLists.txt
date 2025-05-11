@@ -11,6 +11,7 @@ target_link_libraries(${MODULE_NAME}
 	PRIVATE input
 	PRIVATE sound
 	PRIVATE timer
+	PRIVATE pugi_wrapper
 )
 
 target_sources(${MODULE_NAME} PUBLIC
