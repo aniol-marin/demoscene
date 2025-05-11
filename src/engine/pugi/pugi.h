@@ -56,28 +56,26 @@ namespace mole::pugi_wrapper
 	};
 
 	template<typename T>
-	struct node: generic_node
+	struct node
 	{
-		node() : generic_node{}
+		node()
 		{
 			// only specializations are allowed
 			throw std::exception{};
 		}
 		node(const pugi::xml_node& node)
-			: generic_node{}
 		{
 			// only specializations are allowed
 			throw std::exception{};
 		}
 		node(const generic_node& other)
-			: generic_node{}
 		{
 			// only specializations are allowed
 			throw std::exception{};
 		}
 		node(const node&) = delete;
 		node(const node&&) = delete;
-		~node() override = default;
+		~node() = default;
 	};
 }
 

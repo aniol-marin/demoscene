@@ -29,9 +29,10 @@ namespace MoleDemo {
 
 /*
 template<>
-struct mole::pugi_wrapper::node<Solid> : mole::pugi_wrapper::generic_node
+struct mole::pugi_wrapper::node<MoleDemo::Solid>
 {
-	Solid data;
+	   : mole::pugi_wrapper::generic_node
+	MoleDemo::Solid data;
 
 	node() : generic_node{}
 	{
@@ -60,7 +61,7 @@ struct mole::pugi_wrapper::node<Solid> : mole::pugi_wrapper::generic_node
 		return data;
 	}
 };
- */
+*/
 
 
 struct MoleDemo::Event {
