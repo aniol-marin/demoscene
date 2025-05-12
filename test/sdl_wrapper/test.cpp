@@ -1,8 +1,9 @@
 #include<catch2/catch_test_macros.hpp>
 
-import std;
-import sdl; 
-import definitions; 
+#include "sdl_wrapper.h"
+#include <functional>
+
+using namespace mole_def;
 
 TEST_CASE("Manager basic behavior", "[SDL Wrapper]")
 {

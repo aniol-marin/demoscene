@@ -1,7 +1,10 @@
 #include<catch2/catch_test_macros.hpp>
 
-import std;
-import injection; 
+#include <any>
+#include <functional>
+#include <iostream>
+
+#include "injection.h"
 
 struct test_class
 {

@@ -1,7 +1,7 @@
 enable_testing()
-set(TEST_TARGET test-raudio)
+set(TEST_TARGET test-input)
 
-add_executable(${TEST_TARGET} EXCLUDE_FROM_ALL)
+add_executable(${TEST_TARGET})
 
 set_target_properties(${TEST_TARGET}
 	PROPERTIES
@@ -10,7 +10,7 @@ set_target_properties(${TEST_TARGET}
 
 target_link_libraries( ${TEST_TARGET}
     PRIVATE Catch2::Catch2WithMain
-    PRIVATE raudio_wrapper
+    PRIVATE input
 )
 
 target_sources(${TEST_TARGET} PRIVATE

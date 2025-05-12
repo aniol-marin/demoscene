@@ -1,30 +1,19 @@
-#ifndef DEMOSCENE_SDL_WRAPPER_H
-#define DEMOSCENE_SDL_WRAPPER_H
+#ifndef MOLE_SDL_WRAPPER
+#define MOLE_SDL_WRAPPER
 
-#include <string>
-#include <iostream>
-#include <exception>
-#include <cstdint>
+#include "definitions.h"
 
-import definitions;
-/*
 #include "SDL2/SDL.h"
-*/
 
-
-/*
-namespace
-{
-	//TO DO avoid global state
-	SDL_Window* window {};
-	SDL_Surface* surface {};
-}
-*/
 
 namespace SDL {
 
+	using namespace mole_def;
 	struct SDLManager
 	{
+		SDL_Window* window {};
+		SDL_Surface* surface {};
+
 		using pixel = uint32_t;
 		using offset = uint_fast16_t;
 
@@ -33,7 +22,7 @@ namespace SDL {
 		bool locked { false };
 
 		SDLManager() = default;
-		SDLManager(const SDLManager&) = default;
+		SDLManager(const SDLManager&) = delete;
 		SDLManager(SDLManager&&) = default;
 		~SDLManager() = default;
 
@@ -53,27 +42,6 @@ namespace SDL {
 
 	};
 }
-#endif // !DEMOSCENE_SDL_WRAPPER_H
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
+#endif // !MOLE_SDL_WRAPPER
 

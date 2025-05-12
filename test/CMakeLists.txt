@@ -8,6 +8,7 @@ FetchContent_MakeAvailable(Catch2)
 
 add_subdirectory(sdl_wrapper)
 add_subdirectory(injection)
+add_subdirectory(input)
 add_subdirectory(raudio)
 add_subdirectory(timer)
 add_subdirectory(pugi_wrapper)

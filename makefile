@@ -1,22 +1,25 @@
-CMAKE_PATH := /usr/local/bin/cmake
-NINJA_PATH := /usr/local/bin/ninja
-COMPILER_PATH := /usr/local/bin/g++
+CMAKE_PATH := cmake
+NINJA_PATH := ninja
+COMPILER_PATH := /usr/bin/g++
 BINARY_PATH := ./bin/demoscene
 TEST_PATH := ./bin/test
 CMAKE_LOG_LEVEL := NOTICE
 
+log = $(shell echo, $(1))
 listify = $(subst ., ,$(1))
 
 main: build run
 	echo main done
 
 debug: build
+	$(call log, "debugging")
 	gdb $(BINARY_PATH)
 
 profile: build
 	valgrind $(BINARY_PATH)
 
 build: generate
+	$(call log, "building")
 	$(CMAKE_PATH) --build build --target demoscene
 
 generate:
@@ -35,6 +38,7 @@ run: build
 
 .PHONY: test
 test: generate
+	$(call log, "generating")
 	$(CMAKE_PATH) --build build --target test
 
 .PHONY: retest

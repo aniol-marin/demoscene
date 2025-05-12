@@ -1,52 +1,28 @@
-module;
+#include "raudio_wrapper.h"
+#include "definitions.h"
 
-#define SUPPORT_FILEFORMAT_MP3
-#include "raudio.h"
-
-export module raudio;
-
-
-import std;
-import definitions;
+#include <queue>
+#include <exception>
+#include <iostream>
 
 namespace RAudio
 {
-	export struct AudioManager
-	{
-		AudioManager() = default;
-		AudioManager(const AudioManager&) = delete;
-		AudioManager(AudioManager&&) = default;
-		~AudioManager();
-
-		void Init();
-		void Finalize();
-		void Load(std::string_view source);
-		void Unload();
-
-		void Play();
-		void Stop();
-		void Update();
-
-		seconds GetDuration();
-		permille GetIntensity();
-	private:
-		bool initialized { false };
-		bool loaded { false };
-		Music music {};
-		static permille intensity;
-
-		static void SampleIntensity(void* buffer, unsigned int frames);
-	};
+	using namespace mole_def;
 
 	permille AudioManager::intensity = {};
 
 	AudioManager::~AudioManager()
 	{
-		if (initialized) Finalize();
+		if (initialized)
+		{
+			std::cerr << "\ndestroying audio manager without having previously finalized!\n";
+			Finalize();
+		}
 	}
 
 	void AudioManager::SampleIntensity(void* buffer, unsigned int frames)
 	{
+	/*
 		static std::queue<float> average {};
 		float* intensities{ static_cast<float*>(buffer) };
 
@@ -72,6 +48,7 @@ namespace RAudio
 			average.pop();
 		}
 		intensity = (permille)(max * permilleFactor);
+*/
 	}
 
 	void AudioManager::Init()
@@ -82,9 +59,11 @@ namespace RAudio
 			throw std::exception{};
 		}
 
+/*
 		InitAudioDevice();
 		SetAudioStreamBufferSizeDefault(4096);
 
+*/
 		initialized = true;
 	}
 
@@ -96,8 +75,10 @@ namespace RAudio
 			throw std::exception{};
 		}
 
+/*
 		StopMusicStream(music);
 		CloseAudioDevice();
+*/
 
 		initialized = false;
 	}
@@ -115,9 +96,11 @@ namespace RAudio
 			throw std::exception{};
 		}
 
+/*
 		std::string s { source };
 		music = LoadMusicStream(s.c_str());
 		AttachAudioStreamProcessor(music.stream, SampleIntensity);
+*/
 
 		loaded = true;
 	}
@@ -136,8 +119,10 @@ namespace RAudio
 		}
 		 loaded = false;
 
+/*
 		DetachAudioStreamProcessor(music.stream, SampleIntensity);
 		//UnloadMusicStream(music); // TODO fix exception while unloading
+*/
 	}
 
 	void AudioManager::Play()
@@ -159,7 +144,9 @@ namespace RAudio
 			throw std::exception{};
 		}
 
+/*
 		StopMusicStream(music);
+*/
 	}
 
 	void AudioManager::Update()
@@ -170,7 +157,9 @@ namespace RAudio
 			throw std::exception{};
 		}
 
+/*
 		UpdateMusicStream(music);
+*/
 	}
 
 	seconds  AudioManager::GetDuration()

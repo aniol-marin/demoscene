@@ -1,10 +1,11 @@
-module;
+#ifndef MOLE_INJECTION
+#define MOLE_INJECTION
 
 #include <cstdint>
-
-export module injection;
-
-import std;
+#include <functional>
+#include <memory>
+#include <any>
+#include <map>
 
 namespace MoleDemo
 {
@@ -21,7 +22,6 @@ namespace MoleDemo
 	};
 
 	template<typename I, typename T, typename ...TArguments>
-	requires std::convertible_to<T, I>
 	class UniqueFactory : public Factory
 	{
 		std::vector<std::unique_ptr<T>> instances;
@@ -42,6 +42,7 @@ namespace MoleDemo
 			return std::make_any<I*>(instances.emplace_back(std::make_unique<T>(functor())).get());
 		}
 	};
+
 
 	template<typename I, typename T>
 	class SharingFactory : public Factory
@@ -71,7 +72,7 @@ namespace MoleDemo
 		}
 	};
 
-	export class Container
+	class Container
 	{
 		std::map<id_t, std::unique_ptr<Factory>> factories {};
 
@@ -94,7 +95,6 @@ namespace MoleDemo
 		}
 
 		template<typename TInterface, typename TConcrete, typename ...TArguments>
-		requires std::convertible_to<TConcrete, TInterface>
 		void BindUnique()
 		{
 			id_t id { typeid(TInterface).hash_code() };
@@ -102,7 +102,6 @@ namespace MoleDemo
 		}
 		
 		template<typename TInterface, typename TConcrete, typename ...TArguments>
-		requires std::convertible_to<TConcrete, TInterface>
 		void BindUnique(std::function<TConcrete()>&& functor)
 		{
 			id_t id { typeid(TInterface).hash_code() };
@@ -122,7 +121,6 @@ namespace MoleDemo
 		}
 
 		template<typename TInterface, typename TConcrete, typename ...TArguments>
-		requires std::convertible_to<TConcrete, TInterface>
 		void BindShared()
 		{
 			id_t id { typeid(TInterface).hash_code() };
@@ -130,7 +128,6 @@ namespace MoleDemo
 		}
 
 		template<typename TInterface, typename TConcrete, typename ...TArguments>
-		requires std::convertible_to<TConcrete, TInterface>
 		void BindShared(std::function<TConcrete()>&& functor)
 		{
 			id_t id { typeid(TInterface).hash_code() };
@@ -154,4 +151,5 @@ namespace MoleDemo
 		}
 	};
 }
+#endif //!MOLE_INJECTION
 

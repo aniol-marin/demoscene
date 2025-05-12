@@ -1,73 +1,77 @@
+#ifndef MOLE_DEFINITIONS
+#define MOLE_DEFINITIONS
+
 #include <cstdint>
 #include <string_view>
 #include <vector>
 #include <functional>
 #include <memory>
 
+namespace mole_def
+{
+class Color;
+struct Point2D;
+struct Renderable;
+struct Texturable;
 
-export class Color;
-export struct Point2D;
-export struct Renderable;
-export struct Texturable;
+constexpr double PI = 3.14159265358979323846264338327950288;
 
-export constexpr double PI = 3.14159265358979323846264338327950288;
+using Id = uint_fast8_t;
+using bunch = uint_fast8_t;
+using seconds = uint_fast16_t;
+using milliseconds = uint_fast16_t;
+using permille = int_fast16_t;
+using speed = uint_fast16_t;
+using index = uint_fast32_t;
+using point1D = uint_fast16_t;
+using offset1D = int_fast64_t;
+using rgbaColor = uint32_t;
+using hslaColor = uint32_t;
+using tempChannel = uint_fast16_t;
+using channel = uint_fast8_t;
+using hue = uint_fast8_t;
+using saturation = uint_fast8_t;
+using lightness = uint_fast8_t;
 
-export using Id = uint_fast8_t;
-export using bunch = uint_fast8_t;
-export using seconds = uint_fast16_t;
-export using milliseconds = uint_fast16_t;
-export using permille = int_fast16_t;
-export using speed = uint_fast16_t;
-export using index = uint_fast32_t;
-export using point1D = uint_fast16_t;
-export using offset1D = int_fast64_t;
-export using rgbaColor = uint32_t;
-export using hslaColor = uint32_t;
-export using tempChannel = uint_fast16_t;
-export using channel = uint_fast8_t;
-export using hue = uint_fast8_t;
-export using saturation = uint_fast8_t;
-export using lightness = uint_fast8_t;
-
-export struct PixelBuffer : std::vector<rgbaColor> {};
-export using pixel_count = PixelBuffer::size_type;
-export struct StencilBuffer : std::vector<bool> {};
-export struct ChannelBuffer : std::vector<channel> {};
-export struct ColorBuffer : std::vector<Color> {};
-export struct stencil : std::function<bool(Point2D)> {};
+struct PixelBuffer : std::vector<rgbaColor> {};
+using pixel_count = PixelBuffer::size_type;
+struct StencilBuffer : std::vector<bool> {};
+struct ChannelBuffer : std::vector<channel> {};
+struct ColorBuffer : std::vector<Color> {};
+struct stencil : std::function<bool(Point2D)> {};
 struct Texture : std::unique_ptr<Texturable> {}; // TODO
-export using Renderables = std::vector<Renderable*>;
+using Renderables = std::vector<Renderable*>;
 
-export constexpr permille permilleFactor{ 1024 };
-export constexpr double permilleRad{ 2 * PI / permilleFactor };
+constexpr permille permilleFactor{ 1024 };
+constexpr double permilleRad{ 2 * PI / permilleFactor };
 
-export constexpr rgbaColor mask_opaque{ 0xFF000000 };
-export constexpr rgbaColor mask_red{ 0x00FF0000 };
-export constexpr rgbaColor mask_green{ 0x0000FF00 };
-export constexpr rgbaColor mask_blue{ 0x000000FF };
+constexpr rgbaColor mask_opaque{ 0xFF000000 };
+constexpr rgbaColor mask_red{ 0x00FF0000 };
+constexpr rgbaColor mask_green{ 0x0000FF00 };
+constexpr rgbaColor mask_blue{ 0x000000FF };
 
-export constexpr channel clear{ 0x0 };
-export constexpr channel saturated{ 0xFF };
-export constexpr channel halfValue{ 0xFF / 2 };
-export constexpr rgbaColor transparent{ clear };
-export constexpr rgbaColor black{ mask_opaque };
-export constexpr rgbaColor white{ mask_opaque | mask_red | mask_green | mask_blue };
-export constexpr rgbaColor red{ mask_opaque | mask_red };
-export constexpr rgbaColor green{ mask_opaque | mask_green };
-export constexpr rgbaColor blue{ mask_opaque | mask_blue };
-export constexpr rgbaColor yellow{ red | green };
-export constexpr rgbaColor magenta{ red | blue };
-export constexpr rgbaColor teal{ blue | green };
-export constexpr rgbaColor orange{ 0xFFFF9933 };
-export constexpr rgbaColor concrete{ 0xFF5D696B };
+constexpr channel clear{ 0x0 };
+constexpr channel saturated{ 0xFF };
+constexpr channel halfValue{ 0xFF / 2 };
+constexpr rgbaColor transparent{ clear };
+constexpr rgbaColor black{ mask_opaque };
+constexpr rgbaColor white{ mask_opaque | mask_red | mask_green | mask_blue };
+constexpr rgbaColor red{ mask_opaque | mask_red };
+constexpr rgbaColor green{ mask_opaque | mask_green };
+constexpr rgbaColor blue{ mask_opaque | mask_blue };
+constexpr rgbaColor yellow{ red | green };
+constexpr rgbaColor magenta{ red | blue };
+constexpr rgbaColor teal{ blue | green };
+constexpr rgbaColor orange{ 0xFFFF9933 };
+constexpr rgbaColor concrete{ 0xFF5D696B };
 
-export enum class ProgramStatus {
+enum class ProgramStatus {
 	TERMINATE_OK,
 	TERMINATE_ERROR,
 	RUNNING,
 };
 
-export enum class BlendMode {
+enum class BlendMode {
 	Override,
 	AlphaBlend,
 	Additive,
@@ -77,7 +81,7 @@ export enum class BlendMode {
 	Screen,
 };
 
-export enum class TransitionType {
+enum class TransitionType {
 	Cut,
 	Fade,
 	Wipe,
@@ -86,17 +90,16 @@ export enum class TransitionType {
 	Rotate,
 };
 
-export channel lerp(channel m_r, channel next, permille permille) {
-	return (channel)(m_r + (next - m_r) * permille / permilleFactor);
-}
+channel lerp(channel m_r, channel next, permille permille);
 
-export struct Timestamp {
+struct Timestamp
+{
 	const seconds start;
 	const milliseconds duration;
-	Timestamp(seconds start, milliseconds duration) :
-		start{ start },
-		duration{ duration } {};
-	~Timestamp() {}
+	
+	Timestamp() = delete;
+	Timestamp(seconds start, milliseconds duration);
+	~Timestamp() = default;
 };
 
 struct Point2D {
@@ -116,7 +119,7 @@ struct Point2D {
 	}
 };
 
-export struct Offset2D {
+struct Offset2D {
 	const offset1D x, y;
 	Offset2D() :
 		x{},
@@ -127,7 +130,7 @@ export struct Offset2D {
 	~Offset2D() {}
 };
 
-export struct CoordinateUV {
+struct CoordinateUV {
 	const permille u, v;
 	CoordinateUV() :
 		u{},
@@ -197,11 +200,11 @@ public:
 		};
 	};
 };
-export struct Screen
+struct Screen
 {
 	point1D w, h;
 
-	Screen(point1D width, point1D heigth) :
+	constexpr Screen(point1D width, point1D heigth) :
 		w{ width },
 		h{ heigth } {}
 	Screen(const Screen&) = default;
@@ -218,17 +221,18 @@ export struct Screen
 	}
 };
 
-export Screen textureSize{ 512, 512 };
-export Screen superSampler{ 2048, 2048 };
+constexpr Screen defaultScreen{ 640, 480 };
+constexpr Screen textureSize{ 512, 512 };
+constexpr Screen superSampler{ 2048, 2048 };
 
 
-export struct Initializable {
+struct Initializable {
 	virtual void Init() = 0;
 	virtual void Finalize() = 0;
 };
 
-export struct Loadable {
-	virtual void Load(std::string source) = 0;
+struct Loadable {
+	virtual void Load(std::string_view source) = 0;
 	virtual void Unload() = 0;
 };
 
@@ -251,8 +255,11 @@ struct Texturable {
 	virtual rgbaColor GetMappedUV(CoordinateUV uv) = 0;
 };
 
-export struct Customizable {
+struct Customizable {
 	virtual constexpr Id TextureLimit() const = 0;
 	virtual void AssignTexture(std::unique_ptr<Texturable> texture, Id id = 0) = 0;
 };
+}
+
+#endif // !MOLE_DEFINITIONS
 

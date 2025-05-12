@@ -1,8 +1,6 @@
 #include<catch2/catch_test_macros.hpp>
 
-import std;
-import raudio;
-import definitions;
+#include "raudio_wrapper.h"
 
 SCENARIO("Manager behavior")
 {

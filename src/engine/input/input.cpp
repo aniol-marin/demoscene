@@ -1,28 +1,15 @@
-export module input;
+#include "input.h"
 
-import std;
-import definitions;
-import sdl;
+#include "sdl_wrapper.h"
 
 namespace MoleDemo {
 
-	export struct InputManager;
+	struct InputManager;
 }
 
-class MoleDemo::InputManager
-{
-	SDL::SDLManager& manager;
-public:
-	InputManager() = delete;
-	InputManager(SDL::SDLManager& manager) :
-		manager{ manager }
-	{
-	}
-	InputManager(const InputManager&) = delete;
-	InputManager(InputManager&&) = default;
+using namespace mole_def;
 
-	ProgramStatus PollEvents()
-	{
-		return manager.PollSDLEvents();
-	}
-};
+ProgramStatus MoleDemo::InputManager::PollEvents()
+{
+	return manager.PollSDLEvents();
+}

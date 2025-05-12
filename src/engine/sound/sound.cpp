@@ -1,36 +1,6 @@
-export module sound;
+#include "sound.h"
 
-import std;
-import definitions;
-import raudio;
-
-namespace MoleDemo
-{
-	export class SoundManager;
-}
-
-class MoleDemo::SoundManager : 
-	public Initializable,
-	public Loadable
-{
-	RAudio::AudioManager m{};
-public:
-
-	SoundManager() = default;
-	SoundManager(const SoundManager&) = delete;
-	SoundManager(SoundManager&&) = default;
-	~SoundManager() = default;
-
-	void Init();
-	void Finalize();
-	void Load(std::string file);
-	void Unload();
-	void Play();
-	void Stop();
-	void Update();
-	permille GetCurrentIntensity();
-	seconds GetMusicDuration();
-};
+using namespace mole_def;
 
 void MoleDemo::SoundManager::Init() {
 	m.Init();
@@ -63,6 +33,7 @@ void MoleDemo::SoundManager::Update() {
 permille MoleDemo::SoundManager::GetCurrentIntensity() {
 	return m.GetIntensity();
 }
+
 seconds MoleDemo::SoundManager::GetMusicDuration() { 
 	return m.GetDuration();
 }
