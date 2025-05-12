@@ -4,12 +4,14 @@ add_executable(${MODULE_NAME})
 ]]#
 
 add_subdirectory(engine)
+add_subdirectory(loaders)
 #[[
 #add_subdirectory(effects)
 ]]#
 
-#[[
 target_link_libraries(${MODULE_NAME}
+	loaders
+	#[[
 	PRIVATE injection
 	PRIVATE engine_definitions
 	PRIVATE sdl_wrapper
@@ -17,8 +19,8 @@ target_link_libraries(${MODULE_NAME}
 	PRIVATE sound
 	PRIVATE timer
 	PRIVATE pugi_wrapper
+	]]#
 )
-]]#
 
 #[[
 target_sources(${MODULE_NAME} PRIVATE
