@@ -1,6 +1,5 @@
-export module program;
-
-import definitions;
+#include "definitions.h"
+#include "loaders/screen_loader.h"
 
 namespace MoleDemo {
 

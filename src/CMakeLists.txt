@@ -1,7 +1,9 @@
+set(MODULE_NAME temp)
 #[[
 set(MODULE_NAME demoscene)
 add_executable(${MODULE_NAME})
 ]]#
+add_library(temp)
 
 add_subdirectory(engine)
 add_subdirectory(loaders)
@@ -10,6 +12,7 @@ add_subdirectory(loaders)
 ]]#
 
 target_link_libraries(${MODULE_NAME}
+	engine_definitions
 	loaders
 	#[[
 	PRIVATE injection
@@ -45,8 +48,11 @@ target_sources(${MODULE_NAME} PRIVATE
 	timeline.cpp
 )
 
-target_sources(${MODULE_NAME} PRIVATE
-	main.cpp
-)
 ]]#
+target_sources(${MODULE_NAME} PRIVATE
+	program.cpp
+#[[
+	main.cpp
+]]#
+)
 
