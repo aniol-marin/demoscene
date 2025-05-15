@@ -14,6 +14,7 @@ add_subdirectory(loaders)
 target_link_libraries(${MODULE_NAME}
 	engine_definitions
 	loaders
+	pugi_wrapper
 	#[[
 	PRIVATE injection
 	PRIVATE engine_definitions
