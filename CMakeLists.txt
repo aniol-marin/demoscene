@@ -35,7 +35,6 @@ endif()
 ]]#
 
 add_subdirectory(src)
-#[[
 if(EnableTesting)
 	message(NOTICE "enabling testing")
 	include(CTest)
@@ -44,5 +43,6 @@ if(EnableTesting)
 else()
 	message(STATUS "testing not enabled")
 endif()
+#[[
 ]]#
 
