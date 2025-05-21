@@ -2,7 +2,10 @@
 #include "pugi.h"
 
 #include <exception>
+#include <iostream>
 #include <vector>
+#include <string>
+#include <functional>
 
 import std;
 
