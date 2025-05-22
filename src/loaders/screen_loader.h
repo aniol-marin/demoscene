@@ -11,12 +11,20 @@ namespace MoleDemo
 		node() : generic_node{}
 		{
 		}
+		node() : generic_node{std::string_view path}
+		{
+			mole::pugi_wrapper::tree tree {path};
+			mole::pugi_wrapper::generic_node content { tree.get_generic_node("screen") };
+			data.w = { content.get_number( "width" ) };
+			data.h = { content.get_number( "height" ) };
+		
+		}
 		node(const pugi::xml_node& node)
 			: generic_node{}
 		{
-			mole::pugi_wrapper::generic_node content { "child", node };
-			data.number = { content.get_number( "number" ) };
-			data.word = { content.get_text( "word" ) };
+			mole::pugi_wrapper::generic_node content { "screen", node };
+			data.w = { content.get_number( "width" ) };
+			data.h = { content.get_number( "height" ) };
 		}
 		node(const generic_node&)
 			: generic_node{}
