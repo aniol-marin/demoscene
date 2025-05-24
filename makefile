@@ -2,10 +2,12 @@ CMAKE_PATH := /usr/local/bin/cmake
 NINJA_PATH := /usr/local/bin/ninja
 COMPILER_PATH := /usr/local/bin/g++
 BINARY_PATH := ./bin/demoscene
+DEPENDENCIES_PATH := /lib/_deps
 TEST_PATH := ./bin/test
 CMAKE_LOG_LEVEL := NOTICE
 
 listify = $(subst ., ,$(1))
+current_folder = $(shell echo $$PWD)
 
 main: build run
 	echo main done
@@ -24,6 +26,7 @@ generate:
 		-S.\
 		-Bbuild\
 		-GNinja\
+		-DFETCHCONTENT_BASE_DIR:PATH=$(call current_folder)$(DEPENDENCIES_PATH)\
 		-DCMAKE_CXX_COMPILER=$(COMPILER_PATH)\
 		-DCMAKE_MAKE_PROGRAM=$(NINJA_PATH)\
 		-DCMAKE_BUILD_TYPE=Debug\
@@ -57,7 +60,11 @@ clean:
 	$(CMAKE_PATH) --build build --target clean
 
 wipe:
+	echo wiping build artifacts
 	rm -rf build
+
+full-wipe:
+	make wipe
 	rm -rf lib
 	rm -rf bin
 
