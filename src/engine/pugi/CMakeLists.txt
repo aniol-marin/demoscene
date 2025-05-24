@@ -11,7 +11,7 @@ FetchContent_Declare(
 	GIT_TAG 4a9169f0ee8e0edebf1ce0a74784883cd9506924 # PR#644 c++20 module support
 	]]#
 	GIT_REPOSITORY git@gitlab.com:amarinat/mirror_pugixml.git
-	GIT_TAG 20558688fd8d76bbd2c233342424eebff71c59a0 # PR#644 with CMake WIP
+	GIT_TAG 814878dddc4bc9e1fc79ea6f4aa3c55174765240 # PR#644 with CMake WIP
 )
 FetchContent_MakeAvailable(pugixml)
 
@@ -20,14 +20,10 @@ target_link_libraries( ${MODULE_NAME}
 	PUBLIC engine_definitions
 )
 
-target_include_directories( ${MODULE_NAME} PUBLIC
-	$<BUILD_INTERFACE:${CMAKE_CURRENT_SOURCE_DIR}>
-)
-
 target_sources(${MODULE_NAME} PUBLIC
 	#[[
+	]]#
 	FILE_SET pugi_wrapper TYPE CXX_MODULES
 	FILES
-	]]#
-	pugi.cpp
+	pugi.cppm
 )

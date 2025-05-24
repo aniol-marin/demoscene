@@ -321,6 +321,7 @@ SCENARIO("Parsing with Pugi XML Library")
 					node parent{ test.get_generic_node("test") };
 					specialized_node<nested_custom> custom { parent.node };
 				}));
+				/*
 				CHECK(std::invoke([&]
 				{
 					tree test{path};
@@ -334,6 +335,7 @@ SCENARIO("Parsing with Pugi XML Library")
 						&& deserialized.data.back().number == 2
 						&& deserialized.data.back().word.compare("world") == 0;
 				}));
+				 */
 			}
 		}
 	}

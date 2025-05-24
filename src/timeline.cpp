@@ -1,7 +1,3 @@
-module;
-
-#include "pugi.h"
-
 export module timeline;
 
 import std;
@@ -14,6 +10,7 @@ import sound;
 import raudio;
 import program;
 import render;
+import pugi;
 
 namespace MoleDemo {
 
