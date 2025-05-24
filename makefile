@@ -51,7 +51,7 @@ test-%:
 	$(TEST_PATH)/$(@)
 
 help-available-targets:
-	cmake --build build/ -t help | grep phony | grep -v -e cache -e _deps -e test -e lib -e Nightly -e Experimental -e Continuous -e Catch -e SDL2 -e raudio -e uninstall | tr -d : | awk '{ print $$1; }'
+	cmake --build build/ -t help | grep phony | grep -v -e cache -e _deps -e install -e "/" -e lib -e Nightly -e Experimental -e Continuous -e Catch -e SDL2 -e raudio -e uninstall | tr -d : | awk '{ print $$1; }'
 
 clean:
 	$(CMAKE_PATH) --build build --target clean
