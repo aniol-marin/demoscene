@@ -10,8 +10,8 @@ FetchContent_Declare(
 	GIT_TAG ee86beb30e4973f5feffe3ce63bfa4fbadf72f38 # v 1.15
 	GIT_TAG 4a9169f0ee8e0edebf1ce0a74784883cd9506924 # PR#644 c++20 module support
 	]]#
-	GIT_REPOSITORY https://github.com/Arthapz/pugixml.git
-	GIT_TAG 0f3092a542af952afbe189d8fa8c2a4b00624599 # PR#644 c++20 module support
+	GIT_REPOSITORY git@gitlab.com:amarinat/mirror_pugixml.git
+	GIT_TAG 20558688fd8d76bbd2c233342424eebff71c59a0 # PR#644 with CMake WIP
 )
 FetchContent_MakeAvailable(pugixml)
 

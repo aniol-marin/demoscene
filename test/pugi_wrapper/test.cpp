@@ -1,10 +1,10 @@
 #include<catch2/catch_test_macros.hpp>
-#include "pugi.h"
 
 #include <exception>
 #include <vector>
 
 import std;
+import pugixml;
 
 using tree = mole::pugi_wrapper::tree;
 using node = mole::pugi_wrapper::generic_node;
