@@ -45,7 +45,6 @@ struct mole::pugi_wrapper::node<specialized> : mole::pugi_wrapper::generic_node
 	~node() override = default;
 };
 
-/*
 template<>
 struct mole::pugi_wrapper::node<custom> : mole::pugi_wrapper::generic_node
 {
@@ -54,6 +53,7 @@ struct mole::pugi_wrapper::node<custom> : mole::pugi_wrapper::generic_node
 	node() : generic_node{}
 	{
 	}
+	/*
 	node(const pugi::xml_node& node)
 		: generic_node{}
 	{
@@ -61,6 +61,7 @@ struct mole::pugi_wrapper::node<custom> : mole::pugi_wrapper::generic_node
 		data.number = { content.get_number( "number" ) };
 		data.word = { content.get_text( "word" ) };
 	}
+	 */
 	node(const generic_node&)
 		: generic_node{}
 	{
@@ -83,6 +84,7 @@ struct mole::pugi_wrapper::node<nested_custom> : mole::pugi_wrapper::generic_nod
 	node() : generic_node{}
 	{
 	}
+/*
 	node(const pugi::xml_node& node)
 		: generic_node{}
 	{
@@ -94,6 +96,7 @@ struct mole::pugi_wrapper::node<nested_custom> : mole::pugi_wrapper::generic_nod
 			data.data.emplace_back( nested.deserialize() );
 		}
 	}
+ */
 	node(const generic_node& other)
 		: generic_node{}
 	{
@@ -107,7 +110,6 @@ struct mole::pugi_wrapper::node<nested_custom> : mole::pugi_wrapper::generic_nod
 		return data;
 	}
 };
- */
 
 void replace_content(std::string file_path, std::string content)
 {
@@ -132,7 +134,6 @@ TEST_CASE("Test-exclusive dependencies before serialization", "[XML]")
 	}
 }
 
-/*
 SCENARIO("Parsing with Pugi XML Library")
 {
 	GIVEN("the library")
@@ -145,15 +146,20 @@ SCENARIO("Parsing with Pugi XML Library")
 
 				REQUIRE_NOTHROW(std::invoke([&]
 				{
+				/*
 					tree test{path};
+					*/
 				}));
 
 				REQUIRE_NOTHROW(std::invoke([&]
 				{
+				/*
 					tree test{path};
 					node  node{test.get_generic_node("test")};
+					*/
 				}));
 			}
+			/*
 			AND_THEN("it should be possible to read attributes")
 			{
 				replace_content(path, "<test t='55' number=\"1\" word=\"hello\"/>\n");
@@ -252,7 +258,9 @@ SCENARIO("Parsing with Pugi XML Library")
 					return children.back().get_text("word");
 				}));
 			}
+		*/
 		}
+	/*
 		WHEN("a specialization doesn't exist")
 		{
 			THEN("it should not work")
@@ -276,6 +284,8 @@ SCENARIO("Parsing with Pugi XML Library")
 				}));
 			}
 		}
+		*/
+	/*
 		WHEN("a specialization exists")
 		{
 			THEN("it should work")
@@ -326,8 +336,6 @@ SCENARIO("Parsing with Pugi XML Library")
 					node parent{ test.get_generic_node("test") };
 					specialized_node<nested_custom> custom { parent.node };
 				}));
- */
-				/*
 				CHECK(std::invoke([&]
 				{
 					tree test{path};
@@ -345,9 +353,9 @@ SCENARIO("Parsing with Pugi XML Library")
 				/*
 			}
 		}
+		*/
 	}
 }
- */
 
 SCENARIO("Serializing with Pugi XML Library")
 {
