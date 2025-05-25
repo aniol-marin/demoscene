@@ -152,12 +152,9 @@ SCENARIO("Parsing with Pugi XML Library")
 				REQUIRE_NOTHROW(std::invoke([&]
 				{
 					tree test{path};
-					/*
 					node  node{test.get_generic_node("test")};
-					*/
 				}));
 			}
-			/*
 			AND_THEN("it should be possible to read attributes")
 			{
 				replace_content(path, "<test t='55' number=\"1\" word=\"hello\"/>\n");
@@ -183,13 +180,16 @@ SCENARIO("Parsing with Pugi XML Library")
 					return node.get_text("word");
 				}));
 
+				/*
 				CHECK(1 == std::invoke([&]
 				{
 					tree test{path};
 					node node{test.get_generic_node("test")};
 					return node.get_number("number");
 				}));
+				*/
 			}
+			/*
 			AND_THEN("it should be possible to fetch attributes from children nodes")
 			{
 				replace_content(
