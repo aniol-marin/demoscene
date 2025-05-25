@@ -87,6 +87,7 @@ namespace mole::pugi_wrapper
 
 mole::pugi_wrapper::tree::tree(const std::string_view path)
 {
+	pugixml::mole_test{};
 	/*
 	pugi::xml_parse_result result
 	{
