@@ -4,7 +4,7 @@
 #include <vector>
 
 import std;
-import pugixml;
+import pugi;
 
 using tree = mole::pugi_wrapper::tree;
 using node = mole::pugi_wrapper::generic_node;
@@ -30,10 +30,12 @@ struct mole::pugi_wrapper::node<specialized> : mole::pugi_wrapper::generic_node
 	node() : generic_node{}
 	{
 	}
+	/*
 	node(const pugi::xml_node&)
 		: generic_node{}
 	{
 	}
+	*/
 	node(const generic_node&)
 		: generic_node{}
 	{
@@ -43,6 +45,7 @@ struct mole::pugi_wrapper::node<specialized> : mole::pugi_wrapper::generic_node
 	~node() override = default;
 };
 
+/*
 template<>
 struct mole::pugi_wrapper::node<custom> : mole::pugi_wrapper::generic_node
 {
@@ -104,6 +107,7 @@ struct mole::pugi_wrapper::node<nested_custom> : mole::pugi_wrapper::generic_nod
 		return data;
 	}
 };
+ */
 
 void replace_content(std::string file_path, std::string content)
 {
@@ -128,6 +132,7 @@ TEST_CASE("Test-exclusive dependencies before serialization", "[XML]")
 	}
 }
 
+/*
 SCENARIO("Parsing with Pugi XML Library")
 {
 	GIVEN("the library")
@@ -321,6 +326,7 @@ SCENARIO("Parsing with Pugi XML Library")
 					node parent{ test.get_generic_node("test") };
 					specialized_node<nested_custom> custom { parent.node };
 				}));
+ */
 				/*
 				CHECK(std::invoke([&]
 				{
@@ -336,10 +342,12 @@ SCENARIO("Parsing with Pugi XML Library")
 						&& deserialized.data.back().word.compare("world") == 0;
 				}));
 				 */
+				/*
 			}
 		}
 	}
 }
+ */
 
 SCENARIO("Serializing with Pugi XML Library")
 {

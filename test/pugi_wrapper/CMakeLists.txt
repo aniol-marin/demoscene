@@ -11,7 +11,9 @@ set_target_properties(${TEST_TARGET}
 target_link_libraries( ${TEST_TARGET}
     PRIVATE Catch2::Catch2WithMain
     PRIVATE pugi_wrapper
+    #[[
     PRIVATE pugixml_wrapper
+    ]]#
 )
 
 target_sources(${TEST_TARGET} PRIVATE
