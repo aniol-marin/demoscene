@@ -1,7 +1,7 @@
 export module pugi;
 
 import std;
-import pugixml;
+export import pugixml;
 
 namespace mole::pugi_wrapper
 {
@@ -88,6 +88,8 @@ namespace mole::pugi_wrapper
 mole::pugi_wrapper::tree::tree(const std::string_view path)
 {
 	pugixml::mole_test{};
+	pugi::another_mole_test{};
+
 	/*
 	pugi::xml_parse_result result
 	{
