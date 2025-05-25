@@ -146,15 +146,13 @@ SCENARIO("Parsing with Pugi XML Library")
 
 				REQUIRE_NOTHROW(std::invoke([&]
 				{
-				/*
 					tree test{path};
-					*/
 				}));
 
 				REQUIRE_NOTHROW(std::invoke([&]
 				{
-				/*
 					tree test{path};
+					/*
 					node  node{test.get_generic_node("test")};
 					*/
 				}));
