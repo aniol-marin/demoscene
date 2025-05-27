@@ -5,11 +5,18 @@ BINARY_PATH := ./bin/demoscene
 TEST_PATH := ./bin/test
 CMAKE_LOG_LEVEL := NOTICE
 
-log = $(shell echo, $(1))
+log = $(shell echo "this is a test: $(1)")
+warn = $(shell echo, $(1))
+error = $(shell echo, $(1))
 listify = $(subst ., ,$(1))
 
 main: build run
 	echo main done
+
+.PHONY: temp-test
+temp-test:
+	$(call log, testing function with multiple arguments)
+	echo done
 
 debug: build
 	$(call log, "debugging")
