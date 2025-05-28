@@ -5,7 +5,7 @@ BINARY_PATH := ./bin/demoscene
 TEST_PATH := ./bin/test
 CMAKE_LOG_LEVEL := NOTICE
 
-log = $(shell echo "this is a test: $(1)")
+log = $(info $(eval a=$(shell echo 'this is a test: $(1)')))
 warn = $(shell echo, $(1))
 error = $(shell echo, $(1))
 listify = $(subst ., ,$(1))
