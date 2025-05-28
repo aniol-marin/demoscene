@@ -5,9 +5,11 @@ BINARY_PATH := ./bin/demoscene
 TEST_PATH := ./bin/test
 CMAKE_LOG_LEVEL := NOTICE
 
-log = $(info $(eval a=$(shell echo 'this is a test: $(1)')))
-warn = $(shell echo, $(1))
-error = $(shell echo, $(1))
+MF := 
+EMF := 
+log = $(info $(shell echo -e '[INFO]\033[35m $(1) \033[m'))
+warn = $(info $(shell echo -e '[WARN]\033[33m $(1) \033[m'))
+fail = $(info $(shell echo -e '[ERROR]\033[34m $(1) \033[m'))
 listify = $(subst ., ,$(1))
 
 main: build run
@@ -16,6 +18,8 @@ main: build run
 .PHONY: temp-test
 temp-test:
 	$(call log, testing function with multiple arguments)
+	$(call warn, testing function with multiple arguments)
+	$(call fail, testing function with multiple arguments)
 	echo done
 
 debug: build
