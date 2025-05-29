@@ -17,7 +17,6 @@ main: build run
 
 .PHONY: temp-test
 temp-test:
-	$(call log, testing function with multiple arguments)
 	$(call warn, testing function with multiple arguments)
 	$(call fail, testing function with multiple arguments)
 	echo done
@@ -34,6 +33,7 @@ build: generate
 	$(CMAKE_PATH) --build build --target demoscene
 
 generate:
+	$(call log, generating)
 	$(CMAKE_PATH)\
 		-S.\
 		-Bbuild\
@@ -45,11 +45,12 @@ generate:
 		--log-level=$(CMAKE_LOG_LEVEL)
 
 run: build 
+	$(call log, building)
 	$(BINARY_PATH)
 
 .PHONY: test
 test: generate
-	$(call log, "generating")
+	$(call log, testing)
 	$(CMAKE_PATH) --build build --target test
 
 .PHONY: retest
@@ -57,21 +58,24 @@ retest:
 	cd build/; ctest -R ^test.*\$
 
 build-%:
-	echo "building dot-separated targets: $(call listify,$(subst build-,,$@))"
+	$(call log, "building dot-separated targets: $(call listify,$(subst build-,,$@))")
 	$(CMAKE_PATH) --build build --target $(call listify,$(subst build-,,$@))
 
 test-%:
-	echo "testing $(@)"
+	$(call log, "testing $(@)")
 	$(CMAKE_PATH) --build build --target $(@)
 	$(TEST_PATH)/$(@)
 
 help-available-targets:
+	$(call log, available targets)
 	cmake --build build/ -t help | grep phony | grep -v -e cache -e _deps -e lib -e Nightly -e Experimental -e Continuous -e Catch -e SDL2 -e raudio -e uninstall | tr -d : | awk '{ print $$1; }'
 
 clean:
+	$(call log, cleaning CMake artifacts)
 	$(CMAKE_PATH) --build build --target clean
 
 wipe:
+	$(call log, wiping everything)
 	rm -rf build
 	rm -rf lib
 	rm -rf bin
