@@ -68,7 +68,7 @@ test-%:
 
 help-available-targets:
 	$(call log, available targets)
-	cmake --build build/ -t help | grep phony | grep -v -e cache -e _deps -e lib -e Nightly -e Experimental -e Continuous -e Catch -e SDL2 -e raudio -e uninstall | tr -d : | awk '{ print $$1; }'
+	cmake --build build/ -t help | grep phony | grep -v -e '/' -e cache -e _deps -e lib -e Nightly -e Experimental -e Continuous -e Catch -e SDL2 -e raudio -e uninstall | tr -d : | awk '{ print $$1; }'
 
 clean:
 	$(call log, cleaning CMake artifacts)
