@@ -8,6 +8,9 @@ CMAKE_LOG_LEVEL := NOTICE
 
 listify = $(subst ., ,$(1))
 current_folder = $(shell echo $$PWD)
+log = $(info  $(shell echo -e '[INFO] \033[35m $(1) \033[m'))
+warn = $(info $(shell echo -e '[WARN] \033[33m $(1) \033[m'))
+fail = $(info $(shell echo -e '[ERROR]\033[34m $(1) \033[m'))
 
 main: build run
 	echo main done
@@ -61,7 +64,7 @@ help-available-targets:
 status: generate
 	echo "Project compilation status:" > /tmp/output
 	echo "" >> /tmp/output
-	make help-available-targets | xargs -L 1 -I {} sh -c ' make build-{} $> /dev/null && echo "{} : ok" >> /tmp/output || echo "{}: ko" >> /tmp/output'
+	make help-available-targets | xargs -L 1 -I {} sh -c ' make build-{} $> /dev/null && echo "{} :\033[32m ok\033[m" >> /tmp/output || echo "{}: \033[33mko\033[m" >> /tmp/output'
 	clear
 	cat /tmp/output
 
