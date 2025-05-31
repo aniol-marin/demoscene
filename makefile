@@ -48,7 +48,7 @@ retest:
 
 build-%:
 	echo "building dot-separated targets: $(call listify,$(subst build-,,$@))"
-	$(CMAKE_PATH) --build build --target $(call listify,$(subst build-,,$@))
+	$(CMAKE_PATH) --build build --target $(call listify,$(subst build-,,$@)) $(REDIRECT)
 
 test-%:
 	echo "testing $(@)"
@@ -57,6 +57,13 @@ test-%:
 
 help-available-targets:
 	cmake --build build/ -t help | grep phony | grep -v -e cache -e _deps -e install -e "/" -e lib -e Nightly -e Experimental -e Continuous -e Catch -e SDL2 -e raudio -e uninstall | tr -d : | awk '{ print $$1; }'
+
+status: generate
+	echo "Project compilation status:" > /tmp/output
+	echo "" >> /tmp/output
+	make help-available-targets | xargs -L 1 -I {} sh -c ' make build-{} $> /dev/null && echo "{} : ok" >> /tmp/output || echo "{}: ko" >> /tmp/output'
+	clear
+	cat /tmp/output
 
 clean:
 	$(CMAKE_PATH) --build build --target clean
@@ -71,3 +78,9 @@ full-wipe:
 	rm -rf bin
 
 $(VERBOSE).SILENT: ;
+ifdef (FULLY_SILENT)
+	REDIRECT := &> /dev/null
+else
+	REDIRECT := 
+endif
+
