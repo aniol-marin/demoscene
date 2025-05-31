@@ -13,6 +13,8 @@ project(MoleDemoScene2025
 	LANGUAGES CXX
 )
 
+option(EnableTesting:BOOL "enables testing targets" OFF)
+
 set(CMAKE_CONFIGURATION_TYPES "Debug;Release")
 set(CMAKE_ARCHIVE_OUTPUT_DIRECTORY ${CMAKE_SOURCE_DIR}/lib)
 set(CMAKE_LIBRARY_OUTPUT_DIRECTORY ${CMAKE_SOURCE_DIR}/lib)

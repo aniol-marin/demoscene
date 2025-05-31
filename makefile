@@ -30,8 +30,10 @@ generate:
 		-DCMAKE_CXX_COMPILER=$(COMPILER_PATH)\
 		-DCMAKE_MAKE_PROGRAM=$(NINJA_PATH)\
 		-DCMAKE_BUILD_TYPE=Debug\
-		-DEnableTesting=ON\
 		--log-level=$(CMAKE_LOG_LEVEL)
+
+configure: generate
+	cd build; ccmake .
 
 run: build 
 	$(BINARY_PATH)
