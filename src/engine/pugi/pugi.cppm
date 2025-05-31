@@ -1,7 +1,7 @@
 export module pugi;
 
 import std;
-export import pugixml;
+import pugixml-experimental;
 
 namespace mole::pugi_wrapper
 {
@@ -43,8 +43,11 @@ namespace mole::pugi_wrapper
 	struct tree
 	{
 		/*
-		pugi::xml_document document {};
-		*/
+		   pugi::xml_document document {};
+	pugixml::mole_test{};
+	pugi::another_mole_test{};
+	pugi::yet_another_mole_test{};
+	*/
 		bool tmp_success{};
 
 		tree() = delete;
@@ -89,6 +92,8 @@ mole::pugi_wrapper::tree::tree(const std::string_view path)
 {
 	pugixml::mole_test{};
 	pugi::another_mole_test{};
+	pugi::yet_another_mole_test{};
+		   pugi::xml_document document {};
 
 	/*
 	pugi::xml_parse_result result

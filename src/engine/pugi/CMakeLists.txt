@@ -10,12 +10,14 @@ FetchContent_Declare(
 	GIT_TAG ee86beb30e4973f5feffe3ce63bfa4fbadf72f38 # v 1.15
 	]]#
 	GIT_REPOSITORY git@gitlab.com:amarinat/mirror_pugixml.git
-	GIT_TAG dac14184667f98e03f0a78bdfa2aa383c78484dc # PR#644 with CMake WIP
+	#GIT_TAG dac14184667f98e03f0a78bdfa2aa383c78484dc # PR#644 with CMake WIP
+	GIT_TAG 10f40874853f784fac6fe11792c04baff93b4dda # custm
 )
 FetchContent_MakeAvailable(pugixml)
 
 target_link_libraries( ${MODULE_NAME}
 	PUBLIC pugixml-modules
+	PUBLIC pugixml-experimental
 	PUBLIC engine_definitions
 )
 
