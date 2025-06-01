@@ -30,32 +30,6 @@ namespace MoleDemo
     using TransitionHandle = std::unique_ptr<Transition>;
 } // namespace MoleDemo
 
-template<>
-struct mole::pugi_wrapper::node<MoleDemo::Solid>
-{
-    MoleDemo::Solid data;
-
-    node() = default;
-    /*
-    node(const pugi::xml_node& node, Timer* timer, Screen* screen)
-        : data { timer, screen }
-    {
-        // TO DO preconditions and info filling
-        mole::pugi_wrapper::generic_node content { "child", node };
-        data.number = { content.get_number( "number" ) };
-        data.word = { content.get_text( "word" ) };
-    }
-    */
-    node(const generic_node&) = default;
-    node(const node&) = delete;
-    node(const node&&) = delete;
-
-    MoleDemo::Solid&& deserialize() { return std::move(data); }
-    /*
-    : mole::pugi_wrapper::generic_node
-    */
-};
-
 struct MoleDemo::Event
 {
     const Timestamp time;
