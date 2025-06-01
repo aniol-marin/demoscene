@@ -1,7 +1,7 @@
 export module pugi;
 
 import std;
-import pugixml-experimental;
+import pugixml_experimental;
 
 namespace mole::pugi_wrapper
 {
