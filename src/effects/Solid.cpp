@@ -24,6 +24,7 @@ class MoleDemo::Solid final
 public:
     Solid(); // texturable-enforced constructor
     Solid(Timer* timer, Screen* screen);
+    Solid(Solid&&) noexcept;
     ~Solid() override;
 
     void SetColor(Color color);
@@ -43,6 +44,7 @@ namespace MoleDemo
     Solid::Solid() : Solid{ nullptr, &textureSize } {}
 
     Solid::Solid(Timer* timer, Screen* screen) : Texturable{}, Effect{ timer, screen } {}
+    Solid::Solid(Solid&& o) noexcept : Effect{ o.timer, o.screen }, rgbColor{ o.rgbColor } {}
 
     Solid::~Solid() {}
 

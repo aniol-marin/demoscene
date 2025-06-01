@@ -216,6 +216,15 @@ class MoleDemo::Timeline
         return std::move(std::make_unique<Event>(time, background, foreground, transition));
     }
 
+    Solid* CreateSolid(const pugi::xml_node node)
+    {
+        mole::pugi_wrapper::node<Solid> deserialized { node, &timer, &screen };
+        std::unique_ptr<Solid> p_effect{ std::make_unique<Solid>( deserialized.deserialize()) };
+            Solid* effect{ p_effect.get() };
+        availableEffects.push_back(std::move(p_effect));
+        return effect;
+    }
+
 public:
     Timeline(Timer& timer, Program& program, Cycle& cycle, SoundManager& sound, Screen& screen) :
       currentEvent{ nullptr },
@@ -236,11 +245,13 @@ public:
         // TODO argument forwarding on CreateEffect template
 
         // Effects
-        Solid* solid1{ CreateEffect<Solid>() };
-        solid1->SetColor(black);
+        pugi::xml_node solid1_node{};
+        solid1_node.append_attribute("color").as_uint(black);
+        Solid* solid1{ CreateSolid(solid1_node) };
 
-        Solid* solid2{ CreateEffect<Solid>() };
-        solid2->SetColor(white);
+        pugi::xml_node solid2_node{};
+        solid2_node.append_attribute("color").as_uint(black);
+        Solid* solid2{ CreateSolid(solid2_node) };
 
         Gradient* gradient1{ CreateEffect<Gradient>() };
         gradient1->SetColors(white, black, black, white);
