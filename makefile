@@ -61,12 +61,24 @@ test-%:
 help-available-targets:
 	cmake --build build/ -t help | grep phony | grep -v -e cache -e _deps -e install -e "/" -e lib -e Nightly -e Experimental -e Continuous -e Catch -e SDL2 -e raudio -e uninstall | tr -d : | awk '{ print $$1; }'
 
-status: generate
-	echo "Project compilation status:" > /tmp/output
-	echo "" >> /tmp/output
-	make help-available-targets | xargs -L 1 -I {} sh -c ' make build-{} $> /dev/null && echo "\033[35m{}\033[m :\033[32m ok\033[m" >> /tmp/output || echo "{}: \033[33mko\033[m" >> /tmp/output'
+status: regenerate-status
 	clear
+	make previous-status
+
+regenerate-status: generate /tmp/output
+	make clear-status
+	make /tmp/output
+
+previous-status: /tmp/output
 	cat /tmp/output
+
+clear-status:
+	rm /tmp/output
+
+/tmp/output:
+	echo "" >> /tmp/output
+	echo "Project compilation status:" > /tmp/output
+	make help-available-targets | xargs -L 1 -I {} sh -c ' make build-{} $> /dev/null && echo "\033[35m{}\033[m :\033[32m ok\033[m" >> /tmp/output || echo "{}: \033[33mko\033[m" >> /tmp/output'
 
 clean:
 	$(CMAKE_PATH) --build build --target clean
