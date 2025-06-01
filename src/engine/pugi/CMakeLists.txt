@@ -11,19 +11,19 @@ FetchContent_Declare(
 	]]#
 	GIT_REPOSITORY git@gitlab.com:amarinat/mirror_pugixml.git
 	#GIT_TAG dac14184667f98e03f0a78bdfa2aa383c78484dc # PR#644 with CMake WIP
+	#[[
 	GIT_TAG d27a82ee2faffbcf3ada50b1a9e6d2e9d946c9cb # custom branch WIP
+	]]#
+	GIT_TAG 06a94d97fc06658864fe969938ca92de04f15799 # custom branch WIP
 )
 FetchContent_MakeAvailable(pugixml)
 
 target_link_libraries( ${MODULE_NAME}
+	#[[
 	PUBLIC pugixml_experimental
+	]]#
+	PUBLIC pugixml
 	PUBLIC engine_definitions
-)
-
-target_sources(${MODULE_NAME} PUBLIC
-	FILE_SET pugixml_experimental TYPE CXX_MODULES
-	FILES
-	fake-pugi.cpp
 )
 
 target_sources(${MODULE_NAME} PUBLIC
