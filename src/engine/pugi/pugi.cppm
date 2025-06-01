@@ -1,7 +1,7 @@
 export module pugi;
 
 import std;
-import pugixml_experimental;
+export import pugixml_experimental;
 
 namespace mole::pugi_wrapper
 {
@@ -16,12 +16,8 @@ namespace mole::pugi_wrapper
 	struct generic_node
 	{
 		const std::string_view name{};
-			/*
-
 		const pugi::xml_node node{};
-		*/
 
-		generic_node() = default; // temp
 		generic_node(std::string_view name, const pugi::xml_node& node);
 		generic_node(const generic_node&) = default;
 		generic_node(generic_node&&) = default;
@@ -34,24 +30,17 @@ namespace mole::pugi_wrapper
 		std::vector<generic_node> get_children(std::string_view name);
 
 
-		/*
 	protected:
 		generic_node() = default;
-		*/
 	};
 
 	struct tree
 	{
-		/*
-		   pugi::xml_document document {};
-	pugixml::mole_test{};
-	pugi::another_mole_test{};
-	pugi::yet_another_mole_test{};
-	*/
+		pugi::xml_document document {};
 		bool tmp_success{};
 
 		tree() = delete;
-		tree(const std::string_view path);
+		explicit tree(std::string_view path);
 		tree(const tree&) = delete;
 		tree(tree&&) = default;
 		~tree() = default;
@@ -90,37 +79,24 @@ namespace mole::pugi_wrapper
 
 mole::pugi_wrapper::tree::tree(const std::string_view path)
 {
-	pugixml::mole_test{};
-	pugi::another_mole_test{};
-	pugi::yet_another_mole_test{};
-		   pugi::xml_document document {};
-
-	/*
 	pugi::xml_parse_result result
 	{
 		document.load_file(std::string{path}.c_str())
 	};
 
 	tmp_success = bool{result};
-	*/
 }
 
 int mole::pugi_wrapper::generic_node::get_number(std::string_view name)
 {
-	return 0;
-	/*
 	return node.attribute(name).as_int();
-	*/
 }
 
 std::string mole::pugi_wrapper::generic_node::get_text(std::string_view name)
 {
 	std::string content
 	{
-		"temp"
-				/*
 		node.attribute(name).value()
-		*/
 	};
 
 	return content;
@@ -128,27 +104,17 @@ std::string mole::pugi_wrapper::generic_node::get_text(std::string_view name)
 
 mole::pugi_wrapper::generic_node mole::pugi_wrapper::tree::get_generic_node(std::string_view name)
 {
-	return mole::pugi_wrapper::generic_node{};
-
-	/*
 	return generic_node { name, document.child(name) };
-	*/
 }
 
 mole::pugi_wrapper::generic_node mole::pugi_wrapper::generic_node::get_child(std::string_view name)
 {
-	return {};
-		/*
-
 	return generic_node{name, node.child(name) };
-	*/
 }
 
 std::vector<mole::pugi_wrapper::generic_node> mole::pugi_wrapper::generic_node::get_children(std::string_view name)
 {
 	std::vector<mole::pugi_wrapper::generic_node> container {};
-
-		/*
 
 	for (const auto it : node)
 	{
@@ -157,16 +123,13 @@ std::vector<mole::pugi_wrapper::generic_node> mole::pugi_wrapper::generic_node::
 			container.emplace_back(name, it);
 		}
 	}
-	*/
 
 	return container;
 }
 
 mole::pugi_wrapper::generic_node::generic_node( std::string_view name , const pugi::xml_node& node) :
 	name { name }
-		/*
 	, node { node }
-	*/
 {
 }
 

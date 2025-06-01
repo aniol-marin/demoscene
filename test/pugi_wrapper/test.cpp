@@ -30,12 +30,10 @@ struct mole::pugi_wrapper::node<specialized> : mole::pugi_wrapper::generic_node
 	node() : generic_node{}
 	{
 	}
-	/*
 	node(const pugi::xml_node&)
 		: generic_node{}
 	{
 	}
-	*/
 	node(const generic_node&)
 		: generic_node{}
 	{
@@ -53,7 +51,6 @@ struct mole::pugi_wrapper::node<custom> : mole::pugi_wrapper::generic_node
 	node() : generic_node{}
 	{
 	}
-	/*
 	node(const pugi::xml_node& node)
 		: generic_node{}
 	{
@@ -61,7 +58,6 @@ struct mole::pugi_wrapper::node<custom> : mole::pugi_wrapper::generic_node
 		data.number = { content.get_number( "number" ) };
 		data.word = { content.get_text( "word" ) };
 	}
-	 */
 	node(const generic_node&)
 		: generic_node{}
 	{
@@ -84,7 +80,6 @@ struct mole::pugi_wrapper::node<nested_custom> : mole::pugi_wrapper::generic_nod
 	node() : generic_node{}
 	{
 	}
-/*
 	node(const pugi::xml_node& node)
 		: generic_node{}
 	{
@@ -96,7 +91,6 @@ struct mole::pugi_wrapper::node<nested_custom> : mole::pugi_wrapper::generic_nod
 			data.data.emplace_back( nested.deserialize() );
 		}
 	}
- */
 	node(const generic_node& other)
 		: generic_node{}
 	{
@@ -180,16 +174,13 @@ SCENARIO("Parsing with Pugi XML Library")
 					return node.get_text("word");
 				}));
 
-				/*
 				CHECK(1 == std::invoke([&]
 				{
 					tree test{path};
 					node node{test.get_generic_node("test")};
 					return node.get_number("number");
 				}));
-				*/
 			}
-			/*
 			AND_THEN("it should be possible to fetch attributes from children nodes")
 			{
 				replace_content(
@@ -256,9 +247,7 @@ SCENARIO("Parsing with Pugi XML Library")
 					return children.back().get_text("word");
 				}));
 			}
-		*/
 		}
-	/*
 		WHEN("a specialization doesn't exist")
 		{
 			THEN("it should not work")
@@ -282,8 +271,6 @@ SCENARIO("Parsing with Pugi XML Library")
 				}));
 			}
 		}
-		*/
-	/*
 		WHEN("a specialization exists")
 		{
 			THEN("it should work")
@@ -347,11 +334,8 @@ SCENARIO("Parsing with Pugi XML Library")
 						&& deserialized.data.back().number == 2
 						&& deserialized.data.back().word.compare("world") == 0;
 				}));
-				 */
-				/*
 			}
 		}
-		*/
 	}
 }
 
@@ -360,3 +344,4 @@ SCENARIO("Serializing with Pugi XML Library")
 	//TO DO
 	CHECK(true);
 }
+

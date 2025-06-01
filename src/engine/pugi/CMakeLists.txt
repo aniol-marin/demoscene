@@ -14,7 +14,7 @@ FetchContent_Declare(
 	#[[
 	GIT_TAG d27a82ee2faffbcf3ada50b1a9e6d2e9d946c9cb # custom branch WIP
 	]]#
-	GIT_TAG 7f26ace3a6cd1cfa0a3c458361ce73e4fda37da0 # custom branch WIP
+	GIT_TAG 254e2ce6972a8731230f492f1f1d2d10022ebdc1 # custom branch WIP
 )
 FetchContent_MakeAvailable(pugixml)
 
