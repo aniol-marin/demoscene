@@ -64,7 +64,7 @@ help-available-targets:
 status: generate
 	echo "Project compilation status:" > /tmp/output
 	echo "" >> /tmp/output
-	make help-available-targets | xargs -L 1 -I {} sh -c ' make build-{} $> /dev/null && echo "{} :\033[32m ok\033[m" >> /tmp/output || echo "{}: \033[33mko\033[m" >> /tmp/output'
+	make help-available-targets | xargs -L 1 -I {} sh -c ' make build-{} $> /dev/null && echo "\033[35m{}\033[m :\033[32m ok\033[m" >> /tmp/output || echo "{}: \033[33mko\033[m" >> /tmp/output'
 	clear
 	cat /tmp/output
 
