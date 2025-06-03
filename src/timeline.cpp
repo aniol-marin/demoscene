@@ -1,7 +1,3 @@
-module;
-
-#include "pugi.h"
-
 export module timeline;
 
 import std;

@@ -1,21 +1,13 @@
-set(MODULE_NAME temp)
-#[[
 set(MODULE_NAME demoscene)
 add_executable(${MODULE_NAME})
-]]#
-add_library(temp)
 
-add_subdirectory(engine)
-add_subdirectory(loaders)
 #[[
-#add_subdirectory(effects)
+add_subdirectory(engine)
+add_subdirectory(effects)
 ]]#
 
+#[[
 target_link_libraries(${MODULE_NAME}
-	engine_definitions
-	loaders
-	pugi_wrapper
-	#[[
 	PRIVATE injection
 	PRIVATE engine_definitions
 	PRIVATE sdl_wrapper
@@ -23,11 +15,11 @@ target_link_libraries(${MODULE_NAME}
 	PRIVATE sound
 	PRIVATE timer
 	PRIVATE pugi_wrapper
-	]]#
 )
+]]#
 
 #[[
-target_sources(${MODULE_NAME} PRIVATE
+target_sources(${MODULE_NAME} PUBLIC
 	FILE_SET demo TYPE CXX_MODULES
 	FILE_SET program TYPE CXX_MODULES
 	FILE_SET effects TYPE CXX_MODULES
@@ -48,12 +40,8 @@ target_sources(${MODULE_NAME} PRIVATE
 	cycle.cpp
 	timeline.cpp
 )
-
 ]]#
-target_sources(${MODULE_NAME} PRIVATE
-	program.cpp
-#[[
+
+target_sources(${MODULE_NAME} PUBLIC
 	main.cpp
-]]#
 )
-

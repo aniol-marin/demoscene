@@ -1,9 +1,10 @@
-#include <cstdint>
-#include <string_view>
-#include <vector>
-#include <functional>
-#include <memory>
+module;
 
+#include <cstdint>
+
+export module definitions;
+
+import std;
 
 export class Color;
 export struct Point2D;

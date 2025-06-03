@@ -1,12 +1,5 @@
 set(MODULE_NAME raudio_wrapper)
-
-add_library(${MODULE_NAME}
-	raudio.cpp
-)
-
-target_include_directories( ${MODULE_NAME} PUBLIC
-	$<BUILD_INTERFACE:${CMAKE_CURRENT_SOURCE_DIR}>
-)
+add_library(${MODULE_NAME})
 
 include(FetchContent)
 FetchContent_Declare(
@@ -30,4 +23,10 @@ FetchContent_MakeAvailable(sdl-mixer)
 target_link_libraries( ${MODULE_NAME}
 	PUBLIC raudio
 	PUBLIC engine_definitions
+)
+
+target_sources(${MODULE_NAME} PUBLIC
+	FILE_SET raudio_wrapper TYPE CXX_MODULES
+	FILES
+	raudio.cpp
 )

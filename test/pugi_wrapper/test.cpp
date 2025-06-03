@@ -347,3 +347,4 @@ SCENARIO("Serializing with Pugi XML Library")
 	//TO DO
 	CHECK(true);
 }
+
