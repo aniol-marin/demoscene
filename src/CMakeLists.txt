@@ -1,8 +1,8 @@
 set(MODULE_NAME demoscene)
 add_executable(${MODULE_NAME})
 
-#[[
 add_subdirectory(engine)
+#[[
 add_subdirectory(effects)
 ]]#
 
