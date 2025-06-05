@@ -1,16 +1,16 @@
 #ifndef DEMOSCENE_SDL_WRAPPER_H
 #define DEMOSCENE_SDL_WRAPPER_H
 
-#include <string>
-#include <iostream>
-#include <exception>
 #include <cstdint>
+#include <exception>
+#include <iostream>
+#include <string>
 
-import definitions;
+#include "definitions.h"
+
 /*
 #include "SDL2/SDL.h"
 */
-
 
 /*
 namespace
@@ -21,16 +21,18 @@ namespace
 }
 */
 
-namespace SDL {
+namespace SDL
+{
+	using namespace mole_def;
 
 	struct SDLManager
 	{
 		using pixel = uint32_t;
 		using offset = uint_fast16_t;
 
-		Screen g_screen { 0, 0 };
-		bool initialized { false };
-		bool locked { false };
+		Screen g_screen {0, 0};
+		bool initialized {false};
+		bool locked {false};
 
 		SDLManager() = default;
 		SDLManager(const SDLManager&) = default;
@@ -47,33 +49,9 @@ namespace SDL {
 
 		void PutPixel(offset x, offset y, const pixel rgba);
 
-	private:
+	  private:
 
 		pixel& getPixel(offset x, offset y);
-
 	};
-}
+} // namespace SDL
 #endif // !DEMOSCENE_SDL_WRAPPER_H
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-

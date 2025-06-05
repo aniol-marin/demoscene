@@ -6,8 +6,10 @@ target_link_libraries( ${MODULE_NAME}
 	PRIVATE sdl_wrapper
 )
 
-target_sources( ${MODULE_NAME} PUBLIC
-	FILE_SET input TYPE CXX_MODULES
-	FILES
+target_include_directories( ${MODULE_NAME} PUBLIC
+	$<BUILD_INTERFACE:${CMAKE_CURRENT_SOURCE_DIR}>
+)
+
+target_sources( ${MODULE_NAME} PRIVATE
 	input.cpp
 )
