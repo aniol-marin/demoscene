@@ -40,6 +40,11 @@ public:
 		initialTime{ Clock::now() },
 		previousTime{ Clock::now() }
 	{}
+	Timer(const Timer&) = delete;
+	Timer(Timer&&) = default;
+	~Timer() = default;
+
+
 	milliseconds GetDeltaTime() const {
 		return deltaTime;
 	}
