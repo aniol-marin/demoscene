@@ -18,7 +18,6 @@ target_sources(${MODULE_NAME} PUBLIC
 	FILE_SET demo TYPE CXX_MODULES
 	FILE_SET program TYPE CXX_MODULES
 	FILE_SET effects TYPE CXX_MODULES
-	FILE_SET effect TYPE CXX_MODULES
 	FILE_SET stars TYPE CXX_MODULES
 	FILE_SET solid TYPE CXX_MODULES
 	FILE_SET gradient TYPE CXX_MODULES
@@ -29,7 +28,6 @@ target_sources(${MODULE_NAME} PUBLIC
 	FILES
 	demo.cpp
 	program.cpp
-	effects.cpp
 	renderables.cpp
 	render.cpp
 	cycle.cpp
