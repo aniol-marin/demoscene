@@ -1,5 +1,5 @@
 enable_testing()
-set(TEST_TARGET test-raudio)
+set(TEST_TARGET test-audio)
 
 add_executable(${TEST_TARGET} EXCLUDE_FROM_ALL)
 
