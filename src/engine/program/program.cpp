@@ -11,12 +11,15 @@ class MoleDemo::Program
 {
 	ProgramStatus status;
 	const Screen& m_screen;
+
 public:
 	Program(const Screen& screen) :
 		status{ ProgramStatus::RUNNING },
 		m_screen{ screen }
 	{
 	}
+	Program(const Program&) = delete;
+	Program(Program&&) = default;
 	~Program() = default;
 
 	void SetStatus(ProgramStatus status) { this->status = status; }
