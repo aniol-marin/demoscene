@@ -1,5 +1,4 @@
-#include<catch2/catch_test_macros.hpp>
-#include "pugi.h"
+#include <catch2/catch_test_macros.hpp>
 
 #include <exception>
 #include <iostream>
@@ -8,6 +7,7 @@
 #include <functional>
 
 import std;
+import pugi;
 
 using tree = mole::pugi_wrapper::tree;
 using node = mole::pugi_wrapper::generic_node;
