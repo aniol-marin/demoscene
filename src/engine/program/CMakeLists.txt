@@ -2,11 +2,14 @@ set(MODULE_NAME program)
 add_library(${MODULE_NAME})
 
 target_link_libraries(${MODULE_NAME}
-	PUBLIC engine_definitions
+	public engine_definitions
+)
+
+target_include_directories( ${MODULE_NAME} public
+	$<build_interface:${CMAKE_CURRENT_SOURCE_DIR}>
 )
 
 target_sources(${MODULE_NAME} PUBLIC
-	FILE_SET ${MODULE_NAME} TYPE CXX_MODULES
-	FILES
 	program.cpp
 )
+
