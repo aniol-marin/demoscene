@@ -1,8 +1,5 @@
 #include "input.h"
 
-#include "definitions.h"
-#include "sdl.h"
-
 MoleDemo::InputManager::InputManager(SDL::SDLManager& manager):
 	manager {manager}
 {
