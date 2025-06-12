@@ -9,8 +9,10 @@ set_target_properties(${TEST_TARGET}
 )
 
 target_link_libraries( ${TEST_TARGET}
-    PRIVATE Catch2::Catch2WithMain
-    PRIVATE input
+	PRIVATE Catch2::Catch2WithMain
+	PRIVATE input
+	PRIVATE sdl_wrapper
+	PRIVATE engine_definitions
 )
 
 target_sources(${TEST_TARGET} PRIVATE

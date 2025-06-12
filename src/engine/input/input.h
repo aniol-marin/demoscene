@@ -13,7 +13,7 @@ using namespace mole_def;
 
 class MoleDemo::InputManager
 {
-	SDL::SDLManager manager {};
+	SDL::SDLManager& manager;
 
   public:
 
