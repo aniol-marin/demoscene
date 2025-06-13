@@ -1,7 +1,9 @@
 #include <catch2/catch_test_macros.hpp>
 
-import std;
-import timer;
+#include "timer.h"
+#include <functional>
+#include <thread>
+#include <iostream>
 
 SCENARIO("Timer")
 {
