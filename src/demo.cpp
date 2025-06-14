@@ -109,7 +109,8 @@ class MoleDemo::Demo
 			container.Inject<Program>(),
 			container.Inject<Cycle>(),
 			container.Inject<SoundManager>(),
-			container.Inject<Screen>()
+			container.Inject<Screen>(),
+			project
 		};});
 
 		/* TODO replace manual functor resolution with in-place factories. Examples follow:
