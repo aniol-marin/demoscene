@@ -1,17 +1,20 @@
 module;
 
-#define SUPPORT_FILEFORMAT_MP3
 #include "raudio.h"
 
 export module raudio;
-
 
 import std;
 import definitions;
 
 namespace RAudio
 {
-	export struct AudioManager
+	export struct AudioManager;
+}
+
+namespace RAudio
+{
+	struct AudioManager
 	{
 		AudioManager() = default;
 		AudioManager(const AudioManager&) = delete;
@@ -29,6 +32,7 @@ namespace RAudio
 
 		seconds GetDuration();
 		permille GetIntensity();
+
 	private:
 		bool initialized { false };
 		bool loaded { false };
@@ -37,7 +41,10 @@ namespace RAudio
 
 		static void SampleIntensity(void* buffer, unsigned int frames);
 	};
+}
 
+namespace RAudio
+{
 	permille AudioManager::intensity = {};
 
 	AudioManager::~AudioManager()
