@@ -42,7 +42,11 @@ namespace RAudio
 
 	AudioManager::~AudioManager()
 	{
-		if (initialized) Finalize();
+		if (initialized)
+		{
+			std::cerr << "\ndestroying audio manager without having previously finalized!\n";
+			Finalize();
+		}
 	}
 
 	void AudioManager::SampleIntensity(void* buffer, unsigned int frames)

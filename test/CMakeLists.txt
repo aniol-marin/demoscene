@@ -7,6 +7,7 @@ FetchContent_Declare(
 FetchContent_MakeAvailable(Catch2)
 
 add_subdirectory(injection)
+add_subdirectory(input)
 add_subdirectory(program)
 add_subdirectory(pugi_wrapper)
 add_subdirectory(raudio)

@@ -1,6 +1,6 @@
-CMAKE_PATH := /usr/local/bin/cmake
-NINJA_PATH := /usr/local/bin/ninja
-COMPILER_PATH := /usr/local/bin/g++
+CMAKE_PATH := cmake
+NINJA_PATH := ninja
+COMPILER_PATH := g++
 BINARY_PATH := ./bin/demoscene
 DEPENDENCIES_PATH := /lib/_deps
 TEST_PATH := ./bin/test
@@ -35,7 +35,7 @@ generate:
 		-DCMAKE_BUILD_TYPE=Debug\
 		-DCMAKE_EXPORT_COMPILE_COMMANDS=ON\
 		--log-level=$(CMAKE_LOG_LEVEL)
-	rm ./build/compile_commands.json compile_commands.json
+	rm -f ./build/compile_commands.json compile_commands.json
 	ln -s ./build/compile_commands.json compile_commands.json
 
 configure: generate
@@ -46,6 +46,7 @@ run: build
 
 .PHONY: test
 test: generate
+	$(call log, "generating")
 	$(CMAKE_PATH) --build build --target test
 
 .PHONY: retest

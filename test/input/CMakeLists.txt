@@ -1,7 +1,7 @@
 enable_testing()
-set(TEST_TARGET test-injection)
+set(TEST_TARGET test-input)
 
-add_executable(${TEST_TARGET} EXCLUDE_FROM_ALL)
+add_executable(${TEST_TARGET})
 
 set_target_properties(${TEST_TARGET}
 	PROPERTIES
@@ -9,12 +9,10 @@ set_target_properties(${TEST_TARGET}
 )
 
 target_link_libraries( ${TEST_TARGET}
-    PRIVATE Catch2::Catch2WithMain
-    PRIVATE injection
-)
-
-target_sources(${TEST_TARGET} PRIVATE
-	FILE_SET injection TYPE CXX_MODULES
+	PRIVATE Catch2::Catch2WithMain
+	PRIVATE input
+	PRIVATE sdl_wrapper
+	PRIVATE engine_definitions
 )
 
 target_sources(${TEST_TARGET} PRIVATE

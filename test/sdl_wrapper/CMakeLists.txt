@@ -1,5 +1,5 @@
 enable_testing()
-set(TEST_TARGET "test-sdl")
+set(TEST_TARGET test-sdl)
 
 add_executable(${TEST_TARGET} EXCLUDE_FROM_ALL)
 

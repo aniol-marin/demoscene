@@ -63,6 +63,7 @@ void MoleDemo::SoundManager::Update() {
 permille MoleDemo::SoundManager::GetCurrentIntensity() {
 	return m.GetIntensity();
 }
+
 seconds MoleDemo::SoundManager::GetMusicDuration() { 
 	return m.GetDuration();
 }
