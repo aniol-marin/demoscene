@@ -33,7 +33,10 @@ generate:
 		-DCMAKE_CXX_COMPILER=$(COMPILER_PATH)\
 		-DCMAKE_MAKE_PROGRAM=$(NINJA_PATH)\
 		-DCMAKE_BUILD_TYPE=Debug\
+		-DCMAKE_EXPORT_COMPILE_COMMANDS=ON\
 		--log-level=$(CMAKE_LOG_LEVEL)
+	rm -f ./build/compile_commands.json compile_commands.json
+	ln -s ./build/compile_commands.json compile_commands.json
 
 configure: generate
 	cd build; ccmake .
