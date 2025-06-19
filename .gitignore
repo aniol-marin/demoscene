@@ -1,6 +1,7 @@
-lib/
+\.*/
 bin/
 build/
+compile_commands.json
 external/
-Testing/
-\.*/
+lib/
+[Tt]esting/

@@ -14,3 +14,11 @@ add_subdirectory(sdl_wrapper)
 add_subdirectory(timeline)
 add_subdirectory(timer)
 
+mark_as_advanced(FORCE
+	CATCH_DEVELOPMENT_BUILD
+	CATCH_ENABLE_REPRODUCIBLE_BUILD
+	CATCH_INSTALL_DOCS
+	CATCH_INSTALL_EXTRAS
+
+)
+
