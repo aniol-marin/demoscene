@@ -1,4 +1,4 @@
-cmake_minimum_required(VERSION 4.0.2) # Actually from "802f261d629e5f51213385716824a0423d063624" so bump to 4.0.3 once tag is created
+cmake_minimum_required(VERSION 4.0.3)
 
 set(CMAKE_CXX_STANDARD 26)
 set(CMAKE_EXPERIMENTAL_CXX_IMPORT_STD "d0edc3af-4c50-42ea-a356-e2862fe7a444")

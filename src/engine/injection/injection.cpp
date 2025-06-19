@@ -1,14 +1,15 @@
-module;
-
-#include <cstdint>
-
 export module injection;
 
-import std;
+import std.compat;
 
 namespace MoleDemo
 {
+	export class Container;
+	struct Factory;
+}
 
+namespace MoleDemo
+{
 	using id_capacity = uint_fast8_t;
 	using id_t = std::size_t;
 
@@ -71,7 +72,7 @@ namespace MoleDemo
 		}
 	};
 
-	export class Container
+	class Container
 	{
 		std::map<id_t, std::unique_ptr<Factory>> factories {};
 
