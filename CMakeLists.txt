@@ -22,6 +22,18 @@ check_ipo_supported(RESULT ipo_supported)
 set(CMAKE_INTERPROCEDURAL_OPTIMIZATION ${ipo_supported})
 ]]#
 
+message(NOTICE "testing config")
+include(./cmake/add_test_target.cmake RESULT_VARIABLE status)
+message(NOTICE "script included: ${status}")
+if(status)
+	message(NOTICE "script found")
+	#[[
+	add_test_target("test message")
+	]]#
+else()
+	message(WARNING "script not found")
+endif()
+
 add_subdirectory(src)
 
 if(EnableTesting)

@@ -1,3 +1,6 @@
+#include "definitions.h"
+
+#include <string_view>
 #include <cstdint>
 #include <vector>
 #include <memory>

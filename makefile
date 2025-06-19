@@ -43,6 +43,7 @@ run: build
 
 .PHONY: test
 test: generate
+	$(call log, "generating")
 	$(CMAKE_PATH) --build build --target test
 
 .PHONY: retest
