@@ -9,7 +9,6 @@
 
 namespace MoleDemo
 {
-
 	using id_capacity = uint_fast8_t;
 	using id_t = std::size_t;
 

@@ -11,17 +11,30 @@ project(MoleDemoScene2025
 )
 
 option(EnableTesting "enables testing targets" OFF)
+option(EnableExpertimentalFeatures "enables experimental features" OFF)
 
 set(CMAKE_CONFIGURATION_TYPES "Debug;Release")
 set(CMAKE_ARCHIVE_OUTPUT_DIRECTORY ${CMAKE_SOURCE_DIR}/lib)
 set(CMAKE_LIBRARY_OUTPUT_DIRECTORY ${CMAKE_SOURCE_DIR}/lib)
 set(CMAKE_RUNTIME_OUTPUT_DIRECTORY ${CMAKE_SOURCE_DIR}/bin)
 
-#[[
-include(CheckIPOSupported)
-check_ipo_supported(RESULT ipo_supported)
-set(CMAKE_INTERPROCEDURAL_OPTIMIZATION ${ipo_supported})
-]]#
+if(EnableExpertimentalFeatures)
+	#[[
+	include(CheckIPOSupported)
+	check_ipo_supported(RESULT ipo_supported)
+	set(CMAKE_INTERPROCEDURAL_OPTIMIZATION ${ipo_supported})
+	]]#
+
+	message(NOTICE "testing config")
+	include(./cmake/add_test_target.cmake RESULT_VARIABLE status)
+	message(NOTICE "script included: ${status}")
+	if(status)
+		message(NOTICE "script found")
+		add_test_target("test message")
+	else()
+		message(WARNING "script not found")
+	endif()
+endif()
 
 message(NOTICE "testing config")
 include(./cmake/add_test_target.cmake RESULT_VARIABLE status)
