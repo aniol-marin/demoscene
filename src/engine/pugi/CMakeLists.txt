@@ -28,7 +28,7 @@ target_sources(${MODULE_NAME} PUBLIC
 	FILE_SET pugi_wrapper TYPE CXX_MODULES
 	FILES
 	]]#
-	pugi.cppm
+	pugi.cpp
 )
 
 target_include_directories( ${MODULE_NAME} PUBLIC
