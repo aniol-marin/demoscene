@@ -1,27 +1,24 @@
-#include "definitions.h"
+#include "program.h"
+/*
 #include "loaders/screen_loader.h"
+*/
 
-namespace MoleDemo {
-
-	export class Program;
-}
-
-class MoleDemo::Program
+namespace MoleDemo
 {
-	ProgramStatus status;
-	const Screen& m_screen;
+    using namespace mole_def;
 
-public:
-	Program(const Screen& screen) :
-		status{ ProgramStatus::RUNNING },
-		m_screen{ screen }
-	{
-	}
-	Program(const Program&) = delete;
-	Program(Program&&) = default;
-	~Program() = default;
+    Program::Program(const Screen& screen) : status{ ProgramStatus::RUNNING }, m_screen{ screen } {}
 
-	void SetStatus(ProgramStatus status) { this->status = status; }
-	const Screen* GetScreen() const { return &m_screen; }
-	bool Running() { return ProgramStatus::RUNNING == status; }
-};
+    void Program::SetStatus(ProgramStatus status)
+    {
+        this->status = status;
+    }
+    const Screen* Program::GetScreen() const
+    {
+        return &m_screen;
+    }
+    bool Program::Running()
+    {
+        return ProgramStatus::RUNNING == status;
+    }
+}

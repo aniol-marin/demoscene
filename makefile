@@ -1,6 +1,6 @@
 CMAKE_PATH := cmake
 NINJA_PATH := ninja
-COMPILER_PATH := g++
+COMPILER_PATH := clang
 BINARY_PATH := ./bin/demoscene
 DEPENDENCIES_PATH := /lib/_deps
 TEST_PATH := ./bin/test
