@@ -1,5 +1,5 @@
-#ifndef MOLE_INJECTION
-#define MOLE_INJECTION
+#ifndef MOLE_INJECTION_H
+#define MOLE_INJECTION_H
 
 #include <cstdint>
 #include <functional>
@@ -150,5 +150,5 @@ namespace MoleDemo
 		}
 	};
 }
-#endif //!MOLE_INJECTION
+#endif //!MOLE_INJECTION_H
 

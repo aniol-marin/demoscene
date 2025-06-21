@@ -1,9 +1,8 @@
-import demo;
+#include "demo.h"
 
 int main()
 {
-	MoleDemo::Demo demo{ "resources/project.xml" };
+    MoleDemo::Demo demo{ "resources/project.xml" };
 
-	demo.Run();
+    demo.Run();
 }
-

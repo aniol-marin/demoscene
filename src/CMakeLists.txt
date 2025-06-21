@@ -6,7 +6,6 @@ add_subdirectory(engine)
 add_subdirectory(effects)
 ]]#
 
-#[[
 target_link_libraries(${MODULE_NAME}
 	PRIVATE injection
 	PRIVATE engine_definitions
@@ -16,8 +15,9 @@ target_link_libraries(${MODULE_NAME}
 	PRIVATE timer
 	PRIVATE pugi_wrapper
 	PRIVATE program
+	#[[
+	]]#
 )
-]]#
 
 #[[
 target_sources(${MODULE_NAME} PUBLIC
@@ -41,4 +41,6 @@ target_sources(${MODULE_NAME} PUBLIC
 
 target_sources(${MODULE_NAME} PUBLIC
 	main.cpp
+	demo.cpp
+	timeline.cpp
 )
