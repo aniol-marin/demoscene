@@ -4,7 +4,7 @@
 #include <vector>
 
 import std;
-import pugi;
+import serialization;
 
 using tree = mole::pugi_wrapper::tree;
 using node = mole::pugi_wrapper::generic_node;

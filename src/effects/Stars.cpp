@@ -84,9 +84,9 @@ namespace MoleDemo {
 		currentSpeed = baseSpeed;
 		brightness = permilleFactor * baseSpeed / maxSpeed;
 		color = {
-			rand() % saturated,
-			rand() % saturated,
-			rand() % saturated
+			static_cast<channel>(rand() % saturated),
+			static_cast<channel>(rand() % saturated),
+			static_cast<channel>(rand() % saturated)
 		};
 	}
 	void Star::Update(permille intensity, milliseconds deltaTime) {
@@ -107,7 +107,7 @@ namespace MoleDemo {
 
 	void Star::Draw(std::function<void(Point2D, rgbaColor)> putPixel) {
 
-		int_fast64_t y{ position.y };
+		int_fast64_t y{ static_cast<int_fast64_t>(position.y) };
 		int_fast16_t trail{ (int_fast16_t)brightness };
 		permille fade{ permilleFactor / (int)(1 + currentSpeed / maxSpeed) };
 		while (trail > 0 && y >= 0) {

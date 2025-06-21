@@ -11,13 +11,13 @@ target_link_libraries(${MODULE_NAME}
 	PRIVATE input
 	PRIVATE sound
 	PRIVATE timer
-	PRIVATE pugi_wrapper
+	PRIVATE serialization
 	PRIVATE program
+	PRIVATE effects
 )
 
 target_sources(${MODULE_NAME} PUBLIC
 	FILE_SET demo TYPE CXX_MODULES
-	FILE_SET effects TYPE CXX_MODULES
 	FILE_SET stars TYPE CXX_MODULES
 	FILE_SET solid TYPE CXX_MODULES
 	FILE_SET gradient TYPE CXX_MODULES

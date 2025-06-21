@@ -1,4 +1,4 @@
-set(MODULE_NAME pugi_wrapper)
+set(MODULE_NAME serialization)
 add_library(${MODULE_NAME})
 
 include(FetchContent)
@@ -23,7 +23,13 @@ target_link_libraries( ${MODULE_NAME}
 )
 
 target_sources(${MODULE_NAME} PUBLIC
-	FILE_SET pugi_wrapper TYPE CXX_MODULES
+	FILE_SET serialization TYPE CXX_MODULES
 	FILES
 	pugi.cppm
 )
+
+mark_as_advanced(FORCE
+	FETCHCONTENT_SOURCE_DIR_PUGIXML
+	FETCHCONTENT_UPDATES_DISCONNECTED_PUGIXML
+)
+

@@ -1,4 +1,5 @@
 add_subdirectory(definitions)
+add_subdirectory(effect)
 add_subdirectory(injection)
 add_subdirectory(input)
 add_subdirectory(program)

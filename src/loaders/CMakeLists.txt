@@ -5,7 +5,7 @@ add_library(${MODULE_NAME} INTERFACE
 )
 
 target_link_libraries( ${MODULE_NAME} INTERFACE
-	pugi_wrapper
+	serialization
 )
 
 target_include_directories( ${MODULE_NAME} INTERFACE

@@ -1,4 +1,4 @@
-export module pugi;
+export module serialization;
 
 import std;
 export import pugixml_experimental;
