@@ -33,13 +33,6 @@ add_subdirectory(src)
 
 if(EnableTesting)
 	message(NOTICE "enabling testing")
-	include(./cmake/add_test_target.cmake RESULT_VARIABLE status)
-	if(status)
-		message(STATUS "cmake add_test_target script found")
-	else()
-		message(ERROR_FAIL "add_test_target.cmake script not found.
-		Disable testing if this was intended")
-	endif()
 	include(CTest)
 	enable_testing()
 	add_subdirectory(test)

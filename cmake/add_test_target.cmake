@@ -1,4 +1,4 @@
-function(ADD_TEST_TARGET TARGET_NAME)
+function(add_test_target TARGET_NAME)
 
 	enable_testing()
 	set(TEST_TARGET ${TARGET_NAME})
