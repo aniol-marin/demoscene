@@ -13,6 +13,7 @@ target_link_libraries(${MODULE_NAME}
 	PRIVATE timer
 	PRIVATE serialization
 	PRIVATE renderables
+	PRIVATE render
 	PRIVATE program
 	PRIVATE effects
 	PRIVATE effect
@@ -23,12 +24,10 @@ target_sources(${MODULE_NAME} PUBLIC
 	FILE_SET stars TYPE CXX_MODULES
 	FILE_SET solid TYPE CXX_MODULES
 	FILE_SET gradient TYPE CXX_MODULES
-	FILE_SET render TYPE CXX_MODULES
 	FILE_SET cycle TYPE CXX_MODULES
 	FILE_SET timeline TYPE CXX_MODULES
 	FILES
 	demo.cpp
-	render.cpp
 	cycle.cpp
 	timeline.cpp
 )

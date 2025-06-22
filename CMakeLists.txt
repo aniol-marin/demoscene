@@ -22,21 +22,20 @@ set(CMAKE_LIBRARY_OUTPUT_DIRECTORY ${CMAKE_SOURCE_DIR}/lib)
 set(CMAKE_RUNTIME_OUTPUT_DIRECTORY ${CMAKE_SOURCE_DIR}/bin)
 
 if(EnableExperimentalFeatures)
-	#[[
 	include(CheckIPOSupported)
 	check_ipo_supported(RESULT ipo_supported)
 	set(CMAKE_INTERPROCEDURAL_OPTIMIZATION ${ipo_supported})
+	#[[
 	]]#
 
-	message(NOTICE "testing config")
 	include(./cmake/add_test_target.cmake RESULT_VARIABLE status)
-	message(NOTICE "script included: ${status}")
 	if(status)
 		message(NOTICE "script found")
-		add_test_target("test message")
 	else()
-		message(WARNING "script not found")
+		message(ERROR_FAIL "script not found")
 	endif()
+else()
+	message(WARNING "add_test_target is still experimental, configuration will fail")
 endif()
 
 add_subdirectory(src)

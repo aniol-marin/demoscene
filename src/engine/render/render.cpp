@@ -2,7 +2,7 @@ export module render;
 
 import std;
 import definitions;
-import effects;
+import effect;
 import renderables;
 import sdl;
 
