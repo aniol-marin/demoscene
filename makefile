@@ -5,7 +5,7 @@ warn = $(info $(shell echo -e '[WARN] \033[33m $(1) \033[m'))
 fail = $(info $(shell echo -e '[ERROR]\033[34m $(1) \033[m'))
 
 BINARY_NAME := demoscene
-BUILD_TYPE := Release
+BUILD_TYPE := Debug
 CMAKE_LOG_LEVEL := NOTICE
 
 CMAKE_PATH := cmake
