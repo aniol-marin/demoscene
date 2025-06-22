@@ -1,6 +1,8 @@
 function(ADD_TEST_TARGET TARGET_NAME)
 
+	enable_testing()
 	set(TEST_TARGET ${TARGET_NAME})
+
 	add_executable(${TEST_TARGET} EXCLUDE_FROM_ALL)
 
 	set_target_properties(${TEST_TARGET}

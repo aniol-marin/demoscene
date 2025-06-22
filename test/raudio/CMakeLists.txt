@@ -1,41 +1,8 @@
-enable_testing()
 set(TEST_TARGET test-audio)
 
-add_executable(${TEST_TARGET} EXCLUDE_FROM_ALL)
+add_test_target(${TEST_TARGET})
 
-set_target_properties(${TEST_TARGET}
-	PROPERTIES
-	RUNTIME_OUTPUT_DIRECTORY ${CMAKE_RUNTIME_OUTPUT_DIRECTORY}/test
-)
-
-target_link_libraries( ${TEST_TARGET}
-    PRIVATE Catch2::Catch2WithMain
-    PRIVATE raudio_wrapper
-)
-
-target_sources(${TEST_TARGET} PRIVATE
-	FILE_SET raudio_wrapper TYPE CXX_MODULES
-)
-
-target_sources(${TEST_TARGET} PRIVATE
-	test.cpp
-)
-
-add_test(NAME build-${TEST_TARGET} COMMAND cmake --build ${CMAKE_BINARY_DIR} -t ${TEST_TARGET})
-add_test(NAME ${TEST_TARGET} COMMAND ${TEST_TARGET})
-set_tests_properties(${TEST_TARGET} PROPERTIES DEPENDS build-${TEST_TARGET})
-
-mark_as_advanced(FORCE
-	BUILD_RAUDIO_EXAMPLES
-	FETCHCONTENT_SOURCE_DIR_RAUDIO
-	FETCHCONTENT_UPDATES_DISCONNECTED_RAUDIO
-	SUPPORT_FILEFORMAT_FLAC
-	SUPPORT_FILEFORMAT_MOD
-	SUPPORT_FILEFORMAT_MP3
-	SUPPORT_FILEFORMAT_OGG
-	SUPPORT_FILEFORMAT_QOA
-	SUPPORT_FILEFORMAT_WAV
-	SUPPORT_FILEFORMAT_XM
-	SampleRate_DIR
+target_link_libraries(${TEST_TARGET}
+	PRIVATE raudio_wrapper
 )
 
