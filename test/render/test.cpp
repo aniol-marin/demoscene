@@ -3,7 +3,7 @@
 import std;
 import render;
 
-SCENARIO("Timer")
+SCENARIO("Render")
 {
 	GIVEN("a renderer")
 	{

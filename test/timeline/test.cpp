@@ -3,9 +3,9 @@
 import std;
 import timer;
 
-SCENARIO("Timer")
+SCENARIO("Timeline")
 {
-	GIVEN("a timer")
+	GIVEN("a timeline")
 	{
 		WHEN("instantiated")
 		{

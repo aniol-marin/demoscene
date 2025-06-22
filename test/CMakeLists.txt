@@ -14,6 +14,7 @@ else()
 	Disable testing if this was intended")
 endif()
 
+add_subdirectory(cycle)
 add_subdirectory(injection)
 add_subdirectory(input)
 add_subdirectory(program)

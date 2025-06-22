@@ -1,16 +1,17 @@
 export module timeline;
 
 import std;
-import definitions;
-import effects;
-import renderables;
-import timer;
 import cycle;
-import sound;
-import raudio;
+import definitions;
+import effect;
+import effects; //TODO encapsulate serialization in factory
 import program;
+import raudio;
 import render;
+import renderables;
 import serialization;
+import sound;
+import timer;
 
 namespace MoleDemo
 {

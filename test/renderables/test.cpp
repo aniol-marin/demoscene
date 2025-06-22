@@ -3,7 +3,7 @@
 import std;
 import renderables;
 
-SCENARIO("Timer")
+SCENARIO("Renderables")
 {
 	GIVEN("a renderable manager")
 	{

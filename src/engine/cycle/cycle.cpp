@@ -2,14 +2,12 @@ export module cycle;
 
 import std;
 import definitions;
-import effects;
+import effect;
 import renderables;
 import timer;
 import program;
 import input;
 import render;
-import solid;
-import stars;
 
 namespace MoleDemo
 {
