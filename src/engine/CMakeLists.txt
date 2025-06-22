@@ -1,3 +1,4 @@
+
 include(${CMAKE_SOURCE_DIR}/cmake/add_module_target.cmake RESULT_VARIABLE status)
 if(status)
 	message(STATUS "cmake add_module_target script found")
@@ -19,4 +20,21 @@ add_subdirectory(sdl)
 add_subdirectory(sound)
 add_subdirectory(timeline)
 add_subdirectory(timer)
+
+set(TARGET_NAME engine)
+add_library(${TARGET_NAME} INTERFACE)
+target_link_libraries(${TARGET_NAME}
+	INTERFACE effect
+	INTERFACE engine_definitions
+	INTERFACE injection
+	INTERFACE input
+	INTERFACE program
+	INTERFACE render
+	INTERFACE renderables
+	INTERFACE sdl_wrapper
+	INTERFACE serialization
+	INTERFACE sound
+	INTERFACE timeline
+	INTERFACE timer
+)
 

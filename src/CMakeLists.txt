@@ -5,19 +5,8 @@ add_subdirectory(engine)
 add_subdirectory(effects)
 
 target_link_libraries(${MODULE_NAME}
-	PRIVATE effect
+	PRIVATE engine
 	PRIVATE effects
-	PRIVATE engine_definitions
-	PRIVATE injection
-	PRIVATE input
-	PRIVATE program
-	PRIVATE render
-	PRIVATE renderables
-	PRIVATE sdl_wrapper
-	PRIVATE serialization
-	PRIVATE sound
-	PRIVATE timeline
-	PRIVATE timer
 )
 
 target_sources(${MODULE_NAME} PUBLIC
