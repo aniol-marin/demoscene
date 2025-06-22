@@ -15,18 +15,19 @@ project(MoleDemoScene2025
 
 option(EnableTesting "enables testing targets" OFF)
 option(EnableExperimentalFeatures "enables experimental features" OFF)
+option(EnableInterProceduralOptimization "tries to enable IPO [EXPERIMENTAL]" OFF)
 
-set(CMAKE_CONFIGURATION_TYPES "Debug;Release")
-set(CMAKE_ARCHIVE_OUTPUT_DIRECTORY ${CMAKE_SOURCE_DIR}/lib)
-set(CMAKE_LIBRARY_OUTPUT_DIRECTORY ${CMAKE_SOURCE_DIR}/lib)
-set(CMAKE_RUNTIME_OUTPUT_DIRECTORY ${CMAKE_SOURCE_DIR}/bin)
-
-if(EnableExperimentalFeatures)
+if(EnableExperimentalFeatures AND EnableInterProceduralOptimization)
 	message(WARNING "enabling experimental features")
 
 	include(CheckIPOSupported)
 	check_ipo_supported(RESULT ipo_supported)
 	set(CMAKE_INTERPROCEDURAL_OPTIMIZATION ${ipo_supported})
+	if(NOT ipo_supported)
+		message(WARNING "Interprocedural Optimization not supported!")
+	else()
+		message(NOTICE "Interprocedural Optimization support enabled")
+	endif()
 endif()
 
 add_subdirectory(src)

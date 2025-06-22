@@ -1,69 +1,85 @@
-CMAKE_PATH := cmake
-NINJA_PATH := ninja
-COMPILER_PATH := g++
-BINARY_PATH := ./bin/demoscene
-DEPENDENCIES_PATH := /lib/_deps
-TEST_PATH := ./bin/test
-CMAKE_LOG_LEVEL := NOTICE
-
 listify = $(subst ., ,$(1))
 current_folder = $(shell echo $$PWD)
-log = $(info  $(shell echo -e '[INFO] \033[35m $(1) \033[m'))
+log =  $(info $(shell echo -e '[INFO] \033[35m $(1) \033[m'))
 warn = $(info $(shell echo -e '[WARN] \033[33m $(1) \033[m'))
 fail = $(info $(shell echo -e '[ERROR]\033[34m $(1) \033[m'))
 
-main: build run
-	echo main done
+BINARY_NAME := demoscene
+BUILD_TYPE := Release
+CMAKE_LOG_LEVEL := NOTICE
+
+CMAKE_PATH := cmake
+GENERATOR := Ninja
+GENERATOR_PATH := ninja
+COMPILER_PATH := g++
+CMAKE_ROOT_PATH := .
+BUILD_PATH := $(call current_folder)/build/$(BUILD_TYPE)
+BINARY_PATH := $(call current_folder)/bin/$(BUILD_TYPE)
+LIBRARY_PATH := $(call current_folder)/lib/$(BUILD_TYPE)
+DEPENDENCIES_PATH := $(CMAKE_ROOT_PATH)/external
+TEST_PATH := $(BINARY_PATH)/test
+
+main: build run ;
 
 debug: build
-	gdb $(BINARY_PATH)
+	$(call log, "debugging")
+	gdb $(BINARY_PATH)/$(BINARY_NAME)
 
 profile: build
-	valgrind $(BINARY_PATH)
+	$(call log, "profiling")
+	valgrind $(BINARY_PATH)/$(BINARY_NAME)
 
 build: generate
-	$(CMAKE_PATH) --build build --target demoscene
+	$(call log, "building")
+	$(CMAKE_PATH) --build $(BUILD_PATH) --target $(BINARY_NAME)
 
 generate:
+	$(call log, "generating config $(BUILD_TYPE) in $(BUILD_PATH)")
 	$(CMAKE_PATH)\
-		-S.\
-		-Bbuild\
-		-GNinja\
-		-DFETCHCONTENT_BASE_DIR:PATH=$(call current_folder)$(DEPENDENCIES_PATH)\
+		-S$(CMAKE_ROOT_PATH)\
+		-B$(BUILD_PATH)\
+		-G$(GENERATOR)\
+		-DFETCHCONTENT_BASE_DIR:PATH=$(DEPENDENCIES_PATH)\
 		-DCMAKE_CXX_COMPILER=$(COMPILER_PATH)\
-		-DCMAKE_MAKE_PROGRAM=$(NINJA_PATH)\
-		-DCMAKE_BUILD_TYPE=Debug\
+		-DCMAKE_MAKE_PROGRAM=$(GENERATOR_PATH)\
+		-DCMAKE_BUILD_TYPE=$(BUILD_TYPE)\
 		-DCMAKE_EXPORT_COMPILE_COMMANDS=ON\
+		-DCMAKE_RUNTIME_OUTPUT_DIRECTORY="$(BINARY_PATH)" \
+		-DCMAKE_ARCHIVE_OUTPUT_DIRECTORY="$(LIBRARY_PATH)" \
+		-DCMAKE_LIBRARY_OUTPUT_DIRECTORY="$(LIBRARY_PATH)" \
 		--log-level=$(CMAKE_LOG_LEVEL)
-	rm -f ./build/compile_commands.json compile_commands.json
-	ln -s ./build/compile_commands.json compile_commands.json
+	rm -f ./$(BUILD_PATH)/compile_commands.json compile_commands.json
+	ln -s ./$(BUILD_PATH)/compile_commands.json compile_commands.json
 
-configure: generate
-	cd build; ccmake .
+configure: $(BUILD_PATH)/CMakeCache.txt
+	$(call log, "configuring generated project in $(BUILD_PATH)/CMakeCache.txt")
+	ccmake $(BUILD_PATH)
 
 run: build 
-	$(BINARY_PATH)
+	$(call log, "running final project")
+	$(BINARY_PATH)/$(BINARY_NAME)
 
 .PHONY: test
 test: generate
-	$(call log, "generating")
-	$(CMAKE_PATH) --build build --target test
+	$(call log, "testing all CTest targets")
+	$(CMAKE_PATH) --build $(BUILD_PATH) --target test
 
 .PHONY: retest
-retest:
-	cd build/; ctest -R ^test.*\$
+retest-%:
+	$(call log, "retesting all matches for pattern [$(call listify,$(subst retest-,,$@))]")
+	cd $(BUILD_PATH); ctest -R ^.*$(call listify,$(subst retest-,,$@)).*\$
 
 build-%:
-	echo "building dot-separated targets: $(call listify,$(subst build-,,$@))"
-	$(CMAKE_PATH) --build build --target $(call listify,$(subst build-,,$@)) $(REDIRECT)
+	$(call log, "building dot-separated targets: $(call listify,$(subst build-,,$@))")
+	$(CMAKE_PATH) --build $(BUILD_PATH) --target $(call listify,$(subst build-,,$@)) $(REDIRECT)
 
 test-%:
-	echo "testing $(@)"
-	$(CMAKE_PATH) --build build --target $(@)
+	$(call log, "testing $(@)")
+	$(CMAKE_PATH) --build $(BUILD_PATH) --target $(@)
 	$(TEST_PATH)/$(@)
 
 help-available-targets:
-	cmake --build build/ -t help | grep phony | grep -v -e cache -e _deps -e install -e "/" -e lib -e Nightly -e Experimental -e Continuous -e Catch -e SDL2 -e raudio -e uninstall | tr -d : | awk '{ print $$1; }'
+	cmake --build $(BUILD_PATH)/ -t help | grep phony | grep -v -e cache -e _deps -e install -e "/" -e lib -e Nightly -e Experimental -e Continuous -e Catch -e SDL2 -e raudio -e uninstall | tr -d : | awk '{ print $$1; }'
 
 status: regenerate-status
 	clear
@@ -79,22 +95,23 @@ previous-status: /tmp/output
 clear-status:
 	rm /tmp/output
 
+$(BUILD_PATH)/CMakeCache.txt: generate;
+
 /tmp/output:
 	echo "" >> /tmp/output
 	echo "Project compilation status:" > /tmp/output
-	make help-available-targets | xargs -L 1 -I {} sh -c ' make build-{} $> /dev/null && echo "\033[35m{}\033[m :\033[32m ok\033[m" >> /tmp/output || echo "{}: \033[33mko\033[m" >> /tmp/output'
+	make help-available-targets | xargs -I {} sh -c ' make build-{} $> /dev/null && echo "\033[35m{}\033[m :\033[32m ok\033[m" >> /tmp/output || echo "{}: \033[33mko\033[m" >> /tmp/output'
 
 clean:
-	$(CMAKE_PATH) --build build --target clean
+	$(call log, "cleaning build artifacts in $(BUILD_PATH)")
+	$(CMAKE_PATH) --build $(BUILD_PATH) --target clean
 
 wipe:
-	echo wiping build artifacts
-	rm -rf build
+	$(call log, "wiping build info in $(BUILD_PATH)")
+	rm -rf $(BUILD_PATH)
 
 full-wipe:
-	make wipe
-	rm -rf lib
-	rm -rf bin
+	git clean -ffdx
 
 $(VERBOSE).SILENT: ;
 ifdef (FULLY_SILENT)
