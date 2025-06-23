@@ -1,0 +1,12 @@
+add_subdirectory(cycle)
+add_subdirectory(injection)
+add_subdirectory(input)
+add_subdirectory(program)
+add_subdirectory(pugi_wrapper)
+add_subdirectory(raudio)
+add_subdirectory(render)
+add_subdirectory(renderables)
+add_subdirectory(sdl_wrapper)
+add_subdirectory(timeline)
+add_subdirectory(timer)
+
