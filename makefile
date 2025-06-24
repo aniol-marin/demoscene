@@ -31,15 +31,15 @@ CMAKE_ARGUMENTS := \
 		   -DConfig_PathFor_Libraries:PATH=$(LIBRARY_PATH) \
 		   -DConfig_PathFor_Dependencies:PATH=$(DEPENDENCIES_PATH)
 
-.main: .build_final run ;
+.main: run ;
 
 # Public recipes
 
-run:
+run: .final
 	make .call_log MESSAGE="running final project"
 	$(BINARY_PATH)/$(BINARY_NAME)
 
-edit: .build_editor
+edit: .editor
 	make .call_log MESSAGE="launching editor"
 	$(BINARY_PATH)/$(EDITOR_BINARY_NAME)
 
@@ -130,8 +130,14 @@ full-wipe:
 
 # Internal recipes (not meant to be called from the user)
 
+.final: $(BINARY_PATH)/$(BINARY_NAME) ;
+$(BINARY_PATH)/$(BINARY_NAME):
+	make .build_final
 .build_final: generate build-$(BINARY_NAME) ;
 
+.editor: $(BINARY_PATH)/$(EDITOR_BINARY_NAME) ;
+$(BINARY_PATH)/$(EDITOR_BINARY_NAME):
+	make .build_editor
 .build_editor: generate build-$(EDITOR_BINARY_NAME) ;
 
 $(CACHE):
