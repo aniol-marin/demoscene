@@ -12,7 +12,7 @@ listify = $(subst ., ,$(1))
 current_folder = $(shell echo $$PWD)
 log =  $(info $(shell echo -e '[INFO] \033[35m $(1) \033[m'))
 warn = $(info $(shell echo -e '[WARN] \033[33m $(1) \033[m'))
-fail = $(info $(shell echo -e '[ERROR]\033[34m $(1) \033[m'))
+fail = $(info $(shell echo -e '[ERROR]\033[31m $(1) \033[m'))
 CMAKE_ROOT_PATH := .
 BUILD_PATH := $(call current_folder)/build/$(BUILD_TYPE)
 BINARY_PATH := $(call current_folder)/bin
@@ -96,16 +96,37 @@ previous-status: $(STATUS_OUTPUT)
 	cat $(STATUS_OUTPUT)
 
 clean:
-	make .call_log MESSAGE="cleaning build artifacts in $(BUILD_PATH)"
-	$(CMAKE_PATH) --build $(BUILD_PATH) --target clean
+	make .call_warn MESSAGE="are you sure you want to clear all CMake artifacts? [yes]"
+	echo -n ">> " && \
+	read safe; \
+	if [ "$${safe}" = yes ]; then \
+		make .call_log MESSAGE="cleaning build artifacts in $(BUILD_PATH)"; \
+		$(CMAKE_PATH) --build $(BUILD_PATH) --target clean; \
+	else \
+		make .call_fail MESSAGE="safe word not provided, aborting"; \
+	fi
 
 wipe:
-	make .call_warn MESSAGE="wiping build info in $(BUILD_PATH)"
-	rm -rf $(BUILD_PATH)
+	make .call_warn MESSAGE="are you sure you want to wipe all artifacts from $(BUILD_PATH)? [yes]"
+	echo -n ">> " && \
+	read safe; \
+	if [ "$${safe}" = yes ]; then \
+		make .call_warn MESSAGE="wiping build info in $(BUILD_PATH)"; \
+		rm -rf $(BUILD_PATH); \
+	else \
+		make .call_fail MESSAGE="safe word not provided, aborting"; \
+	fi
 
 full-wipe:
-	make .call_warn MESSAGE="wiping ALL untracked info in $(call current_folder)"
-	git clean -ffdx
+	make .call_warn MESSAGE="are you sure you want to clear ALL untracked files? [yes]"
+	echo -n ">> " && \
+	read safe; \
+	if [ "$${safe}" = yes ]; then \
+		make .call_warn MESSAGE="wiping ALL untracked info in $(call current_folder)"; \
+		git clean -ffdx; \
+	else \
+		make .call_fail MESSAGE="safe word not provided, aborting"; \
+	fi
 
 # Internal recipes (not meant to be called from the user)
 
@@ -127,7 +148,7 @@ $(CACHE):
 	make $(STATUS_OUTPUT)
 
 .clear-status:
-	rm -rf $(STATUS_FOLDER)
+	rm -rf $(STATUS_FOLDER);
 
 $(STATUS_OUTPUT):
 	mkdir -p $(STATUS_FOLDER)
