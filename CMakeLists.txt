@@ -31,14 +31,24 @@ endif()
 
 # User configuration options
 include(CMakeDependentOption)
-option(EnableEditor "enables generation of editor tool" OFF)
-option(EnableExperimentalFeatures "enables experimental features" OFF)
-option(EnableTesting "enables testing targets" OFF)
-option(EnableInterProceduralOptimization "tries to enable IPO [EXPERIMENTAL]" OFF)
-cmake_dependent_option(
-	DisableAllButExperimental "DISABLES regular targets" ON
-	"EnableExperimentalFeatures" OFF
-)
+if(NOT DEFINED EnableEditor)
+	option(EnableEditor "enables generation of editor tool" OFF)
+endif()
+if(NOT DEFINED EnableExperimentalFeatures)
+	option(EnableExperimentalFeatures "enables experimental features" OFF)
+endif()
+if(NOT DEFINED EnableTesting)
+	option(EnableTesting "enables testing targets" OFF)
+endif()
+if(NOT DEFINED EnableInterProceduralOptimization)
+	option(EnableInterProceduralOptimization "tries to enable IPO [EXPERIMENTAL]" OFF)
+endif()
+if(NOT DEFINED DisableAllButExperimental)
+	cmake_dependent_option(
+		DisableAllButExperimental "DISABLES regular targets" ON
+		"EnableExperimentalFeatures" OFF
+	)
+endif()
 
 # Experimental features (WIP)
 if(EnableExperimentalFeatures)
