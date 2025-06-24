@@ -4,7 +4,6 @@ EDITOR_BINARY_NAME := editor
 BUILD_TYPE := Debug
 CMAKE_LOG_LEVEL := NOTICE
 GENERATOR := Ninja
-GENERATOR := Ninja
 COMPILER_PATH := g++
 
 # Internal definitions
@@ -86,17 +85,14 @@ test-%:
 	$(TEST_PATH)/$(@)
 
 help-available-targets:
-	cmake --build $(BUILD_PATH) -t help | grep phony | grep -v -e all -e cache -e codegen -e _deps -e install -e "/" -e lib -e Nightly -e Experimental -e Continuous -e Catch -e SDL2 -e raudio -e uninstall | tr -d : | awk '{ print $$1; }'
+	cmake --build $(BUILD_PATH) -t help | grep phony | grep -v -e all -e cache -e codegen -e  _deps -e install -e "/" -e lib -e Nightly -e Experimental -e Continuous -e Catch -e SDL2 -e raudio -e uninstall | tr -d : | awk '{ print $$1; }'
 
 status:
-	make -s regenerate-status
-	clear
-	make call_warn MESSAGE="generating report..."
-	sleep 1
+	make regenerate-status
 	clear
 	make previous-status
 
-previous-status: $(STATUS_OUTPUT)
+previous-status: status_output_unlock status_output
 	cat $(STATUS_OUTPUT)
 
 clean:
@@ -126,18 +122,31 @@ $(CACHE):
 	#-DConfig_Compiler:PATH=$(COMPILER_PATH) \
 
 regenerate-status:
-	make -s generate && \
-	make -s clear-status && \
-	make -s $(STATUS_OUTPUT)
+	make generate
+	make clear-status
+	make status_output
 
 clear-status:
 	rm -rf $(STATUS_FOLDER)
 
+status_output_unlock:
+	mkdir -p $(STATUS_FOLDER)
+	touch $(STATUS_FOLDER)/.lock
+
+status_output_lock:
+	until  [ -f $(STATUS_FOLDER)/.lock ]; do \
+		sleep 0.1; \
+		echo waiting; \
+	done
+	rm -f $(STATUS_FOLDER)/.lock
+
+status_output: $(STATUS_OUTPUT) status_output_lock;
 $(STATUS_OUTPUT):
 	mkdir -p $(STATUS_FOLDER)
 	echo "" >> $(STATUS_OUTPUT)
 	echo "Project compilation status:" >> $(STATUS_OUTPUT)
-	make help-available-targets | xargs -I {} sh -c 'make build-{} &> /dev/null && echo "\033[35m{}\033[m :\033[32m ok\033[m" >> $(STATUS_OUTPUT) || echo "{}: \033[33mko\033[m" >> $(STATUS_OUTPUT)'
+	make help-available-targets | xargs -I '{}' sh -c 'make build-{} &> /dev/null && echo "\033[35m{}\033[m :\033[32m ok\033[m" >> $(STATUS_OUTPUT) || echo "{}: \033[33mko\033[m" >> $(STATUS_OUTPUT)'
+	make status_output_unlock
 
 $(VERBOSE).SILENT: ;
 
