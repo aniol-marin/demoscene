@@ -71,7 +71,7 @@ test: generate
 .PHONY: retest-
 retest-%:
 	make call_log MESSAGE="retesting all matches for pattern [$(call listify,$(subst retest-,,$@))]"
-	cd $(BUILD_PATH); ctest -R ^.*$(call listify,$(subst retest-,,$@)).*\$
+	cd $(BUILD_PATH); ctest -R ^.*$(call listify,$(subst retest-,,$@)).*$$
 
 .PHONY: build-
 build-%: $(CACHE)
@@ -92,7 +92,7 @@ status:
 	clear
 	make previous-status
 
-previous-status: status_output_unlock status_output
+previous-status: $(STATUS_OUTPUT)
 	cat $(STATUS_OUTPUT)
 
 clean:
@@ -124,29 +124,17 @@ $(CACHE):
 regenerate-status:
 	make generate
 	make clear-status
-	make status_output
+	make $(STATUS_OUTPUT)
 
 clear-status:
 	rm -rf $(STATUS_FOLDER)
 
-status_output_unlock:
-	mkdir -p $(STATUS_FOLDER)
-	touch $(STATUS_FOLDER)/.lock
-
-status_output_lock:
-	until  [ -f $(STATUS_FOLDER)/.lock ]; do \
-		sleep 0.1; \
-		echo waiting; \
-	done
-	rm -f $(STATUS_FOLDER)/.lock
-
-status_output: $(STATUS_OUTPUT) status_output_lock;
 $(STATUS_OUTPUT):
 	mkdir -p $(STATUS_FOLDER)
-	echo "" >> $(STATUS_OUTPUT)
-	echo "Project compilation status:" >> $(STATUS_OUTPUT)
-	make help-available-targets | xargs -I '{}' sh -c 'make build-{} &> /dev/null && echo "\033[35m{}\033[m :\033[32m ok\033[m" >> $(STATUS_OUTPUT) || echo "{}: \033[33mko\033[m" >> $(STATUS_OUTPUT)'
-	make status_output_unlock
+	echo "" >> $(STATUS_OUTPUT)_temp
+	echo "Project compilation status:" >> $(STATUS_OUTPUT)_temp
+	make help-available-targets | xargs -I '{}' sh -c 'make build-{} && echo "\033[35m{}\033[m :\033[32m ok\033[m" >> $(STATUS_OUTPUT)_temp || echo "{}: \033[33mko\033[m" >> $(STATUS_OUTPUT)_temp'
+	mv $(STATUS_OUTPUT)_temp $(STATUS_OUTPUT)
 
 $(VERBOSE).SILENT: ;
 
