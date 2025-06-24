@@ -1,122 +1,161 @@
+# Configurable fields
+BINARY_NAME := demoscene
+EDITOR_BINARY_NAME := editor
+BUILD_TYPE := Debug
+CMAKE_LOG_LEVEL := NOTICE
+GENERATOR := Ninja
+GENERATOR := Ninja
+COMPILER_PATH := g++
+
+# Internal definitions
 listify = $(subst ., ,$(1))
 current_folder = $(shell echo $$PWD)
 log =  $(info $(shell echo -e '[INFO] \033[35m $(1) \033[m'))
 warn = $(info $(shell echo -e '[WARN] \033[33m $(1) \033[m'))
 fail = $(info $(shell echo -e '[ERROR]\033[34m $(1) \033[m'))
-
-BINARY_NAME := demoscene
-BUILD_TYPE := Debug
-CMAKE_LOG_LEVEL := NOTICE
-
 CMAKE_PATH := cmake
-GENERATOR := Ninja
-GENERATOR_PATH := ninja
-COMPILER_PATH := g++
 CMAKE_ROOT_PATH := .
 BUILD_PATH := $(call current_folder)/build/$(BUILD_TYPE)
-BINARY_PATH := $(call current_folder)/bin/$(BUILD_TYPE)
-LIBRARY_PATH := $(call current_folder)/lib/$(BUILD_TYPE)
-DEPENDENCIES_PATH := $(CMAKE_ROOT_PATH)/external
+BINARY_PATH := $(call current_folder)/bin
+LIBRARY_PATH := $(call current_folder)/lib
+DEPENDENCIES_PATH := $(call current_folder)/external
+CACHE := $(BUILD_PATH)/CMakeCache.txt
+STATUS_FOLDER := /tmp$(BUILD_PATH)
+STATUS_OUTPUT := $(STATUS_FOLDER)/status_output
 TEST_PATH := $(BINARY_PATH)/test
+CMAKE_ARGUMENTS := \
+		   -S$(CMAKE_ROOT_PATH) \
+		   -B$(BUILD_PATH) \
+		   -G$(GENERATOR) \
+		   -DCMAKE_BUILD_TYPE=$(BUILD_TYPE) \
+		   -DConfig_PathFor_Binaries:PATH=$(BINARY_PATH) \
+		   -DConfig_PathFor_Libraries:PATH=$(LIBRARY_PATH) \
+		   -DConfig_PathFor_Dependencies:PATH=$(DEPENDENCIES_PATH)
 
-main: build run ;
+# Public recipes
 
-debug: build
-	$(call log, "debugging")
+main: build_final run ;
+
+run:
+	make call_log MESSAGE="running final project"
+	$(BINARY_PATH)/$(BINARY_NAME)
+
+edit: build_editor
+	make call_log MESSAGE="launching editor"
+	$(BINARY_PATH)/$(EDITOR_BINARY_NAME)
+
+debug: build-$(BINARY_NAME)
+	make call_log MESSAGE="debugging"
 	gdb $(BINARY_PATH)/$(BINARY_NAME)
 
-profile: build
-	$(call log, "profiling")
+profile: build-$(BINARY_NAME)
+	make call_log MESSAGE="profiling"
 	valgrind $(BINARY_PATH)/$(BINARY_NAME)
 
-build: generate
-	$(call log, "building")
-	$(CMAKE_PATH) --build $(BUILD_PATH) --target $(BINARY_NAME)
-
 generate:
-	$(call log, "generating config $(BUILD_TYPE) in $(BUILD_PATH)")
-	$(CMAKE_PATH)\
-		-S$(CMAKE_ROOT_PATH)\
-		-B$(BUILD_PATH)\
-		-G$(GENERATOR)\
-		-DFETCHCONTENT_BASE_DIR:PATH=$(DEPENDENCIES_PATH)\
-		-DCMAKE_CXX_COMPILER=$(COMPILER_PATH)\
-		-DCMAKE_MAKE_PROGRAM=$(GENERATOR_PATH)\
-		-DCMAKE_BUILD_TYPE=$(BUILD_TYPE)\
-		-DCMAKE_EXPORT_COMPILE_COMMANDS=ON\
-		-DCMAKE_RUNTIME_OUTPUT_DIRECTORY="$(BINARY_PATH)" \
-		-DCMAKE_ARCHIVE_OUTPUT_DIRECTORY="$(LIBRARY_PATH)" \
-		-DCMAKE_LIBRARY_OUTPUT_DIRECTORY="$(LIBRARY_PATH)" \
-		--log-level=$(CMAKE_LOG_LEVEL)
+	make call_log MESSAGE="generating config $(BUILD_TYPE) in $(BUILD_PATH)"
+	$(CMAKE_PATH) $(CMAKE_ARGUMENTS) \
+		   -DCMAKE_EXPORT_COMPILE_COMMANDS=ON \
+		   --log-level=$(CMAKE_LOG_LEVEL)
 	rm -f ./$(BUILD_PATH)/compile_commands.json compile_commands.json
 	ln -s ./$(BUILD_PATH)/compile_commands.json compile_commands.json
 
-configure: $(BUILD_PATH)/CMakeCache.txt
-	$(call log, "configuring generated project in $(BUILD_PATH)/CMakeCache.txt")
+configure: $(CACHE)
+	make call_log MESSAGE="configuring project"
 	ccmake $(BUILD_PATH)
-
-run: build 
-	$(call log, "running final project")
-	$(BINARY_PATH)/$(BINARY_NAME)
 
 .PHONY: test
 test: generate
-	$(call log, "testing all CTest targets")
+	make call_log MESSAGE="testing all CTest targets"
 	$(CMAKE_PATH) --build $(BUILD_PATH) --target test
 
-.PHONY: retest
+.PHONY: retest-
 retest-%:
-	$(call log, "retesting all matches for pattern [$(call listify,$(subst retest-,,$@))]")
+	make call_log MESSAGE="retesting all matches for pattern [$(call listify,$(subst retest-,,$@))]"
 	cd $(BUILD_PATH); ctest -R ^.*$(call listify,$(subst retest-,,$@)).*\$
 
-build-%:
-	$(call log, "building dot-separated targets: $(call listify,$(subst build-,,$@))")
+.PHONY: build-
+build-%: $(CACHE)
+	make call_log MESSAGE="building dot-separated targets: $(call listify,$(subst build-,,$@))"
 	$(CMAKE_PATH) --build $(BUILD_PATH) --target $(call listify,$(subst build-,,$@)) $(REDIRECT)
 
+.PHONY: test-
 test-%:
-	$(call log, "testing $(@)")
+	make call_log MESSAGE="testing $(@)"
 	$(CMAKE_PATH) --build $(BUILD_PATH) --target $(@)
 	$(TEST_PATH)/$(@)
 
 help-available-targets:
-	cmake --build $(BUILD_PATH)/ -t help | grep phony | grep -v -e cache -e _deps -e install -e "/" -e lib -e Nightly -e Experimental -e Continuous -e Catch -e SDL2 -e raudio -e uninstall | tr -d : | awk '{ print $$1; }'
+	cmake --build $(BUILD_PATH) -t help | grep phony | grep -v -e all -e cache -e codegen -e _deps -e install -e "/" -e lib -e Nightly -e Experimental -e Continuous -e Catch -e SDL2 -e raudio -e uninstall | tr -d : | awk '{ print $$1; }'
 
-status: regenerate-status
+status:
+	make -s regenerate-status
+	clear
+	make call_warn MESSAGE="generating report..."
+	sleep 1
 	clear
 	make previous-status
 
-regenerate-status: generate /tmp/output
-	make clear-status
-	make /tmp/output
-
-previous-status: /tmp/output
-	cat /tmp/output
-
-clear-status:
-	rm /tmp/output
-
-$(BUILD_PATH)/CMakeCache.txt: generate;
-
-/tmp/output:
-	echo "" >> /tmp/output
-	echo "Project compilation status:" > /tmp/output
-	make help-available-targets | xargs -I {} sh -c ' make build-{} $> /dev/null && echo "\033[35m{}\033[m :\033[32m ok\033[m" >> /tmp/output || echo "{}: \033[33mko\033[m" >> /tmp/output'
+previous-status: $(STATUS_OUTPUT)
+	cat $(STATUS_OUTPUT)
 
 clean:
-	$(call log, "cleaning build artifacts in $(BUILD_PATH)")
+	make call_log MESSAGE="cleaning build artifacts in $(BUILD_PATH)"
 	$(CMAKE_PATH) --build $(BUILD_PATH) --target clean
 
 wipe:
-	$(call log, "wiping build info in $(BUILD_PATH)")
+	make call_warn MESSAGE="wiping build info in $(BUILD_PATH)"
 	rm -rf $(BUILD_PATH)
 
 full-wipe:
+	make call_warn MESSAGE="wiping ALL untracked info in $(call current_folder)"
 	git clean -ffdx
 
+# Internal recipes (not meant to be called from the user)
+
+build_final: generate build-$(BINARY_NAME) ;
+
+build_editor: generate build-$(EDITOR_BINARY_NAME) ;
+
+$(CACHE):
+	make call_log MESSAGE="configuring generated project in $(BUILD_PATH)/CMakeCache.txt"
+	mkdir -p $(BUILD_PATH)
+	ccmake $(CMAKE_ROOT_PATH) $(CMAKE_ARGUMENTS) \
+		   -DEnableExperimentalFeatures:BOOL=ON \
+		   -DDisableAllButExperimental:BOOL=ON
+	#-DConfig_Compiler:PATH=$(COMPILER_PATH) \
+
+regenerate-status:
+	make -s generate && \
+	make -s clear-status && \
+	make -s $(STATUS_OUTPUT)
+
+clear-status:
+	rm -rf $(STATUS_FOLDER)
+
+$(STATUS_OUTPUT):
+	mkdir -p $(STATUS_FOLDER)
+	echo "" >> $(STATUS_OUTPUT)
+	echo "Project compilation status:" >> $(STATUS_OUTPUT)
+	make help-available-targets | xargs -I {} sh -c 'make build-{} &> /dev/null && echo "\033[35m{}\033[m :\033[32m ok\033[m" >> $(STATUS_OUTPUT) || echo "{}: \033[33mko\033[m" >> $(STATUS_OUTPUT)'
+
 $(VERBOSE).SILENT: ;
+
 ifdef (FULLY_SILENT)
 	REDIRECT := &> /dev/null
 else
-	REDIRECT := 
+	REDIRECT :=
 endif
 
+MESSAGE := no message
+.PHONY: call_log
+call_log:
+	$(call log, $(MESSAGE))
+
+.PHONY: call_warn
+call_warn:
+	$(call warn, $(MESSAGE))
+
+.PHONY: call_fail
+call_fail:
+	$(call fail, $(MESSAGE))
