@@ -53,7 +53,7 @@ generate:
 	$(CMAKE_PATH) $(CMAKE_ARGUMENTS) \
 		   -DCMAKE_EXPORT_COMPILE_COMMANDS=ON \
 		   --log-level=$(CMAKE_LOG_LEVEL)
-	rm -f ./$(BUILD_PATH)/compile_commands.json compile_commands.json
+	rm -f ./$(BUILD_PATH)/compile_commands.json
 	ln -s ./$(BUILD_PATH)/compile_commands.json compile_commands.json
 
 configure: $(CACHE)
