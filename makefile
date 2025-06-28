@@ -90,8 +90,9 @@ help-available-targets:
 		-e all -e cache -e codegen -e  _deps -e install -e "/" \
 		-e lib -e Nightly -e Experimental -e Continuous -e uninstall \
 		-e Catch \
-		-e SDL2 \
-		-e raudio  \
+		-e SDL2 -e sdl_headers_copy \
+		-e pugixml[^_]  \
+		-e raudio[^_]  \
 		-e '^glfw[^_]' -e update_mappings \
 		-e '^raudio[^_]'  \
 		| tr -d : | awk '{ print $$1; }'
@@ -164,6 +165,9 @@ $(CACHE):
 
 .clear-status:
 	rm -rf $(STATUS_FOLDER);
+
+.clear-config:
+	rm $(CACHE)
 
 $(STATUS_OUTPUT):
 	mkdir -p $(STATUS_FOLDER)

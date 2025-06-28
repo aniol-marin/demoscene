@@ -1,7 +1,6 @@
 set(MODULE_NAME serialization)
 add_library(${MODULE_NAME})
 
-include(FetchContent)
 FetchContent_Declare(
 	pugixml
 	EXCLUDE_FROM_ALL

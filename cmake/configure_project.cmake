@@ -76,7 +76,15 @@ function(configure_project)
 		"[AUTOMATICALLY REGENERATED] the effective folder where the dependency files will be placed"
 		FORCE
 	)
-	mark_as_advanced(FORCE FETCHCONTENT_BASE_DIR)
+
+	# FetchContent centralized declaration
+	include(FetchContent)
+	mark_as_advanced(FORCE
+		FETCHCONTENT_BASE_DIR
+		FETCHCONTENT_FULLY_DISCONNECTED
+		FETCHCONTENT_QUIET
+		FETCHCONTENT_UPDATES_DISCONNECTED
+	)
 
 endfunction()
 

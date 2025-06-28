@@ -1,4 +1,3 @@
-include(FetchContent)
 FetchContent_Declare(
 	Catch2
 	GIT_REPOSITORY https://github.com/catchorg/Catch2.git
@@ -18,6 +17,7 @@ add_subdirectory(engine)
 add_subdirectory(editor)
 
 mark_as_advanced(FORCE
+	BUILD_TESTING
 	CATCH_DEVELOPMENT_BUILD
 	CATCH_ENABLE_REPRODUCIBLE_BUILD
 	CATCH_INSTALL_DOCS
