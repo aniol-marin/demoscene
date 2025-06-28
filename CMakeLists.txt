@@ -100,12 +100,13 @@ endif()
 
 # CMake configuration general user options cleanup
 mark_as_advanced(FORCE
+	CMAKE_INSTALL_PREFIX
+	#[[
 	ARTS_CONFIG
 	ASOUND_LIB
 	BUILD_TESTING
 	CCACHE_BINARY
 	CMAKE_EXPORT_COMPILE_COMMANDS
-	CMAKE_INSTALL_PREFIX
 	DECOR_0_LIB
 	DRM_LIB
 	D_NAS_LIB
@@ -143,5 +144,6 @@ mark_as_advanced(FORCE
 	XRENDER_LIB
 	XSS_LIB
 	X_INCLUDEDIR
+	]]#
 )
 

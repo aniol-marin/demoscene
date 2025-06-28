@@ -26,6 +26,9 @@ CMAKE_ARGUMENTS := \
 		   -S$(CMAKE_ROOT_PATH) \
 		   -B$(BUILD_PATH) \
 		   -G$(GENERATOR) \
+		   -DConfig_PathFor_Binaries:PATH=$(BINARY_PATH) \
+		   -DConfig_PathFor_Libraries:PATH=$(LIBRARY_PATH) \
+		   -DConfig_PathFor_Dependencies:PATH=$(DEPENDENCIES_PATH) \
 		   -DCMAKE_BUILD_TYPE=$(BUILD_TYPE)
 
 .main: run ;
@@ -150,9 +153,6 @@ $(CACHE):
 	make .call_log MESSAGE="configuring generated project in $(BUILD_PATH)/CMakeCache.txt"
 	mkdir -p $(BUILD_PATH)
 	ccmake $(CMAKE_ROOT_PATH) $(CMAKE_ARGUMENTS) \
-		   -DConfig_PathFor_Binaries:PATH=$(BINARY_PATH) \
-		   -DConfig_PathFor_Libraries:PATH=$(LIBRARY_PATH) \
-		   -DConfig_PathFor_Dependencies:PATH=$(DEPENDENCIES_PATH) \
 		   -DEnableExperimentalFeatures:BOOL=ON \
 		   -DDisableAllButExperimental:BOOL=ON
 	#-DConfig_Compiler:PATH=$(COMPILER_PATH) \
