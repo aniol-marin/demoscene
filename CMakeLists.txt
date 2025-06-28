@@ -97,13 +97,3 @@ else()
 	all non-experimental targets disabled")
 endif()
 
-
-# CMake configuration general user options cleanup
-mark_as_advanced(FORCE
-	CMAKE_INSTALL_PREFIX
-	#[[
-	BUILD_TESTING
-	CMAKE_EXPORT_COMPILE_COMMANDS
-	]]#
-)
-

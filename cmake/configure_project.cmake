@@ -80,6 +80,7 @@ function(configure_project)
 	# FetchContent centralized declaration
 	include(FetchContent)
 	mark_as_advanced(FORCE
+		CMAKE_INSTALL_PREFIX
 		FETCHCONTENT_BASE_DIR
 		FETCHCONTENT_FULLY_DISCONNECTED
 		FETCHCONTENT_QUIET
