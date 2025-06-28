@@ -13,11 +13,13 @@
 function(configure_project)
 
 	# Compiler choice
-	set(Config_Compiler
-		"${CMAKE_CXX_COMPILER}"
-		CACHE PATH
-		"Specify the compiler to be used"
-	)
+	if(NOT DEFINED Config_Compiler)
+		set(Config_Compiler
+			"${CMAKE_CXX_COMPILER}"
+			CACHE PATH
+			"Specify the compiler to be used"
+		)
+	endif()
 	set(CMAKE_CXX_COMPILER ${Config_Compiler}
 		CACHE PATH
 		"[AUTOMATICALLY REGENERATED] the effective compiler to be used"
@@ -26,11 +28,13 @@ function(configure_project)
 	mark_as_advanced(FORCE CMAKE_RUNTIME_OUTPUT_DIRECTORY)
 
 	# Runtime files output
-	set(Config_PathFor_Binaries
-		"${CMAKE_SOURCE_DIR}/bin/${CMAKE_BUILD_TYPE}"
-		CACHE PATH
-		"Specify the folder where the resulting binaries will be placed"
-	)
+	if(NOT DEFINED Config_PathFor_Binaries)
+		set(Config_PathFor_Binaries
+			"${CMAKE_SOURCE_DIR}/bin/${CMAKE_BUILD_TYPE}"
+			CACHE PATH
+			"Specify the folder where the resulting binaries will be placed"
+		)
+	endif()
 	set(CMAKE_RUNTIME_OUTPUT_DIRECTORY ${Config_PathFor_Binaries}
 		CACHE PATH
 		"[AUTOMATICALLY REGENERATED] the effective folder where the resulting binaries will be placed"
@@ -39,11 +43,13 @@ function(configure_project)
 	mark_as_advanced(FORCE CMAKE_RUNTIME_OUTPUT_DIRECTORY)
 
 	# Library files output
-	set(Config_PathFor_Libraries
-		"${CMAKE_SOURCE_DIR}/lib/${CMAKE_BUILD_TYPE}"
-		CACHE PATH
-		"Specify the folder where the resulting library files will be placed"
-	)
+	if(NOT DEFINED Config_PathFor_Libraries)
+		set(Config_PathFor_Libraries
+			"${CMAKE_SOURCE_DIR}/lib/${CMAKE_BUILD_TYPE}"
+			CACHE PATH
+			"Specify the folder where the resulting library files will be placed"
+		)
+	endif()
 	set(CMAKE_ARCHIVE_OUTPUT_DIRECTORY ${Config_PathFor_Libraries}
 		CACHE PATH
 		"[AUTOMATICALLY REGENERATED] the effective folder where the resulting library files will be placed"
@@ -58,11 +64,13 @@ function(configure_project)
 	mark_as_advanced(FORCE CMAKE_LIBRARY_OUTPUT_DIRECTORY)
 
 	# Fetched Content placement
-	set(Config_PathFor_Dependencies
-		"${CMAKE_SOURCE_DIR}/external"
-		CACHE PATH
-		"Specify where to fetch the external dependencies"
-	)
+	if(NOT DEFINED Config_PathFor_Dependencies)
+		set(Config_PathFor_Dependencies
+			"${CMAKE_SOURCE_DIR}/external"
+			CACHE PATH
+			"Specify where to fetch the external dependencies"
+		)
+	endif()
 	set(FETCHCONTENT_BASE_DIR ${Config_PathFor_Dependencies}
 		CACHE PATH
 		"[AUTOMATICALLY REGENERATED] the effective folder where the dependency files will be placed"

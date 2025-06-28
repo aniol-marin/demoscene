@@ -1,6 +1,8 @@
-#include <iostream>
+import std;
+import glfw_wrapper;
 
 int main()
 {
-    std::cout << "Hello, edited world!\n";
+    std::cout << "[MOCK] initializing editor\n";
+    auto context {mole::graphics::create_context() };
 }

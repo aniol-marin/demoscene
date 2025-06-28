@@ -1,6 +1,16 @@
 export module glfw_wrapper;
 
-int test()
+import std;
+
+namespace mole::graphics
 {
-    return 0;
+    struct Context
+    {
+    };
+
+    export Context create_context()
+    {
+        std::cout << "[MOCK] create context\n";
+        return {};
+    }
 }

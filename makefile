@@ -19,7 +19,7 @@ BINARY_PATH := $(call current_folder)/bin
 LIBRARY_PATH := $(call current_folder)/lib
 DEPENDENCIES_PATH := $(call current_folder)/external
 CACHE := $(BUILD_PATH)/CMakeCache.txt
-STATUS_FOLDER := /tmp$(BUILD_PATH)
+STATUS_FOLDER := /tmp/$(BUILD_PATH)
 STATUS_OUTPUT := $(STATUS_FOLDER)/status_output
 TEST_PATH := $(BINARY_PATH)/test
 CMAKE_ARGUMENTS := \
@@ -82,7 +82,16 @@ test-%:
 	$(TEST_PATH)/$(@)
 
 help-available-targets:
-	cmake --build $(BUILD_PATH) -t help | grep phony | grep -v -e all -e cache -e codegen -e  _deps -e install -e "/" -e lib -e Nightly -e Experimental -e Continuous -e Catch -e SDL2 -e raudio -e uninstall | tr -d : | awk '{ print $$1; }'
+	cmake --build $(BUILD_PATH) -t help | grep phony \
+		| grep -v \
+		-e all -e cache -e codegen -e  _deps -e install -e "/" \
+		-e lib -e Nightly -e Experimental -e Continuous -e uninstall \
+		-e Catch \
+		-e SDL2 \
+		-e raudio  \
+		-e '^glfw[^_]' -e update_mappings \
+		-e '^raudio[^_]'  \
+		| tr -d : | awk '{ print $$1; }'
 
 status:
 	make .regenerate-status
