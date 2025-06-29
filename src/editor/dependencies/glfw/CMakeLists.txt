@@ -22,9 +22,12 @@ mark_as_advanced(FORCE
 ) 
 set(GLFW_BUILD_DOCS OFF)
 set(GLFW_INSTALL OFF)
-set(GLFW_LIBRARY_TYPE Static)
+set(GLFW_LIBRARY_TYPE STATIC)
 
 add_library(glfw_wrapper)
+target_link_libraries(glfw_wrapper PRIVATE
+	glfw
+)
 target_sources(glfw_wrapper PUBLIC
 	FILE_SET glfw_wrapper TYPE CXX_MODULES
 	FILES
