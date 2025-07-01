@@ -4,7 +4,7 @@ import std.compat;
 import definitions;
 import timer;
 import effect;
-import pugi;
+import serialization;
 
 namespace MoleDemo
 {

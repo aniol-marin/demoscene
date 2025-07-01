@@ -1,109 +1,96 @@
+# CMake requirements
 cmake_minimum_required(VERSION 3.25)
 
+# Pre-project definition compilation requirements
 set(CMAKE_CXX_STANDARD 17)
 set(CMAKE_CXX_STANDARD_REQUIRED ON)
 set(CMAKE_CXX_EXTENSION OFF)
 
+# Project definition
 project(MoleDemoScene2025
 	VERSION 0.0.0
 	DESCRIPTION "A CPU based rendering creation"
 	LANGUAGES CXX
 )
 
-option(EnableTesting "enables testing targets" OFF)
-option(EnableExpertimentalFeatures "enables experimental features" OFF)
+# Project automated configuration
+include(${CMAKE_SOURCE_DIR}/cmake/configure_project.cmake OPTIONAL RESULT_VARIABLE status)
+if(status)
+	message(STATUS "cmake configure_project script found")
+	configure_project()
+else()
+	message(WARNING "
+	add_module_target.cmake script not found!
 
-set(CMAKE_CONFIGURATION_TYPES "Debug;Release")
-set(CMAKE_ARCHIVE_OUTPUT_DIRECTORY ${CMAKE_SOURCE_DIR}/lib)
-set(CMAKE_LIBRARY_OUTPUT_DIRECTORY ${CMAKE_SOURCE_DIR}/lib)
-set(CMAKE_RUNTIME_OUTPUT_DIRECTORY ${CMAKE_SOURCE_DIR}/bin)
+	Project will be configured with default values
+	and custom user config parameters will be ignored")
+endif()
 
-if(EnableExpertimentalFeatures)
-	#[[
-	include(CheckIPOSupported)
-	check_ipo_supported(RESULT ipo_supported)
-	set(CMAKE_INTERPROCEDURAL_OPTIMIZATION ${ipo_supported})
-	]]#
+# User configuration options
+include(CMakeDependentOption)
+if(NOT DEFINED EnableEditor)
+	option(EnableEditor "enables generation of editor tool" OFF)
+endif()
+if(NOT DEFINED EnableExperimentalFeatures)
+	option(EnableExperimentalFeatures "enables experimental features" OFF)
+endif()
+if(NOT DEFINED EnableTesting)
+	option(EnableTesting "enables testing targets" OFF)
+endif()
+if(NOT DEFINED EnableInterProceduralOptimization)
+	option(EnableInterProceduralOptimization "tries to enable IPO [EXPERIMENTAL]" OFF)
+endif()
+if(NOT DEFINED DisableAllButExperimental)
+	cmake_dependent_option(
+		DisableAllButExperimental "DISABLES regular targets" ON
+		"EnableExperimentalFeatures" OFF
+	)
+endif()
 
-	message(NOTICE "testing config")
-	include(./cmake/add_test_target.cmake RESULT_VARIABLE status)
-	message(NOTICE "script included: ${status}")
-	if(status)
-		message(NOTICE "script found")
-		add_test_target("test message")
-	else()
-		message(WARNING "script not found")
+# Experimental features (WIP)
+if(EnableExperimentalFeatures)
+	message(WARNING "experimental features enabled")
+
+	if(EnableEditor)
+		message(WARNING "editor is still experimental")
+		add_subdirectory(src/editor)
+	endif()
+	if(EnableInterProceduralOptimization)
+		include(CheckIPOSupported)
+		check_ipo_supported(RESULT ipo_supported)
+		set(CMAKE_INTERPROCEDURAL_OPTIMIZATION ${ipo_supported})
+		if(NOT ipo_supported)
+			message(WARNING "Interprocedural Optimization not supported!")
+		else()
+			message(NOTICE "Interprocedural Optimization support enabled")
+		endif()
+	endif()
+else()
+	if(EnableInterProceduralOptimization)
+		message(SEND_ERROR "
+		IPO is still experimental!
+		enable experimental features if you plan to use it")
+	endif()
+	if(EnableEditor)
+		message(SEND_ERROR "
+		editor is still experimental!
+		enable experimental features if you plan to use it")
 	endif()
 endif()
 
-add_subdirectory(src)
-
-if(EnableTesting)
-	message(NOTICE "enabling testing")
-	include(CTest)
-	enable_testing()
-	add_subdirectory(test)
+# Project generation info
+if(NOT DisableAllButExperimental)
+	add_subdirectory(src)
+	if(EnableTesting)
+		message(NOTICE "enabling testing")
+		include(CTest)
+		enable_testing()
+		add_subdirectory(test)
+	else()
+		message(STATUS "testing not enabled")
+	endif()
 else()
-	message(STATUS "testing not enabled")
+	message(WARNING "
+	all non-experimental targets disabled")
 endif()
-
-mark_as_advanced(FORCE
-	ARTS_CONFIG
-	ASOUND_LIB
-	BUILD_RAUDIO_EXAMPLES
-	BUILD_TESTING
-	CCACHE_BINARY
-	CMAKE_INSTALL_PREFIX
-	DECOR_0_LIB
-	DRM_LIB
-	D_NAS_LIB
-	FETCHCONTENT_FULLY_DISCONNECTED
-	FETCHCONTENT_QUIET
-	FETCHCONTENT_SOURCE_DIR_CATCH2
-	FETCHCONTENT_SOURCE_DIR_PUGIXML
-	FETCHCONTENT_SOURCE_DIR_RAUDIO
-	FETCHCONTENT_SOURCE_DIR_SDL2
-	FETCHCONTENT_UPDATES_DISCONNECTED_CATCH2
-	FETCHCONTENT_UPDATES_DISCONNECTED_PUGIXML
-	FETCHCONTENT_UPDATES_DISCONNECTED_RAUDIO
-	FETCHCONTENT_UPDATES_DISCONNECTED_SDL2
-	FETCHCONTENT_UPDATES_DISCONNECTED
-	GBM_LIB
-	HAVE_XCURSOR_H
-	HAVE_XDBE_H
-	HAVE_XEXT_H
-	HAVE_XFIXES_H_
-	HAVE_XINPUT2_H
-	HAVE_XRANDR_H
-	HAVE_XRENDER_H
-	HAVE_XSHAPE_H
-	HAVE_XSS_H
-	JACK_LIB
-	PULSE_LIB
-	SAMPLERATE_LIB
-	SNDIO_LIB
-	SUPPORT_FILEFORMAT_FLAC
-	SUPPORT_FILEFORMAT_MOD
-	SUPPORT_FILEFORMAT_MP3
-	SUPPORT_FILEFORMAT_OGG
-	SUPPORT_FILEFORMAT_QOA
-	SUPPORT_FILEFORMAT_WAV
-	SUPPORT_FILEFORMAT_XM
-	SampleRate_DIR
-	UDEV_LIB
-	WAYLAND_CLIENT_LIB
-	WAYLAND_CURSOR_LIB
-	WAYLAND_EGL_LIB
-	WAYLAND_SCANNER
-	X11_LIB
-	XCURSOR_LIB
-	XEXT_LIB
-	XFIXES_LIB
-	XI_LIB
-	XKBCOMMON_LIB
-	XRANDR_LIB
-	XRENDER_LIB
-	XSS_LIB
-	X_INCLUDEDIR
-)
 

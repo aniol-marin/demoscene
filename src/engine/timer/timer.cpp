@@ -23,6 +23,47 @@ milliseconds MoleDemo::Timer::GetDeltaTime() const
 {
 	return deltaTime;
 }
+	ms frameTime;
+	seconds previousSecond = 0;
+	seconds secondCount;
+	uint_fast32_t frameCount;
+	milliseconds deltaTime;
+	Time initialTime;
+	Time endTime;
+	Time previousTime;
+	Time nextTime;
+	void SetNextFrameTime() {
+		deltaTime = (milliseconds)std::chrono::duration_cast<std::chrono::milliseconds>(Clock::now() - previousTime).count();
+		previousTime = Clock::now();
+		nextTime = Clock::now() + frameTime;
+	}
+	ms GetNextDelayTime() const {
+		return std::chrono::duration_cast<std::chrono::milliseconds>(nextTime - Clock::now());
+	}
+public:
+	Timer() :
+		frameCount{ 0 },
+		secondCount{ 0 },
+		frameTime{},
+		deltaTime{},
+		initialTime{ Clock::now() },
+		previousTime{ Clock::now() }
+	{}
+	Timer(const Timer&) = delete;
+	Timer(Timer&&) = default;
+	~Timer() = default;
+
+
+	milliseconds GetDeltaTime() const {
+		return deltaTime;
+	}
+	void SetFPS(uint_fast8_t fps) {
+		frameTime = ms{ permilleFactor / fps };
+	}
+	void SetEndTime(seconds seconds) {
+		endTime = initialTime + std::chrono::seconds(seconds);
+	}
+	void WaitUntilNextFrame() {
 
 void MoleDemo::Timer::SetFPS(uint_fast8_t fps)
 {

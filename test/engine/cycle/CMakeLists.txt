@@ -1,0 +1,8 @@
+set(TEST_TARGET test-cycle)
+
+add_test_target(${TEST_TARGET})
+
+target_link_libraries(${TEST_TARGET}
+	PRIVATE cycle
+)
+
