@@ -14,8 +14,10 @@ mark_as_advanced(FORCE
 
 add_library(imgui_wrapper)
 target_sources(imgui_wrapper PUBLIC
+	#[[ backwards compatibility
 	FILE_SET imgui TYPE CXX_MODULES
 	FILES
+	]]#
 	./imgui.cpp
 )
 

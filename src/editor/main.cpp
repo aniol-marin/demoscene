@@ -1,11 +1,11 @@
-#include <ostream>
-import std;
-import glfw_wrapper;
+#include <iostream>
 
 int main()
 {
     std::cout << "[MOCK] initializing editor\n";
+    /*
     mole::graphics::Context context { {640, 480}, "MoleDemo Editor" };
+     */
 
     int c {};
 

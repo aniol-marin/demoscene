@@ -14,8 +14,10 @@ mark_as_advanced(FORCE
 
 add_library(glad_wrapper)
 target_sources(glad_wrapper PUBLIC
+	#[[ backwards compatibility
 	FILE_SET glad_wrapper TYPE CXX_MODULES
 	FILES
+	]]#
 	./glad.cpp
 )
 
