@@ -1,17 +1,18 @@
-module;
 
 extern "C" {
 #include "GLFW/glfw3.h"
 }
 
-export module glfw_wrapper;
+#include <functional>
+#include <iostream>
+#include <map>
+#include <string>
 
-import std;
 
 using callback = std::function<void(void)>;
 namespace mole::graphics
 {
-    export using size_1D = std::uint_fast16_t;
+    /*export*/ using size_1D = std::uint_fast16_t;
     struct Vector2
     {
         float x, y;
@@ -20,7 +21,7 @@ namespace mole::graphics
     {
         const size_1D w, h;
     };
-    constexpr std::string name{ "test" };
+    /*constexpr*/ std::string name{ "test" };
     constexpr auto width{ 480 };
     constexpr auto height{ 640 };
     static std::map<char, std::vector<callback>> callbacks;
@@ -34,7 +35,7 @@ namespace mole::graphics
     static void MouseButtonCallback(GLFWwindow* window, int button, int action, int mods);
     static void MouseCursorPosCallback(GLFWwindow* window, double x, double y);
 
-    export struct Context
+    /*export*/ struct Context
     {
         GLFWwindow* window{ NULL };
         const window_size size;
