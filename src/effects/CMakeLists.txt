@@ -9,6 +9,7 @@ target_link_libraries(${MODULE_NAME}
 )
 
 target_sources(${MODULE_NAME} PUBLIC
+	#[[ forward compatibility
 	FILE_SET effects TYPE CXX_MODULES
 	FILE_SET stars TYPE CXX_MODULES
 	FILE_SET solid TYPE CXX_MODULES
@@ -20,6 +21,7 @@ target_sources(${MODULE_NAME} PUBLIC
 	FILE_SET tunel TYPE CXX_MODULES
 	FILE_SET fire TYPE CXX_MODULES
 	FILES
+	]]#
 	effects.cpp
 	Stars.cpp
 	Solid.cpp

@@ -7,7 +7,9 @@ target_link_libraries(${MODULE_NAME}
 )
 
 target_sources(${MODULE_NAME} PUBLIC
+	#[[ forward compatibility
 	FILE_SET ${MODULE_NAME} TYPE CXX_MODULES
 	FILES
+	]]#
 	Effect.cpp
 )
