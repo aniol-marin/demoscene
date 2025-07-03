@@ -1,5 +1,5 @@
 set(MODULE_NAME serialization)
-add_library(${MODULE_NAME})
+add_module_target(${MODULE_NAME})
 
 FetchContent_Declare(
 	pugixml
