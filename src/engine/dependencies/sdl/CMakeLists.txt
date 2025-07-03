@@ -1,5 +1,5 @@
 set(MODULE_NAME sdl_wrapper)
-add_library(${MODULE_NAME})
+add_module_target(${MODULE_NAME})
 
 FetchContent_Declare(
 	SDL2
