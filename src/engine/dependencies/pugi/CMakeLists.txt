@@ -14,9 +14,6 @@ FetchContent_Declare(
 FetchContent_MakeAvailable(pugixml)
 
 target_link_libraries( ${MODULE_NAME}
-	#[[
-	PUBLIC pugixml_experimental
-	]]#
 	PUBLIC pugixml
 	PUBLIC engine_definitions
 )
@@ -30,5 +27,9 @@ target_sources(${MODULE_NAME} PUBLIC
 mark_as_advanced(FORCE
 	FETCHCONTENT_SOURCE_DIR_PUGIXML
 	FETCHCONTENT_UPDATES_DISCONNECTED_PUGIXML
+	PUGIXML_BUILD_DEFINES
+	PUGIXML_COMPACT
+	PUGIXML_INSTALL
+	PUGIXML_WCHAR_MODE
 )
 
