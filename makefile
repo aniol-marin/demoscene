@@ -57,7 +57,7 @@ generate:
 		   -DCMAKE_EXPORT_COMPILE_COMMANDS=ON \
 		   --log-level=$(CMAKE_LOG_LEVEL)
 	rm -f compile_commands.json
-	ln -s ./$(BUILD_PATH)/compile_commands.json compile_commands.json
+	ln -s $(BUILD_PATH)/compile_commands.json compile_commands.json
 
 configure: $(CACHE)
 	make .call_log MESSAGE="configuring project"
