@@ -1,8 +1,6 @@
 module;
 
-extern "C" {
 #include "GLFW/glfw3.h"
-}
 
 export module glfw_wrapper;
 

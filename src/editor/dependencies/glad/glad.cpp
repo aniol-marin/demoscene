@@ -1,6 +1,9 @@
 export module glad_wrapper;
 
-int test()
+namespace mole::graphics
 {
-    return 0;
+    export int test()
+    {
+        return 0;
+    }
 }
