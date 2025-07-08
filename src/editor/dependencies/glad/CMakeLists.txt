@@ -19,3 +19,7 @@ target_sources(glad_wrapper PUBLIC
 	./glad.cpp
 )
 
+target_link_libraries(glad_wrapper
+	PRIVATE glfw_wrapper
+)
+

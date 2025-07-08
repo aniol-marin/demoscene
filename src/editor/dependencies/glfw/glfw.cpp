@@ -32,22 +32,23 @@ namespace mole::graphics
     static void MouseButtonCallback(GLFWwindow* window, int button, int action, int mods);
     static void MouseCursorPosCallback(GLFWwindow* window, double x, double y);
 
-    export struct Context
+    export struct WindowContext
     {
         GLFWwindow* window{ NULL };
         const window_size size;
+        const std::string_view name;
 
-        Context() = delete;
-        Context(window_size&& size, std::string_view name);
-        Context(const Context&) = delete;
-        Context(Context&&) = default;
-        ~Context();
+        WindowContext() = delete;
+        WindowContext(window_size&& size, std::string_view name);
+        WindowContext(const WindowContext&) = delete;
+        WindowContext(WindowContext&&) = default;
+        ~WindowContext();
     };
 }
 
 namespace mole::graphics
 {
-    Context::Context(window_size&& size, std::string_view name) : size{ size }
+    WindowContext::WindowContext(window_size&& size, std::string_view name) : size{ size }, name{ name }
     {
         std::cout << "[MOCK] create context\n";
         glfwSetErrorCallback(ErrorCallback);
@@ -80,7 +81,7 @@ namespace mole::graphics
         glfwSwapInterval(1);
     }
 
-    Context::~Context()
+    WindowContext::~WindowContext()
     {
         glfwDestroyWindow(window);
         glfwTerminate();
