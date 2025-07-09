@@ -4,6 +4,7 @@ FetchContent_Declare(
 	EXCLUDE_FROM_ALL
 	GIT_REPOSITORY https://github.com/Dav1dde/glad.git
 	GIT_TAG 73db193f853e2ee079bf3ca8a64aa2eaf6459043 # v2.0.8
+	SOURCE_SUBDIR cmake
 )
 FetchContent_MakeAvailable(glad)
 
@@ -21,5 +22,6 @@ target_sources(glad_wrapper PUBLIC
 
 target_link_libraries(glad_wrapper
 	PRIVATE glfw_wrapper
+	PRIVATE glad
 )
 
