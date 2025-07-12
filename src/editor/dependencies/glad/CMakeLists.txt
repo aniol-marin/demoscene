@@ -13,6 +13,34 @@ mark_as_advanced(FORCE
 	FETCHCONTENT_SOURCE_DIR_GLAD
 ) 
 
+# official doc
+
+#project(test C CXX)
+# already provided in the project, should be fine
+#find_package(glfw3 REQUIRED)
+
+# Path to glad directory
+#set(GLAD_SOURCES_DIR "${PROJECT_SOURCE_DIR}/external/glad/")
+set(GLAD_SOURCES_DIR /home/bru/demoscene/external/glad-src/)
+# Path to glad cmake files
+add_subdirectory("${GLAD_SOURCES_DIR}/cmake" glad_cmake)
+
+# Specify glad settings
+glad_add_library(glad_gl_core_33 REPRODUCIBLE API gl:core=3.3)
+
+add_executable(multiwin_mx
+	#multiwin_mx.cpp
+    /home/bru/demoscene/external/glad-src/example/c++/multiwin_mx/multiwin_mx.cpp
+    )
+
+# Add glad to your project
+target_link_libraries(multiwin_mx
+    PUBLIC
+        glad_gl_core_33
+        glfw
+    )
+# end official doc
+
 add_library(glad_wrapper)
 target_sources(glad_wrapper PUBLIC
 	FILE_SET glad_wrapper TYPE CXX_MODULES
