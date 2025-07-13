@@ -2,8 +2,7 @@ module;
 
 extern "C" {
 #define GLAD_IMPLEMENTATION
-#include "glad/glad.h"
-#include "
+#include "glad/gl.h"
 }
 
 export module glad_wrapper;
@@ -23,11 +22,17 @@ namespace mole::graphics
         {
             std::cout << "[MOCK] render initializing\n";
             std::cout << "[MOCK] received context is" << window.name << "\n";
+/*
             const bool glLoaded{ 0 != gladLoadGL() };
+*/
+            const bool glLoaded{ false };
 
             if (!glLoaded)
             {
+/*
                 throw std::exception("OpenGL renderer failed to load");
+*/
+                throw std::exception();
             }
 
             glDepthFunc(GL_LEQUAL);
