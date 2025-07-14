@@ -1,60 +1,73 @@
-#include "demo.h"
 
-namespace MoleDemo
+using Container = MoleDemo::Container;
+
+namespace MoleDemo {
+
+	export class Demo;
+}
+
+class MoleDemo::Demo
 {
+	RAudio::AudioManager am {};
+	Screen screen {600, 300};
+	const std::string project{};
+	std::string source{};
+	Container container;
+	std::vector<Initializable*> initializables;
+	std::vector<Loadable*> loadables;
+	RenderManager* render;
+	SoundManager* sound;
+	Timeline* timeline;
+	Timer* timer;
+	Program* program;
 
-    using namespace mole_def;
+	void LoadData(std::string source) {}
+	void LoadTimeline(std::string source) {	}
+	void Load(std::string source)
+	{
+		for (Loadable* item : loadables) {
+			item->Load(source);
+		}
+	}
+	
+	void Unload()
+	{
+		for (Loadable* item : loadables) {
+			item->Unload();
+		}
+	}
 
-    void Demo::LoadData(std::string source) {}
-    void Demo::LoadTimeline(std::string source) {}
-    void Demo::Load(std::string source)
-    {
-        for (Loadable* item: loadables)
-        {
-            item->Load(source);
-        }
-    }
+	void Init()
+	{
+		InstallBindings();
 
-    void Demo::Unload()
-    {
-        for (Loadable* item: loadables)
-        {
-            item->Unload();
-        }
-    }
+		initializables.push_back(&container.Inject<RenderManager>());
+		initializables.push_back(timeline);
+		initializables.push_back(sound);
 
-    void Demo::Init()
-    {
-        InstallBindings();
+		loadables.push_back(timeline);
+		loadables.push_back(sound);
 
-        initializables.push_back(&container.Inject<RenderManager>());
-        initializables.push_back(timeline);
-        initializables.push_back(sound);
+		timer->SetFPS(60);
 
-        loadables.push_back(timeline);
-        loadables.push_back(sound);
+		for (Initializable* item : initializables) {
+			item->Init();
+		}
 
-        timer->SetFPS(60);
+		Load(source);
+	}
 
-        for (Initializable* item: initializables)
-        {
-            item->Init();
-        }
 
-        Load(source);
-    }
+	void Finalize()
+	{
+		Unload();
 
-    void Demo::Finalize()
-    {
-        Unload();
+		for (Initializable* item : initializables) {
+			item->Finalize();
+		}
+	}
 
-        for (Initializable* item: initializables)
-        {
-            item->Finalize();
-        }
-    }
-
-    void InstallBindings()
+	void InstallBindings()
 	{
 		container.BindShared<Timer>();
 		container.BindShared<SoundManager>();
@@ -85,33 +98,39 @@ namespace MoleDemo
 			project
 		};});
 
-        /* TODO replace manual functor resolution with in-place factories. Examples follow:
-        container.BindUniqueFromFactory<Cycle, Cycle, Program, Timer, InputManager, RenderManager>();
-        container.BindSharingFromFactory<Timeline, Timeline, Timer, Cycle, SoundManager, Screen>();
-        */
-        //
-        // Self injection (TO DO separate concerns)
-        program = &container.Inject<Program>();
-        timer = &container.Inject<Timer>();
-        sound = &container.Inject<SoundManager>();
-        timeline = &container.Inject<Timeline>();
-    }
+		/* TODO replace manual functor resolution with in-place factories. Examples follow:
+		container.BindUniqueFromFactory<Cycle, Cycle, Program, Timer, InputManager, RenderManager>();
+		container.BindSharingFromFactory<Timeline, Timeline, Timer, Cycle, SoundManager, Screen>();
+		*/
+		//
+		//Self injection (TO DO separate concerns)
+		program = &container.Inject<Program>();
+		timer = &container.Inject<Timer>();
+		sound = &container.Inject<SoundManager>();
+		timeline = &container.Inject<Timeline>();
 
-    Demo::Demo(std::string project) : project{ project }, container{} {}
+	}
 
-    void Demo::Run()
-    {
-        Init();
-        sound->Play();
-        timeline->Start();
+public:
+	Demo(std::string project) :
+		project {project},
+		container {}
+	{
+	}
 
-        while (program->Running())
-        {
-            sound->Update();
-            timeline->Update();
-        }
+	void Run()
+	{
+		Init();
+		sound->Play();
+		timeline->Start();
 
-        sound->Stop();
-        Finalize();
-    }
-}
+		while (program->Running()) {
+			sound->Update();
+			timeline->Update();
+		}
+
+		sound->Stop();
+		Finalize();
+	}
+};
+

@@ -10,7 +10,7 @@ set(CMAKE_CXX_EXTENSION OFF)
 project(MoleDemoScene2025
 	VERSION 0.0.0
 	DESCRIPTION "A CPU based rendering creation"
-	LANGUAGES CXX
+	LANGUAGES CXX C
 )
 
 # Project automated configuration

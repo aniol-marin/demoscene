@@ -29,10 +29,8 @@ target_link_libraries(glfw_wrapper PRIVATE
 	glfw
 )
 target_sources(glfw_wrapper PUBLIC
-	#[[ backwards compatibility
 	FILE_SET glfw_wrapper TYPE CXX_MODULES
 	FILES
-	]]#
 	./glfw.cpp
 )
 

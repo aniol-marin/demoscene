@@ -6,5 +6,4 @@ function(add_module_target MODULE_NAME)
 		$<BUILD_INTERFACE:${CMAKE_CURRENT_SOURCE_DIR}>
 	)
 
-
 endfunction()

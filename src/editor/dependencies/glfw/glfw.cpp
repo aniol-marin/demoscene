@@ -1,18 +1,11 @@
+#include "glfw_wrapper.h"
 
-extern "C" {
 #include "GLFW/glfw3.h"
-}
-
-#include <functional>
-#include <iostream>
-#include <map>
-#include <string>
-
 
 using callback = std::function<void(void)>;
 namespace mole::graphics
 {
-    /*export*/ using size_1D = std::uint_fast16_t;
+    export using size_1D = std::uint_fast16_t;
     struct Vector2
     {
         float x, y;
@@ -21,7 +14,7 @@ namespace mole::graphics
     {
         const size_1D w, h;
     };
-    /*constexpr*/ std::string name{ "test" };
+    constexpr std::string name{ "test" };
     constexpr auto width{ 480 };
     constexpr auto height{ 640 };
     static std::map<char, std::vector<callback>> callbacks;
@@ -35,22 +28,23 @@ namespace mole::graphics
     static void MouseButtonCallback(GLFWwindow* window, int button, int action, int mods);
     static void MouseCursorPosCallback(GLFWwindow* window, double x, double y);
 
-    /*export*/ struct Context
+    export struct WindowContext
     {
         GLFWwindow* window{ NULL };
         const window_size size;
+        const std::string_view name;
 
-        Context() = delete;
-        Context(window_size&& size, std::string_view name);
-        Context(const Context&) = delete;
-        Context(Context&&) = default;
-        ~Context();
+        WindowContext() = delete;
+        WindowContext(window_size&& size, std::string_view name);
+        WindowContext(const WindowContext&) = delete;
+        WindowContext(WindowContext&&) = default;
+        ~WindowContext();
     };
 }
 
 namespace mole::graphics
 {
-    Context::Context(window_size&& size, std::string_view name) : size{ size }
+    WindowContext::WindowContext(window_size&& size, std::string_view name) : size{ size }, name{ name }
     {
         std::cout << "[MOCK] create context\n";
         glfwSetErrorCallback(ErrorCallback);
@@ -83,7 +77,7 @@ namespace mole::graphics
         glfwSwapInterval(1);
     }
 
-    Context::~Context()
+    WindowContext::~WindowContext()
     {
         glfwDestroyWindow(window);
         glfwTerminate();

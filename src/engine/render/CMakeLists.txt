@@ -1,5 +1,5 @@
 set(MODULE_NAME render)
-add_library(${MODULE_NAME})
+add_module_target(${MODULE_NAME})
 
 target_link_libraries( ${MODULE_NAME}
 	PRIVATE engine_definitions

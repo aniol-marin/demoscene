@@ -1,20 +1,3 @@
-#include "timeline.h"
-namespace MoleDemo
-{
-
-	struct Event;
-	struct Events : std::queue<std::unique_ptr<Event>>
-	{
-	};
-	struct EffectsRepository : std::vector<std::unique_ptr<Effect>>
-	{
-	};
-	struct LayersRepository : std::vector<std::unique_ptr<Layer>>
-	{
-	};
-
-	using TransitionHandle = std::unique_ptr<Transition>;
-} // namespace MoleDemo
 
 struct MoleDemo::Event
 {

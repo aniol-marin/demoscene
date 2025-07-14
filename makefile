@@ -51,13 +51,22 @@ profile: build-$(BINARY_NAME)
 	make .call_log MESSAGE="profiling"
 	valgrind $(BINARY_PATH)/$(BINARY_NAME)
 
+#needed for:
+# - glad generation
+initialize:
+	sudo apt install curl python3
+	curl -L https://bootstrap.pypa.io/get-pip.py -o get-pip.py
+	python get-pip.py
+	python -m pip install Jinja2
+	rm get-pip.py
+
 generate:
 	make .call_log MESSAGE="generating config $(BUILD_TYPE) in $(BUILD_PATH)"
 	$(CMAKE_PATH) $(CMAKE_ARGUMENTS) \
 		   -DCMAKE_EXPORT_COMPILE_COMMANDS=ON \
 		   --log-level=$(CMAKE_LOG_LEVEL)
 	rm -f compile_commands.json
-	ln -s $(BUILD_PATH)/compile_commands.json compile_commands.json
+	ln -s ./$(BUILD_PATH)/compile_commands.json compile_commands.json
 
 configure: $(CACHE)
 	make .call_log MESSAGE="configuring project"
