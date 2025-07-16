@@ -32,11 +32,13 @@ namespace mole::graphics
     static void MouseButtonCallback(GLFWwindow* window, int button, int action, int mods);
     static void MouseCursorPosCallback(GLFWwindow* window, double x, double y);
 
+    export using proc_address = decltype(glfwGetProcAddress);
     export struct WindowContext
     {
         GLFWwindow* window{ NULL };
         const window_size size;
         const std::string_view name;
+	proc_address* address;
 
         WindowContext() = delete;
         WindowContext(window_size&& size, std::string_view name);
@@ -62,6 +64,7 @@ namespace mole::graphics
         glfwWindowHint(GLFW_OPENGL_DEBUG_CONTEXT, GL_TRUE);
 
         window = glfwCreateWindow(width, height, std::string{ name }.c_str(), NULL, NULL);
+	auto address { &glfwGetProcAddress };
         if (!window)
         {
             glfwTerminate();
@@ -79,6 +82,8 @@ namespace mole::graphics
 
         glfwMakeContextCurrent(window);
         glfwSwapInterval(1);
+
+	address = &glfwGetProcAddress;
     }
 
     WindowContext::~WindowContext()

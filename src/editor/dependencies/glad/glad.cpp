@@ -22,16 +22,12 @@ namespace mole::graphics
         {
             std::cout << "[MOCK] render initializing\n";
             std::cout << "[MOCK] received context is" << window.name << "\n";
-/*
-            const bool glLoaded{ 0 != gladLoadGL() };
-*/
-            const bool glLoaded{ false };
+            auto loader{ reinterpret_cast<GLADloadfunc>(window.address) };
+            const bool glLoaded{ 0 != gladLoadGL(loader) };
 
             if (!glLoaded)
             {
-/*
-                throw std::exception("OpenGL renderer failed to load");
-*/
+                std::cerr << "OpenGL renderer failed to load";
                 throw std::exception();
             }
 
