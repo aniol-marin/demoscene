@@ -8,9 +8,14 @@ struct Context
     std::unique_ptr<mole::graphics::RenderContext> render;
     Context()
     {
-        std::cout << "[MOCK] context initializing\n";
         render = std::make_unique<mole::graphics::RenderContext>(context);
         std::cout << "[MOCK] context initialization done\n";
+    }
+
+    void Draw() const
+    {
+        render->Render();
+        context.Swap();
     }
 };
 
@@ -18,13 +23,15 @@ int main()
 {
     std::cout << "[MOCK] initializing editor\n";
 
-    int c{};
     Context context;
 
-    while (c < 100000)
+    int frame{};
+    const int max_frame{ 1000 };
+    while (frame < max_frame)
     {
-        ++c;
-        std::cout << '.';
+        context.Draw();
+        ++frame;
+        std::cout << std::right << std::setw(6) << frame << " / " << max_frame;
         std::flush(std::cout);
         std::cout << '\r';
         std::flush(std::cout);

@@ -45,6 +45,10 @@ namespace mole::graphics
         WindowContext(const WindowContext&) = delete;
         WindowContext(WindowContext&&) = default;
         ~WindowContext();
+
+	void Swap() const {
+		glfwSwapBuffers(window);
+	}
     };
 }
 
@@ -52,7 +56,6 @@ namespace mole::graphics
 {
     WindowContext::WindowContext(window_size&& size, std::string_view name) : size{ size }, name{ name }
     {
-        std::cout << "[MOCK] create context\n";
         glfwSetErrorCallback(ErrorCallback);
 
         glfwInit();
@@ -67,7 +70,7 @@ namespace mole::graphics
         if (!window)
         {
             glfwTerminate();
-            std::cout << "[FAIL] failed to create the window\n";
+            std::cerr << "[FAIL] failed to create the window\n";
             throw std::exception{};
         }
 
@@ -83,15 +86,12 @@ namespace mole::graphics
         glfwSwapInterval(1);
 
 	address = &glfwGetProcAddress;
-	std::cout << "[MOCK] procedure address cached\n";
     }
 
     WindowContext::~WindowContext()
     {
         glfwDestroyWindow(window);
         glfwTerminate();
-
-        std::cout << "terminated ";
     }
 
     void ErrorCallback(int code, const char* message)

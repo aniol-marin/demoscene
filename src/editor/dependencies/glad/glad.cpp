@@ -12,10 +12,37 @@ import glfw_wrapper;
 
 namespace mole::graphics
 {
+    struct DrawCall
+    {
+        /*
+            GladDrawCall(asset emmiter, RenderableType type, Shader& shader, Mesh& mesh, Textures textures, Camera&
+           camera, Transform* transform, Callback update);
+        */
+        DrawCall() = default;
+        ~DrawCall() = default;
+        void Draw() const {}
+
+    private:
+        /*
+            static unsigned int nextId;
+            unsigned int id;
+            VAO vao;
+            VBO vbo;
+            EBO ebo;
+            Shader& shader;
+            Mesh& mesh;
+            Camera& camera;
+            Textures textures;
+            Transform* transform;
+            Callback update;
+            */
+    };
+
     export struct RenderContext
     {
 
         WindowContext& window;
+	std::vector<DrawCall> drawCalls;
 
         RenderContext() = delete;
         RenderContext(WindowContext& window) : window{ window }
@@ -39,5 +66,15 @@ namespace mole::graphics
         RenderContext(const RenderContext&) = delete;
         RenderContext(RenderContext&& tmp) : window{ tmp.window } {};
         ~RenderContext() = default;
+
+        void Render()
+        {
+            glClearColor(1, 1, 0, 1);
+            glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
+            for (const auto& r: drawCalls)
+            {
+                r.Draw();
+            }
+        }
     };
 }
