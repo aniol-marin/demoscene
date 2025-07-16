@@ -64,7 +64,6 @@ namespace mole::graphics
         glfwWindowHint(GLFW_OPENGL_DEBUG_CONTEXT, GL_TRUE);
 
         window = glfwCreateWindow(width, height, std::string{ name }.c_str(), NULL, NULL);
-	auto address { &glfwGetProcAddress };
         if (!window)
         {
             glfwTerminate();
@@ -84,6 +83,7 @@ namespace mole::graphics
         glfwSwapInterval(1);
 
 	address = &glfwGetProcAddress;
+	std::cout << "[MOCK] procedure address cached\n";
     }
 
     WindowContext::~WindowContext()

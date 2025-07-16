@@ -3,7 +3,6 @@ module;
 extern "C" {
 #define GLAD_IMPLEMENTATION
 #include "glad/gl.h"
-#include "GLFW/glfw3.h"
 }
 
 export module glad_wrapper;
@@ -23,11 +22,7 @@ namespace mole::graphics
         {
             std::cout << "[MOCK] render initializing\n";
             std::cout << "[MOCK] received context is" << window.name << "\n";
-	    /*
-            auto loader{ reinterpret_cast<GLADloadfunc>(window.address) };
-            const bool glLoaded{ 0 != gladLoadGL(loader) };
-*/
-            const bool glLoaded{ 0 != gladLoadGL(&glfwGetProcAddress) };
+            const bool glLoaded{ 0 != gladLoadGL(window.address) };
 
             if (!glLoaded)
             {
