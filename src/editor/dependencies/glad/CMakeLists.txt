@@ -33,6 +33,7 @@ target_sources(glad_wrapper PUBLIC
 )
 
 target_link_libraries(glad_wrapper
+	PRIVATE glfw
 	PRIVATE glfw_wrapper
 	PRIVATE glad
 )

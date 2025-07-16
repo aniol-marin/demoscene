@@ -1,4 +1,3 @@
-#include <memory>
 import std;
 import glfw_wrapper;
 import glad_wrapper;
@@ -15,8 +14,7 @@ struct Context
     }
 };
 
-int
-main()
+int main()
 {
     std::cout << "[MOCK] initializing editor\n";
 
