@@ -38,7 +38,7 @@ namespace mole::graphics
         GLFWwindow* window{ NULL };
         const window_size size;
         const std::string_view name;
-	proc_address* address;
+        proc_address* address;
 
         WindowContext() = delete;
         WindowContext(window_size&& size, std::string_view name);
@@ -46,9 +46,8 @@ namespace mole::graphics
         WindowContext(WindowContext&&) = default;
         ~WindowContext();
 
-	void Swap() const {
-		glfwSwapBuffers(window);
-	}
+        void Swap() const { glfwSwapBuffers(window); }
+        void PollEvents();
     };
 }
 
@@ -85,13 +84,18 @@ namespace mole::graphics
         glfwMakeContextCurrent(window);
         glfwSwapInterval(1);
 
-	address = &glfwGetProcAddress;
+        address = &glfwGetProcAddress;
     }
 
     WindowContext::~WindowContext()
     {
         glfwDestroyWindow(window);
         glfwTerminate();
+    }
+
+    void WindowContext::PollEvents()
+    {
+        glfwPollEvents();
     }
 
     void ErrorCallback(int code, const char* message)

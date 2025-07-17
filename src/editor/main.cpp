@@ -12,6 +12,8 @@ struct Context
         std::cout << "[MOCK] context initialization done\n";
     }
 
+    void PollEvents() { context.PollEvents(); }
+
     void Draw() const
     {
         render->Render();
@@ -29,6 +31,7 @@ int main()
     const int max_frame{ 1000 };
     while (frame < max_frame)
     {
+        context.PollEvents();
         context.Draw();
         ++frame;
         std::cout << std::right << std::setw(6) << frame << " / " << max_frame;
