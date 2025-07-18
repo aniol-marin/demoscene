@@ -7,6 +7,26 @@ FetchContent_Declare(
 )
 FetchContent_MakeAvailable(imgui)
 
+add_library(imgui)
+target_sources(imgui PRIVATE
+	${imgui_SOURCE_DIR}/imgui.cpp
+	${imgui_SOURCE_DIR}/imgui_draw.cpp
+	${imgui_SOURCE_DIR}/imgui_tables.cpp
+	${imgui_SOURCE_DIR}/imgui_widgets.cpp
+	${imgui_SOURCE_DIR}/backends/imgui_impl_glfw.cpp
+	${imgui_SOURCE_DIR}/backends/imgui_impl_opengl3.cpp
+)
+target_include_directories(imgui PUBLIC
+	$<BUILD_INTERFACE:${imgui_SOURCE_DIR}>
+)
+target_include_directories(imgui PUBLIC
+	$<BUILD_INTERFACE:${imgui_SOURCE_DIR}/backends>
+	$<INSTALL_INTERFACE:imgui>
+)
+target_link_libraries(imgui
+	PRIVATE glfw
+)
+
 mark_as_advanced(FORCE
 	FETCHCONTENT_UPDATES_DISCONNECTED_IMGUI
 	FETCHCONTENT_SOURCE_DIR_IMGUI

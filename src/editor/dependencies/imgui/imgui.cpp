@@ -8,7 +8,7 @@ export module imgui_wrapper;
 
 namespace mole::ui
 {
-    int test()
+    export int test()
     {
         IMGUI_CHECKVERSION();
         ImGui::CreateContext();
