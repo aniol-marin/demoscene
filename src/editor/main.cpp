@@ -27,7 +27,7 @@ int main()
     std::cout << "[MOCK] initializing editor\n";
 
     Context context;
-    mole::ui::test();
+    mole::ui::initialize();
 
     int frame{};
     const int max_frame{ 1000 };
@@ -35,6 +35,7 @@ int main()
     {
         context.PollEvents();
         context.Draw();
+	mole::ui::RenderUI();
         ++frame;
         std::cout << std::right << std::setw(6) << frame << " / " << max_frame;
         std::flush(std::cout);
