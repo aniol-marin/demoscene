@@ -1,6 +1,7 @@
 import std;
 import glfw_wrapper;
 import glad_wrapper;
+import imgui_wrapper;
 
 struct Context
 {
@@ -26,6 +27,7 @@ int main()
     std::cout << "[MOCK] initializing editor\n";
 
     Context context;
+    mole::ui::test();
 
     int frame{};
     const int max_frame{ 1000 };

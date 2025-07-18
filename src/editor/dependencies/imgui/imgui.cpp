@@ -1,6 +1,17 @@
+module;
+
+#include "imgui.h"
+#include "imgui_impl_glfw.h"
+#include "imgui_impl_opengl3.h"
+
 export module imgui_wrapper;
 
-int test()
+namespace mole::ui
 {
-    return 0;
+    int test()
+    {
+        IMGUI_CHECKVERSION();
+        ImGui::CreateContext();
+        return 0;
+    }
 }

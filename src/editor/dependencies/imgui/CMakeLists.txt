@@ -14,8 +14,12 @@ mark_as_advanced(FORCE
 
 add_library(imgui_wrapper)
 target_sources(imgui_wrapper PUBLIC
-	FILE_SET imgui TYPE CXX_MODULES
+	FILE_SET imgui_wrapper TYPE CXX_MODULES
 	FILES
-	./imgui.cpp
+	imgui.cpp
+)
+
+target_link_libraries(imgui_wrapper
+	PRIVATE imgui
 )
 
