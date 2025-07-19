@@ -27,7 +27,7 @@ int main()
     std::cout << "[MOCK] initializing editor\n";
 
     Context context;
-    mole::ui::initialize();
+    mole::ui::initialize(context.context);
 
     int frame{};
     const int max_frame{ 1000 };

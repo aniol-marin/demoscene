@@ -25,6 +25,7 @@ target_include_directories(imgui PUBLIC
 )
 target_link_libraries(imgui
 	PRIVATE glfw
+	PRIVATE glfw_wrapper
 )
 
 mark_as_advanced(FORCE
