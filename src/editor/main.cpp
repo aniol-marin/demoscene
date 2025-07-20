@@ -18,6 +18,10 @@ struct Context
     void Draw() const
     {
         render->Render();
+    }
+
+    void Present()
+    {
         context.Swap();
     }
 };
@@ -36,6 +40,7 @@ int main()
         context.PollEvents();
         context.Draw();
 	mole::ui::RenderUI();
+	context.Present();
         ++frame;
         std::cout << std::right << std::setw(6) << frame << " / " << max_frame;
         std::flush(std::cout);

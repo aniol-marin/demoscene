@@ -10,14 +10,19 @@ FetchContent_MakeAvailable(imgui)
 add_library(imgui STATIC)
 target_sources(imgui PRIVATE
 	${imgui_SOURCE_DIR}/imgui.cpp
+	${imgui_SOURCE_DIR}/imgui_demo.cpp
 	${imgui_SOURCE_DIR}/imgui_draw.cpp
 	${imgui_SOURCE_DIR}/imgui_tables.cpp
 	${imgui_SOURCE_DIR}/imgui_widgets.cpp
 	${imgui_SOURCE_DIR}/backends/imgui_impl_glfw.cpp
 	${imgui_SOURCE_DIR}/backends/imgui_impl_opengl3.cpp
+	${imgui_SOURCE_DIR}/misc/cpp/imgui_stdlib.cpp
 )
 target_include_directories(imgui PUBLIC
 	$<BUILD_INTERFACE:${imgui_SOURCE_DIR}>
+)
+target_include_directories(imgui PUBLIC
+	$<BUILD_INTERFACE:${imgui_SOURCE_DIR}>/misc/cpp
 )
 target_include_directories(imgui PUBLIC
 	$<BUILD_INTERFACE:${imgui_SOURCE_DIR}/backends>
@@ -44,3 +49,12 @@ target_link_libraries(imgui_wrapper
 	PRIVATE imgui
 )
 
+add_executable(imgui_test)
+target_sources(imgui_test PRIVATE
+	./imgui_test_main.cpp
+)
+target_link_libraries(imgui_test
+	imgui
+	glfw
+	glad
+)

@@ -25,6 +25,7 @@ namespace mole::ui
     {
         IMGUI_CHECKVERSION();
         ImGui::CreateContext();
+	ImGui::StyleColorsDark();
 
         context = new UIContext{ ImGui::GetIO() };
         context->io.ConfigFlags |= ImGuiConfigFlags_NavEnableKeyboard;
