@@ -42,7 +42,7 @@ namespace mole::graphics
     {
 
         WindowContext& window;
-	std::vector<DrawCall> drawCalls;
+        std::vector<DrawCall> drawCalls;
 
         RenderContext() = delete;
         RenderContext(WindowContext& window) : window{ window }
@@ -69,12 +69,18 @@ namespace mole::graphics
 
         void Render()
         {
-            glClearColor(0.1, 0.1, 0, 1);
             glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
-            for (const auto& r: drawCalls)
-            {
-                r.Draw();
-            }
+            /*
+	       glClearColor(0.1, 0.1, 0, 1);
+	       for (const auto& r: drawCalls)
+	       {
+	       r.Draw();
+	       }
+       */
         }
+
+	void Present()
+	{
+	}
     };
 }

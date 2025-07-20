@@ -36,7 +36,6 @@ int main(void)
     IMGUI_CHECKVERSION();
     ImGui::CreateContext();
     volatile ImGuiIO& io = ImGui::GetIO();
-    (void) io;
     io.ConfigFlags |= ImGuiConfigFlags_NavEnableKeyboard;
     ImGui::StyleColorsDark();
 
