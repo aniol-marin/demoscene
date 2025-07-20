@@ -49,12 +49,3 @@ target_link_libraries(imgui_wrapper
 	PRIVATE imgui
 )
 
-add_executable(imgui_test)
-target_sources(imgui_test PRIVATE
-	./imgui_test_main.cpp
-)
-target_link_libraries(imgui_test
-	imgui
-	glfw
-	glad
-)

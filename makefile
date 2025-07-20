@@ -103,8 +103,8 @@ help-available-targets:
 		-e pugixml[^_]  \
 		-e raudio[^_]  \
 		-e glad[^_]  \
-		-e '^glfw[^_]' -e update_mappings \
-		-e '^raudio[^_]'  \
+		-e imgui[^_]  \
+		-e glfw[^_] -e update_mappings \
 		| tr -d : | awk '{ print $$1; }'
 
 status:
