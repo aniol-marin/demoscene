@@ -1,3 +1,4 @@
+#include <memory>
 import std;
 import glfw_wrapper;
 import glad_wrapper;
@@ -7,31 +8,27 @@ struct Context
 {
     mole::graphics::WindowContext context{ { 640, 480 }, "MoleDemo Editor" };
     std::unique_ptr<mole::graphics::RenderContext> render;
+    std::unique_ptr<mole::graphics::RenderContext> ui;
     Context()
     {
         render = std::make_unique<mole::graphics::RenderContext>(context);
+        ui = std::make_unique<mole::ui::UIContext>(context);
         std::cout << "[MOCK] context initialization done\n";
     }
 
     void PollEvents() { context.PollEvents(); }
 
-    void Draw() const
-    {
-        render->Render();
-    }
+    void Draw() const { render->Render(); }
 
-    void Present()
-    {
-        context.Swap();
-    }
+    void Present() { context.Swap(); }
 };
 
-int main()
+int
+main()
 {
     std::cout << "[MOCK] initializing editor\n";
 
     Context context;
-    mole::ui::initialize(context.context);
 
     int frame{};
     const int max_frame{ 1000 };
@@ -39,8 +36,8 @@ int main()
     {
         context.PollEvents();
         context.Draw();
-	mole::ui::RenderUI();
-	context.Present();
+        ui.RenderUI();
+        context.Present();
         ++frame;
         std::cout << std::right << std::setw(6) << frame << " / " << max_frame;
         std::flush(std::cout);
