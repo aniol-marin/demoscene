@@ -28,17 +28,22 @@ namespace mole::graphics
     static void MouseButtonCallback(GLFWwindow* window, int button, int action, int mods);
     static void MouseCursorPosCallback(GLFWwindow* window, double x, double y);
 
+    export using proc_address = decltype(glfwGetProcAddress);
     export struct WindowContext
     {
         GLFWwindow* window{ NULL };
         const window_size size;
         const std::string_view name;
+        proc_address* address;
 
         WindowContext() = delete;
         WindowContext(window_size&& size, std::string_view name);
         WindowContext(const WindowContext&) = delete;
         WindowContext(WindowContext&&) = default;
         ~WindowContext();
+
+        void Swap() const { glfwSwapBuffers(window); }
+        void PollEvents();
     };
 }
 
@@ -46,7 +51,6 @@ namespace mole::graphics
 {
     WindowContext::WindowContext(window_size&& size, std::string_view name) : size{ size }, name{ name }
     {
-        std::cout << "[MOCK] create context\n";
         glfwSetErrorCallback(ErrorCallback);
 
         glfwInit();
@@ -61,7 +65,7 @@ namespace mole::graphics
         if (!window)
         {
             glfwTerminate();
-            std::cout << "[FAIL] failed to create the window\n";
+            std::cerr << "[FAIL] failed to create the window\n";
             throw std::exception{};
         }
 
@@ -75,14 +79,19 @@ namespace mole::graphics
 
         glfwMakeContextCurrent(window);
         glfwSwapInterval(1);
+
+        address = &glfwGetProcAddress;
     }
 
     WindowContext::~WindowContext()
     {
         glfwDestroyWindow(window);
         glfwTerminate();
+    }
 
-        std::cout << "terminated ";
+    void WindowContext::PollEvents()
+    {
+        glfwPollEvents();
     }
 
     void ErrorCallback(int code, const char* message)

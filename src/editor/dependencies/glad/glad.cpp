@@ -7,26 +7,48 @@ extern "C" {
 
 namespace mole::graphics
 {
+    struct DrawCall
+    {
+        /*
+            GladDrawCall(asset emmiter, RenderableType type, Shader& shader, Mesh& mesh, Textures textures, Camera&
+           camera, Transform* transform, Callback update);
+        */
+        DrawCall() = default;
+        ~DrawCall() = default;
+        void Draw() const {}
+
+    private:
+        /*
+            static unsigned int nextId;
+            unsigned int id;
+            VAO vao;
+            VBO vbo;
+            EBO ebo;
+            Shader& shader;
+            Mesh& mesh;
+            Camera& camera;
+            Textures textures;
+            Transform* transform;
+            Callback update;
+            */
+    };
+
     struct RenderContext
     {
 
         WindowContext& window;
+        std::vector<DrawCall> drawCalls;
 
         RenderContext() = delete;
         RenderContext(WindowContext& window) : window{ window }
         {
             std::cout << "[MOCK] render initializing\n";
             std::cout << "[MOCK] received context is" << window.name << "\n";
-/*
-            const bool glLoaded{ 0 != gladLoadGL() };
-*/
-            const bool glLoaded{ false };
+            const bool glLoaded{ 0 != gladLoadGL(window.address) };
 
             if (!glLoaded)
             {
-/*
-                throw std::exception("OpenGL renderer failed to load");
-*/
+                std::cerr << "OpenGL renderer failed to load";
                 throw std::exception();
             }
 
@@ -39,5 +61,21 @@ namespace mole::graphics
         RenderContext(const RenderContext&) = delete;
         RenderContext(RenderContext&& tmp) : window{ tmp.window } {};
         ~RenderContext() = default;
+
+        void Render()
+        {
+            glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
+            /*
+	       glClearColor(0.1, 0.1, 0, 1);
+	       for (const auto& r: drawCalls)
+	       {
+	       r.Draw();
+	       }
+       */
+        }
+
+	void Present()
+	{
+	}
     };
 }

@@ -102,8 +102,9 @@ help-available-targets:
 		-e SDL2 -e sdl_headers_copy \
 		-e pugixml[^_]  \
 		-e raudio[^_]  \
-		-e '^glfw[^_]' -e update_mappings \
-		-e '^raudio[^_]'  \
+		-e glad[^_]  \
+		-e imgui[^_]  \
+		-e glfw[^_] -e update_mappings \
 		| tr -d : | awk '{ print $$1; }'
 
 status:

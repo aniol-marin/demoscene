@@ -5,3 +5,4 @@ compile_commands.json
 external/
 lib/
 [Tt]esting/
+imgui.ini

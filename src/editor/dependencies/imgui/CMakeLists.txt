@@ -7,6 +7,32 @@ FetchContent_Declare(
 )
 FetchContent_MakeAvailable(imgui)
 
+add_library(imgui STATIC)
+target_sources(imgui PRIVATE
+	${imgui_SOURCE_DIR}/imgui.cpp
+	${imgui_SOURCE_DIR}/imgui_demo.cpp
+	${imgui_SOURCE_DIR}/imgui_draw.cpp
+	${imgui_SOURCE_DIR}/imgui_tables.cpp
+	${imgui_SOURCE_DIR}/imgui_widgets.cpp
+	${imgui_SOURCE_DIR}/backends/imgui_impl_glfw.cpp
+	${imgui_SOURCE_DIR}/backends/imgui_impl_opengl3.cpp
+	${imgui_SOURCE_DIR}/misc/cpp/imgui_stdlib.cpp
+)
+target_include_directories(imgui PUBLIC
+	$<BUILD_INTERFACE:${imgui_SOURCE_DIR}>
+)
+target_include_directories(imgui PUBLIC
+	$<BUILD_INTERFACE:${imgui_SOURCE_DIR}>/misc/cpp
+)
+target_include_directories(imgui PUBLIC
+	$<BUILD_INTERFACE:${imgui_SOURCE_DIR}/backends>
+	$<INSTALL_INTERFACE:imgui>
+)
+target_link_libraries(imgui
+	PRIVATE glfw
+	PRIVATE glfw_wrapper
+)
+
 mark_as_advanced(FORCE
 	FETCHCONTENT_UPDATES_DISCONNECTED_IMGUI
 	FETCHCONTENT_SOURCE_DIR_IMGUI
@@ -18,6 +44,10 @@ target_sources(imgui_wrapper PUBLIC
 	FILE_SET imgui TYPE CXX_MODULES
 	FILES
 	]]#
-	./imgui.cpp
+	imgui.cpp
+)
+
+target_link_libraries(imgui_wrapper
+	PRIVATE imgui
 )
 
