@@ -1,33 +1,30 @@
-#include <memory>
 import std;
 import glfw_wrapper;
 import glad_wrapper;
 import imgui_wrapper;
 
-struct Context
+class Context
 {
-    mole::graphics::WindowContext context{ { 640, 480 }, "MoleDemo Editor" };
-    std::unique_ptr<mole::graphics::RenderContext> render;
-    std::unique_ptr<mole::graphics::RenderContext> ui;
-    Context()
-    {
-        render = std::make_unique<mole::graphics::RenderContext>(context);
-        ui = std::make_unique<mole::ui::UIContext>(context);
-        std::cout << "[MOCK] context initialization done\n";
-    }
+    mole::graphics::WindowContext context;
+    mole::graphics::RenderContext render;
+    mole::ui::UIContext ui;
+
+public:
+    Context() : context{ { 640, 480 }, "MoleDemo Editor" }, render{ context }, ui{ context } {}
 
     void PollEvents() { context.PollEvents(); }
 
-    void Draw() const { render->Render(); }
-
-    void Present() { context.Swap(); }
+    void Draw()
+    {
+        render.Render();
+        ui.RenderUI();
+	context.Swap();
+    }
 };
 
 int
 main()
 {
-    std::cout << "[MOCK] initializing editor\n";
-
     Context context;
 
     int frame{};
@@ -36,15 +33,10 @@ main()
     {
         context.PollEvents();
         context.Draw();
-        ui.RenderUI();
-        context.Present();
         ++frame;
         std::cout << std::right << std::setw(6) << frame << " / " << max_frame;
         std::flush(std::cout);
         std::cout << '\r';
         std::flush(std::cout);
     }
-    std::cout << "\n";
-
-    std::cout << "[MOCK] editor closing\n";
 }

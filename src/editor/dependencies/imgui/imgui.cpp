@@ -21,6 +21,8 @@ namespace mole::ui
 
         UIContext() = delete;
         UIContext(mole::graphics::WindowContext& window);
+        UIContext(const UIContext&&) = delete;
+        UIContext(UIContext&&) = default;
 
         void RenderUI();
     };
