@@ -11,6 +11,8 @@ class Context
 
 public:
     Context() : context{ { 640, 480 }, "MoleDemo Editor" }, render{ context }, ui{ context } {}
+    Context(const Context&) = delete;
+    Context(Context&&) = default;
 
     void PollEvents() { context.PollEvents(); }
 
