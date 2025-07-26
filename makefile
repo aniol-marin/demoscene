@@ -39,6 +39,10 @@ run: .final
 	make .call_log MESSAGE="running final project"
 	$(BINARY_PATH)/$(BINARY_NAME)
 
+.PHONY: build
+build: build-$(BINARY_NAME)
+	make .call_log MESSAGE="main build done"
+
 edit: .editor
 	make .call_log MESSAGE="launching editor"
 	$(BINARY_PATH)/$(EDITOR_BINARY_NAME)
@@ -47,9 +51,9 @@ debug: build-$(BINARY_NAME)
 	make .call_log MESSAGE="debugging"
 	gdb $(BINARY_PATH)/$(BINARY_NAME)
 
-profile: build-$(BINARY_NAME)
+profile: .final
 	make .call_log MESSAGE="profiling"
-	valgrind $(BINARY_PATH)/$(BINARY_NAME)
+	valgrind --track-origins=yes $(BINARY_PATH)/$(BINARY_NAME)
 
 #needed for:
 # - glad generation
@@ -206,3 +210,6 @@ MESSAGE := no message
 .PHONY: .call_fail
 .call_fail:
 	$(call fail, $(MESSAGE))
+
+%:
+	make .call_fail MESSAGE="Inexisting recipe: [ $@ ]"

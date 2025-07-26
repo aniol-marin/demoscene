@@ -34,13 +34,18 @@ struct MoleDemo::Layer : public Renderable
 class MoleDemo::Transition : public Renderable
 {
     const TransitionType type;
-    milliseconds m_elapsed;
     const Timestamp time;
+    milliseconds m_elapsed{};
 
 protected:
-    Renderable* background;
-    Renderable* foreground;
-    Transition(Timestamp time, TransitionType type);
+    Renderable* background{};
+    Renderable* foreground{};
+
+    Transition() = delete;
+    explicit Transition(Timestamp time, TransitionType type);
+    Transition(const Transition&) = delete;
+    Transition(Transition&&) = default;
+
     permille elapsed() const;
 
 public:
@@ -69,7 +74,7 @@ public:
 class MoleDemo::Fade : public Transition
 {
 public:
-    Fade(Timestamp time);
+    explicit Fade(Timestamp time);
     ~Fade() override = default;
 
     void Cache(StencilBuffer& mask) override;
@@ -113,7 +118,7 @@ namespace MoleDemo
         return true;
     }
 
-    Transition::Transition(Timestamp time, TransitionType type) : time{ time }, type{ type } {}
+    Transition::Transition(Timestamp time, TransitionType type) : type{ type }, time{ time } {}
 
     permille Transition::elapsed() const
     {
