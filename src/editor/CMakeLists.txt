@@ -1,5 +1,6 @@
 
 add_subdirectory(dependencies)
+add_subdirectory(sandbox)
 
 add_executable(editor)
 

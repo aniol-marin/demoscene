@@ -81,6 +81,11 @@ test: generate
 	make .call_log MESSAGE="testing all CTest targets"
 	$(CMAKE_PATH) --build $(BUILD_PATH) --target test
 
+.PHONY: run-
+run-%: $(CACHE)
+	make .call_log MESSAGE="running target: $(subst run-,,$@)"
+	$(BINARY_PATH)/$(subst run-,,$@) $(REDIRECT)
+
 .PHONY: retest-
 retest-%:
 	make .call_log MESSAGE="retesting all matches for pattern [$(call listify,$(subst retest-,,$@))]"
