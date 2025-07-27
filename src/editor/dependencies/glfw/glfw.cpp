@@ -47,6 +47,7 @@ namespace mole::graphics
         ~WindowContext();
 
         void Swap() const { glfwSwapBuffers(window); }
+        void AddCallback(const char key, callback&& callback) { callbacks[key].emplace_back(std::move(callback)); }
         void PollEvents();
     };
 }
@@ -105,7 +106,7 @@ namespace mole::graphics
 
     void KeyCallback(GLFWwindow* window, int key, int scancode, int action, int mods)
     {
-        std::cout << "pressed: [" << std::to_string((char) key) << "] ";
+        std::cout << "pressed: [" << std::to_string((char) key) << "]\n";
 
         if (callbacks.count(key))
         {

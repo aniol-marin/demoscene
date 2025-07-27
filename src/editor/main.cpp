@@ -1,21 +1,15 @@
-import editor;
-
 import std;
+import editor;
 
 int main()
 {
     Context context;
 
-    int frame{};
-    const int max_frame{ 1000 };
-    while (frame < max_frame)
+    std::cout << "[EDITOR] running\n";
+    while (context.is_active())
     {
         context.PollEvents();
         context.Draw();
-        ++frame;
-        std::cout << std::right << std::setw(6) << frame << " / " << max_frame;
-        std::flush(std::cout);
-        std::cout << '\r';
-        std::flush(std::cout);
     }
+    std::cout << "[EDITOR] finalizing\n";
 }

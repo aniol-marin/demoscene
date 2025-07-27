@@ -47,8 +47,6 @@ namespace mole::graphics
         RenderContext() = delete;
         RenderContext(WindowContext& window) : window{ window }
         {
-            std::cout << "[MOCK] render initializing\n";
-            std::cout << "[MOCK] received context is" << window.name << "\n";
             const bool glLoaded{ 0 != gladLoadGL(window.address) };
 
             if (!glLoaded)
