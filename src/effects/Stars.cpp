@@ -1,18 +1,9 @@
-module;
-
-#include <cstdint>
-#include <iostream>
-#include <functional>
-
 export module stars;
 
+import std.compat;
 import definitions;
 import timer;
 import effect;
-/*
-import <cstdint>;
-import <iostream>;
-*/
 
 namespace MoleDemo {
 

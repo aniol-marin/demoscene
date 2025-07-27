@@ -54,7 +54,7 @@ namespace mole::ui
         if (ImGui::Button(
                     "Launch"))
 	{
-		std::system("echo $PWD");
+		std::system("echo 'launching $PWD/bin/sandbox'");
 		std::system("./bin/sandbox");
 	}
 

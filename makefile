@@ -86,6 +86,11 @@ run-%: $(CACHE)
 	make .call_log MESSAGE="running target: $(subst run-,,$@)"
 	$(BINARY_PATH)/$(subst run-,,$@) $(REDIRECT)
 
+.PHONY: profile-
+profile-%: $(CACHE)
+	make .call_log MESSAGE="profiling target: $(subst profile-,,$@)"
+	valgrind --track-origins=yes --leak-check=full $(BINARY_PATH)/$(subst profile-,,$@) $(REDIRECT)
+
 .PHONY: retest-
 retest-%:
 	make .call_log MESSAGE="retesting all matches for pattern [$(call listify,$(subst retest-,,$@))]"
