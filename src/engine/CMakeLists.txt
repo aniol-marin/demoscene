@@ -7,7 +7,7 @@ else()
 endif()
 
 set(TARGET_NAME engine)
-add_library(${TARGET_NAME} INTERFACE)
+add_library(${TARGET_NAME})
 
 add_subdirectory(dependencies)
 add_subdirectory(cycle)
@@ -23,15 +23,21 @@ add_subdirectory(timeline)
 add_subdirectory(timer)
 
 target_link_libraries(${TARGET_NAME}
-	INTERFACE effect
-	INTERFACE engine_definitions
-	INTERFACE injection
-	INTERFACE input
-	INTERFACE program
-	INTERFACE render
-	INTERFACE renderables
-	INTERFACE sound
-	INTERFACE timeline
-	INTERFACE timer
+	PUBLIC effect
+	PUBLIC engine_definitions
+	PUBLIC injection
+	PUBLIC input
+	PUBLIC program
+	PUBLIC render
+	PUBLIC renderables
+	PUBLIC sound
+	PUBLIC timeline
+	PUBLIC timer
+)
+
+target_sources(${TARGET_NAME} PUBLIC
+	FILE_SET engine TYPE CXX_MODULES
+	FILES
+	engine.cpp
 )
 

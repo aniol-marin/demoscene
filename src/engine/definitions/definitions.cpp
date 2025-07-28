@@ -234,7 +234,7 @@ struct Loadable {
 };
 
 struct Renderable {
-	virtual void Update(permille intenisty, milliseconds deltaTime) = 0;
+	virtual void Update(permille intensity, milliseconds deltaTime) = 0;
 	virtual void Cache(StencilBuffer& mask) = 0;
 	virtual rgbaColor GetPixel(Point2D point) = 0;
 	virtual rgbaColor GetPixel(index index) = 0;

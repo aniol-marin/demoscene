@@ -21,6 +21,8 @@ namespace mole::ui
 
         UIContext() = delete;
         UIContext(mole::graphics::WindowContext& window);
+        UIContext(const UIContext&&) = delete;
+        UIContext(UIContext&&) = default;
 
         void RenderUI();
     };
@@ -45,22 +47,16 @@ namespace mole::ui
 
         // demo
         static float f = 0.0f;
-        static int counter = 0;
 
-        ImGui::Begin("Hello, world!"); // Create a window called "Hello, world!" and append into it.
-        ImGui::Text("This is some useful text."); // Display some text (you can use a format strings too)
-
-        ImGui::Checkbox("Demo Window", &show_demo_window); // Edit bools storing our window open/close state
-        ImGui::Checkbox("Another Window", &show_another_window);
-
-        ImGui::SliderFloat("float", &f, 0.0f, 1.0f); // Edit 1 float using a slider from 0.0f to 1.0f
-        ImGui::ColorEdit3("clear color", (float*) &clear_color); // Edit 3 floats representing a color
+        ImGui::Begin("Mole Demoscene Editor [MOCK]");
+        ImGui::Text("Hardcoded sandbox launch.");
 
         if (ImGui::Button(
-                    "Button")) // Buttons return true when clicked (most widgets return true when edited/activated)
-            counter++;
-        ImGui::SameLine();
-        ImGui::Text("counter = %d", counter);
+                    "Launch"))
+	{
+		std::system("echo 'launching $PWD/bin/sandbox'");
+		std::system("./bin/sandbox");
+	}
 
         io_t io{ ImGui::GetIO() };
         ImGui::Text("Application average %.3f ms/frame (%.1f FPS)", 1000.0f / io.Framerate, io.Framerate);

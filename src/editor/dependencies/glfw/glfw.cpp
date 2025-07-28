@@ -43,6 +43,7 @@ namespace mole::graphics
         ~WindowContext();
 
         void Swap() const { glfwSwapBuffers(window); }
+        void AddCallback(const char key, callback&& callback) { callbacks[key].emplace_back(std::move(callback)); }
         void PollEvents();
     };
 }
@@ -75,7 +76,7 @@ namespace mole::graphics
         glfwSetMouseButtonCallback(window, MouseButtonCallback);
         glfwSetCursorPosCallback(window, MouseCursorPosCallback);
 
-        glfwSetInputMode(window, GLFW_CURSOR, GLFW_CURSOR_DISABLED);
+        glfwSetInputMode(window, GLFW_CURSOR, GLFW_CURSOR_NORMAL);
 
         glfwMakeContextCurrent(window);
         glfwSwapInterval(1);
@@ -101,8 +102,6 @@ namespace mole::graphics
 
     void KeyCallback(GLFWwindow* window, int key, int scancode, int action, int mods)
     {
-        std::cout << "pressed: [" << std::to_string((char) key) << "] ";
-
         if (callbacks.count(key))
         {
             std::vector<callback>& actions = callbacks.at(key);
@@ -115,8 +114,6 @@ namespace mole::graphics
 
     void MouseButtonCallback(GLFWwindow* window, int button, int action, int mods)
     {
-        std::cout << "buttor pressed: [" << std::to_string(button) << "] ";
-
         if (MouseButtonCallbacks.count(button))
         {
             auto& actions = MouseButtonCallbacks.at(button);
@@ -129,19 +126,17 @@ namespace mole::graphics
 
     void MouseCursorPosCallback(GLFWwindow* window, double x, double y)
     {
-        std::cout << "[" << std::to_string(x) << "][" << std::to_string(y) << "] ";
-
+        /*
         static Vector2 previous{ (float) x, (float) y };
 
         const Vector2 c{ (float) x, (float) y };
         delta = { c.x - previous.x, c.y - previous.y };
         previous = c;
 
-        /*
-                for (callback& callback: mousescroll)
-                {
-                    callback();
-                }
-            */
+        for (callback& callback: mousescroll)
+        {
+            callback();
+        }
+        */
     }
 }
