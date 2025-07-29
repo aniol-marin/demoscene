@@ -36,8 +36,10 @@ target_link_libraries(${TARGET_NAME}
 )
 
 target_sources(${TARGET_NAME} PUBLIC
+	#[[ forward compatibility
 	FILE_SET engine TYPE CXX_MODULES
 	FILES
+	]]#
 	engine.cpp
 )
 
