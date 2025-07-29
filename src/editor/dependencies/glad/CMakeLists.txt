@@ -25,8 +25,10 @@ target_include_directories(glad INTERFACE
 
 add_library(glad_wrapper)
 target_sources(glad_wrapper PUBLIC
+	#[[ forward compatibility
 	FILE_SET glad_wrapper TYPE CXX_MODULES
 	FILES
+	]]#
 	./glad.cpp
 )
 
