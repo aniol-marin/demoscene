@@ -20,7 +20,7 @@ if(status)
 	configure_project()
 else()
 	message(WARNING "
-	add_module_target.cmake script not found!
+	configure_project.cmake script not found!
 
 	Project will be configured with default values
 	and custom user config parameters will be ignored")
@@ -38,7 +38,10 @@ if(NOT DEFINED EnableTesting)
 	option(EnableTesting "enables testing targets" OFF)
 endif()
 if(NOT DEFINED EnableInterProceduralOptimization)
-	option(EnableInterProceduralOptimization "tries to enable IPO [EXPERIMENTAL]" OFF)
+	cmake_dependent_option(
+		EnableInterProceduralOptimization "tries to enable IPO [EXPERIMENTAL]" OFF
+		"EnableExperimentalFeatures" OFF
+	)
 endif()
 if(NOT DEFINED DisableAllButExperimental)
 	cmake_dependent_option(
@@ -51,10 +54,6 @@ endif()
 if(EnableExperimentalFeatures)
 	message(WARNING "experimental features enabled")
 
-	if(EnableEditor)
-		message(WARNING "editor is still experimental")
-		add_subdirectory(src/editor)
-	endif()
 	if(EnableInterProceduralOptimization)
 		include(CheckIPOSupported)
 		check_ipo_supported(RESULT ipo_supported)
@@ -71,26 +70,22 @@ else()
 		IPO is still experimental!
 		enable experimental features if you plan to use it")
 	endif()
-	if(EnableEditor)
-		message(SEND_ERROR "
-		editor is still experimental!
-		enable experimental features if you plan to use it")
-	endif()
 endif()
 
 # Project generation info
 if(NOT DisableAllButExperimental)
 	add_subdirectory(src)
-	if(EnableTesting)
-		message(NOTICE "enabling testing")
-		include(CTest)
-		enable_testing()
-		add_subdirectory(test)
-	else()
-		message(STATUS "testing not enabled")
-	endif()
 else()
 	message(WARNING "
 	all non-experimental targets disabled")
+endif()
+
+if(EnableTesting)
+	message(NOTICE "enabling testing")
+	include(CTest)
+	enable_testing()
+	add_subdirectory(test)
+else()
+	message(STATUS "testing not enabled")
 endif()
 
