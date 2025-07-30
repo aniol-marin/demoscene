@@ -1,5 +1,6 @@
 
 add_subdirectory(dependencies)
+#[[
 add_subdirectory(sandbox)
 
 add_executable(editor)
@@ -19,3 +20,4 @@ target_sources(editor PUBLIC
 target_sources(editor PUBLIC
 	main.cpp
 )
+]]#
