@@ -51,6 +51,9 @@ debug: build-$(BINARY_NAME)
 	make .call_log MESSAGE="debugging"
 	gdb $(BINARY_PATH)/$(BINARY_NAME)
 
+attach:
+	gdb attach $$(pgrep $(EDITOR_BINARY_NAME))
+
 profile: .final
 	make .call_log MESSAGE="profiling"
 	valgrind --track-origins=yes $(BINARY_PATH)/$(BINARY_NAME)

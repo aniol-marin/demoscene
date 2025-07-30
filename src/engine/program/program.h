@@ -2,9 +2,6 @@
 #define MOLE_PROGRAM_H
 
 #include "definitions.h"
-/*
-#include "loaders/screen_loader.h"
-*/
 
 namespace MoleDemo
 {

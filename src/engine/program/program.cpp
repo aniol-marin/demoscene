@@ -3,23 +3,22 @@
 #include "loaders/screen_loader.h"
 */
 
-class MoleDemo::Program
+namespace MoleDemo
 {
-	ProgramStatus status;
-	const Screen& m_screen;
+    Program::Program(const Screen& screen) : status{ ProgramStatus::RUNNING }, m_screen{ screen } {}
 
-public:
-	Program(const Screen& screen) :
-		status{ ProgramStatus::RUNNING },
-		m_screen{ screen }
-	{
-	}
-	Program(const Program&) = delete;
-	Program(Program&&) = default;
-	~Program() = default;
+    void Program::SetStatus(ProgramStatus status)
+    {
+        this->status = status;
+    }
 
-	void SetStatus(ProgramStatus status) { this->status = status; }
-	const Screen* GetScreen() const { return &m_screen; }
-	bool Running() { return ProgramStatus::RUNNING == status; }
-};
->>>>>>> origin/feature/linux-port
+    const Screen* Program::GetScreen() const
+    {
+        return &m_screen;
+    }
+
+    bool Program::Running()
+    {
+        return ProgramStatus::RUNNING == status;
+    }
+}
