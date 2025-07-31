@@ -29,8 +29,14 @@ target_link_libraries(glfw_wrapper PRIVATE
 	glfw
 )
 target_sources(glfw_wrapper PUBLIC
+	#[[
 	FILE_SET glfw_wrapper TYPE CXX_MODULES
 	FILES
+	]]#
 	./glfw.cpp
+)
+
+target_include_directories( glfw_wrapper INTERFACE
+	$<BUILD_INTERFACE:${CMAKE_CURRENT_SOURCE_DIR}>
 )
 
