@@ -1,13 +1,15 @@
+#ifndef MOLE_GLFW_WRAPPER_H
+#define MOLE_GLFW_WRAPPER_H
 
 extern "C" {
 #include "GLFW/glfw3.h"
 }
 
+#include "definitions.h"
 #include <functional>
 #include <iostream>
 #include <map>
 #include <string>
-
 
 using callback = std::function<void(void)>;
 namespace mole::graphics
@@ -47,4 +49,6 @@ namespace mole::graphics
         ~Context();
     };
 }
+
+#endif
 

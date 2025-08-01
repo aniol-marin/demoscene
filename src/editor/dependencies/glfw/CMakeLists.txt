@@ -27,6 +27,7 @@ set(GLFW_LIBRARY_TYPE STATIC)
 add_library(glfw_wrapper)
 target_link_libraries(glfw_wrapper PRIVATE
 	glfw
+	engine_definitions
 )
 target_sources(glfw_wrapper PUBLIC
 	#[[

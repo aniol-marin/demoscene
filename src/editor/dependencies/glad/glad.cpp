@@ -1,5 +1,4 @@
 #include "glad.h"
-#include "glfw_wrapper.h"
 
 extern "C" {
 #define GLAD_IMPLEMENTATION
