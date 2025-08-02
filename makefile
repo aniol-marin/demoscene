@@ -13,6 +13,7 @@ current_folder = $(shell echo $$PWD)
 log =  $(info $(shell echo -e '[INFO] \033[35m $(1) \033[m'))
 warn = $(info $(shell echo -e '[WARN] \033[33m $(1) \033[m'))
 fail = $(info $(shell echo -e '[ERROR]\033[31m $(1) \033[m'))
+RUNTIME = export LD_LIBRARY_PATH=/usr/local/lib64/:LD_LIBRARY_PATH;
 CMAKE_ROOT_PATH := .
 BUILD_PATH := $(call current_folder)/build/$(BUILD_TYPE)
 BINARY_PATH := $(call current_folder)/bin
@@ -37,7 +38,7 @@ CMAKE_ARGUMENTS := \
 
 run: .final
 	make .call_log MESSAGE="running final project"
-	$(BINARY_PATH)/$(BINARY_NAME)
+	$(RUNTIME) $(BINARY_PATH)/$(BINARY_NAME)
 
 .PHONY: build
 build: build-$(BINARY_NAME)
@@ -45,7 +46,7 @@ build: build-$(BINARY_NAME)
 
 edit: .editor
 	make .call_log MESSAGE="launching editor"
-	$(BINARY_PATH)/$(EDITOR_BINARY_NAME)
+	$(RUNTIME) $(BINARY_PATH)/$(EDITOR_BINARY_NAME)
 
 debug: build-$(BINARY_NAME)
 	make .call_log MESSAGE="debugging"
