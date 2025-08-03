@@ -10,29 +10,26 @@ COMPILER_PATH := g++
 # Internal definitions
 listify = $(subst ., ,$(1))
 current_folder = $(shell echo $$PWD)
-log =  $(info $(shell echo -e '[INFO] \033[35m $(1) \033[m'))
-warn = $(info $(shell echo -e '[WARN] \033[33m $(1) \033[m'))
-fail = $(info $(shell echo -e '[ERROR]\033[31m $(1) \033[m'))
 RUNTIME = export LD_LIBRARY_PATH=/usr/local/lib64/:LD_LIBRARY_PATH;
 CMAKE_ROOT_PATH := .
 BUILD_PATH := $(call current_folder)/build/$(BUILD_TYPE)
 BINARY_PATH := $(call current_folder)/bin
 LIBRARY_PATH := $(call current_folder)/lib
+TEMP_PATH := /tmp
 DEPENDENCIES_PATH := $(call current_folder)/external
 CACHE := $(BUILD_PATH)/CMakeCache.txt
 STATUS_FOLDER := /tmp/$(BUILD_PATH)
 STATUS_OUTPUT := $(STATUS_FOLDER)/status_output
 TEST_PATH := $(BINARY_PATH)/test
-CMAKE_ARGUMENTS := \
-		   -S$(CMAKE_ROOT_PATH) \
-		   -B$(BUILD_PATH) \
-		   -G$(GENERATOR) \
-		   -DConfig_PathFor_Binaries:PATH=$(BINARY_PATH) \
-		   -DConfig_PathFor_Libraries:PATH=$(LIBRARY_PATH) \
-		   -DConfig_PathFor_Dependencies:PATH=$(DEPENDENCIES_PATH) \
-		   -DCMAKE_BUILD_TYPE=$(BUILD_TYPE)
 
-.main: run ;
+# Default action: run demo for final users
+main:
+	make .call_log MESSAGE="building and running final demo" --no-print-directory
+	make \
+		BUILD_TYPE=Release \
+		CMAKE_LOG_LEVEL=WARNING \
+		--no-print-directory \
+		generate build run
 
 # Public recipes
 
@@ -57,17 +54,26 @@ profile: .final
 	valgrind --track-origins=yes $(BINARY_PATH)/$(BINARY_NAME)
 
 #needed for:
-# - glad generation
+# - glad generation (curl, python)
+# - glfw warnings (alsa sound 2, wayland scanner, pkg-config, xkb)
 initialize:
-	sudo apt install curl python3
-	curl -L https://bootstrap.pypa.io/get-pip.py -o get-pip.py
-	python get-pip.py
-	python -m pip install Jinja2
-	rm get-pip.py
+	sudo apt install \
+		curl python3 \
+		libasound2-dev libwayland-dev pkg-config libxkbcommon-dev
+	curl -L https://bootstrap.pypa.io/get-pip.py -o $(TEMP_PATH)/get-pip.py -z $(TEMP_PATH)/get-pip.py
+	python3 $(TEMP_PATH)/get-pip.py
+	python3 -m pip install Jinja2
 
 generate:
 	make .call_log MESSAGE="generating config $(BUILD_TYPE) in $(BUILD_PATH)"
-	$(CMAKE_PATH) $(CMAKE_ARGUMENTS) \
+	$(CMAKE_PATH) \
+		   -S$(CMAKE_ROOT_PATH) \
+		   -B$(BUILD_PATH) \
+		   -G$(GENERATOR) \
+		   -DConfig_PathFor_Binaries:PATH=$(BINARY_PATH) \
+		   -DConfig_PathFor_Libraries:PATH=$(LIBRARY_PATH) \
+		   -DConfig_PathFor_Dependencies:PATH=$(DEPENDENCIES_PATH) \
+		   -DCMAKE_BUILD_TYPE=$(BUILD_TYPE) \
 		   -DCMAKE_EXPORT_COMPILE_COMMANDS=ON \
 		   --log-level=$(CMAKE_LOG_LEVEL)
 	rm -f compile_commands.json
@@ -178,7 +184,14 @@ $(BINARY_PATH)/$(EDITOR_BINARY_NAME):
 $(CACHE):
 	make .call_log MESSAGE="configuring generated project in $(BUILD_PATH)/CMakeCache.txt"
 	mkdir -p $(BUILD_PATH)
-	ccmake $(CMAKE_ROOT_PATH) $(CMAKE_ARGUMENTS) \
+	ccmake $(CMAKE_ROOT_PATH) \
+		   -S$(CMAKE_ROOT_PATH) \
+		   -B$(BUILD_PATH) \
+		   -G$(GENERATOR) \
+		   -DConfig_PathFor_Binaries:PATH=$(BINARY_PATH) \
+		   -DConfig_PathFor_Libraries:PATH=$(LIBRARY_PATH) \
+		   -DConfig_PathFor_Dependencies:PATH=$(DEPENDENCIES_PATH) \
+		   -DCMAKE_BUILD_TYPE=$(BUILD_TYPE) \
 		   -DEnableExperimentalFeatures:BOOL=ON \
 		   -DDisableAllButExperimental:BOOL=ON
 	#-DConfig_Compiler:PATH=$(COMPILER_PATH) \
@@ -222,5 +235,11 @@ MESSAGE := no message
 .call_fail:
 	$(call fail, $(MESSAGE))
 
+log =  $(info $(shell echo -e '[INFO] \033[35m $(1) \033[m'))
+warn = $(info $(shell echo -e '[WARN] \033[33m $(1) \033[m'))
+fail = $(info $(shell echo -e '[ERROR]\033[31m $(1) \033[m'))
+
+
 %:
 	make .call_fail MESSAGE="Inexisting recipe: [ $@ ]"
+
