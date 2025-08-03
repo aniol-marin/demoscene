@@ -45,13 +45,21 @@ edit: .editor
 	make .call_log MESSAGE="launching editor"
 	$(RUNTIME) $(BINARY_PATH)/$(EDITOR_BINARY_NAME)
 
-debug: build-$(BINARY_NAME)
-	make .call_log MESSAGE="debugging"
-	gdb $(BINARY_PATH)/$(BINARY_NAME)
+debug: #build-$(BINARY_NAME)
+	if ! command -v gdb > /dev/null 2>&1; then \
+		make .call_fail MESSAGE="couldnt find gdb at path, recipe cannot be completed"; \
+	else \
+		make .call_log MESSAGE="debugging"; \
+		gdb $(BINARY_PATH)/$(BINARY_NAME); \
+	fi
 
 profile: .final
-	make .call_log MESSAGE="profiling"
-	valgrind --track-origins=yes $(BINARY_PATH)/$(BINARY_NAME)
+	if ! command -v valgrind > /dev/null 2>&1; then \
+		make .call_fail MESSAGE="couldnt find valgrind at path, recipe cannot be completed"; \
+	else \
+		make .call_log MESSAGE="profiling"; \
+		valgrind --track-origins=yes $(BINARY_PATH)/$(BINARY_NAME); \
+	fi
 
 #needed for:
 # - glad generation (curl, python)
