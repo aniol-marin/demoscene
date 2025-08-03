@@ -20,7 +20,7 @@ using Container = MoleDemo::Container;
 
 void InstallBindings(Container& container);
 
-int main()
+int main(int argc, char** argv)
 {
     Container container;
     InstallBindings(container);
@@ -37,7 +37,13 @@ int main()
 
     sdl.Init(screen);
     timer.SetFPS(60);
-    timer.SetEndTime(15);
+
+    int requested_timeout {};
+    std::istringstream s { argv[1] };
+    s >> requested_timeout;
+    int timeout { requested_timeout ? requested_timeout : 15 };
+    std::cout << "\n set timeout to: [" << timeout << "]\n";
+    timer.SetEndTime(timeout);
     renderable.Load();
 
     while (program.Running() && !timer.EndReached())
