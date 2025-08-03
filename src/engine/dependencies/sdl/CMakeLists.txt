@@ -10,7 +10,7 @@ FetchContent_Declare(
 FetchContent_MakeAvailable(SDL2)
 
 target_link_libraries( ${MODULE_NAME}
-	PRIVATE SDL2
+	PRIVATE SDL2::SDL2
 	PRIVATE engine_definitions
 )
 
