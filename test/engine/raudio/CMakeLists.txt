@@ -6,3 +6,9 @@ target_link_libraries(${TEST_TARGET}
 	PRIVATE raudio_wrapper
 )
 
+add_custom_command(TARGET ${TEST_TARGET} POST_BUILD
+	COMMAND ${CMAKE_COMMAND} -E copy_directory
+		${CMAKE_SOURCE_DIR}/resources
+		${CMAKE_RUNTIME_OUTPUT_DIRECTORY}/test/resources
+)
+
