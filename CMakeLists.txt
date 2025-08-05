@@ -73,12 +73,7 @@ else()
 endif()
 
 # Project generation info
-if(NOT DisableAllButExperimental)
-	add_subdirectory(src)
-else()
-	message(WARNING "
-	all non-experimental targets disabled")
-endif()
+add_subdirectory(src)
 
 if(EnableTesting)
 	message(NOTICE "enabling testing")

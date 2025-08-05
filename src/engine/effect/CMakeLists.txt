@@ -13,3 +13,8 @@ target_sources(${MODULE_NAME} PUBLIC
 	]]#
 	Effect.cpp
 )
+
+target_sources(${MODULE_NAME} PRIVATE
+	Effect_imp.cpp
+)
+

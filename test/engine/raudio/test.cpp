@@ -48,7 +48,7 @@ SCENARIO("Manager behavior")
 		AND_WHEN("handling a valid file")
 		{
 			RAudio::AudioManager m {};
-			std::string_view file{ "/home/bru/demoscene/resources/molelofi.mp3" };
+			std::string_view file{ "./bin/test/resources/molelofi.mp3" };
 
 			THEN("it should load correctly")
 			{

@@ -41,21 +41,32 @@ namespace mole::ui
 
     void UIContext::RenderUI()
     {
+	    using std::string_literals::operator""s;
+
         ImGui_ImplOpenGL3_NewFrame();
         ImGui_ImplGlfw_NewFrame();
         ImGui::NewFrame();
 
         // demo
         static float f = 0.0f;
+        static int timeout = 2;
 
         ImGui::Begin("Mole Demoscene Editor [MOCK]");
         ImGui::Text("Hardcoded sandbox launch.");
 
+	ImGui::InputInt("timeout", &timeout);
         if (ImGui::Button(
                     "Launch"))
 	{
 		std::system("echo 'launching $PWD/bin/sandbox'");
 		std::system("./bin/sandbox");
+	}
+	
+        if (ImGui::Button(
+                    "Profile"))
+	{
+		std::system("echo 'profiling $PWD/bin/sandbox'");
+		std::system(("valgrind ./bin/sandbox "s + std::to_string(timeout)).c_str());
 	}
 
         io_t io{ ImGui::GetIO() };

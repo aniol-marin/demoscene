@@ -18,3 +18,9 @@ target_sources(${MODULE_NAME} PUBLIC
 	main.cpp
 )
 
+add_custom_command(TARGET ${MODULE_NAME} POST_BUILD
+	COMMAND ${CMAKE_COMMAND} -E copy_directory
+		${CMAKE_SOURCE_DIR}/resources
+		${CMAKE_RUNTIME_OUTPUT_DIRECTORY}/resources
+)
+
