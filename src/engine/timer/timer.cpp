@@ -1,105 +1,79 @@
 #include "timer.h"
 
 #include <chrono>
-#include <iostream>
-#include <thread>
 
-using namespace mole_def;
-
-void MoleDemo::Timer::SetNextFrameTime()
+namespace MoleDemo
 {
-	deltaTime =
-		(milliseconds)std::chrono::duration_cast<std::chrono::milliseconds>(Clock::now() - previousTime).count();
-	previousTime = Clock::now();
-	nextTime = Clock::now() + frameTime;
-}
+    using namespace mole_def;
 
-ms MoleDemo::Timer::GetNextDelayTime() const
-{
-	return std::chrono::duration_cast<std::chrono::milliseconds>(nextTime - Clock::now());
-}
+    ms Timer::GetNextDelayTime() const
+    {
+        return std::chrono::duration_cast<std::chrono::milliseconds>(nextTime - Clock::now());
+    }
 
-milliseconds MoleDemo::Timer::GetDeltaTime() const
-{
-	return deltaTime;
-}
-	ms frameTime;
-	seconds previousSecond = 0;
-	seconds secondCount;
-	uint_fast32_t frameCount;
-	milliseconds deltaTime;
-	Time initialTime;
-	Time endTime;
-	Time previousTime;
-	Time nextTime;
-	void SetNextFrameTime() {
-		deltaTime = (milliseconds)std::chrono::duration_cast<std::chrono::milliseconds>(Clock::now() - previousTime).count();
-		previousTime = Clock::now();
-		nextTime = Clock::now() + frameTime;
-	}
-	ms GetNextDelayTime() const {
-		return std::chrono::duration_cast<std::chrono::milliseconds>(nextTime - Clock::now());
-	}
-public:
-	Timer() :
-		frameCount{ 0 },
-		secondCount{ 0 },
-		frameTime{},
-		deltaTime{},
-		initialTime{ Clock::now() },
-		previousTime{ Clock::now() }
-	{}
-	Timer(const Timer&) = delete;
-	Timer(Timer&&) = default;
-	~Timer() = default;
+    void Timer::SetNextFrameTime()
+    {
+        deltaTime = (milliseconds) std::chrono::duration_cast<std::chrono::milliseconds>(Clock::now() - previousTime)
+                            .count();
+        previousTime = Clock::now();
+        nextTime = Clock::now() + frameTime;
+    }
+    ms Timer::GetNextDelayTime() const
+    {
+        return std::chrono::duration_cast<std::chrono::milliseconds>(nextTime - Clock::now());
+    }
 
+    Timer::Timer() :
+      frameCount{ 0 },
+      secondCount{ 0 },
+      frameTime{},
+      deltaTime{},
+      initialTime{ Clock::now() },
+      previousTime{ Clock::now() }
+    {
+    }
 
-	milliseconds GetDeltaTime() const {
-		return deltaTime;
-	}
-	void SetFPS(uint_fast8_t fps) {
-		frameTime = ms{ permilleFactor / fps };
-	}
-	void SetEndTime(seconds seconds) {
-		endTime = initialTime + std::chrono::seconds(seconds);
-	}
-	void WaitUntilNextFrame() {
+    milliseconds Timer::GetDeltaTime() const
+    {
+        return deltaTime;
+    }
 
-void MoleDemo::Timer::SetFPS(uint_fast8_t fps)
-{
-	frameTime = ms {permilleFactor / fps};
-}
+    void Timer::SetFPS(uint_fast8_t fps)
+    {
+        frameTime = ms{ permilleFactor / fps };
+    }
 
-void MoleDemo::Timer::SetEndTime(seconds seconds)
-{
-	endTime = initialTime + std::chrono::seconds(seconds);
-}
+    void Timer::SetEndTime(seconds seconds)
+    {
+        endTime = initialTime + std::chrono::seconds(seconds);
+    }
 
-void MoleDemo::Timer::WaitUntilNextFrame()
-{
+    void Timer::WaitUntilNextFrame()
+    {
 
-	std::this_thread::sleep_for(GetNextDelayTime());
-	SetNextFrameTime();
+        std::this_thread::sleep_for(GetNextDelayTime());
+        SetNextFrameTime();
 
-	++frameCount;
-	secondCount = (seconds)std::chrono::duration_cast<std::chrono::seconds>(Clock::now() - initialTime).count();
+        ++frameCount;
+        secondCount = (seconds) std::chrono::duration_cast<std::chrono::seconds>(Clock::now() - initialTime).count();
 
-	if (secondCount > previousSecond)
-	{
-		previousSecond = secondCount;
-		std::cout << "time [" << (int)previousSecond << "/"
-				  << (int)(std::chrono::duration_cast<std::chrono::seconds>(endTime - initialTime).count())
-				  << "],\t framerate: [" << (int)(frameCount) << "]fps,\t delta: [" << (int)deltaTime << "]\n";
-		frameCount = 0;
-	}
-}
+        if (secondCount > previousSecond)
+        {
+            previousSecond = secondCount;
+            std::cout << "time [" << (int) previousSecond << "/"
+                      << (int) (std::chrono::duration_cast<std::chrono::seconds>(endTime - initialTime).count())
+                      << "],\t framerate: [" << (int) (frameCount) << "]fps,\t delta: [" << (int) deltaTime << "]\n";
+            frameCount = 0;
+        }
+    }
 
-int_fast8_t MoleDemo::Timer::GetTime() const
-{
-	return secondCount;
-}
+    int_fast8_t Timer::GetTime() const
+    {
+        return secondCount;
+    }
 
-bool MoleDemo::Timer::EndReached() const
-{
-	return Clock::now() >= endTime;
+    bool Timer::EndReached() const
+    {
+        return Clock::now() >= endTime;
+    }
 }
