@@ -1,37 +1,11 @@
 #include "timer.h"
 
-#include <chrono>
+#include <iostream>
+#include <thread>
 
 namespace MoleDemo
 {
     using namespace mole_def;
-
-    ms Timer::GetNextDelayTime() const
-    {
-        return std::chrono::duration_cast<std::chrono::milliseconds>(nextTime - Clock::now());
-    }
-
-    void Timer::SetNextFrameTime()
-    {
-        deltaTime = (milliseconds) std::chrono::duration_cast<std::chrono::milliseconds>(Clock::now() - previousTime)
-                            .count();
-        previousTime = Clock::now();
-        nextTime = Clock::now() + frameTime;
-    }
-    ms Timer::GetNextDelayTime() const
-    {
-        return std::chrono::duration_cast<std::chrono::milliseconds>(nextTime - Clock::now());
-    }
-
-    Timer::Timer() :
-      frameCount{ 0 },
-      secondCount{ 0 },
-      frameTime{},
-      deltaTime{},
-      initialTime{ Clock::now() },
-      previousTime{ Clock::now() }
-    {
-    }
 
     milliseconds Timer::GetDeltaTime() const
     {
@@ -55,7 +29,8 @@ namespace MoleDemo
         SetNextFrameTime();
 
         ++frameCount;
-        secondCount = (seconds) std::chrono::duration_cast<std::chrono::seconds>(Clock::now() - initialTime).count();
+        secondCount = static_cast<seconds>(
+                std::chrono::duration_cast<std::chrono::seconds>(Clock::now() - initialTime).count());
 
         if (secondCount > previousSecond)
         {
@@ -76,4 +51,18 @@ namespace MoleDemo
     {
         return Clock::now() >= endTime;
     }
+
+    Timer::ms Timer::GetNextDelayTime() const
+    {
+        return std::chrono::duration_cast<std::chrono::milliseconds>(nextTime - Clock::now());
+    }
+
+    void Timer::SetNextFrameTime()
+    {
+        deltaTime = static_cast<mole_def::milliseconds>(
+                std::chrono::duration_cast<std::chrono::milliseconds>(Clock::now() - previousTime).count());
+        previousTime = Clock::now();
+        nextTime = Clock::now() + frameTime;
+    }
+
 }
