@@ -40,8 +40,6 @@ namespace MoleDemo
             void WaitUntilNextFrame();
             int_fast8_t GetTime() const;
             bool EndReached() const;
-	    /*
-        */
     };
 } // namespace MoleDemo
 
