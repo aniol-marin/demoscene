@@ -22,8 +22,9 @@ target_sources(${MODULE_NAME} PUBLIC
 	#[[ forward compatibility
 	FILE_SET serialization TYPE CXX_MODULES
 	FILES
-	]]#
 	pugi.cppm
+	]]#
+	pugi.cpp
 )
 
 mark_as_advanced(FORCE
