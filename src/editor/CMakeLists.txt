@@ -19,8 +19,10 @@ target_link_libraries(editor PRIVATE
 )
 
 target_sources(editor PUBLIC
+	#[[ forward compatibility
 	FILE_SET editor TYPE CXX_MODULES
 	FILES
+	]]#
 	editor.cpp
 )
 

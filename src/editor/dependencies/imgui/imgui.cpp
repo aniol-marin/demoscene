@@ -1,17 +1,14 @@
-module;
-
 #include "imgui.h"
 #include "imgui_impl_glfw.h"
 #include "imgui_impl_opengl3.h"
 
-export module imgui_wrapper;
 
-import std;
-import glfw_wrapper;
+#include <string>
+#include "glfw_wrapper.h"
 
 namespace mole::ui
 {
-    export struct UIContext
+    struct UIContext
     {
         using io_t = decltype(ImGui::GetIO());
 
