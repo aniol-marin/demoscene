@@ -66,11 +66,13 @@ profile: .final
 
 #needed for:
 # - glad generation (curl, python)
-# - glfw warnings (alsa sound 2, wayland scanner, pkg-config, xkb)
+# - glfw generation (alsa sound 2, wayland scanner, pkg-config, xkb, opengl)
+# - sdl  generation (ext, only when opengl is added?)
 initialize:
 	sudo apt install \
 		curl python3 \
-		libasound2-dev libwayland-dev pkg-config libxkbcommon-dev
+		libasound2-dev libwayland-dev pkg-config libxkbcommon-dev mesa-common-dev \
+		libxext-dev
 	curl -L https://bootstrap.pypa.io/get-pip.py -o $(TEMP_PATH)/get-pip.py -z $(TEMP_PATH)/get-pip.py
 	python3 $(TEMP_PATH)/get-pip.py
 	python3 -m pip install Jinja2
