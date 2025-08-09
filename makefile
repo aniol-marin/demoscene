@@ -65,6 +65,9 @@ profile: .final
 # - glad generation (curl, python)
 # - glfw warnings (alsa sound 2, wayland scanner, pkg-config, xkb)
 initialize:
+	git lfs install;
+	git lfs fetch --all origin;
+	git lfs update;
 	sudo apt install \
 		curl python3 \
 		libasound2-dev libwayland-dev pkg-config libxkbcommon-dev
