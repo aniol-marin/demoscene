@@ -1,10 +1,8 @@
-#include<catch2/catch_test_macros.hpp>
+#include <catch2/catch_test_macros.hpp>
 
-import input;
-import std.compat;
+#include "input.h"
 
 TEST_CASE("test", "[input]")
 {
-	REQUIRE(true);
+    REQUIRE(true);
 }
-
