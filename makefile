@@ -70,9 +70,14 @@ profile: .final
 # - sdl  generation (ext, only when opengl is added?)
 initialize:
 	sudo apt install \
+		git-lfs \
 		curl python3 \
 		libasound2-dev libwayland-dev pkg-config libxkbcommon-dev mesa-common-dev \
 		libxext-dev
+	git lfs install;
+	git lfs fetch --all origin;
+	git lfs update;
+	git lfs checkout resources;
 	curl -L https://bootstrap.pypa.io/get-pip.py -o $(TEMP_PATH)/get-pip.py -z $(TEMP_PATH)/get-pip.py
 	python3 $(TEMP_PATH)/get-pip.py
 	python3 -m pip install Jinja2

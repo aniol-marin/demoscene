@@ -3,3 +3,24 @@ Demoscene
 a tiny visual experience with an overkilled tooling environment.
 
 TDB
+
+## Platform support
+
+This project has been tested in the following platforms:
+
+- Debian GNU-Linux
+- Trisquel GNU-linux Libre
+- Microsoft Windows 11
+- Microsoft Windows 10
+
+In order to compile it from source extra packages may be needed. At the time of writing some of them are not available in the usual channels of diastribution and may need to be compiled from source including manual resolution of their dependencies.
+
+## Verified toolchain
+
+- CMake 4.0.3
+- Ninja Build 1.11.2 +
+- GCC 15.1+
+
+
+TBD
+
