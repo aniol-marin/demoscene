@@ -1,8 +1,9 @@
 #include <catch2/catch_test_macros.hpp>
 
-import std;
-import definitions;
-import program;
+#include "program.h"
+#include "definitions.h"
+#include <functional>
+#include <type_traits>
 
 SCENARIO("Program")
 {

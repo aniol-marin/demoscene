@@ -4,6 +4,22 @@ a tiny visual experience with an overkilled tooling environment.
 
 TDB
 
+
+
+
+## Usage
+
+The software is designed to simply compile and run in as many environments as possible, as long as the minimum development requirements are met. Binary distribution is not supported at the moment, but it would be much wider since most of the dependencies are meant to be self contained.
+
+In order to launch the project, several options are offered:
+
+- .bat file for Windows platforms: just run the script and wait.
+- .sh file for Linux platforms: just run the script and wait.
+- make file for Linux platforms: just run "make" from the root and wait.
+
+In case something unexpected happens you should get a clear error message. Please contact the developer with the detail in order to improve support.
+
+
 ## Platform support
 
 This project has been tested in the following platforms:
