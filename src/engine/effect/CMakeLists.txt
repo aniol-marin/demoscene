@@ -1,18 +1,12 @@
 set(MODULE_NAME effect)
-add_module_target(${MODULE_NAME})
+add_module_target_transitional(${MODULE_NAME})
 
 target_link_libraries(${MODULE_NAME}
 	PUBLIC engine_definitions
 	PUBLIC timer
 )
 
-target_sources(${MODULE_NAME} PUBLIC
-	FILE_SET ${MODULE_NAME} TYPE CXX_MODULES
-	FILES
-	Effect.cpp
-)
-
 target_sources(${MODULE_NAME} PRIVATE
-	Effect_imp.cpp
+	Effect.cpp
 )
 
