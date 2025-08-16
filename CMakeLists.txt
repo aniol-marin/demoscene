@@ -57,6 +57,14 @@ endif()
 if(EnableExperimentalFeatures)
 	message(WARNING "experimental features enabled")
 
+	find_package(SDL2 OPTIONAL)
+	if(SDL2_FOUND)
+		message(WARNING "found ok")
+		message(NOTICE "version: ${SDL2_VERSION}")
+	else()
+		message(FATAL_ERROR "NOT found")
+	endif()
+
 	if(EnableInterProceduralOptimization)
 		include(CheckIPOSupported)
 		check_ipo_supported(RESULT ipo_supported)
@@ -69,6 +77,7 @@ if(EnableExperimentalFeatures)
 	endif()
 else()
 	if(EnableInterProceduralOptimization)
+		#NOTE: send error since generation is valid otherwise
 		message(SEND_ERROR "
 		IPO is still experimental!
 		enable experimental features if you plan to use it")
