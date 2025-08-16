@@ -12,6 +12,30 @@
 ]]#
 function(configure_project)
 
+	# User configuration options
+	include(CMakeDependentOption)
+	if(NOT DEFINED EnableEditor)
+		option(EnableEditor "enables generation of editor tool" OFF)
+	endif()
+	if(NOT DEFINED EnableExperimentalFeatures)
+		option(EnableExperimentalFeatures "enables experimental features" OFF)
+	endif()
+	if(NOT DEFINED EnableTesting)
+		option(EnableTesting "enables testing targets" OFF)
+	endif()
+	if(NOT DEFINED EnableInterProceduralOptimization)
+		cmake_dependent_option(
+			EnableInterProceduralOptimization "tries to enable IPO [EXPERIMENTAL]" OFF
+			"EnableExperimentalFeatures" OFF
+		)
+	endif()
+	if(NOT DEFINED DisableAllButExperimental)
+		cmake_dependent_option(
+			DisableAllButExperimental "DISABLES regular targets" ON
+			"EnableExperimentalFeatures" OFF
+		)
+	endif()
+
 	# Compiler choice
 	if(NOT DEFINED Config_Compiler)
 		set(Config_Compiler

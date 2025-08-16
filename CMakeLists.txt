@@ -29,41 +29,10 @@ else()
 	and custom user config parameters will be ignored")
 endif()
 
-# User configuration options
-include(CMakeDependentOption)
-if(NOT DEFINED EnableEditor)
-	option(EnableEditor "enables generation of editor tool" OFF)
-endif()
-if(NOT DEFINED EnableExperimentalFeatures)
-	option(EnableExperimentalFeatures "enables experimental features" OFF)
-endif()
-if(NOT DEFINED EnableTesting)
-	option(EnableTesting "enables testing targets" OFF)
-endif()
-if(NOT DEFINED EnableInterProceduralOptimization)
-	cmake_dependent_option(
-		EnableInterProceduralOptimization "tries to enable IPO [EXPERIMENTAL]" OFF
-		"EnableExperimentalFeatures" OFF
-	)
-endif()
-if(NOT DEFINED DisableAllButExperimental)
-	cmake_dependent_option(
-		DisableAllButExperimental "DISABLES regular targets" ON
-		"EnableExperimentalFeatures" OFF
-	)
-endif()
-
 # Experimental features (WIP)
 if(EnableExperimentalFeatures)
 	message(WARNING "experimental features enabled")
 
-	find_package(SDL2 OPTIONAL)
-	if(SDL2_FOUND)
-		message(WARNING "found ok")
-		message(NOTICE "version: ${SDL2_VERSION}")
-	else()
-		message(FATAL_ERROR "NOT found")
-	endif()
 
 	if(EnableInterProceduralOptimization)
 		include(CheckIPOSupported)
