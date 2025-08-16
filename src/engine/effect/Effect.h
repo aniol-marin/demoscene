@@ -4,11 +4,12 @@
 #include "definitions.h"
 #include "timer.h"
 
+using namespace mole_def;
+
 namespace MoleDemo
 {
-	class MoleDemo::Effect
+	class Effect
 	{
-		using namespace mole_def;
 
 		PixelBuffer buffer{};
 

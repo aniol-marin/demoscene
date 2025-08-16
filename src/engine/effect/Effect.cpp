@@ -2,8 +2,6 @@
 
 namespace MoleDemo
 {
-	using namespace mole_def;
-
 	Effect::Effect(Timer* timer, Screen* screen) :
 		timer{ timer },
 		screen{ screen },
