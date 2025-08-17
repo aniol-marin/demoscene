@@ -27,7 +27,7 @@ main:
 	make .call_log MESSAGE="building and running final demo" --no-print-directory
 	make \
 		BUILD_TYPE=Release \
-		CMAKE_LOG_LEVEL=WARNING \
+		CMAKE_LOG_LEVEL="ERROR -Wno-dev" \
 		--no-print-directory \
 		generate build run
 

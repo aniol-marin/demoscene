@@ -1,17 +1,8 @@
 set(MODULE_NAME serialization)
 add_module_target(${MODULE_NAME})
 
-FetchContent_Declare(
-	pugixml
-	EXCLUDE_FROM_ALL
-	GIT_REPOSITORY https://github.com/zeux/pugixml.git
-	GIT_TAG ee86beb30e4973f5feffe3ce63bfa4fbadf72f38 # v 1.15
-	#[[ Custom repository, with c++20 modules support
-	GIT_REPOSITORY git@gitlab.com:amarinat/mirror_pugixml.git
-	GIT_TAG 254e2ce6972a8731230f492f1f1d2d10022ebdc1 # custom branch WIP
-	]]#
-)
-FetchContent_MakeAvailable(pugixml)
+include(${CMAKE_SOURCE_DIR}/cmake/manage_dependency_pugixml.cmake REQUIRED)
+manage_dependency_pugixml()
 
 target_link_libraries( ${MODULE_NAME}
 	PUBLIC pugixml
@@ -25,14 +16,5 @@ target_sources(${MODULE_NAME} PUBLIC
 	pugi.cppm
 	]]#
 	pugi.cpp
-)
-
-mark_as_advanced(FORCE
-	FETCHCONTENT_SOURCE_DIR_PUGIXML
-	FETCHCONTENT_UPDATES_DISCONNECTED_PUGIXML
-	PUGIXML_BUILD_DEFINES
-	PUGIXML_COMPACT
-	PUGIXML_INSTALL
-	PUGIXML_WCHAR_MODE
 )
 
