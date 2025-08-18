@@ -1,6 +1,6 @@
 function(manage_dependency_sdl)
 
-	find_package(SDL2 OPTIONAL)
+	find_package(SDL2)
 	if(NOT SDL2_FOUND)
 		FetchContent_Declare(
 			SDL2
