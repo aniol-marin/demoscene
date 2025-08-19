@@ -1,43 +1,15 @@
+set(MODULE_NAME glfw_wrapper)
+add_module_target_transitional(${MODULE_NAME})
 
-FetchContent_Declare(
-	glfw
-	EXCLUDE_FROM_ALL
-	GIT_REPOSITORY https://github.com/glfw/glfw.git
-	GIT_TAG 7b6aead9fb88b3623e3b3725ebb42670cbe4c579 # v3.4
-)
-FetchContent_MakeAvailable(glfw)
-mark_as_advanced(FORCE
-	BUILD_SHARED_LIBS
-	FETCHCONTENT_SOURCE_DIR_GLFW
-	FETCHCONTENT_UPDATES_DISCONNECTED_GLFW
-	GLFW_BUILD_DOCS
-	GLFW_BUILD_EXAMPLES
-	GLFW_BUILD_TESTS
-	GLFW_BUILD_WAYLAND
-	GLFW_BUILD_X11
-	GLFW_INSTALL
-	GLFW_LIBRARY_TYPE
-	WAYLAND_SCANNER_EXECUTABLE
-	X11_xcb_xkb_INCLUDE_PATH
-) 
-set(GLFW_BUILD_DOCS OFF)
-set(GLFW_INSTALL OFF)
-set(GLFW_LIBRARY_TYPE STATIC)
+include(${CMAKE_SOURCE_DIR}/cmake/manage_dependency_glfw.cmake REQUIRED)
+manage_dependency_glfw()
 
-add_library(glfw_wrapper)
-target_link_libraries(glfw_wrapper PRIVATE
+target_link_libraries(${MODULE_NAME} PRIVATE
 	glfw
 	engine_definitions
 )
-target_sources(glfw_wrapper PUBLIC
-	#[[
-	FILE_SET glfw_wrapper TYPE CXX_MODULES
-	FILES
-	]]#
-	./glfw.cpp
-)
 
-target_include_directories( glfw_wrapper INTERFACE
-	$<BUILD_INTERFACE:${CMAKE_CURRENT_SOURCE_DIR}>
+target_sources(${MODULE_NAME} PUBLIC
+	glfw.cpp
 )
 
