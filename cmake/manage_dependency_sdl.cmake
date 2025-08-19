@@ -1,15 +1,13 @@
 function(manage_dependency_sdl)
 
-	find_package(SDL2)
-	if(NOT SDL2_FOUND)
-		FetchContent_Declare(
-			SDL2
-			EXCLUDE_FROM_ALL
-			GIT_REPOSITORY https://github.com/libsdl-org/SDL.git
-			GIT_TAG e11183ea6caa3ae4895f4bc54cad2bbb0e365417 # 2.32.2
-		)
-		FetchContent_MakeAvailable(SDL2)
-	endif()
+	FetchContent_Declare(
+		SDL2
+		EXCLUDE_FROM_ALL
+		GIT_REPOSITORY https://github.com/libsdl-org/SDL.git
+		GIT_TAG e11183ea6caa3ae4895f4bc54cad2bbb0e365417 # 2.32.2
+		FIND_PACKAGE_ARGS NAMES SDL2
+	)
+	FetchContent_MakeAvailable(SDL2)
 
 	mark_as_advanced(FORCE
 		ARTS_CONFIG
