@@ -2,6 +2,7 @@
 #define MOLE_TIMER_H
 
 #include <chrono>
+#include <cstdint>
 
 #include "definitions.h"
 
@@ -11,10 +12,12 @@ namespace MoleDemo
 
     class Timer
     {
+    public:
         using ms = std::chrono::milliseconds;
         using Clock = std::chrono::steady_clock;
         using Time = Clock::time_point;
 
+    private:
         ms frameTime;
         seconds previousSecond{};
         seconds secondCount{};
@@ -29,17 +32,17 @@ namespace MoleDemo
         ms GetNextDelayTime() const;
 
     public:
-        Timer() = default;
+        Timer();
         Timer(const Timer&) = delete;
         Timer(Timer&&) = default;
         ~Timer() = default;
 
-            milliseconds GetDeltaTime() const;
-            void SetFPS(uint_fast8_t fps);
-            void SetEndTime(seconds seconds);
-            void WaitUntilNextFrame();
-            int_fast8_t GetTime() const;
-            bool EndReached() const;
+        milliseconds GetDeltaTime() const;
+        void SetFPS(uint_fast8_t fps);
+        void SetEndTime(seconds seconds);
+        void WaitUntilNextFrame();
+        int_fast8_t GetTime() const;
+        bool EndReached() const;
     };
 } // namespace MoleDemo
 
