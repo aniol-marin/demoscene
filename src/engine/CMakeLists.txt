@@ -6,8 +6,8 @@ else()
 	message(SEND_ERROR "add_module_target.cmake script not found.")
 endif()
 
-set(TARGET_NAME engine)
-add_library(${TARGET_NAME})
+set(MODULE_NAME engine)
+add_module_target_transitional(${MODULE_NAME})
 
 add_subdirectory(dependencies)
 add_subdirectory(cycle)
@@ -22,7 +22,7 @@ add_subdirectory(sound)
 add_subdirectory(timeline)
 add_subdirectory(timer)
 
-target_link_libraries(${TARGET_NAME}
+target_link_libraries(${MODULE_NAME}
 	PUBLIC effect
 	PUBLIC engine_definitions
 	PUBLIC injection
@@ -35,11 +35,7 @@ target_link_libraries(${TARGET_NAME}
 	PUBLIC timer
 )
 
-target_sources(${TARGET_NAME} PUBLIC
-	#[[ forward compatibility
-	FILE_SET engine TYPE CXX_MODULES
-	FILES
-	]]#
+target_sources(${MODULE_NAME} PUBLIC
 	engine.cpp
 )
 

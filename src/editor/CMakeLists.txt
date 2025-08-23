@@ -1,5 +1,6 @@
 
 add_subdirectory(dependencies)
+
 #[[	TO DO
 
 	Move sandbox out of editor folder
@@ -18,15 +19,11 @@ target_link_libraries(editor PRIVATE
 	imgui_wrapper
 )
 
-target_sources(editor PUBLIC
-	#[[ forward compatibility
-	FILE_SET editor TYPE CXX_MODULES
-	FILES
-	]]#
-	editor.cpp
-)
+set(MODULE_NAME editor)
+add_module_target_transitional(${MODULE_NAME})
 
-target_sources(editor PUBLIC
+target_sources(${MODULE_NAME} PUBLIC
+	editor.cpp
 	main.cpp
 )
 

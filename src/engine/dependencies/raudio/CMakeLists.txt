@@ -1,14 +1,7 @@
 set(MODULE_NAME raudio_wrapper)
-add_module_target(${MODULE_NAME})
+add_module_target_transitional(${MODULE_NAME})
 
-FetchContent_Declare(
-	raudio
-	EXCLUDE_FROM_ALL
-	GIT_REPOSITORY https://github.com/raysan5/raudio.git
-	GIT_TAG 711c86eae17db9a94af575f7a5b496244b48b22d # master
-	SOURCE_SUBDIR projects/CMake
-)
-FetchContent_MakeAvailable(raudio)
+manage_dependency_raudio()
 
 target_link_libraries( ${MODULE_NAME}
 	PUBLIC raudio
@@ -16,23 +9,6 @@ target_link_libraries( ${MODULE_NAME}
 )
 
 target_sources(${MODULE_NAME} PUBLIC
-	#[[ forward compatibility
-	FILE_SET raudio_wrapper TYPE CXX_MODULES
-	FILES
-	]]#
 	raudio.cpp
-)
-
-mark_as_advanced(FORCE
-	FETCHCONTENT_SOURCE_DIR_RAUDIO
-	FETCHCONTENT_UPDATES_DISCONNECTED_RAUDIO
-	BUILD_RAUDIO_EXAMPLES
-	SUPPORT_FILEFORMAT_FLAC
-	SUPPORT_FILEFORMAT_MOD
-	SUPPORT_FILEFORMAT_MP3
-	SUPPORT_FILEFORMAT_OGG
-	SUPPORT_FILEFORMAT_QOA
-	SUPPORT_FILEFORMAT_WAV
-	SUPPORT_FILEFORMAT_XM
 )
 
