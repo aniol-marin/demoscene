@@ -10,6 +10,7 @@ set(MODULE_NAME engine)
 add_module_target_transitional(${MODULE_NAME})
 
 add_subdirectory(dependencies)
+
 add_subdirectory(cycle)
 add_subdirectory(definitions)
 add_subdirectory(effect)

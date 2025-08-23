@@ -1,7 +1,6 @@
 set(MODULE_NAME serialization)
 add_module_target_transitional(${MODULE_NAME})
 
-include(${CMAKE_SOURCE_DIR}/cmake/manage_dependency_pugixml.cmake REQUIRED)
 manage_dependency_pugixml()
 
 target_link_libraries( ${MODULE_NAME}
