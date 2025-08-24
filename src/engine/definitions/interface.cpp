@@ -64,27 +64,27 @@ export constexpr rgbaColor concrete{ 0xFF5D696B };
 
 export enum class ProgramStatus {
 	TERMINATE_OK,
-	TERMINATE_ERROR,
-	RUNNING,
+		TERMINATE_ERROR,
+		RUNNING,
 };
 
 export enum class BlendMode {
 	Override,
-	AlphaBlend,
-	Additive,
-	Subtractive,
-	Multiply,
-	Divide,
-	Screen,
+		AlphaBlend,
+		Additive,
+		Subtractive,
+		Multiply,
+		Divide,
+		Screen,
 };
 
 export enum class TransitionType {
 	Cut,
-	Fade,
-	Wipe,
-	Explode,
-	Implode,
-	Rotate,
+		Fade,
+		Wipe,
+		Explode,
+		Implode,
+		Rotate,
 };
 
 export channel lerp(channel m_r, channel next, permille permille) {
@@ -109,7 +109,7 @@ struct Point2D {
 	Point2D(const Point2D&) = default;
 	Point2D(Point2D&&) = default;
 	Point2D(point1D x, point1D y): x{x}, y{y} {}
-	
+
 	const Point2D& operator=(const Point2D& other) {
 		x = other.x;
 		y = other.y;
@@ -145,78 +145,38 @@ class Color {
 	channel m_b{};
 	channel m_a{};
 
-public:
-
+	public:
 	Color() = default;
-	~Color() = default;
+	Color(const rgbaColor color);
+	Color(channel r, channel g, channel b, channel a = saturated);
 	Color(const Color&) = default;
 	Color(Color&&) = default;
+	~Color() = default;
 	constexpr Color& operator=(const Color&) = default;
+	constexpr Color& operator=(Color&&) = default;
 
-	Color(const rgbaColor color) :
-		m_r{ (channel)((color & mask_red) >> 16) },
-		m_g{ (channel)((color & mask_green) >> 8) },
-		m_b{ (channel)(color & mask_blue) },
-		m_a{ (channel)((color & mask_opaque) >> 24) }
-	{
-	}
-
-
-	Color(channel r, channel g, channel b, channel a = saturated) :
-		m_r{ r },
-		m_g{ g },
-		m_b{ b },
-		m_a{ a }
-	{
-	}
-
-
-	const channel r() const {
-		return m_r;
-	}
-	const channel g() const {
-		return m_g;
-	}
-	const channel b() const {
-		return m_b;
-	}
-	const channel a() const {
-		return m_a;
-	}
-	rgbaColor rgba() {
-		return m_b |
-			(m_g << 8) |
-			(m_r << 16) |
-			(m_a << 24);
-	}
-	Color lerp(const Color& next, const permille permille) {
-		return Color{
-			(channel)(m_r + (next.r() - m_r) * permille / permilleFactor),
-			(channel)(m_g + (next.g() - m_g) * permille / permilleFactor),
-			(channel)(m_b + (next.b() - m_b) * permille / permilleFactor),
-			(channel)(m_a + (next.a() - m_a) * permille / permilleFactor)
-		};
-	};
+	const channel r() const;
+	const channel g() const;
+	const channel b() const;
+	const channel a() const;
+	rgbaColor rgba();
+	Color lerp(const Color& next, const permille permille);
 };
+
 export struct Screen
 {
 	point1D w, h;
 
-	Screen(point1D width, point1D heigth) :
-		w{ width },
-		h{ heigth } {}
+	Screen() = delete;
+	Screen(point1D width, point1D heigth);
 	Screen(const Screen&) = default;
 	Screen(Screen&&) = default;
 	~Screen() = default;
 	Screen& operator=(const Screen&) = default;
 	Screen& operator=(Screen&&) = default;
 
-	index GetIndex(Point2D point) const {
-		return (index)w * (index)point.y + (index)point.x;
-	}
-	const pixel_count GetPixelCount() const {
-		return pixel_count{ w * h };
-	}
+	index GetIndex(Point2D point) const;
+	const pixel_count GetPixelCount() const;
 };
 
 export Screen textureSize{ 512, 512 };
