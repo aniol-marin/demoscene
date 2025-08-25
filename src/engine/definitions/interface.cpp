@@ -108,35 +108,33 @@ struct Point2D {
 	~Point2D() = default;
 	Point2D(const Point2D&) = default;
 	Point2D(Point2D&&) = default;
-	Point2D(point1D x, point1D y): x{x}, y{y} {}
+	Point2D(point1D x, point1D y);
 
-	const Point2D& operator=(const Point2D& other) {
-		x = other.x;
-		y = other.y;
-		return *this;
-	}
+	const Point2D& operator=(const Point2D& other);
 };
 
-export struct Offset2D {
-	const offset1D x, y;
-	Offset2D() :
-		x{},
-		y{} {}
-	Offset2D(offset1D x, offset1D y) :
-		x{ x },
-		y{ y } {}
-	~Offset2D() {}
+export struct Offset2D
+{
+	const offset1D x{};
+	const offset1D y{};
+
+	Offset2D() = default;
+	Offset2D(offset1D x, offset1D y);
+	~Offset2D() = default;
+	Offset2D(const Offset2D&) = default;
+	Offset2D(Offset2D&&) = default;
 };
 
-export struct CoordinateUV {
-	const permille u, v;
-	CoordinateUV() :
-		u{},
-		v{} {}
-	CoordinateUV(offset1D x, offset1D y) :
-		u{ (permille)x },
-		v{ (permille)y } {}
-	~CoordinateUV() {}
+export struct CoordinateUV
+{
+	const permille u{};
+	const permille v{};
+
+	CoordinateUV() = default;
+	CoordinateUV(offset1D x, offset1D y);
+	CoordinateUV(const CoordinateUV&) = default;
+	CoordinateUV(CoordinateUV&&) = default;
+	~CoordinateUV() = default;
 };
 
 class Color {
@@ -147,7 +145,7 @@ class Color {
 
 	public:
 	Color() = default;
-	Color(const rgbaColor color);
+	Color(const rgbaColor& color);
 	Color(channel r, channel g, channel b, channel a = saturated);
 	Color(const Color&) = default;
 	Color(Color&&) = default;

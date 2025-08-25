@@ -8,46 +8,30 @@ Timestamp::Timestamp(seconds start, milliseconds duration) :
 	start{ start },
 	duration{ duration } {};
 
-struct Point2D {
-	point1D x{};
-	point1D y{};
+Point2D::Point2D(point1D x, point1D y): x{x}, y{y}
+{
+}
 
-	Point2D() = default;
-	~Point2D() = default;
-	Point2D(const Point2D&) = default;
-	Point2D(Point2D&&) = default;
-	Point2D(point1D x, point1D y): x{x}, y{y} {}
+const Point2D& Point2D::operator=(const Point2D& other)
+{
+	x = other.x;
+	y = other.y;
+	return *this;
+}
 
-	const Point2D& operator=(const Point2D& other) {
-		x = other.x;
-		y = other.y;
-		return *this;
-	}
-};
+Offset2D::Offset2D(offset1D x, offset1D y) :
+	x{ x },
+	y{ y }
+{
+}
 
-struct Offset2D {
-	const offset1D x, y;
-	Offset2D() :
-		x{},
-		y{} {}
-	Offset2D(offset1D x, offset1D y) :
-		x{ x },
-		y{ y } {}
-	~Offset2D() {}
-};
+CoordinateUV::CoordinateUV(offset1D x, offset1D y) :
+	u{ (permille)x },
+	v{ (permille)y }
+{
+}
 
-struct CoordinateUV {
-	const permille u, v;
-	CoordinateUV() :
-		u{},
-		v{} {}
-	CoordinateUV(offset1D x, offset1D y) :
-		u{ (permille)x },
-		v{ (permille)y } {}
-	~CoordinateUV() {}
-};
-
-Color::Color(const rgbaColor color) :
+Color::Color(const rgbaColor& color) :
 	m_r{ (channel)((color & mask_red) >> 16) },
 	m_g{ (channel)((color & mask_green) >> 8) },
 	m_b{ (channel)(color & mask_blue) },
@@ -55,7 +39,7 @@ Color::Color(const rgbaColor color) :
 {
 }
 
-Color::Color(channel r, channel g, channel b, channel a = saturated) :
+Color::Color(channel r, channel g, channel b, channel a) :
 	m_r{ r },
 	m_g{ g },
 	m_b{ b },
