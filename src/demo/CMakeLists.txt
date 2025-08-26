@@ -1,22 +1,29 @@
-set(MODULE_NAME demoscene)
-add_executable(${MODULE_NAME})
+set(EXECUTABLE_NAME demoscene)
+add_executable(${EXECUTABLE_NAME})
+
+set(MODULE_NAME demo)
+add_module_target_transitional(${MODULE_NAME})
 
 target_link_libraries(${MODULE_NAME}
 	PRIVATE engine
 	PRIVATE effects
 )
 
-target_sources(${MODULE_NAME} PUBLIC
-	FILE_SET demo TYPE CXX_MODULES
-	FILES
-	demo.cpp
-)
-
-target_sources(${MODULE_NAME} PUBLIC
+target_sources(${EXECUTABLE_NAME} PUBLIC
 	main.cpp
 )
 
-add_custom_command(TARGET ${MODULE_NAME} POST_BUILD
+
+target_link_libraries(${EXECUTABLE_NAME}
+	PRIVATE demo
+)
+
+target_sources(${MODULE_NAME} PUBLIC
+	demo.cpp
+)
+
+
+add_custom_command(TARGET ${EXECUTABLE_NAME} POST_BUILD
 	COMMAND ${CMAKE_COMMAND} -E copy_directory
 		${CMAKE_SOURCE_DIR}/resources
 		${CMAKE_RUNTIME_OUTPUT_DIRECTORY}/resources
