@@ -1,6 +1,6 @@
 set(MODULE_NAME timeline)
 
-add_module_target(${MODULE_NAME})
+add_module_target_transitional(${MODULE_NAME})
 
 target_link_libraries( ${MODULE_NAME}
 	PRIVATE cycle
@@ -17,10 +17,6 @@ target_link_libraries( ${MODULE_NAME}
 )
 
 target_sources( ${MODULE_NAME} PUBLIC
-	#[[ forward compatibility
-	FILE_SET timeline TYPE CXX_MODULES
-	FILES
-	]]#
 	timeline.cpp
 )
 

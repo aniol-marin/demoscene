@@ -13,18 +13,8 @@ project(MoleDemoScene2025
 	LANGUAGES CXX C
 )
 
-# Project automated configuration
-include(${CMAKE_SOURCE_DIR}/cmake/configure_project.cmake OPTIONAL RESULT_VARIABLE status)
-if(status)
-	message(STATUS "cmake configure_project script found")
-	configure_project()
-else()
-	message(WARNING "
-	configure_project.cmake script not found!
-
-	Project will be configured with default values
-	and custom user config parameters will be ignored")
-endif()
+# Project build scripts
+add_subdirectory(cmake)
 
 # Experimental features (WIP)
 if(EnableExperimentalFeatures)
