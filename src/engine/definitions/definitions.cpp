@@ -1,4 +1,4 @@
-module definitions;
+#include "definitions.h"
 
 channel lerp(channel m_r, channel next, permille permille) {
 	return (channel)(m_r + (next - m_r) * permille / permilleFactor);
