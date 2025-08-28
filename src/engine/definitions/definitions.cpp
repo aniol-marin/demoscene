@@ -1,5 +1,7 @@
 #include "definitions.h"
 
+namespace mole_def
+{
 channel lerp(channel m_r, channel next, permille permille) {
 	return (channel)(m_r + (next - m_r) * permille / permilleFactor);
 }
@@ -85,12 +87,6 @@ Color Color::lerp(const Color& next, const permille permille)
 	};
 }
 
-Screen::Screen(point1D width, point1D heigth) :
-	w{ width },
-	h{ heigth }
-{
-}
-
 index Screen::GetIndex(Point2D point) const
 {
 	return (index)w * (index)point.y + (index)point.x;
@@ -99,5 +95,6 @@ index Screen::GetIndex(Point2D point) const
 const pixel_count Screen::GetPixelCount() const
 {
 	return pixel_count{ w * h };
+}
 }
 

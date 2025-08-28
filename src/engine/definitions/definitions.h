@@ -110,13 +110,8 @@ struct Point2D {
 	~Point2D() = default;
 	Point2D(const Point2D&) = default;
 	Point2D(Point2D&&) = default;
-	Point2D(point1D x, point1D y): x{x}, y{y} {}
-	
-	const Point2D& operator=(const Point2D& other) {
-		x = other.x;
-		y = other.y;
-		return *this;
-	}
+	Point2D(point1D x, point1D y);
+	const Point2D& operator=(const Point2D& other);
 };
 
 struct Offset2D {
@@ -204,26 +199,24 @@ struct Screen
 {
 	point1D w, h;
 
-	constexpr Screen(point1D width, point1D heigth) :
+	constexpr Screen(point1D width, point1D heigth):
 		w{ width },
-		h{ heigth } {}
+		h{ heigth }
+	{
+	}
 	Screen(const Screen&) = default;
 	Screen(Screen&&) = default;
 	~Screen() = default;
 	Screen& operator=(const Screen&) = default;
 	Screen& operator=(Screen&&) = default;
 
-	index GetIndex(Point2D point) const {
-		return (index)w * (index)point.y + (index)point.x;
-	}
-	const pixel_count GetPixelCount() const {
-		return pixel_count{ w * h };
-	}
+	index GetIndex(Point2D point) const;
+	const pixel_count GetPixelCount() const;
 };
 
-constexpr Screen defaultScreen{ 640, 480 };
-constexpr Screen textureSize{ 512, 512 };
-constexpr Screen superSampler{ 2048, 2048 };
+inline Screen defaultScreen{ 640, 480 };
+inline Screen textureSize{ 512, 512 };
+inline Screen superSampler{ 2048, 2048 };
 
 
 struct Initializable {
