@@ -38,3 +38,17 @@ An alternative version of the demoscene exists, which only requires c++17 suppor
 
 TBD
 
+## Roadmap
+
+This project started as a college assignment. Once submitted, the scope was extended. Currently development status stays as such:
+
+- [x] Port original Windows project to Linux
+- [x] Add multiplatform support for CMake
+- [x] Add unit testing
+- [ ] Create editor
+- [ ] Add music tracker
+- [ ] Add final project serialization
+- [ ] Add development hot-reloading support
+- [ ] Add end-user interaction support
+
+
