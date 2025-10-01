@@ -8,13 +8,15 @@ function(add_module_target_transitional MODULE_NAME)
 
 	add_library(${MODULE_NAME})
 
-	#[[
-	target_sources(${MODULE_NAME} PUBLIC
-		FILE_SET ${MODULE_NAME} TYPE CXX_MODULES
-		FILES
-		interface.cpp
-	)
-	]]#
+	if(EXISTS "${CMAKE_CURRENT_SOURCE_DIR}interface.cpp")
+		target_sources(${MODULE_NAME} PUBLIC
+			FILE_SET ${MODULE_NAME} TYPE CXX_MODULES
+			FILES
+			interface.cpp
+		)
+	else()
+		message(WARNING "didn't find module interface file")
+	endif()
 
 endfunction()
 
