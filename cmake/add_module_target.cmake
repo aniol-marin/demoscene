@@ -1,12 +1,14 @@
 function(add_module_target MODULE_NAME)
 
 	add_library(${MODULE_NAME})
+	target_compile_features(${MODULE_NAME} PUBLIC cxx_std_17)
 
 endfunction()
 
 function(add_module_target_transitional MODULE_NAME)
 
 	add_library(${MODULE_NAME})
+	target_compile_features(${MODULE_NAME} PUBLIC cxx_std_20)
 
 	if(EXISTS "${CMAKE_CURRENT_SOURCE_DIR}interface.cpp")
 		target_sources(${MODULE_NAME} PUBLIC
