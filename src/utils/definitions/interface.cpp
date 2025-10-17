@@ -155,22 +155,19 @@ export namespace mole_def
         channel m_a{};
 
     public:
-        Color() = default;
-	/*
-	Color(const rgbaColor color);
-	Color(channel r, channel g, channel b, channel a = saturated);
+        constexpr Color(const rgbaColor& color);
+        constexpr Color(channel r, channel g, channel b, channel a = saturated);
         ~Color() = default;
         Color(const Color&) = default;
         Color(Color&&) = default;
         constexpr Color& operator=(const Color&) = default;
 
-        const channel r() const;
-        const channel g() const;
-        const channel b() const;
-        const channel a() const;
-        rgbaColor rgba();
-        Color lerp(const Color& next, const permille permille);
-	 */
+        constexpr const channel r() const;
+        constexpr const channel g() const;
+        constexpr const channel b() const;
+        constexpr const channel a() const;
+        constexpr rgbaColor rgba();
+        constexpr Color lerp(const Color& next, const permille permille);
     };
 
     struct Screen
