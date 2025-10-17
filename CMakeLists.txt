@@ -1,5 +1,5 @@
 # CMake requirements
-cmake_minimum_required(VERSION 4.0.3..4.1.0)
+cmake_minimum_required(VERSION 4.0.3..4.2.0)
 
 # Pre-project definition compilation requirements
 set(CMAKE_CXX_STANDARD 26)

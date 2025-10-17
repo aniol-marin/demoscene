@@ -1,12 +1,7 @@
-#include "glfw_wrapper.h"
+module glfw_wrapper;
 
-#include "GLFW/glfw3.h"
-
-using callback = std::function<void(void)>;
 namespace mole::graphics
 {
-    using size_1D = std::uint_fast16_t;
-
     WindowContext::WindowContext(window_size&& size, std::string_view name) : size{ size }, name{ name }
     {
         glfwSetErrorCallback(ErrorCallback);

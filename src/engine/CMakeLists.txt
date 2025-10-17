@@ -12,7 +12,6 @@ add_module_target_transitional(${MODULE_NAME})
 add_subdirectory(dependencies)
 
 add_subdirectory(cycle)
-add_subdirectory(definitions)
 add_subdirectory(effect)
 add_subdirectory(injection)
 add_subdirectory(input)
