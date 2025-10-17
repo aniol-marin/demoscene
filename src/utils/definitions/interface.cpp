@@ -177,18 +177,15 @@ export namespace mole_def
     {
         point1D w, h;
 
-	Screen() = default;
-	/*
-        constexpr Screen(point1D width, point1D heigth) : w{ width }, h{ heigth } {}
+        constexpr Screen(point1D width, point1D heigth);
+        ~Screen() = default;
         Screen(const Screen&) = default;
         Screen(Screen&&) = default;
-        ~Screen() = default;
         Screen& operator=(const Screen&) = default;
         Screen& operator=(Screen&&) = default;
 
-        index GetIndex(Point2D point) const { return (index) w * (index) point.y + (index) point.x; }
-        const pixel_count GetPixelCount() const { return pixel_count{ w * h }; }
-	 */
+        constexpr const pixel_count GetPixelCount() const;
+        constexpr index GetIndex(Point2D point) const;
     };
 
     /*
