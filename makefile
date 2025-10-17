@@ -261,7 +261,6 @@ log =  $(info $(shell echo -e '[INFO] \033[35m $(1) \033[m'))
 warn = $(info $(shell echo -e '[WARN] \033[33m $(1) \033[m'))
 fail = $(info $(shell echo -e '[ERROR]\033[31m $(1) \033[m'))
 
-
 %:
 	make .call_fail MESSAGE="Inexisting recipe: [ $@ ]"
 

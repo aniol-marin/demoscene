@@ -23,7 +23,6 @@ add_subdirectory(cmake)
 if(EnableExperimentalFeatures)
 	message(WARNING "experimental features enabled")
 
-
 	if(EnableInterProceduralOptimization)
 		include(CheckIPOSupported)
 		check_ipo_supported(RESULT ipo_supported)
