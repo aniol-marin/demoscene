@@ -5,6 +5,7 @@ module;
 export module glfw_wrapper;
 
 import std;
+import definitions;
 
 using callback = std::function<void(void)>;
 namespace mole::graphics

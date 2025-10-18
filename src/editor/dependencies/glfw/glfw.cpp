@@ -1,10 +1,16 @@
+module;
+
+#include "GLFW/glfw3.h"
+
 module glfw_wrapper;
 
 namespace mole::graphics
 {
     WindowContext::WindowContext(window_size&& size, std::string_view name) : size{ size }, name{ name }
     {
+	    /*
         glfwSetErrorCallback(ErrorCallback);
+	     */
 
         glfwInit();
         glfwWindowHint(GLFW_SAMPLES, 4);
@@ -24,9 +30,11 @@ namespace mole::graphics
 
         glfwSetWindowPos(window, 200, 10);
 
+	/*
         glfwSetKeyCallback(window, KeyCallback);
         glfwSetMouseButtonCallback(window, MouseButtonCallback);
         glfwSetCursorPosCallback(window, MouseCursorPosCallback);
+	 */
 
         glfwSetInputMode(window, GLFW_CURSOR, GLFW_CURSOR_NORMAL);
 
@@ -54,6 +62,7 @@ namespace mole::graphics
 
     void KeyCallback(GLFWwindow* window, int key, int scancode, int action, int mods)
     {
+	    /*
         if (callbacks.count(key))
         {
             std::vector<callback>& actions = callbacks.at(key);
@@ -62,10 +71,12 @@ namespace mole::graphics
                 action();
             }
         }
+	     */
     }
 
     void MouseButtonCallback(GLFWwindow* window, int button, int action, int mods)
     {
+	    /*
         if (MouseButtonCallbacks.count(button))
         {
             auto& actions = MouseButtonCallbacks.at(button);
@@ -74,6 +85,7 @@ namespace mole::graphics
                 action();
             }
         }
+	     */
     }
 
     void MouseCursorPosCallback(GLFWwindow* window, double x, double y)
