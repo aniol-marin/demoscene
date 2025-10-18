@@ -8,6 +8,8 @@ namespace MoleDemo {
 	export class Timer;
 
 	using Clock = std::chrono::steady_clock;
+	using seconds = mole_def::seconds;
+	using milliseconds = mole_def::milliseconds;
 	using ms = std::chrono::milliseconds;
 	export using Time = Clock::time_point;
 }

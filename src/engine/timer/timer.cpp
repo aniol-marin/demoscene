@@ -1,11 +1,8 @@
-#include "timer.h"
-#include <iostream>
-#include <thread>
+module timer; 
 
 namespace MoleDemo
 {
     using namespace mole_def;
-    using ms = Timer::ms;
 
     Timer::Timer() :
       frameCount{ 0 },
