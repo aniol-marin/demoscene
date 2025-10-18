@@ -13,7 +13,7 @@ In order to launch the project, several options are offered:
 - make file for Linux platforms: just run "make" from the root and wait.
 - manual compilation: freely tweak the project at your own will.
 
-In case something unexpected happens you should get a clear error message. Please contact the developer with the detail in order to improve support.
+In case something unexpected happens you should get a clear error message. In case the project can be partially compiled a full report of success status will be generated. Please contact the developer with the detail in order to improve support.
 
 ## Platform support
 
