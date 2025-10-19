@@ -1,7 +1,13 @@
-#ifndef MOLE_GLAD_WRAPPER_H
-#define MOLE_GLAD_WRAPPER_H
+module;
 
-#include "glfw_wrapper.h"
+extern "C" {
+#define GLAD_IMPLEMENTATION
+#include "glad/gl.h"
+}
+
+export module glad_wrapper;
+
+import std;
 
 namespace mole::graphics
 {
@@ -47,6 +53,4 @@ namespace mole::graphics
 	void Present();
     };
 }
-
-#endif
 
