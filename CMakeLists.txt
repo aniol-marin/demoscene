@@ -16,6 +16,22 @@ project(MoleDemoScene2025
 	LANGUAGES CXX C
 )
 
+# Project requirements
+if(${CMAKE_CXX_COMPILER_ID} STREQUAL "GNU")
+	set(GCC_EXPERTED_VERSION 14.2)
+	if(CMAKE_CXX_COMPILER_VERSION VERSION_LESS GCC_EXPERTED_VERSION)
+		message(FATAL_ERROR "
+		incompatible compiler version.
+		found:    ${DCMAKE_CXX_COMPILER_ID} ${CMAKE_CXX_COMPILER_VERSION}
+		required: ${DCMAKE_CXX_COMPILER_ID} ${GCC_EXPERTED_VERSION}")
+	endif()
+else()
+	#[[ TODO: add support for the right version of clang and so on ]]#
+	message(FATAL_ERROR "
+	this project requires GNU g++ as the main c++ compiler.
+	The current selected compiler is: ${CMAKE_CXX_COMPILER_ID}")
+endif()
+
 # Project build scripts
 add_subdirectory(cmake)
 

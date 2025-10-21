@@ -93,6 +93,7 @@ generate:
 		   -DConfig_PathFor_Dependencies:PATH=$(DEPENDENCIES_PATH) \
 		   -DCMAKE_BUILD_TYPE=$(BUILD_TYPE) \
 		   -DCMAKE_EXPORT_COMPILE_COMMANDS=ON \
+		   -DCMAKE_CXX_COMPILER=$(COMPILER_PATH)\
 		   --log-level=$(CMAKE_LOG_LEVEL)
 	rm -f compile_commands.json
 	ln -s ./$(BUILD_PATH)/compile_commands.json compile_commands.json
@@ -215,8 +216,8 @@ $(CACHE):
 		   -DConfig_PathFor_Dependencies:PATH=$(DEPENDENCIES_PATH) \
 		   -DCMAKE_BUILD_TYPE=$(BUILD_TYPE) \
 		   -DEnableExperimentalFeatures:BOOL=ON \
+		   -DCMAKE_CXX_COMPILER=$(COMPILER_PATH)\
 		   -DDisableAllButExperimental:BOOL=ON
-	#-DConfig_Compiler:PATH=$(COMPILER_PATH) \
 
 .regenerate-status:
 	make generate
