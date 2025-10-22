@@ -9,6 +9,10 @@ endif()
 
 manage_dependency_catch()
 
+if(NOT DisableAllButExperimental)
 add_subdirectory(engine)
+endif()
+if(EnableEditor)
 add_subdirectory(editor)
+endif()
 

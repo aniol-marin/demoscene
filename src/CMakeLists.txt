@@ -1,3 +1,5 @@
+add_subdirectory(utils)
+
 if(NOT DisableAllButExperimental)
 	add_subdirectory(effects)
 	add_subdirectory(engine)

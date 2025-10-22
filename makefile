@@ -93,6 +93,7 @@ generate:
 		   -DConfig_PathFor_Dependencies:PATH=$(DEPENDENCIES_PATH) \
 		   -DCMAKE_BUILD_TYPE=$(BUILD_TYPE) \
 		   -DCMAKE_EXPORT_COMPILE_COMMANDS=ON \
+		   -DCMAKE_CXX_COMPILER=$(COMPILER_PATH)\
 		   --log-level=$(CMAKE_LOG_LEVEL)
 	rm -f compile_commands.json
 	ln -s ./$(BUILD_PATH)/compile_commands.json compile_commands.json
@@ -200,7 +201,7 @@ $(BINARY_PATH)/$(EDITOR_BINARY_NAME):
 		-e raudio[^_]  \
 		-e glad[^_]  \
 		-e imgui[^_]  \
-		-e glfw[^_] -e update_mappings \
+		-e ^glfw[^_] -e update_mappings \
 		| tr -d : | awk '{ print $$1; }'
 
 $(CACHE):
@@ -215,8 +216,8 @@ $(CACHE):
 		   -DConfig_PathFor_Dependencies:PATH=$(DEPENDENCIES_PATH) \
 		   -DCMAKE_BUILD_TYPE=$(BUILD_TYPE) \
 		   -DEnableExperimentalFeatures:BOOL=ON \
+		   -DCMAKE_CXX_COMPILER=$(COMPILER_PATH)\
 		   -DDisableAllButExperimental:BOOL=ON
-	#-DConfig_Compiler:PATH=$(COMPILER_PATH) \
 
 .regenerate-status:
 	make generate
@@ -260,7 +261,6 @@ MESSAGE := no message
 log =  $(info $(shell echo -e '[INFO] \033[35m $(1) \033[m'))
 warn = $(info $(shell echo -e '[WARN] \033[33m $(1) \033[m'))
 fail = $(info $(shell echo -e '[ERROR]\033[31m $(1) \033[m'))
-
 
 %:
 	make .call_fail MESSAGE="Inexisting recipe: [ $@ ]"

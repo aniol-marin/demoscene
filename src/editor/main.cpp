@@ -1,7 +1,5 @@
-#include "editor.h"
-
-#include <iostream>
-#include <memory>
+import editor;
+import std;
 
 int main()
 {

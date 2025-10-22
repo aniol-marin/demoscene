@@ -1,9 +1,12 @@
 # CMake requirements
-cmake_minimum_required(VERSION 3.25..4.1.0)
+cmake_minimum_required(VERSION 4.0.3..4.2.0)
 
 # Pre-project definition compilation requirements
-set(CMAKE_CXX_STANDARD 17)
+set(CMAKE_CXX_STANDARD 26)
+set(CMAKE_EXPERIMENTAL_CXX_IMPORT_STD "d0edc3af-4c50-42ea-a356-e2862fe7a444")
+set(CMAKE_CXX_MODULE_STD ON)
 set(CMAKE_CXX_STANDARD_REQUIRED ON)
+set(CMAKE_CXX_SCAN_FOR_MODULES ON)
 set(CMAKE_CXX_EXTENSION OFF)
 
 # Project definition
@@ -13,13 +16,28 @@ project(MoleDemoScene2025
 	LANGUAGES CXX C
 )
 
+# Project requirements
+if(${CMAKE_CXX_COMPILER_ID} STREQUAL "GNU")
+	set(GCC_EXPERTED_VERSION 14.2)
+	if(CMAKE_CXX_COMPILER_VERSION VERSION_LESS GCC_EXPERTED_VERSION)
+		message(FATAL_ERROR "
+		incompatible compiler version.
+		found:    ${DCMAKE_CXX_COMPILER_ID} ${CMAKE_CXX_COMPILER_VERSION}
+		required: ${DCMAKE_CXX_COMPILER_ID} ${GCC_EXPERTED_VERSION}")
+	endif()
+else()
+	#[[ TODO: add support for the right version of clang and so on ]]#
+	message(FATAL_ERROR "
+	this project requires GNU g++ as the main c++ compiler.
+	The current selected compiler is: ${CMAKE_CXX_COMPILER_ID}")
+endif()
+
 # Project build scripts
 add_subdirectory(cmake)
 
 # Experimental features (WIP)
 if(EnableExperimentalFeatures)
 	message(WARNING "experimental features enabled")
-
 
 	if(EnableInterProceduralOptimization)
 		include(CheckIPOSupported)
