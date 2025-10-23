@@ -33,6 +33,9 @@ main:
 
 # Public recipes
 
+clear:
+	clear;
+
 run: .final
 	make .call_log MESSAGE="running final project"
 	$(RUNTIME) $(BINARY_PATH)/$(BINARY_NAME)
