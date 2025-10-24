@@ -1,7 +1,12 @@
-#ifndef MOLE_PROGRAM_H
-#define MOLE_PROGRAM_H
+export module program;
 
-#include "definitions.h"
+import definitions;
+
+namespace MoleDemo
+{
+	export class Program;
+}
+
 
 namespace MoleDemo
 {
@@ -24,4 +29,3 @@ namespace MoleDemo
     };
 }
 
-#endif
