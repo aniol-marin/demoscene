@@ -13,6 +13,14 @@ endif()
 
 set(EXECUTABLE_NAME editor)
 add_executable(${EXECUTABLE_NAME})
+#[[ TODO create executable cmake script
+in order to encapsulate coverate logic
+]]#
+if(EnableTesting)
+	target_compile_options(${EXECUTABLE_NAME} PRIVATE
+		-coverage
+	)
+endif()
 
 target_link_libraries(${EXECUTABLE_NAME} PRIVATE
 	glfw_wrapper

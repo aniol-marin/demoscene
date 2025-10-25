@@ -1,5 +1,13 @@
 set(EXECUTABLE_NAME demoscene)
 add_executable(${EXECUTABLE_NAME})
+#[[ TODO create executable cmake script
+    in order to encapsulate coverate logic
+]]#
+if(EnableTesting)
+	target_compile_options(${EXECUTABLE_NAME} PRIVATE
+		-coverage
+	)
+endif()
 
 set(MODULE_NAME demo)
 add_module_target_transitional(${MODULE_NAME})

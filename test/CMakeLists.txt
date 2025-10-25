@@ -16,3 +16,6 @@ if(EnableEditor)
 add_subdirectory(editor)
 endif()
 
+add_test(NAME coverage_demo COMMAND demoscene)
+add_test(NAME coverage_editor COMMAND sandbox)
+
