@@ -1,4 +1,6 @@
 
+include(CTest)
+enable_testing()
 include(${CMAKE_SOURCE_DIR}/cmake/add_test_target.cmake RESULT_VARIABLE status)
 if(status)
 	message(STATUS "cmake add_test_target script found")
@@ -10,10 +12,10 @@ endif()
 manage_dependency_catch()
 
 if(NOT DisableAllButExperimental)
-add_subdirectory(engine)
+	add_subdirectory(engine)
 endif()
 if(EnableEditor)
-add_subdirectory(editor)
+	add_subdirectory(editor)
 endif()
 
 add_test(NAME coverage_demo COMMAND demoscene)
