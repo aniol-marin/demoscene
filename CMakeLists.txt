@@ -1,13 +1,11 @@
 # CMake requirements
-cmake_minimum_required(VERSION 4.0.3..4.2.0)
+cmake_minimum_required(VERSION 3.5)
 
 # Pre-project definition compilation requirements
-set(CMAKE_CXX_STANDARD 26)
-set(CMAKE_EXPERIMENTAL_CXX_IMPORT_STD "d0edc3af-4c50-42ea-a356-e2862fe7a444")
-set(CMAKE_CXX_MODULE_STD ON)
+set(CMAKE_CXX_STANDARD 17)
 set(CMAKE_CXX_STANDARD_REQUIRED ON)
-set(CMAKE_CXX_SCAN_FOR_MODULES ON)
 set(CMAKE_CXX_EXTENSION OFF)
+set(GCC_EXPERTED_VERSION 11.0)
 
 # Project definition
 project(MoleDemoScene2025
@@ -18,7 +16,6 @@ project(MoleDemoScene2025
 
 # Project requirements
 if(${CMAKE_CXX_COMPILER_ID} STREQUAL "GNU")
-	set(GCC_EXPERTED_VERSION 14.2)
 	if(CMAKE_CXX_COMPILER_VERSION VERSION_LESS GCC_EXPERTED_VERSION)
 		message(FATAL_ERROR "
 		incompatible compiler version.
