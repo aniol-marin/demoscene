@@ -5,6 +5,7 @@ manage_dependency_imgui()
 
 target_link_libraries(${MODULE_NAME} PRIVATE
 	imgui
+	glfw_wrapper
 )
 
 target_sources(${MODULE_NAME} PUBLIC

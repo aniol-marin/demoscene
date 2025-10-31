@@ -1,8 +1,6 @@
 module;
 
-/*
 #include "GLFW/glfw3.h"
- */
 
 export module glfw_wrapper;
 
@@ -40,9 +38,7 @@ namespace mole::graphics
  */
     export struct WindowContext
     {
-/*
         GLFWwindow* window{ NULL };
- */
         const window_size size;
         const std::string_view name;
 	/*
