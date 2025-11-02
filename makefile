@@ -68,7 +68,7 @@ profile: .final
 	fi
 
 ctest:
-	ctest --dashboard Experimental
+	cd $(BUILD_PATH); ctest --dashboard Experimental
 
 ctest-coverage:
 	ctest --test-model Experimental --test-action Coverage
