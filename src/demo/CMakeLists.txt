@@ -46,3 +46,6 @@ endif()
 target_compile_options(${MODULE_NAME} PRIVATE
 	${WARNING_SUPPRESSION}
 )
+set_source_files_properties(main.cpp
+	APPEND PROPERTY COMPILE_DEFINITIONS ${WARNING_SUPPRESSION}
+)
