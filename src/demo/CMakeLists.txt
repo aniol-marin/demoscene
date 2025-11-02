@@ -37,3 +37,12 @@ add_custom_command(TARGET ${EXECUTABLE_NAME} POST_BUILD
 		${CMAKE_RUNTIME_OUTPUT_DIRECTORY}/resources
 )
 
+set(WARNING_SUPPRESSION "")
+if(MSVC)
+	set(${WARNING_SUPPRESSION} "/W0")
+else()
+	set(${WARNING_SUPPRESSION} "-w")
+endif()
+target_compile_options(${MODULE_NAME} PRIVATE
+	${WARNING_SUPPRESSION}
+)

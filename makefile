@@ -67,8 +67,10 @@ profile: .final
 		valgrind --track-origins=yes $(BINARY_PATH)/$(BINARY_NAME); \
 	fi
 
+.PHONY: ctest
 ctest:
 	cd $(BUILD_PATH); ctest --dashboard Experimental
+	ctest --script ./ctest/CTestScript.cmake
 
 ctest-coverage:
 	ctest --test-model Experimental --test-action Coverage
