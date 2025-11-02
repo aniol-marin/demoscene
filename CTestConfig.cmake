@@ -13,17 +13,57 @@ ctest_configure(OPTIONS "--compile-no-warning-as-error")
 ctest_build(NUMBER_ERRORS errors NUMBER_WARNINGS warnings)
 set(MAX_ERRORS 0)
 set(MAX_WARNINGS 0)
-if((errors GREATER MAX_ERRORS) OR (warnings GREATER MAX_WARNINGS))
+if((errors GREATER ${MAX_ERRORS}) OR (warnings GREATER ${MAX_WARNINGS}))
 	ctest_submit()
 	message(FATAL_ERROR "build cancelled due to failing conditions:
 		found ${errors}, ${MAX_ERRORS} permitted 
-		found ${warnings}, ${MAX_WARNINGS} permitted "
+		found ${warnings}, ${MAX_WARNINGS} permitted"
 	)
 endif()
+
+#alternatively, make sure warning errors diminish over time
+file(STRINGS "~/last_warning_count.txt" threshold LIMIT_COUNT 1)
+if ((errors GREATER ${MAX_ERRORS}) OR (warnings GREATER threshold))
+	ctest_submit()
+	message(FATAL_ERROR "build cancelled due to increased number of warnings:
+		found ${warnings}, ${threshold} permitted"
+	)
+endif()
+file(WRITE("~/last_warning_count.txt" ${warnings})
+
 
 #[[ warnings as errors is ok for development, not for other build pipelines
 ctest_configure(OPTIONS "--compile-no-warning-as-error")
 ]]#
+
+#specify different compilers for different pipelines (!!!!)
+set(ENV{CC} "/usr/local/bin/clang-21")
+set(ENV{CCX} "/usr/local/bin/clang++")
+set(ENV{CLANGCCX} "/usr/local/bin/clang-cpp")
+set(ENV{CLAZY_CHECKS} "level2")
+
+# set tooling options in pipelines, not builds themselves
+#.. linters
+set(CMAKE_CXX_CLANG_TIDY ON)
+set(CMAKE_CXX_CPPCHECK ON)
+set(CMAKE_CXX_CPPLINT ON)
+set(CMAKE_CXX_ICSTAT ON) # from CMake v4.1.0 if I got it right
+#.. linkers
+set(CMAKE_CXX_INCLUDE_WHAT_YOU_USE ON)
+set(CMAKE_CXX_LINK_WHAT_YOU_USE ON)
+#.. specific file linker option
+set_source_files_properties(main.cpp
+	SKIP_LINTING
+)
+
+# test launcher injection:
+set_target_property(CMAKE_CXX_COMPILER_LAUNCHER "something tbd")
+set_target_property(CMAKE_CXX_LINKER_LAUNCHER "something tbd")
+set_target_property(TEST_LAUNCHER "something tbd")
+
+# enable extraction of cmake error/warning metainfo (?)
+set(CTEST_USE_LAUNCHERS ON)
+include(CTestUseLaunchers)
 
 # parallelization
 #[[
