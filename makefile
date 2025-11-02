@@ -15,6 +15,7 @@ CMAKE_ROOT_PATH := .
 BUILD_PATH := $(call current_folder)/build/$(BUILD_TYPE)
 BINARY_PATH := $(call current_folder)/bin
 LIBRARY_PATH := $(call current_folder)/lib
+EXPORT_PATH := /home/bru/demoscene/export
 TEMP_PATH := /tmp
 DEPENDENCIES_PATH := $(call current_folder)/external
 CACHE := $(BUILD_PATH)/CMakeCache.txt
@@ -66,6 +67,10 @@ profile: .final
 		make .call_log MESSAGE="profiling"; \
 		valgrind --track-origins=yes $(BINARY_PATH)/$(BINARY_NAME); \
 	fi
+
+.PHONY: pack
+pack:
+	cd $(BUILD_PATH); cpack -DCPACK_PACKAGE_DIRECTORY=$(EXPORT_PATH)
 
 .PHONY: ctest
 ctest:
