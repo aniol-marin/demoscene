@@ -29,7 +29,7 @@ if ((errors GREATER ${MAX_ERRORS}) OR (warnings GREATER threshold))
 		found ${warnings}, ${threshold} permitted"
 	)
 endif()
-file(WRITE("~/last_warning_count.txt" ${warnings})
+file(WRITE "~/last_warning_count.txt" ${warnings})
 
 
 #[[ warnings as errors is ok for development, not for other build pipelines
@@ -77,3 +77,15 @@ else()
 	ctest_test(PARALLEL_LEVEL ${nproc})
 endif()
 ]]#
+
+# Something about pipeline that looks interesting enough but I have no idea how to plug in the project yet
+set(CTEST_CMAKE_GENERATOR "Ninja Multi-Config")
+ctest_start()
+ctest_configure()
+ctest_build(CONFIG Debug)
+ctest_build(CONFIG Release)
+# "not possible yet"
+#ctest_test(CONFIG Debug)
+#ctest_test(CONFIG Release)
+ctest_submit()
+
