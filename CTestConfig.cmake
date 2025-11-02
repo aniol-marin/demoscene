@@ -87,5 +87,6 @@ ctest_build(CONFIG Release)
 # "not possible yet"
 #ctest_test(CONFIG Debug)
 #ctest_test(CONFIG Release)
+#ctest_package(CONFIGURATIONS Debug Release)
 ctest_submit()
 
