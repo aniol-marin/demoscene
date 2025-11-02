@@ -67,6 +67,9 @@ profile: .final
 		valgrind --track-origins=yes $(BINARY_PATH)/$(BINARY_NAME); \
 	fi
 
+ctest:
+	ctest --dashboard Experimental
+
 #needed for:
 # - glad generation (curl, python)
 # - glfw generation (alsa sound 2, wayland scanner, pkg-config, xkb, opengl)

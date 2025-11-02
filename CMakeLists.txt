@@ -15,6 +15,7 @@ project(MoleDemoScene2025
 	DESCRIPTION "A CPU based rendering creation"
 	LANGUAGES CXX C
 )
+include(CTest)
 
 # Project requirements
 if(${CMAKE_CXX_COMPILER_ID} STREQUAL "GNU")

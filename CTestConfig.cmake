@@ -1,0 +1,2 @@
+set(CTEST_NIGHTLY_START_TIME "0:00:00 UTC")
+#set(CTEST_SUBMIT_URL "https://...")
