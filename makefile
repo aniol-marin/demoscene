@@ -70,6 +70,9 @@ profile: .final
 ctest:
 	ctest --dashboard Experimental
 
+ctest-coverage:
+	ctest --test-model Experimental --test-action Coverage
+
 #needed for:
 # - glad generation (curl, python)
 # - glfw generation (alsa sound 2, wayland scanner, pkg-config, xkb, opengl)
