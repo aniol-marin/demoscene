@@ -32,6 +32,12 @@ target_sources(${MODULE_NAME} PUBLIC
 	Fire.cpp
 )
 
+set(WARNING_SUPPRESSION "")
+if(MSVC)
+	set(${WARNING_SUPPRESSION} "/W0")
+else()
+	set(${WARNING_SUPPRESSION} "-w")
+endif()
 set_source_files_properties(Stars.cpp
 	APPEND PROPERTY COMPILE_DEFINITIONS ${WARNING_SUPPRESSION}
 )

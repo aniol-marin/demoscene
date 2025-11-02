@@ -43,9 +43,15 @@ if(MSVC)
 else()
 	set(${WARNING_SUPPRESSION} "-w")
 endif()
+#directory level
+add_compile_options(
+	${WARNING_SUPPRESSION}
+)
+#target level
 target_compile_options(${MODULE_NAME} PRIVATE
 	${WARNING_SUPPRESSION}
 )
+#file level
 set_source_files_properties(main.cpp
 	APPEND PROPERTY COMPILE_DEFINITIONS ${WARNING_SUPPRESSION}
 )
