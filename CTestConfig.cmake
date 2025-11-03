@@ -9,8 +9,10 @@ set(CTEST_CMAKE_GENERATOR "Ninja")
 find_program(CTEST_UPDATE_COMMAND "git")
 
 set(ENV{CXXFLAGS} "-Wall -Wextra")
+#[[
 ctest_configure(OPTIONS "--compile-no-warning-as-error")
 ctest_build(NUMBER_ERRORS errors NUMBER_WARNINGS warnings)
+]]#
 set(MAX_ERRORS 0)
 set(MAX_WARNINGS 0)
 if((errors GREATER ${MAX_ERRORS}) OR (warnings GREATER ${MAX_WARNINGS}))
@@ -22,6 +24,7 @@ if((errors GREATER ${MAX_ERRORS}) OR (warnings GREATER ${MAX_WARNINGS}))
 endif()
 
 #alternatively, make sure warning errors diminish over time
+#[[
 file(STRINGS "~/last_warning_count.txt" threshold LIMIT_COUNT 1)
 if ((errors GREATER ${MAX_ERRORS}) OR (warnings GREATER threshold))
 	ctest_submit()
@@ -30,6 +33,7 @@ if ((errors GREATER ${MAX_ERRORS}) OR (warnings GREATER threshold))
 	)
 endif()
 file(WRITE "~/last_warning_count.txt" ${warnings})
+]]#
 
 
 #[[ warnings as errors is ok for development, not for other build pipelines
@@ -57,9 +61,11 @@ set_source_files_properties(main.cpp
 )
 
 # test launcher injection:
+#[[
 set_target_property(CMAKE_CXX_COMPILER_LAUNCHER "something tbd")
 set_target_property(CMAKE_CXX_LINKER_LAUNCHER "something tbd")
 set_target_property(TEST_LAUNCHER "something tbd")
+]]#
 
 # enable extraction of cmake error/warning metainfo (?)
 set(CTEST_USE_LAUNCHERS ON)
@@ -79,6 +85,7 @@ endif()
 ]]#
 
 # Something about pipeline that looks interesting enough but I have no idea how to plug in the project yet
+#[[
 set(CTEST_CMAKE_GENERATOR "Ninja Multi-Config")
 ctest_start()
 ctest_configure()
@@ -89,4 +96,5 @@ ctest_build(CONFIG Release)
 #ctest_test(CONFIG Release)
 #ctest_package(CONFIGURATIONS Debug Release)
 ctest_submit()
+]]#
 
