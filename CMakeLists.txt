@@ -1,5 +1,8 @@
 # CMake requirements
-cmake_minimum_required(VERSION 3.5)
+#[[	Expected policies:
+	- [CMP0076] introduced in 3.13
+]]#
+cmake_minimum_required(VERSION 3.13)
 
 # Pre-project definition compilation requirements
 set(CMAKE_CXX_STANDARD 17)
