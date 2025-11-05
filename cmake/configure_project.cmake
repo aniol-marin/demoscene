@@ -30,26 +30,15 @@ function(configure_project)
 		)
 	endif()
 	if(NOT DEFINED DisableAllButExperimental)
-		cmake_dependent_option(
-			DisableAllButExperimental "DISABLES regular targets" ON
-			"EnableExperimentalFeatures" OFF
-		)
+		option(DisableAllButExperimental "DISABLES all the regular targets" OFF)
 	endif()
-
-	# Compiler choice
-	if(NOT DEFINED Config_Compiler)
-		set(Config_Compiler
-			"${CMAKE_CXX_COMPILER}"
-			CACHE PATH
-			"Specify the compiler to be used"
-		)
+	if(NOT DEFINED Disable_Demo)
+		option(DisableDemo "DISABLES the demo target" OFF)
 	endif()
-	set(CMAKE_CXX_COMPILER ${Config_Compiler}
-		CACHE PATH
-		"[AUTOMATICALLY REGENERATED] the effective compiler to be used"
-		FORCE
-	)
-	mark_as_advanced(FORCE CMAKE_RUNTIME_OUTPUT_DIRECTORY)
+	if(NOT DEFINED Disable_Engine)
+		# TO DO dependencies with demo expecimental etc
+		option(DisableEngine "DISABLES the engine target" OFF)
+	endif()
 
 	# Runtime files output
 	if(NOT DEFINED Config_PathFor_Binaries)
