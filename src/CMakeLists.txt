@@ -1,9 +1,13 @@
 add_subdirectory(utils)
 
 if(NOT DisableAllButExperimental)
-	add_subdirectory(effects)
-	add_subdirectory(engine)
-	add_subdirectory(demo)
+	if(NOT Disable_Demo)
+		add_subdirectory(demo)
+		add_subdirectory(effects)
+	endif()
+	if(NOT Disable_Engine)
+		add_subdirectory(engine)
+	endif()
 else()
 	message(WARNING "
 	all non-experimental targets disabled")
