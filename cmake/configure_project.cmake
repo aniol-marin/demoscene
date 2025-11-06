@@ -33,11 +33,11 @@ function(configure_project)
 		option(DisableAllButExperimental "DISABLES all the regular targets" OFF)
 	endif()
 	if(NOT DEFINED Disable_Demo)
-		option(DisableDemo "DISABLES the demo target" OFF)
+		option(Disable_Demo "DISABLES the demo target" OFF)
 	endif()
 	if(NOT DEFINED Disable_Engine)
 		# TO DO dependencies with demo expecimental etc
-		option(DisableEngine "DISABLES the engine target" OFF)
+		option(Disable_Engine "DISABLES the engine target" OFF)
 	endif()
 
 	# Runtime files output
