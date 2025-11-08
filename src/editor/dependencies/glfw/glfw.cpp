@@ -63,7 +63,7 @@ namespace mole::graphics
 
     void KeyCallback(GLFWwindow* window, int key, int scancode, int action, int mods)
     {
-	    /*
+        /*
         if (callbacks.count(key))
         {
             std::vector<callback>& actions = callbacks.at(key);
@@ -72,13 +72,13 @@ namespace mole::graphics
                 action();
             }
         }
-	     */
+         */
     }
 
     void MouseButtonCallback(GLFWwindow* window, int button, int action, int mods)
     {
 
-	    /*
+        /*
         if (MouseButtonCallbacks.count(button))
         {
             auto& actions = MouseButtonCallbacks.at(button);
@@ -87,13 +87,13 @@ namespace mole::graphics
                 action();
             }
         }
-	     */
+         */
     }
 
     void MouseCursorPosCallback(GLFWwindow* window, double x, double y)
     {
 
-	    /*
+        /*
         static Vector2 previous{ (float) x, (float) y };
 
         const Vector2 c{ (float) x, (float) y };
@@ -104,6 +104,6 @@ namespace mole::graphics
         {
             callback();
         }
-	     */
+         */
     }
 }
