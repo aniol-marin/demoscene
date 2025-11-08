@@ -40,7 +40,7 @@ namespace mole::graphics
             */
     };
 
-    struct RenderContext
+    export struct RenderContext
     {
 
         WindowContext& window;

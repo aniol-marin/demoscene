@@ -1,4 +1,4 @@
-import editor;
+import editor_;
 import std;
 
 int main()
