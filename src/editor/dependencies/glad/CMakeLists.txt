@@ -8,8 +8,8 @@ target_sources(${MODULE_NAME} PUBLIC
 )
 
 target_link_libraries(glad_wrapper
-	PRIVATE glfw_wrapper
-	PRIVATE engine_definitions
-	PRIVATE glad
+	glfw_wrapper
+	engine_definitions
+	glad
 )
 
