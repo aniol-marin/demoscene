@@ -16,6 +16,7 @@ project(MoleDemoScene2025
 	DESCRIPTION "A CPU based rendering creation"
 	LANGUAGES CXX C
 )
+enable_testing()
 include(CTest)
 
 # Project requirements
