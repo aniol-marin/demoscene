@@ -35,6 +35,9 @@ endif()
 
 set(MODULE_NAME editor_)
 add_module_target_transitional(${MODULE_NAME})
+target_sources(${EXECUTABLE_NAME} PUBLIC
+	editor.cpp
+)
 target_link_libraries(${MODULE_NAME} PRIVATE
 	glfw_wrapper
 	glad_wrapper
