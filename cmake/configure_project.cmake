@@ -23,15 +23,12 @@ function(configure_project)
 	if(NOT DEFINED EnableTesting)
 		option(EnableTesting "enables testing targets" OFF)
 	endif()
+	if(NOT DEFINED DisableAllButExperimental)
+		option(DisableAllButExperimental "DISABLES regular targets" OFF)
+	endif()
 	if(NOT DEFINED EnableInterProceduralOptimization)
 		cmake_dependent_option(
 			EnableInterProceduralOptimization "tries to enable IPO [EXPERIMENTAL]" OFF
-			"EnableExperimentalFeatures" OFF
-		)
-	endif()
-	if(NOT DEFINED DisableAllButExperimental)
-		cmake_dependent_option(
-			DisableAllButExperimental "DISABLES regular targets" ON
 			"EnableExperimentalFeatures" OFF
 		)
 	endif()
