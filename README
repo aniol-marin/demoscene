@@ -7,6 +7,8 @@
 
 a tiny audiovisual experience with an overkilled tooling environment.
 
+See current development status at the [Project CDash Page](https://my.cdash.org/index.php?project=mole_demo)
+
 ## Usage
 
 The software is designed to simply compile and run in as many environments as possible, as long as the minimum development requirements are met. Binary distribution is not available at the moment, but its support would be much wider since most of the dependencies are meant to be self contained.
