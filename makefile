@@ -74,7 +74,7 @@ pack:
 
 .PHONY: ctest
 report-experimental: generate
-	cd $(BUILD_PATH); --dashboard Experimental
+	cd $(BUILD_PATH); ctest --dashboard Experimental
 	#ctest --script ./ctest/CTestScript.cmake
 
 check-coverage: generate
