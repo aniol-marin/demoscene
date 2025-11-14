@@ -9,7 +9,7 @@ import definitions;
 namespace SDL
 {
     using namespace mole_def;
-    struct SDLManager
+    export struct SDLManager
     {
         SDL_Window* window{};
         SDL_Surface* surface{};

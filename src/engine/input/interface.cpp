@@ -1,8 +1,7 @@
-#ifndef MOLE_INPUT
-#define MOLE_INPUT
+export module input;
 
-#include "definitions.h"
-#include "sdl_wrapper.h"
+import definitions;
+import sdl_wrapper;
 
 namespace MoleDemo
 {
@@ -26,4 +25,3 @@ class MoleDemo::InputManager
 	ProgramStatus PollEvents();
 };
 
-#endif //! MOLE_INPUT

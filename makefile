@@ -73,12 +73,12 @@ pack:
 	cd $(BUILD_PATH); cpack -DCPACK_PACKAGE_DIRECTORY=$(EXPORT_PATH)
 
 .PHONY: ctest
-ctest:
-	cd $(BUILD_PATH); ctest --dashboard Experimental
+report-experimental: generate
+	cd $(BUILD_PATH); --dashboard Experimental
 	#ctest --script ./ctest/CTestScript.cmake
 
-ctest-coverage:
-	ctest --test-model Experimental --test-action Coverage
+check-coverage: generate
+	cd $(BUILD_PATH); ctest --test-model Experimental --test-action Coverage
 
 #needed for:
 # - glad generation (curl, python)
