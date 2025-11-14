@@ -172,9 +172,10 @@ export namespace mole_def
 
     struct Screen
     {
-        point1D w, h;
+        point1D w;
+        point1D h;
 
-        constexpr Screen(point1D width, point1D heigth);
+        Screen(point1D width, point1D heigth);
         ~Screen() = default;
         Screen(const Screen&) = default;
         Screen(Screen&&) = default;

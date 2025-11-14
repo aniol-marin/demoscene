@@ -2,7 +2,7 @@ module definitions;
 
 namespace mole_def
 {
-    constexpr Screen::Screen(point1D width, point1D heigth) : w{ width }, h{ heigth } {}
+    Screen::Screen(point1D width, point1D heigth) : w{ width }, h{ heigth } {}
 
     constexpr index Screen::GetIndex(Point2D point) const
     {
