@@ -1,11 +1,12 @@
-#ifndef MOLE_INJECTION_H
-#define MOLE_INJECTION_H
+export module injection;
 
-#include <cstdint>
-#include <functional>
-#include <memory>
-#include <any>
-#include <map>
+import std;
+import std.compat;
+
+namespace MoleDemo
+{
+	export class Container;
+}
 
 namespace MoleDemo
 {
@@ -150,5 +151,4 @@ namespace MoleDemo
 		}
 	};
 }
-#endif //!MOLE_INJECTION_H
 
