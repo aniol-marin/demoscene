@@ -4,6 +4,8 @@ import std;
 import definitions;
 import timer;
 
+using namespace mole_def;
+
 namespace MoleDemo
 {
 	export class Effect;
