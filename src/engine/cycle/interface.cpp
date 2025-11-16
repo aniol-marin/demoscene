@@ -8,6 +8,7 @@ import timer;
 import program;
 import input;
 import render;
+using namespace mole_def;
 
 namespace MoleDemo
 {

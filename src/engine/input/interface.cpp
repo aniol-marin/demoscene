@@ -5,7 +5,7 @@ import sdl_wrapper;
 
 namespace MoleDemo
 {
-	struct InputManager;
+	export struct InputManager;
 } // namespace MoleDemo
 
 using namespace mole_def;
