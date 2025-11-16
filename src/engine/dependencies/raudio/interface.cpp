@@ -1,13 +1,18 @@
-#ifndef MOLE_RAUDIO_WRAPPER_H
-#define MOLE_RAUDIO_WRAPPER_H
-
-#include "definitions.h"
+module;
 
 #include "raudio.h"
 
-#include <string_view>
+export module raudio_wrapper;
 
-namespace RAudio
+import std;
+import definitions;
+
+namespace raudio
+{
+	export struct AudioManager;
+}
+
+namespace raudio
 {
 	using namespace mole_def;
 	struct AudioManager
@@ -32,11 +37,9 @@ namespace RAudio
 		bool initialized { false };
 		bool loaded { false };
 		Music music {};
-		static permille intensity;
+		permille intensity{};
 
 		static void SampleIntensity(void* buffer, unsigned int frames);
 	};
 }
-
-#endif // !MOLE_RAUDIO_WRAPPER_H
 

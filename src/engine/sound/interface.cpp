@@ -1,14 +1,11 @@
-#ifndef MOLE_SOUND
-#define MOLE_SOUND
+export module sound;
 
-#include <string>
-
-#include "definitions.h"
-#include "raudio_wrapper.h"
+import std;
+import raudio_wrapper;
 
 namespace MoleDemo
 {
-	class SoundManager;
+	export class SoundManager;
 }
 
 using namespace mole_def;
@@ -36,6 +33,4 @@ public:
 	permille GetCurrentIntensity();
 	seconds GetMusicDuration();
 };
-
-#endif//!MOLE_SOUND
 
