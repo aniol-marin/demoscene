@@ -1,6 +1,7 @@
 export module sound;
 
 import std;
+import definitions;
 import raudio_wrapper;
 
 namespace MoleDemo
@@ -15,7 +16,7 @@ class MoleDemo::SoundManager :
 	public Loadable
 {
 
-	RAudio::AudioManager m{};
+	raudio::AudioManager m{};
 public:
 
 	SoundManager() = default;

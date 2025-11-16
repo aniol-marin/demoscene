@@ -1,6 +1,7 @@
 #include<catch2/catch_test_macros.hpp>
 
-#include "raudio_wrapper.h"
+import std;
+import raudio_wrapper;
 
 SCENARIO("Manager behavior")
 {
@@ -10,11 +11,11 @@ SCENARIO("Manager behavior")
 		{
 			THEN("it must not throw")
 			{
-				REQUIRE_NOTHROW(RAudio::AudioManager {});
+				REQUIRE_NOTHROW(raudio::AudioManager {});
 			}
 			THEN("shouldn't be copyable")
 			{
-				CHECK(std::is_copy_constructible_v<RAudio::AudioManager> == false);
+				CHECK(std::is_copy_constructible_v<raudio::AudioManager> == false);
 			}
 		}
 
@@ -23,7 +24,7 @@ SCENARIO("Manager behavior")
 
 			THEN("it should not throw")
 			{
-				RAudio::AudioManager m {};
+				raudio::AudioManager m {};
 				CHECK_NOTHROW(m.Init());
 				CHECK_NOTHROW(m.Finalize());
 			}
@@ -31,13 +32,13 @@ SCENARIO("Manager behavior")
 			{
 				REQUIRE_NOTHROW( std::invoke([&]()
 				{
-					RAudio::AudioManager m {};
+					raudio::AudioManager m {};
 					m.Init();
 					m.Finalize();
 				}));
 				REQUIRE_NOTHROW( std::invoke([&]()
 				{
-					RAudio::AudioManager m {};
+					raudio::AudioManager m {};
 					m.Init();
 					m.Finalize();
 					m.Init();
@@ -47,21 +48,21 @@ SCENARIO("Manager behavior")
 		}
 		AND_WHEN("handling a valid file")
 		{
-			RAudio::AudioManager m {};
+			raudio::AudioManager m {};
 			std::string_view file{ "./bin/test/resources/molelofi.mp3" };
 
 			THEN("it should load correctly")
 			{
 				REQUIRE_NOTHROW( std::invoke([&]()
 				{
-					RAudio::AudioManager m {};
+					raudio::AudioManager m {};
 					m.Init();
 					m.Load(file);
 					m.Finalize();
 				}));
 				REQUIRE_NOTHROW( std::invoke([&]()
 				{
-					RAudio::AudioManager m {};
+					raudio::AudioManager m {};
 					m.Init();
 					m.Load(file);
 					m.Unload();
@@ -72,13 +73,13 @@ SCENARIO("Manager behavior")
 			{
 				REQUIRE_NOTHROW( std::invoke([&]()
 				{
-					RAudio::AudioManager m {};
+					raudio::AudioManager m {};
 					m.Init();
 					m.Play();
 				}));
 				REQUIRE_NOTHROW( std::invoke([&]()
 				{
-					RAudio::AudioManager m {};
+					raudio::AudioManager m {};
 					m.Init();
 					m.Play();
 					m.Stop();
@@ -88,14 +89,14 @@ SCENARIO("Manager behavior")
 			{
 				REQUIRE_NOTHROW( std::invoke([&]()
 				{
-					RAudio::AudioManager m {};
+					raudio::AudioManager m {};
 					m.Init();
 					m.Update();
 				}));
 			}
 			THEN("it should be possible to query its state")
 			{
-				RAudio::AudioManager m {};
+				raudio::AudioManager m {};
 				CHECK_NOTHROW( m.GetIntensity() );
 				CHECK_NOTHROW( m.GetDuration() );
 			}
@@ -110,7 +111,7 @@ SCENARIO("Manager behavior")
 			{
 				CHECK_THROWS( std::invoke([&]()
 				{
-					RAudio::AudioManager m {};
+					raudio::AudioManager m {};
 					m.Init();
 					m.Init();
 				}));
