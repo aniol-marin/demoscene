@@ -1,4 +1,5 @@
 
+#[==[
 include(${CMAKE_SOURCE_DIR}/cmake/add_module_target.cmake RESULT_VARIABLE status)
 if(status)
 	message(STATUS "cmake add_module_target script found")
@@ -38,4 +39,5 @@ target_link_libraries(${MODULE_NAME}
 target_sources(${MODULE_NAME} PUBLIC
 	engine.cpp
 )
+]==]#
 
