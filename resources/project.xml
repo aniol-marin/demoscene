@@ -1,0 +1,24 @@
+<demoscene>
+	<music file="resources/molelofi.mp3"/>
+	<timeline>
+		<layer name"background">
+			<effect type="Solid" color="BLACK"/>
+		</layer>
+		<event timestamp="1">
+			<transition type="CUT"/>
+			<layer>
+				<effect type="Stars"/>
+			</layer>
+		</event>
+		<event timestamp="5">
+			<transition type="FADE_IN" duration="2"/>
+			<layer name"background">
+				<effect type="Stars"/>
+			</layer>
+			<layer name "foreground">
+				<effect type="Tunel" texture="RandomNoise"/>
+			</layer>
+			<effect type=""/>
+		</event>
+	</timeline>
+</demoscene>

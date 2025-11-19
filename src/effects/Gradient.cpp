@@ -1,54 +1,81 @@
-module effects;
+export module gradient;
 
-namespace MoleDemo {
+import std;
+import effect;
+import definitions;
+import timer;
 
-	Gradient::Gradient() :
-		Gradient{ nullptr, &textureSize } {}
+namespace MoleDemo
+{
+    export class Gradient;
+}
 
-	Gradient::Gradient(Timer* timer, Screen* screen) :
-		Effect{ timer, screen }	{
-	}
+class MoleDemo::Gradient
+  : public Texturable
+  , public Effect
+{
+    Color NE, NW, SW, SE;
 
-	Gradient::~Gradient() {
-	}
+public:
+    Gradient();
+    Gradient(Timer* timer, Screen* screen);
+    ~Gradient();
 
-	void Gradient::Load() {
-		Color left;
-		Color right;
-		for (point1D y = 0; y < screen->h; ++y) {
+    void SetColors(Color NE, Color NW, Color SW, Color SE);
 
-			permille vertical{ (permille)(y * permilleFactor / screen->w) };
-			right = NE.lerp(SE, vertical);
-			left = NW.lerp(SW, vertical);
+    void Load() override;
+    void Unload() override;
+    void Update(permille intensity, milliseconds delta) override;
+    void Cache(StencilBuffer& mask) override;
+    rgbaColor GetMappedUV(CoordinateUV uv) override;
+};
 
-			for (point1D x = 0; x < screen->w; ++x) {
-				permille horizontal{ (permille)(x * permilleFactor / screen->w) };
-				PutPixel(Point2D{ x, y }, left.lerp(right, horizontal).rgba());
-			}
-		}
-	}
+namespace MoleDemo
+{
 
-	void Gradient::Unload() {
-	}
+    Gradient::Gradient() : Gradient{ nullptr, &textureSize } {}
 
-	void Gradient::Update(permille intensity, milliseconds delta) {
-	}
+    Gradient::Gradient(Timer* timer, Screen* screen) : Effect{ timer, screen } {}
 
-	void Gradient::Cache(StencilBuffer& mask) {
-	}
+    Gradient::~Gradient() {}
 
-	void Gradient::SetColors(Color NE, Color NW, Color SW, Color SE) {
-		this->NE = NE;
-		this->NW = NW;
-		this->SE = SE;
-		this->SW = SW;
-	}
+    void Gradient::Load()
+    {
+        Color left;
+        Color right;
+        for (point1D y = 0; y < screen->h; ++y)
+        {
 
-	rgbaColor Gradient::GetMappedUV(CoordinateUV p) {
-		Point2D mapped{
-			abs((int)(p.u * permilleFactor / screen->w)) % screen->w,
-			abs((int)(p.v * permilleFactor / screen->h)) % screen->h
-		};
-		return Effect::GetPixel(mapped);
-	}
+            permille vertical{ (permille) (y * permilleFactor / screen->w) };
+            right = NE.lerp(SE, vertical);
+            left = NW.lerp(SW, vertical);
+
+            for (point1D x = 0; x < screen->w; ++x)
+            {
+                permille horizontal{ (permille) (x * permilleFactor / screen->w) };
+                PutPixel(Point2D{ x, y }, left.lerp(right, horizontal).rgba());
+            }
+        }
+    }
+
+    void Gradient::Unload() {}
+
+    void Gradient::Update(permille intensity, milliseconds delta) {}
+
+    void Gradient::Cache(StencilBuffer& mask) {}
+
+    void Gradient::SetColors(Color NE, Color NW, Color SW, Color SE)
+    {
+        this->NE = NE;
+        this->NW = NW;
+        this->SE = SE;
+        this->SW = SW;
+    }
+
+    rgbaColor Gradient::GetMappedUV(CoordinateUV p)
+    {
+        Point2D mapped{ std::abs((int) (p.u * permilleFactor / screen->w)) % screen->w,
+                        std::abs((int) (p.v * permilleFactor / screen->h)) % screen->h };
+        return Effect::GetPixel(mapped);
+    }
 }

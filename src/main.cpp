@@ -1,12 +1,10 @@
 import demo;
+import definitions;
 
-int main()
+int
+main()
 {
-	MoleDemo::Demo demo{ "resources/project.json" }; // TODO load from project timeline
+    MoleDemo::Demo demo{ "resources/project.xml" };
 
-	demo.Init();
-	demo.Run();
-	demo.Finalize();
-
-	return 0;
+    demo.Run();
 }

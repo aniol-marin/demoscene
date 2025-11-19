@@ -1,82 +1,100 @@
-module effects;
+export module noise;
 
-namespace MoleDemo {
+import std.compat;
+import effect;
+import definitions;
+import timer;
 
-	RandomNoise::RandomNoise() :
-		RandomNoise{ nullptr, &textureSize } {}
+namespace MoleDemo
+{
+    export class RandomNoise;
+}
 
-	RandomNoise::RandomNoise(Timer* timer, Screen* screen) :
-		Effect{ timer, screen } {
-	}
+class MoleDemo::RandomNoise
+  : public Texturable
+  , public Effect
+{
+    ChannelBuffer noise;
+    Color A, B;
+    bunch repetitions;
 
-	RandomNoise::~RandomNoise() {
-	}
+public:
+    RandomNoise();
+    RandomNoise(Timer* timer, Screen* screen);
+    ~RandomNoise();
 
-	void RandomNoise::Load() {
+    void Set(Color a, Color b, bunch repetitions);
 
-		Screen sampler{ repetitions, repetitions };
-		index samples{ (index)sampler.GetPixelCount() };
+    void Load() override;
+    void Unload() override;
+    void Update(permille intensity, milliseconds delta) override;
+    void Cache(StencilBuffer& mask) override;
+    rgbaColor GetMappedUV(CoordinateUV uv) override;
+};
+namespace MoleDemo
+{
 
-		noise.clear();
-		noise.assign(samples, clear);
-		for (index i{ 0 }; i < samples; ++i) {
-			noise[i] = rand() % permilleFactor;
-		}
+    RandomNoise::RandomNoise() : RandomNoise{ nullptr, &textureSize } {}
 
+    RandomNoise::RandomNoise(Timer* timer, Screen* screen) : Effect{ timer, screen } {}
 
-		point1D period{ screen->w / repetitions };
-		for (point1D y = 0; y < screen->h; ++y) {
-			for (point1D x = 0; x < screen->w; ++x) {
+    RandomNoise::~RandomNoise() {}
 
-				index horizontal{ (x / period) % period };
-				index right{ (horizontal + 1) % period };
-				index vertical{ (y / period) % period };
-				index down{ (vertical + 1) % period };
+    void RandomNoise::Load()
+    {
 
-				permille offsetVertical{ (permille)(x % period) };
-				permille offsetHorizontal{ (permille)(y % period) };
+        Screen sampler{ repetitions, repetitions };
+        index_t samples{ (index) sampler.GetPixelCount() };
 
-				Color base{
-					A.lerp(B, noise[sampler.GetIndex({horizontal, vertical})])
-				};
-				Color Right{
-					A.lerp(B, noise[sampler.GetIndex({right, vertical})])
-				};
-				Color Down{
-					A.lerp(B, noise[sampler.GetIndex({horizontal, down})])
-				};
+        noise.clear();
+        noise.assign(samples, clear);
+        for (index i{ 0 }; i < samples; ++i)
+        {
+            noise[i] = rand() % permilleFactor;
+        }
 
-				Color sampled{
-					base
-						.lerp(Right, offsetVertical)
-						.lerp(Down, offsetVertical)
-				};
+        point1D period{ screen->w / repetitions };
+        for (point1D y = 0; y < screen->h; ++y)
+        {
+            for (point1D x = 0; x < screen->w; ++x)
+            {
 
-				PutPixel(Point2D{ x, y }, sampled.rgba());
-			}
-		}
-	}
+                index_t horizontal{ (x / period) % period };
+                index_t right{ (horizontal + 1) % period };
+                index_t vertical{ (y / period) % period };
+                index_t down{ (vertical + 1) % period };
 
-	void RandomNoise::Unload() {
-	}
+                permille offsetVertical{ (permille) (x % period) };
+                permille offsetHorizontal{ (permille) (y % period) };
 
-	void RandomNoise::Update(permille intensity, milliseconds delta) {
-	}
+                Color base{ A.lerp(B, noise[sampler.GetIndex({ horizontal, vertical })]) };
+                Color Right{ A.lerp(B, noise[sampler.GetIndex({ right, vertical })]) };
+                Color Down{ A.lerp(B, noise[sampler.GetIndex({ horizontal, down })]) };
 
-	void RandomNoise::Cache(StencilBuffer& mask) {
-	}
+                Color sampled{ base.lerp(Right, offsetVertical).lerp(Down, offsetVertical) };
 
-	void RandomNoise::Set(Color a, Color b, bunch repetitions) {
-		this->A = a;
-		this->B = b;
-		this->repetitions = repetitions;
-	}
+                PutPixel(Point2D{ x, y }, sampled.rgba());
+            }
+        }
+    }
 
-	rgbaColor RandomNoise::GetMappedUV(CoordinateUV uv) {
-		Point2D mapped{
-			abs((int)(uv.u * permilleFactor / screen->w)) % screen->w,
-			abs((int)(uv.v * permilleFactor / screen->h)) % screen->h
-		};
-		return Effect::GetPixel(mapped);
-	}
+    void RandomNoise::Unload() {}
+
+    void RandomNoise::Update(permille intensity, milliseconds delta) {}
+
+    void RandomNoise::Cache(StencilBuffer& mask) {}
+
+    void RandomNoise::Set(Color a, Color b, bunch repetitions)
+    {
+        this->A = a;
+        this->B = b;
+        this->repetitions = repetitions;
+    }
+
+    rgbaColor RandomNoise::GetMappedUV(CoordinateUV uv)
+    {
+        Point2D mapped{ std::abs((int) (uv.u * permilleFactor / screen->w)) % screen->w,
+                        std::abs((int) (uv.v * permilleFactor / screen->h)) % screen->h };
+        return Effect::GetPixel(mapped);
+    }
 }

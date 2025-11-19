@@ -1,53 +1,79 @@
-module effects;
+export module chess;
 
-import <iostream>;
+import std;
+import effect;
+import timer;
+import definitions;
 
-namespace MoleDemo {
+namespace MoleDemo
+{
+    export class ChessBoard;
+}
 
-	ChessBoard::ChessBoard() :
-		ChessBoard{ nullptr, &textureSize } {}
+class MoleDemo::ChessBoard
+  : public Texturable
+  , public Effect
+{
+    Color A, B;
+    bunch repetitions;
 
-	ChessBoard::ChessBoard(Timer* timer, Screen* screen) :
-		Effect{ timer, screen } {
-	}
+public:
+    ChessBoard();
+    ChessBoard(Timer* timer, Screen* screen);
+    ~ChessBoard();
 
-	ChessBoard::~ChessBoard() {
-	}
+    void Set(Color A, Color B, bunch repetitions);
 
-	void ChessBoard::Load() {
-		point1D period{ screen->w / repetitions };
-		Color right;
-		for (point1D y = 0; y < screen->h; ++y) {
-			for (point1D x = 0; x < screen->w; ++x) {
+    void Load() override;
+    void Unload() override;
+    void Update(permille intensity, milliseconds delta) override;
+    void Cache(StencilBuffer& mask) override;
+    rgbaColor GetMappedUV(CoordinateUV uv) override;
+};
 
-				const bool first{ (x / period) % 2 != (y / period) % 2 };
+namespace MoleDemo
+{
 
-				Color& color{ first ? A : B };
-				PutPixel(Point2D{ x, y }, color.rgba());
-			}
-		}
-	}
+    ChessBoard::ChessBoard() : ChessBoard{ nullptr, &textureSize } {}
 
-	void ChessBoard::Unload() {
-	}
+    ChessBoard::ChessBoard(Timer* timer, Screen* screen) : Effect{ timer, screen } {}
 
-	void ChessBoard::Update(permille intensity, milliseconds delta) {
-	}
+    ChessBoard::~ChessBoard() {}
 
-	void ChessBoard::Cache(StencilBuffer& mask) {
-	}
+    void ChessBoard::Load()
+    {
+        point1D period{ screen->w / repetitions };
+        Color right;
+        for (point1D y = 0; y < screen->h; ++y)
+        {
+            for (point1D x = 0; x < screen->w; ++x)
+            {
 
-	void ChessBoard::Set(Color a, Color b, bunch repetitions) {
-		this->A = a;
-		this->B = b;
-		this->repetitions = repetitions;
-	}
+                const bool first{ (x / period) % 2 != (y / period) % 2 };
 
-	rgbaColor ChessBoard::GetMappedUV(CoordinateUV p) {
-		Point2D mapped{
-			abs((int)(p.u * permilleFactor / screen->w)) % screen->w,
-			abs((int)(p.v * permilleFactor / screen->h)) % screen->h
-		};
-		return Effect::GetPixel(mapped);
-	}
+                Color& color{ first ? A : B };
+                PutPixel(Point2D{ x, y }, color.rgba());
+            }
+        }
+    }
+
+    void ChessBoard::Unload() {}
+
+    void ChessBoard::Update(permille intensity, milliseconds delta) {}
+
+    void ChessBoard::Cache(StencilBuffer& mask) {}
+
+    void ChessBoard::Set(Color a, Color b, bunch repetitions)
+    {
+        this->A = a;
+        this->B = b;
+        this->repetitions = repetitions;
+    }
+
+    rgbaColor ChessBoard::GetMappedUV(CoordinateUV p)
+    {
+        Point2D mapped{ std::abs((int) (p.u * permilleFactor / screen->w)) % screen->w,
+                        std::abs((int) (p.v * permilleFactor / screen->h)) % screen->h };
+        return Effect::GetPixel(mapped);
+    }
 }
