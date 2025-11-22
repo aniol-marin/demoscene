@@ -1,8 +1,17 @@
-#ifndef MOLE_PUGI_WRAPPER_H
-#define MOLE_PUGI_WRAPPER_H
+module;
 
 #include "pugixml.hpp"
-#include <vector>
+
+export module serialization;
+
+import std.compat;
+
+namespace mole::pugi_wrapper
+{
+    export struct tree;
+    export struct generic_node;
+    export template<typename T> struct node;
+}
 
 namespace mole::pugi_wrapper
 {
@@ -65,5 +74,3 @@ namespace mole::pugi_wrapper
         ~node() = default;
     };
 }
-
-#endif

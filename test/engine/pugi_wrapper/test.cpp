@@ -1,10 +1,7 @@
 #include <catch2/catch_test_macros.hpp>
 
-#include <exception>
-#include <iostream>
-#include <vector>
-#include <string>
-#include <functional>
+import std;
+import serialization;
 
 using tree = mole::pugi_wrapper::tree;
 using node = mole::pugi_wrapper::generic_node;
