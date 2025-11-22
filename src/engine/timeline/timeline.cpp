@@ -1,4 +1,5 @@
 
+/*
 struct MoleDemo::Event
 {
 	const Timestamp time;
@@ -340,3 +341,4 @@ class MoleDemo::Timeline
 
 	void Finalize() {}
 };
+ */

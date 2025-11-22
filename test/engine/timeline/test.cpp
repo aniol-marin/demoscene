@@ -1,9 +1,7 @@
 #include <catch2/catch_test_macros.hpp>
 
-#include "timer.h"
-#include <functional>
-#include <thread>
-#include <iostream>
+import std;
+import timeline;
 
 SCENARIO("Timeline")
 {
@@ -11,15 +9,14 @@ SCENARIO("Timeline")
 	{
 		WHEN("instantiated")
 		{
-			MoleDemo::Timer t{};
-			int initial { t. GetTime() };
-			std::cerr << "\n initial: [" << initial << "]";
-			std::cerr << "\n sleeping...";
-			std::this_thread::sleep_for(std::chrono::seconds{1});
-			t.WaitUntilNextFrame();
-			int final { t. GetTime() };
-			std::cerr << "\n final: [" << final << "]";
-			return final == initial + 1;
+			THEN("unit tests should run")
+			{
+				CHECK(true);
+			}
+			AND THEN("unit tests should be written")
+			{
+				CHECK(false);
+			}
 		}));
             }
         }
