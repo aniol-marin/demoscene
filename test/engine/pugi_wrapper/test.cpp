@@ -141,13 +141,11 @@ SCENARIO("Parsing with Pugi XML Library")
 					tree test{path};
 				}));
 
-				/*
 				REQUIRE_NOTHROW(std::invoke([&]
 				{
 					tree test{path};
-					node  node{test.get_generic_node("test")};
+					node  node{test.get_root_node("test")};
 				}));
-				 */
 			}
 			AND_THEN("it should be possible to read attributes")
 			{
@@ -160,30 +158,27 @@ SCENARIO("Parsing with Pugi XML Library")
 					int v { node.get_number("number") };
 				}));
 
-				/*
 				REQUIRE_NOTHROW(std::invoke([&]
 				{
 					tree test{path};
-					node node{test.get_generic_node("test")};
+					node node{test.get_root_node("test")};
 					std::string w { node.get_text("word") };
 				}));
 
 				CHECK(std::string{ "hello" } == std::invoke([&]
 				{
 					tree test{path};
-					node node{test.get_generic_node("test")};
+					node node{test.get_root_node("test")};
 					return node.get_text("word");
 				}));
 
 				CHECK(1 == std::invoke([&]
 				{
 					tree test{path};
-					node node{test.get_generic_node("test")};
+					node node{test.get_root_node("test")};
 					return node.get_number("number");
 				}));
-				*/
 			}
-			/*
 			AND_THEN("it should be possible to fetch attributes from children nodes")
 			{
 				replace_content(
@@ -198,61 +193,60 @@ SCENARIO("Parsing with Pugi XML Library")
 				REQUIRE_NOTHROW(std::invoke([&]
 				{
 					tree test{path};
-					node parent{ test.get_generic_node("test") };
+					node parent{ test.get_root_node("test") };
 					node child { parent.get_child("child") };
 				}));
 				REQUIRE_NOTHROW(std::invoke([&]
 				{
 					tree test{path};
-					node parent{ test.get_generic_node("test") };
+					node parent{ test.get_root_node("test") };
 					std::vector<node> children {  parent.get_children("child") };
 				}));
 				CHECK(2 == std::invoke([&]
 				{
 					tree test{path};
-					node parent{ test.get_generic_node("test") };
+					node parent{ test.get_root_node("test") };
 					std::vector<node> children {  parent.get_children("child") };
 					return children.size();
 				}));
 				CHECK(1 == std::invoke([&]
 				{
 					tree test{path};
-					node parent{ test.get_generic_node("test") };
+					node parent{ test.get_root_node("test") };
 					node child { parent.get_child("child") };
 					return child.get_number("number");
 				}));
 				CHECK(1 == std::invoke([&]
 				{
 					tree test{path};
-					node parent{ test.get_generic_node("test") };
+					node parent{ test.get_root_node("test") };
 					std::vector<node> children {  parent.get_children("child") };
 					return children.front().get_number("number");
 				}));
 				CHECK(2 == std::invoke([&]
 				{
 					tree test{path};
-					node parent{ test.get_generic_node("test") };
+					node parent{ test.get_root_node("test") };
 					std::vector<node> children {  parent.get_children("child") };
 					return children.back().get_number("number");
 				}));
 				CHECK(std::string { "hello" }  == std::invoke([&]
 				{
 					tree test{path};
-					node parent{ test.get_generic_node("test") };
+					node parent{ test.get_root_node("test") };
 					std::vector<node> children {  parent.get_children("child") };
 					return children.front().get_text("word");
 				}));
 				CHECK(std::string { "world" } == std::invoke([&]
 				{
 					tree test{path};
-					node parent{ test.get_generic_node("test") };
+					node parent{ test.get_root_node("test") };
 					std::vector<node> children {  parent.get_children("child") };
 					return children.back().get_text("word");
 				}));
 			}
-			*/
 		}
-/*
+		/*
 		WHEN("a specialization doesn't exist")
 		{
 			THEN("it should not work")
@@ -265,7 +259,7 @@ SCENARIO("Parsing with Pugi XML Library")
 				CHECK_THROWS( std::invoke([]
 				{
 					tree test{path};
-					node node{ test.get_generic_node("test") };
+					node node{ test.get_root_node("test") };
 					specialized_node<unspecialized> unspecialized { node };
 				}));
 				CHECK_THROWS( std::invoke([]
@@ -288,7 +282,7 @@ SCENARIO("Parsing with Pugi XML Library")
 				CHECK_NOTHROW( std::invoke([]
 				{
 					tree test{path};
-					node node{ test.get_generic_node("test") };
+					node node{ test.get_root_node("test") };
 					specialized_node<specialized> specialized { node };
 				}));
 				CHECK_NOTHROW( std::invoke([]
@@ -303,13 +297,13 @@ SCENARIO("Parsing with Pugi XML Library")
 				REQUIRE_NOTHROW( std::invoke([]
 				{
 					tree test{path};
-					node parent{ test.get_generic_node("test") };
+					node parent{ test.get_root_node("test") };
 					specialized_node<custom> custom { parent.get_child("child").node };
 				}));
 				CHECK(std::invoke([&]
 				{
 					tree test{path};
-					node parent{ test.get_generic_node("test") };
+					node parent{ test.get_root_node("test") };
 					specialized_node<custom> child { parent.get_child("child").node };
 					custom deserialized { child.deserialize() };
 
@@ -323,13 +317,13 @@ SCENARIO("Parsing with Pugi XML Library")
 				REQUIRE_NOTHROW( std::invoke([]
 				{
 					tree test{path};
-					node parent{ test.get_generic_node("test") };
+					node parent{ test.get_root_node("test") };
 					specialized_node<nested_custom> custom { parent.node };
 				}));
 				CHECK(std::invoke([&]
 				{
 					tree test{path};
-					node parent{ test.get_generic_node("test") };
+					node parent{ test.get_root_node("test") };
 					specialized_node<nested_custom> custom { parent.node };
 					nested_custom deserialized { custom.deserialize() };
 

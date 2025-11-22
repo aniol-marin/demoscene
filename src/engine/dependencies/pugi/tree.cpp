@@ -62,9 +62,7 @@ namespace mole::pugi_wrapper
         std::vector<generic_node> children{};
         pugi::xml_node pugi_node{ hidden_node_mapping.at(node.get_id()) };
 
-        pugi::xml_node node_it{ pugi_node.first_child() };
-        pugi::xml_node node_end{ pugi_node.last_child() };
-        for (; node_it != node_end; node_it = node_it.next_sibling())
+        for (pugi::xml_node node_it{ pugi_node.first_child() }; !node_it.empty(); node_it = node_it.next_sibling())
         {
             generic_node child{ ++counter, *this };
             hidden_node_mapping[child.get_id()] = node_it;
