@@ -13,12 +13,10 @@ SCENARIO("Timeline")
 			{
 				CHECK(true);
 			}
-			AND THEN("unit tests should be written")
+			AND_THEN("unit tests should be written")
 			{
 				CHECK(false);
 			}
-		}));
-            }
-        }
-    }
+		}
+	}
 }
