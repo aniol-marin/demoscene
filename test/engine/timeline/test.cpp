@@ -43,30 +43,38 @@ SCENARIO("Timeline")
 				// ...
 				REQUIRE_NOTHROW( std::invoke([&]()
 				{
+					MoleDemo::Timer timer {};
 					mole_def::Screen screen {1, 1};
 					MoleDemo::Program program { screen };
 					SDL::SDLManager sdl_manager { };
 					MoleDemo::InputManager input_manager { sdl_manager };
 					MoleDemo::RenderManager render_manager { screen, sdl_manager };
-				/*
+
 					MoleDemo::Cycle _ { program, timer, input_manager, render_manager };
-				 */
 				}));
-				/*
 				// ...
 				REQUIRE_NOTHROW( std::invoke([&]()
 				{
 					MoleDemo::Timer timer {};
-					MoleDemo::Screen screen {1, 1};
+					mole_def::Screen screen {1, 1};
 					MoleDemo::Program program { screen };
-					SDL::SDLManager sdl_manager { screen };
-					MoleDemo::InputManager input_manager { screen };
+					SDL::SDLManager sdl_manager { };
+					MoleDemo::InputManager input_manager { sdl_manager };
 					MoleDemo::RenderManager render_manager { screen, sdl_manager };
 					MoleDemo::Cycle cycle { program, timer, input_manager, render_manager };
+
 					//MoleDemo::SoundManager sound_manager { ...};
-					// MoleDemo::Timeline _ { timer, program, cycle\/\*, sound_manager\*\/, screen};
+					MoleDemo::Timeline _ {
+						timer,
+						program,
+						cycle,
+						screen,
+						"test project"
+					};
+					/*
+					*/
+						/*sound_manager,*/
 				}));
-				 */
 				CHECK(true);
 			}
 			AND_THEN("it must not throw")
