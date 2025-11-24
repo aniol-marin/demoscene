@@ -155,6 +155,7 @@ export namespace mole_def
         channel m_a{};
 
     public:
+        Color();
         Color(const rgbaColor& color);
         Color(channel r, channel g, channel b, channel a = saturated);
         ~Color() = default;

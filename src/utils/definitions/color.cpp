@@ -2,6 +2,8 @@ module definitions;
 
 namespace mole_def
 {
+    Color::Color() : Color{ black } {}
+
     Color::Color(const rgbaColor& color) :
       m_r{ (channel) ((color & mask_red) >> 16) },
       m_g{ (channel) ((color & mask_green) >> 8) },
