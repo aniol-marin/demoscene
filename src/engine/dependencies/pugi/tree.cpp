@@ -1,7 +1,10 @@
+module;
+
+#include "pugixml.hpp"
+
 module serialization;
 
 import std;
-import pugixml_experimental;
 
 namespace mole::pugi_wrapper
 {
