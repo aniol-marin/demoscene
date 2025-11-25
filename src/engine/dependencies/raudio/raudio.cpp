@@ -1,13 +1,15 @@
-#include "raudio_wrapper.h"
-#include "definitions.h"
+module;
 
-#include <queue>
-#include <exception>
-#include <iostream>
+#include "raudio.h"
 
-namespace RAudio
+module raudio_wrapper;
+
+import std;
+import definitions;
+
+namespace raudio
 {
-	permille AudioManager::intensity = {};
+	using namespace mole_def;
 
 	AudioManager::~AudioManager()
 	{
@@ -160,12 +162,12 @@ namespace RAudio
 */
 	}
 
-	seconds  AudioManager::GetDuration()
+	mole_def::seconds AudioManager::GetDuration()
 	{
 		return (seconds)GetMusicTimeLength(music);
 	}
 
-	permille  AudioManager::GetIntensity()
+	mole_def::permille  AudioManager::GetIntensity()
 	{
 		return (permille)intensity;
 	}

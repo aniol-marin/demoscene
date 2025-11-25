@@ -2,7 +2,9 @@ module definitions;
 
 namespace mole_def
 {
-    constexpr Color::Color(const rgbaColor& color) :
+    Color::Color() : Color{ black } {}
+
+    Color::Color(const rgbaColor& color) :
       m_r{ (channel) ((color & mask_red) >> 16) },
       m_g{ (channel) ((color & mask_green) >> 8) },
       m_b{ (channel) (color & mask_blue) },
@@ -10,34 +12,34 @@ namespace mole_def
     {
     }
 
-    constexpr Color::Color(channel r, channel g, channel b, channel a) : m_r{ r }, m_g{ g }, m_b{ b }, m_a{ a } {}
+    Color::Color(channel r, channel g, channel b, channel a) : m_r{ r }, m_g{ g }, m_b{ b }, m_a{ a } {}
 
-    constexpr const channel Color::r() const
+    const channel Color::r() const
     {
         return m_r;
     }
 
-    constexpr const channel Color::g() const
+    const channel Color::g() const
     {
         return m_g;
     }
 
-    constexpr const channel Color::b() const
+    const channel Color::b() const
     {
         return m_b;
     }
 
-    constexpr const channel Color::a() const
+    const channel Color::a() const
     {
         return m_a;
     }
 
-    constexpr rgbaColor Color::rgba()
+    rgbaColor Color::rgba()
     {
         return m_b | (m_g << 8) | (m_r << 16) | (m_a << 24);
     }
 
-    constexpr Color Color::lerp(const Color& next, const permille permille)
+    Color Color::lerp(const Color& next, const permille permille)
     {
         return Color{ (channel) (m_r + (next.r() - m_r) * permille / permilleFactor),
                       (channel) (m_g + (next.g() - m_g) * permille / permilleFactor),

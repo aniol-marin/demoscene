@@ -1,5 +1,4 @@
 import std;
-import engine;
 import injection;
 import definitions;
 import program;
@@ -12,10 +11,10 @@ import cycle;
 import effect;
 import stars;
 // leaked implementation
-import raudio;
-import sdl;
+import sdl_wrapper;
 
 using namespace MoleDemo;
+using namespace mole_def;
 using Container = MoleDemo::Container;
 
 void InstallBindings(Container& container);

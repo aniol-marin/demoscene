@@ -1,7 +1,13 @@
-#include "Effect.h"
+module effect;
+
+import std;
+import definitions;
+import timer;
 
 namespace MoleDemo
 {
+	using namespace mole_def;
+
 	Effect::Effect(Timer* timer, Screen* screen) :
 		timer{ timer },
 		screen{ screen },
@@ -45,7 +51,10 @@ namespace MoleDemo
 	}
 
 	void Effect::ClearBuffer(rgbaColor color, PixelBuffer& pixelBuffer) {
+		throw std::runtime_error{ "deactivated" };
+		/*
 		pixelBuffer.assign(screen->GetPixelCount(), color);
+		 */
 	}
 
 	rgbaColor Effect::GetPixel(Point2D p) {

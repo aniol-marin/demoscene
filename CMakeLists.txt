@@ -8,7 +8,8 @@ cmake_minimum_required(VERSION 3.13)
 set(CMAKE_CXX_STANDARD 17)
 set(CMAKE_CXX_STANDARD_REQUIRED ON)
 set(CMAKE_CXX_EXTENSION OFF)
-set(GCC_EXPERTED_VERSION 11.0)
+set(GCC_EXPECTED_VERSION 11.0)
+set(CMAKE_COMPILE_WARNING_AS_ERROR ON)
 
 # Project definition
 project(MoleDemoScene2025
@@ -16,14 +17,16 @@ project(MoleDemoScene2025
 	DESCRIPTION "A CPU based rendering creation"
 	LANGUAGES CXX C
 )
+enable_testing()
+include(CTest)
 
 # Project requirements
 if(${CMAKE_CXX_COMPILER_ID} STREQUAL "GNU")
-	if(CMAKE_CXX_COMPILER_VERSION VERSION_LESS GCC_EXPERTED_VERSION)
+	if(CMAKE_CXX_COMPILER_VERSION VERSION_LESS GCC_EXPECTED_VERSION)
 		message(FATAL_ERROR "
 		incompatible compiler version.
 		found:    ${DCMAKE_CXX_COMPILER_ID} ${CMAKE_CXX_COMPILER_VERSION}
-		required: ${DCMAKE_CXX_COMPILER_ID} ${GCC_EXPERTED_VERSION}")
+		required: ${DCMAKE_CXX_COMPILER_ID} ${GCC_EXPECTED_VERSION}")
 	endif()
 else()
 	#[[ TODO: add support for the right version of clang and so on ]]#
@@ -63,10 +66,13 @@ add_subdirectory(src)
 
 if(EnableTesting)
 	message(NOTICE "enabling testing")
-	include(CTest)
-	enable_testing()
 	add_subdirectory(test)
 else()
 	message(STATUS "testing not enabled")
 endif()
 
+#include(InstallRequiredSystemLibraries)
+#set(CPACK_RESOURCE_FILE_LICENSE "./LICENSE")
+#set(CPACK_VERSION_MAJOR 0)
+#set(CPACK_VERSION_MINOR 2)
+#include(CPack)

@@ -1,4 +1,6 @@
-#include "sound.h"
+module sound;
+
+import std;
 
 using namespace mole_def;
 

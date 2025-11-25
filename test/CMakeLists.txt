@@ -1,3 +1,4 @@
+enable_testing()
 
 include(${CMAKE_SOURCE_DIR}/cmake/add_test_target.cmake RESULT_VARIABLE status)
 if(status)
@@ -10,9 +11,14 @@ endif()
 manage_dependency_catch()
 
 if(NOT DisableAllButExperimental)
-add_subdirectory(engine)
+	add_subdirectory(engine)
 endif()
 if(EnableEditor)
-add_subdirectory(editor)
+	add_subdirectory(editor)
 endif()
+
+add_test(NAME coverage_demo COMMAND demoscene)
+add_test(NAME coverage_editor COMMAND sandbox)
+
+add_subdirectory(custom_tests)
 

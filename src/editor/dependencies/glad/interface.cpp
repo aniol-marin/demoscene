@@ -1,12 +1,8 @@
 module;
 
-/*
-extern "C" {
 #define GLAD_IMPLEMENTATION
 #include "glad/gl.h"
-}
 
- */
 export module glad_wrapper;
 
 import std;
@@ -40,7 +36,7 @@ namespace mole::graphics
             */
     };
 
-    struct RenderContext
+    export struct RenderContext
     {
 
         WindowContext& window;

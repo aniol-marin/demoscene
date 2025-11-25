@@ -1,4 +1,7 @@
-#include "input.h"
+module input;
+
+import definitions;
+import sdl_wrapper;
 
 MoleDemo::InputManager::InputManager(SDL::SDLManager& manager):
 	manager {manager}

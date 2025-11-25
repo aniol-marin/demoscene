@@ -3,7 +3,7 @@ function(add_test_target TARGET_NAME)
 	enable_testing()
 	set(TEST_TARGET ${TARGET_NAME})
 
-	add_executable(${TEST_TARGET} EXCLUDE_FROM_ALL)
+	add_executable(${TEST_TARGET})
 
 	set_target_properties(${TEST_TARGET}
 		PROPERTIES

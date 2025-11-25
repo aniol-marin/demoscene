@@ -1,111 +1,109 @@
 module;
 
-/*
 #include "GLFW/glfw3.h"
-*/
 
 module glfw_wrapper;
 
 namespace mole::graphics
 {
-	WindowContext::WindowContext(window_size&& size, std::string_view name) : size{ size }, name{ name }
-	{
-		/*
-		   glfwSetErrorCallback(ErrorCallback);
+    static void ErrorCallback(int code, const char* message);
+    static void KeyCallback(GLFWwindow* window, int key, int scancode, int action, int mods);
+    static void MouseButtonCallback(GLFWwindow* window, int button, int action, int mods);
+    static void MouseCursorPosCallback(GLFWwindow* window, double x, double y);
 
-		   glfwInit();
-		   glfwWindowHint(GLFW_SAMPLES, 4);
-		   glfwWindowHint(GLFW_DEPTH_BITS, 16);
-		   glfwWindowHint(GLFW_CONTEXT_VERSION_MAJOR, 4);
-		   glfwWindowHint(GLFW_CONTEXT_VERSION_MINOR, 5);
-		   glfwWindowHint(GLFW_OPENGL_PROFILE, GLFW_OPENGL_CORE_PROFILE);
-		   glfwWindowHint(GLFW_OPENGL_DEBUG_CONTEXT, GL_TRUE);
+    WindowContext::WindowContext(window_size&& size, std::string_view name) : size{ size }, name{ name }
+    {
+        glfwSetErrorCallback(ErrorCallback);
 
-		   window = glfwCreateWindow(width, height, std::string{ name }.c_str(), NULL, NULL);
-		   if (!window)
-		   {
-		   glfwTerminate();
-		   std::cerr << "[FAIL] failed to create the window\n";
-		   throw std::exception{};
-		   }
+        glfwInit();
+        glfwWindowHint(GLFW_SAMPLES, 4);
+        glfwWindowHint(GLFW_DEPTH_BITS, 16);
+        glfwWindowHint(GLFW_CONTEXT_VERSION_MAJOR, 4);
+        glfwWindowHint(GLFW_CONTEXT_VERSION_MINOR, 5);
+        glfwWindowHint(GLFW_OPENGL_PROFILE, GLFW_OPENGL_CORE_PROFILE);
+        glfwWindowHint(GLFW_OPENGL_DEBUG_CONTEXT, GL_TRUE);
 
-		   glfwSetWindowPos(window, 200, 10);
-		   */
+        window = glfwCreateWindow(width, height, std::string{ name }.c_str(), NULL, NULL);
+        if (!window)
+        {
+            glfwTerminate();
+            std::cerr << "[FAIL] failed to create the window\n";
+            throw std::exception{};
+        }
 
-		/*
-		   glfwSetKeyCallback(window, KeyCallback);
-		   glfwSetMouseButtonCallback(window, MouseButtonCallback);
-		   glfwSetCursorPosCallback(window, MouseCursorPosCallback);
+        glfwSetWindowPos(window, 200, 10);
 
-		   glfwSetInputMode(window, GLFW_CURSOR, GLFW_CURSOR_NORMAL);
+        glfwSetKeyCallback(window, KeyCallback);
+        glfwSetMouseButtonCallback(window, MouseButtonCallback);
+        glfwSetCursorPosCallback(window, MouseCursorPosCallback);
 
-		   glfwMakeContextCurrent(window);
-		   glfwwapInterval(1);
+        glfwSetInputMode(window, GLFW_CURSOR, GLFW_CURSOR_NORMAL);
 
-		   address = &glfwGetProcAddress;
-		   */
-	}
+        glfwMakeContextCurrent(window);
+        glfwSwapInterval(1);
 
-	WindowContext::~WindowContext()
-	{
-		/*
-		   glfwDestroyWindow(window);
-		   glfwTerminate();
-		   */
-	}
+        address = &glfwGetProcAddress;
+    }
 
-	void WindowContext::PollEvents()
-	{
-		/*
-		   glfwPollEvents();
-		   */
-	}
+    WindowContext::~WindowContext()
+    {
+        glfwDestroyWindow(window);
+        glfwTerminate();
+    }
 
-	void ErrorCallback(int code, const char* message)
-	{
-		std::cout << std::to_string(code) << ' ' << std::string{ message };
-	}
+    void WindowContext::PollEvents()
+    {
+        glfwPollEvents();
+    }
 
-	/*
-	void KeyCallback(GLFWwindow* window, int key, int scancode, int action, int mods)
-	{
-		/*
-		   if (callbacks.count(key))
-		   {
-		   std::vector<callback>& actions = callbacks.at(key);
-		   for (callback& action: actions)
-		   {
-		   action();
-		   }
-		   }
-	}
+    void ErrorCallback(int code, const char* message)
+    {
+        std::cout << std::to_string(code) << ' ' << std::string{ message };
+    }
 
-	void MouseButtonCallback(GLFWwindow* window, int button, int action, int mods)
-	{
-		/*
-		   if (MouseButtonCallbacks.count(button))
-		   {
-		   auto& actions = MouseButtonCallbacks.at(button);
-		   for (callback& action: actions)
-		   {
-		   action();
-		   }
-		   }
-	}
+    void KeyCallback(GLFWwindow* window, int key, int scancode, int action, int mods)
+    {
+        /*
+        if (callbacks.count(key))
+        {
+            std::vector<callback>& actions = callbacks.at(key);
+            for (callback& action: actions)
+            {
+                action();
+            }
+        }
+         */
+    }
 
-	void MouseCursorPosCallback(GLFWwindow* window, double x, double y)
-	{
-		/*
-		   static Vector2 previous{ (float) x, (float) y };
+    void MouseButtonCallback(GLFWwindow* window, int button, int action, int mods)
+    {
 
-		   const Vector2 c{ (float) x, (float) y };
-		   delta = { c.x - previous.x, c.y - previous.y };
-		   previous = c;
+        /*
+        if (MouseButtonCallbacks.count(button))
+        {
+            auto& actions = MouseButtonCallbacks.at(button);
+            for (callback& action: actions)
+            {
+                action();
+            }
+        }
+         */
+    }
 
-		   for (callback& callback: mousescroll)
-		   {
-		   callback();
-		   }
-	}
-		   */
+    void MouseCursorPosCallback(GLFWwindow* window, double x, double y)
+    {
+
+        /*
+        static Vector2 previous{ (float) x, (float) y };
+
+        const Vector2 c{ (float) x, (float) y };
+        delta = { c.x - previous.x, c.y - previous.y };
+        previous = c;
+
+        for (callback& callback: mousescroll)
+        {
+            callback();
+        }
+         */
+    }
 }

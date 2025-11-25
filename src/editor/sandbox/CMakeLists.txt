@@ -2,7 +2,9 @@ add_executable(sandbox)
 
 target_link_libraries(sandbox PRIVATE
 	engine
-	effects
+	effect
+	stars
+	sdl_wrapper
 )
 
 target_sources(sandbox PUBLIC

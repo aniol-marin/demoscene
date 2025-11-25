@@ -15,6 +15,7 @@ CMAKE_ROOT_PATH := .
 BUILD_PATH := $(call current_folder)/build/$(BUILD_TYPE)
 BINARY_PATH := $(call current_folder)/bin
 LIBRARY_PATH := $(call current_folder)/lib
+EXPORT_PATH := /home/bru/demoscene/export
 TEMP_PATH := /tmp
 DEPENDENCIES_PATH := $(call current_folder)/external
 CACHE := $(BUILD_PATH)/CMakeCache.txt
@@ -32,6 +33,9 @@ main:
 		generate build run
 
 # Public recipes
+
+clear:
+	clear;
 
 run: .final
 	make .call_log MESSAGE="running final project"
@@ -63,6 +67,18 @@ profile: .final
 		make .call_log MESSAGE="profiling"; \
 		valgrind --track-origins=yes $(BINARY_PATH)/$(BINARY_NAME); \
 	fi
+
+.PHONY: pack
+pack:
+	cd $(BUILD_PATH); cpack -DCPACK_PACKAGE_DIRECTORY=$(EXPORT_PATH)
+
+.PHONY: ctest
+report-experimental: generate
+	cd $(BUILD_PATH); ctest --dashboard Experimental
+	#ctest --script ./ctest/CTestScript.cmake
+
+check-coverage: generate
+	cd $(BUILD_PATH); ctest --test-model Experimental --test-action Coverage
 
 #needed for:
 # - glad generation (curl, python)

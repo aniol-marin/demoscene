@@ -1,7 +1,8 @@
 #include<catch2/catch_test_macros.hpp>
 
-#include "sdl_wrapper.h"
-#include <functional>
+import std;
+import sdl_wrapper;
+import definitions;
 
 using namespace mole_def;
 

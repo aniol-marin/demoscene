@@ -1,9 +1,9 @@
-import editor;
+import editor_;
 import std;
 
 int main()
 {
-    Context context;
+    Context context{};
 
     std::cout << "[EDITOR] running\n";
     while (context.is_active())

@@ -1,6 +1,8 @@
 function(manage_dependency_catch)
 
+	#[[
 	find_package(Catch2)
+	]]#
 	if(NOT Catch2_FOUND OR Catch2_VERSION_MAJOR LESS 3)
 		FetchContent_Declare(
 			Catch2
