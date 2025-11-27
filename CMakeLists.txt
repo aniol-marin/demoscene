@@ -35,12 +35,12 @@ else()
 	The current selected compiler is: ${CMAKE_CXX_COMPILER_ID}")
 endif()
 
-
-find_package(Protobuf REQUIRED CONFIG)
-add_executable(minitest main.cpp ./messages.pb.cc)
-target_link_libraries(minitest PUBLIC protobuf::libprotobuf)
 # Project build scripts
 add_subdirectory(cmake)
+
+manage_dependency_protobuf()
+add_executable(minitest main.cpp ./messages.pb.cc)
+target_link_libraries(minitest PUBLIC protobuf::libprotobuf)
 
 # Experimental features (WIP)
 if(EnableExperimentalFeatures)
