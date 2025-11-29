@@ -1,7 +1,7 @@
 set(EXECUTABLE_NAME demoscene)
 add_subdirectory(utils)
 
-if(NOT DisableAllButExperimental)
+if(NOT MoleDemo_DisableAllButExperimental)
 
 	add_subdirectory(effects)
 	add_subdirectory(engine)
@@ -25,7 +25,7 @@ else()
 	message(WARNING "All non-experimental targets disabled")
 endif()
 
-if(EnableEditor)
+if(NOT MoleDemo_DisableAllButExperimental AND MoleDemo_EnableEditor)
 	message(NOTICE "enabling editor")
 	add_subdirectory(editor)
 else()

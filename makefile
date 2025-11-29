@@ -11,7 +11,7 @@ COMPILER_PATH := g++
 listify = $(subst ., ,$(1))
 current_folder = $(shell echo $$PWD)
 RUNTIME = export LD_LIBRARY_PATH=/usr/local/lib64/:LD_LIBRARY_PATH;
-CMAKE_ROOT_PATH := .
+CMAKE_ROOT_PATH := $(call current_folder)
 BUILD_PATH := $(call current_folder)/build/$(BUILD_TYPE)
 BINARY_PATH := $(call current_folder)/bin
 LIBRARY_PATH := $(call current_folder)/lib
@@ -106,16 +106,16 @@ initialize:
 generate:
 	make .call_log MESSAGE="generating config $(BUILD_TYPE) in $(BUILD_PATH)"
 	$(CMAKE_PATH) \
-		   -S$(CMAKE_ROOT_PATH) \
-		   -B$(BUILD_PATH) \
-		   -G$(GENERATOR) \
-		   -DConfig_PathFor_Binaries:PATH=$(BINARY_PATH) \
-		   -DConfig_PathFor_Libraries:PATH=$(LIBRARY_PATH) \
-		   -DConfig_PathFor_Dependencies:PATH=$(DEPENDENCIES_PATH) \
-		   -DCMAKE_BUILD_TYPE=$(BUILD_TYPE) \
-		   -DCMAKE_EXPORT_COMPILE_COMMANDS=ON \
-		   -DCMAKE_CXX_COMPILER=$(COMPILER_PATH)\
-		   --log-level=$(CMAKE_LOG_LEVEL)
+		-S$(CMAKE_ROOT_PATH) \
+		-B$(BUILD_PATH) \
+		-G$(GENERATOR) \
+		-DCMAKE_BUILD_TYPE=$(BUILD_TYPE) \
+		-DCMAKE_EXPORT_COMPILE_COMMANDS=ON \
+		-DCMAKE_CXX_COMPILER=$(COMPILER_PATH) \
+		-DMoleDemo_Config_PathFor_Binaries:PATH=$(BINARY_PATH) \
+		-DMoleDemo_Config_PathFor_Libraries:PATH=$(LIBRARY_PATH) \
+		-DMoleDemo_Config_PathFor_Dependencies:PATH=$(DEPENDENCIES_PATH) \
+		--log-level=$(CMAKE_LOG_LEVEL)
 	rm -f compile_commands.json
 	ln -s ./$(BUILD_PATH)/compile_commands.json compile_commands.json
 
@@ -226,19 +226,18 @@ $(BINARY_PATH)/$(EDITOR_BINARY_NAME):
 		| tr -d : | awk '{ print $$1; }'
 
 $(CACHE):
-	make .call_log MESSAGE="configuring generated project in $(BUILD_PATH)/CMakeCache.txt"
+	make .call_log MESSAGE="starting custom configuration of the project in $(BUILD_PATH)/CMakeCache.txt"
 	mkdir -p $(BUILD_PATH)
 	ccmake $(CMAKE_ROOT_PATH) \
 		   -S$(CMAKE_ROOT_PATH) \
 		   -B$(BUILD_PATH) \
 		   -G$(GENERATOR) \
-		   -DConfig_PathFor_Binaries:PATH=$(BINARY_PATH) \
-		   -DConfig_PathFor_Libraries:PATH=$(LIBRARY_PATH) \
-		   -DConfig_PathFor_Dependencies:PATH=$(DEPENDENCIES_PATH) \
 		   -DCMAKE_BUILD_TYPE=$(BUILD_TYPE) \
-		   -DEnableExperimentalFeatures:BOOL=ON \
-		   -DCMAKE_CXX_COMPILER=$(COMPILER_PATH)\
-		   -DDisableAllButExperimental:BOOL=ON
+		   -DCMAKE_CXX_COMPILER=$(COMPILER_PATH) \
+		   -DMoleDemo_Config_PathFor_Binaries:PATH=$(BINARY_PATH) \
+		   -DMoleDemo_Config_PathFor_Libraries:PATH=$(LIBRARY_PATH) \
+		   -DMoleDemo_Config_PathFor_Dependencies:PATH=$(DEPENDENCIES_PATH) \
+		   -DMoleDemo_DisableAllButExperimental:BOOL=ON
 
 .regenerate-status:
 	make generate

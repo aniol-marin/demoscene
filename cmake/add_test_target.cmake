@@ -14,8 +14,8 @@ function(add_test_target TARGET_NAME)
 		target_link_options(${TEST_TARGET} PRIVATE -coverage)
 	endif()
 
-	target_link_libraries(${TEST_TARGET}
-		PRIVATE Catch2::Catch2WithMain
+	target_link_libraries(${TEST_TARGET} PRIVATE
+		Catch2::Catch2WithMain
 	)
 
 	target_sources(${TEST_TARGET} PRIVATE
