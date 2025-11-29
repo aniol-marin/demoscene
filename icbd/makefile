@@ -1,4 +1,8 @@
 main:
+	make prepare
+	make test
+
+prepare:
 	cmake \
 		-S. \
 		-Bbuild \
@@ -8,11 +12,13 @@ main:
 		-DCMAKE_RUNTIME_OUTPUT_DIRECTORY=$(shell echo $$PWD)/bin\
 		--log-level=WARNING
 	cmake --build build -t all
-	-$(shell echo $$PWD)/bin/target
-	gcov $(shell echo $$PWD)/build/CMakeFiles/target.dir/coverage.cpp.o
 
-manual:
-	g++ -O0 -coverage coverage.cpp -o coverage; ./coverage; gcov coverage
+test:
+	cd build; ctest -T Test
+	cd build; ctest -T Coverage
+
+clear:
+	clear
 
 wipe:
 	git clean -ffdx .

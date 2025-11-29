@@ -7,10 +7,13 @@ project(Coverage_Tests
 )
 enable_testing()
 
-list(APPEND CMAKE_CXX_FLAGS "-O0 -coverage")
-
 add_executable(target)
 target_sources(target PRIVATE
 	./coverage.cpp
 )
+target_compile_options(target PRIVATE -coverage)
+target_link_options(target PRIVATE -coverage)
+
+include(CTest)
+add_test(NAME coverage COMMAND $<TARGET_FILE:target>)
 
