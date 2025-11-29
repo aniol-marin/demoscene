@@ -2,120 +2,21 @@ module timeline;
 import std;
 import definitions;
 import effect;
-/* TODO move to implementation
-   import effects;
-   */
 import renderables;
 import timer;
 import cycle;
-/* TODO move to implementation
-   import sound;
-   import raudio;
-   */
 import program;
 import render;
 namespace MoleDemo
 {
     using namespace mole_def;
 
-    /*
-       void Timeline::UpdateRenderables(Renderables newLayers)
-       {
-       Renderables* oldLayers = &renderables;
-
-    // unload previously loaded effects (no longer needed)
-    for (Renderable* oldLayer: *oldLayers)
-    {
-    Renderables::iterator unused = std::find(newLayers.begin(), newLayers.end(), oldLayer);
-    if (unused != newLayers.end())
-    {
-    //(*unused)->effect->Unload();
-    }
-    }
-
-    // load previously unloaded effects
-    for (Renderable* newLayer: newLayers)
-    {
-    Renderables::iterator unloaded = std::find(oldLayers->begin(), oldLayers->end(), newLayer);
-    if (unloaded == oldLayers->end())
-    {
-    // newLayer->effect->Load();
-    }
-    }
-
-    renderables = newLayers;
-    cycle.SetRenderables(renderables);
-    }
-    */
-
-    /*
-       void Timeline::HandleTimeline()
-       {
-       if (currentEvent != nullptr)
-       {
-       if (!currentEvent->Done(timer.GetDeltaTime()))
-       {
-       currentEvent->Update({}, timer.GetDeltaTime());
-       currentEvent->Update(sound.GetCurrentIntensity(), timer.GetDeltaTime());
-       }
-       else
-       {
-       UpdateRenderables(currentEvent->GetRenderables());
-       currentEvent = nullptr;
-       events.pop();
-       }
-       }
-       else if (!events.empty() && events.front()->TriggerReached(timer.GetTime()))
-       {
-       currentEvent = events.front().get();
-       UpdateRenderables(currentEvent->GetRenderables());
-       cycle.SetRenderables(renderables);
-       }
-       }
-       */
-
-    /*
-       Layer* Timeline::CreateLayer(BlendMode mode, Effect* effect)
-       {
-       std::unique_ptr<Layer> p_layer{ std::make_unique<Layer>(mode, effect) };
-       Layer* layer{ p_layer.get() };
-       availableLayers.push_back(std::move(p_layer));
-       return layer;
-       }
-       */
-
-    /*
-       std::unique_ptr<Event> CreateEvent(Timestamp time, Renderables renderables)
-       {
-       return std::move(std::make_unique<Event>(time, renderables));
-       }
-       */
-
-    /*
-       std::unique_ptr<Event> Timeline::CreateEvent(Timestamp time,
-       Renderable* background,
-       Renderable* foreground,
-       TransitionType transition)
-       {
-       return std::move(std::make_unique<Event>(time, background, foreground, transition));
-       }
-       */
-
-    /*
-       Solid* Timeline::CreateSolid(const pugi::xml_node node)
-       {
-       mole::pugi_wrapper::node<Solid> deserialized{ node, &timer, &screen };
-       std::unique_ptr<Solid> p_effect{ std::make_unique<Solid>(deserialized.deserialize()) };
-       Solid* effect{ p_effect.get() };
-       availableEffects.push_back(std::move(p_effect));
-       return effect;
-       }
-       */
-
     Timeline::Timeline(Timer& timer,
                        Program& program,
                        Cycle& cycle,
-                       /* SoundManager& sound, */
+                       /*
+                       SoundManager& sound,
+		       */
                        Screen& screen,
                        std::string_view project) :
       currentEvent{ nullptr },
@@ -123,8 +24,8 @@ namespace MoleDemo
       program{ program },
       cycle{ cycle },
       /*
-         sound{ sound },
-         */
+      sound{ sound },
+      */
       screen{ screen },
       project{ project },
       renderables{}
@@ -150,6 +51,102 @@ namespace MoleDemo
 
         initialized = false;
     }
+
+
+
+    /*
+		       void Timeline::UpdateRenderables(Renderables newLayers)
+		       {
+		       Renderables* oldLayers = &renderables;
+
+		    // unload previously loaded effects (no longer needed)
+		    for (Renderable* oldLayer: *oldLayers)
+		    {
+		    Renderables::iterator unused = std::find(newLayers.begin(), newLayers.end(), oldLayer);
+		    if (unused != newLayers.end())
+		    {
+		    //(*unused)->effect->Unload();
+		    }
+		    }
+
+		    // load previously unloaded effects
+		    for (Renderable* newLayer: newLayers)
+		    {
+		    Renderables::iterator unloaded = std::find(oldLayers->begin(), oldLayers->end(), newLayer);
+		    if (unloaded == oldLayers->end())
+		    {
+		    // newLayer->effect->Load();
+		    }
+		    }
+
+		    renderables = newLayers;
+		    cycle.SetRenderables(renderables);
+		    }
+		    */
+
+		    /*
+		       void Timeline::HandleTimeline()
+		       {
+		       if (currentEvent != nullptr)
+		       {
+		       if (!currentEvent->Done(timer.GetDeltaTime()))
+		       {
+		       currentEvent->Update({}, timer.GetDeltaTime());
+		       currentEvent->Update(sound.GetCurrentIntensity(), timer.GetDeltaTime());
+		       }
+		       else
+		       {
+		       UpdateRenderables(currentEvent->GetRenderables());
+		       currentEvent = nullptr;
+		       events.pop();
+		       }
+		       }
+		       else if (!events.empty() && events.front()->TriggerReached(timer.GetTime()))
+		       {
+		       currentEvent = events.front().get();
+		       UpdateRenderables(currentEvent->GetRenderables());
+		       cycle.SetRenderables(renderables);
+		       }
+		       }
+		       */
+
+		    /*
+		       Layer* Timeline::CreateLayer(BlendMode mode, Effect* effect)
+		       {
+		       std::unique_ptr<Layer> p_layer{ std::make_unique<Layer>(mode, effect) };
+		       Layer* layer{ p_layer.get() };
+		       availableLayers.push_back(std::move(p_layer));
+		       return layer;
+		       }
+		       */
+
+		    /*
+		       std::unique_ptr<Event> CreateEvent(Timestamp time, Renderables renderables)
+		       {
+		       return std::move(std::make_unique<Event>(time, renderables));
+		       }
+		       */
+
+		    /*
+		       std::unique_ptr<Event> Timeline::CreateEvent(Timestamp time,
+		       Renderable* background,
+		       Renderable* foreground,
+		       TransitionType transition)
+		       {
+		       return std::move(std::make_unique<Event>(time, background, foreground, transition));
+		       }
+		       */
+
+		    /*
+		       Solid* Timeline::CreateSolid(const pugi::xml_node node)
+		       {
+		       mole::pugi_wrapper::node<Solid> deserialized{ node, &timer, &screen };
+		       std::unique_ptr<Solid> p_effect{ std::make_unique<Solid>(deserialized.deserialize()) };
+		       Solid* effect{ p_effect.get() };
+		       availableEffects.push_back(std::move(p_effect));
+		       return effect;
+		       }
+       */
 
     void Timeline::Load(std::string_view content)
     {
@@ -341,9 +338,5 @@ namespace MoleDemo
        effect->Unload();
        }
        }
-       */
-
-    /*
-       void Timeline::Finalize() {}
        */
 }
