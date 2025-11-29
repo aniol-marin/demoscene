@@ -15,7 +15,7 @@ SCENARIO("Timeline")
 {
 	GIVEN("a timeline")
 	{
-		WHEN("properly instantiated")
+		WHEN("first and foremost")
 		{
 			THEN("unit tests should run")
 			{
@@ -53,6 +53,12 @@ SCENARIO("Timeline")
 					MoleDemo::Cycle _ { program, timer, input_manager, render_manager };
 				}));
 				// ...
+			}
+		}
+		AND_WHEN("properly instantiated")
+		{
+			THEN("the instantiation cycle must not throw")
+			{
 				REQUIRE_NOTHROW( std::invoke([&]()
 				{
 					MoleDemo::Timer timer {};
@@ -71,19 +77,110 @@ SCENARIO("Timeline")
 						screen,
 						"test project"
 					};
-					/*
-					*/
 						/*sound_manager,*/
 				}));
-				CHECK(true);
 			}
-			AND_THEN("it must not throw")
+		}
+		AND_WHEN("properly used")
+		{
+			MoleDemo::Timer timer {};
+			mole_def::Screen screen {1, 1};
+			MoleDemo::Program program { screen };
+			SDL::SDLManager sdl_manager { };
+			MoleDemo::InputManager input_manager { sdl_manager };
+			MoleDemo::RenderManager render_manager { screen, sdl_manager };
+			MoleDemo::Cycle cycle { program, timer, input_manager, render_manager };
+			//MoleDemo::SoundManager sound_manager { ...};
+			MoleDemo::Timeline timeline {
+				timer,
+				program,
+				cycle,
+				screen,
+				"test project"
+			};
+				/*sound_manager,*/
+
+			THEN("it should work as an Initializable")
 			{
-				CHECK(true);
+				REQUIRE_NOTHROW( std::invoke([&]()
+				{
+					timeline.Init();
+					timeline.Finalize();
+				}));
+				REQUIRE_THROWS( std::invoke([&]()
+				{
+					timeline.Init();
+					timeline.Init();
+				}));
+				REQUIRE_THROWS( std::invoke([&]()
+				{
+					timeline.Finalize();
+					timeline.Finalize();
+				}));
 			}
-			AND_THEN("more unit tests should be written")
+			THEN("it should work as a Loadable")
 			{
-				CHECK(false);
+				REQUIRE_NOTHROW( std::invoke([&]()
+				{
+					timeline.Init();
+					timeline.Load("unused string");
+					timeline.Unload();
+					timeline.Finalize();
+				}));
+				REQUIRE_THROWS( std::invoke([&]()
+				{
+					timeline.Init();
+					timeline.Load("unused string");
+					timeline.Load("unused string");
+					timeline.Finalize();
+				}));
+				REQUIRE_THROWS( std::invoke([&]()
+				{
+					timeline.Init();
+					timeline.Unload();
+					timeline.Unload();
+					timeline.Finalize();
+				}));
+			}
+			THEN("it should be able to start")
+			{
+				REQUIRE_NOTHROW( std::invoke([&]()
+				{
+					timeline.Init();
+					timeline.Load("unused string");
+					timeline.Start();
+					timeline.Stop();
+					timeline.Unload();
+					timeline.Finalize();
+				}));
+				REQUIRE_THROWS( std::invoke([&]()
+				{
+					timeline.Init();
+					timeline.Load("unused string");
+					timeline.Start();
+					timeline.Start();
+					timeline.Stop();
+					timeline.Unload();
+					timeline.Finalize();
+				}));
+				REQUIRE_THROWS( std::invoke([&]()
+				{
+					timeline.Init();
+					timeline.Load("unused string");
+					timeline.Start();
+					timeline.Stop();
+					timeline.Stop();
+					timeline.Unload();
+					timeline.Finalize();
+				}));
+				REQUIRE_THROWS( std::invoke([&]()
+				{
+					timeline.Init();
+					timeline.Start();
+					timeline.Stop();
+					timeline.Unload();
+					timeline.Finalize();
+				}));
 			}
 		}
 	}

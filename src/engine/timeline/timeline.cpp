@@ -131,10 +131,74 @@ namespace MoleDemo
     {
     }
 
-    void Timeline::Init() {}
-    void Timeline::Finalize() {}
-    void Timeline::Load(std::string_view content) {} // temp implementation
-    void Timeline::Unload() {} // temp implementation
+    void Timeline::Init()
+    {
+        if (initialized)
+        {
+            throw std::runtime_error{ "trying to initialize timeline twice" };
+        }
+
+        initialized = true;
+    }
+
+    void Timeline::Finalize()
+    {
+        if (!initialized)
+        {
+            throw std::runtime_error{ "trying to finalize timeline twice" };
+        }
+
+        initialized = false;
+    }
+
+    void Timeline::Load(std::string_view content)
+    {
+        if (!initialized)
+        {
+            throw std::runtime_error{ "trying to load an uninitialized timeline" };
+        }
+        if (loaded)
+        {
+            throw std::runtime_error{ "trying to load a timeline twice" };
+        }
+
+	loaded = true;
+    }
+    void Timeline::Unload()
+    {
+        if (!initialized)
+        {
+            throw std::runtime_error{ "trying to unload an uninitialized timeline" };
+        }
+        if (!loaded)
+        {
+            throw std::runtime_error{ "trying to unload a timeline twice" };
+        }
+
+	loaded = false;
+    }
+    void Timeline::Start()
+    {
+        if (!loaded)
+        {
+            throw std::runtime_error{ "truing to start an unloaded timeline" };
+        }
+        if (started)
+        {
+            throw std::runtime_error{ "truing to start a timeline twice" };
+        }
+
+	started = true;
+    }
+    void Timeline::Stop()
+    {
+        if (!started)
+        {
+            throw std::runtime_error{ "trying to stop an unstarted timeline" };
+        }
+
+	started = false;
+    }
 
     /*
        void Timeline::Load(std::string content)

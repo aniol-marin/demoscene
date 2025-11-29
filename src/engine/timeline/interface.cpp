@@ -80,8 +80,13 @@ namespace MoleDemo
         Renderables renderables;
         Events events;
         Event* currentEvent;
-	std::string_view project;
+        std::string_view project;
+	bool initialized { false };
+	bool loaded { false };
+	bool started { false };
+	
         void UpdateRenderables(Renderables newLayers);
+
         void HandleTimeline();
 
         template<typename T>
@@ -102,17 +107,22 @@ namespace MoleDemo
                                            TransitionType transition);
 
     public:
+	Timeline() = delete;
         Timeline(Timer& timer,
                  Program& program,
                  Cycle& cycle,
                  /*SoundManager& sound,*/
                  Screen& screen,
                  std::string_view project);
+	Timeline(const Timeline&) = delete;
+	Timeline(Timeline&&) = default;
+	~Timeline() = default;
 
         void Init() override;
         void Finalize() override;
         void Load(std::string_view content) override;
         void Unload() override;
         void Start();
+        void Stop();
     };
 }
