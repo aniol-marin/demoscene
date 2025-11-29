@@ -72,13 +72,18 @@ profile: .final
 pack:
 	cd $(BUILD_PATH); cpack -DCPACK_PACKAGE_DIRECTORY=$(EXPORT_PATH)
 
-.PHONY: ctest
 report-experimental: generate
 	cd $(BUILD_PATH); ctest --dashboard Experimental
 	#ctest --script ./ctest/CTestScript.cmake
 
-check-coverage: generate
-	cd $(BUILD_PATH); ctest --test-model Experimental --test-action Coverage
+check-test: generate
+	make .call_log MESSAGE="testing CTest tests"
+	cd $(BUILD_PATH); ctest -T Test
+
+check-coverage:
+	-make check-test
+	make .call_log MESSAGE="testing CTest coverage"
+	cd $(BUILD_PATH); ctest -T Coverage
 
 #needed for:
 # - glad generation (curl, python)

@@ -20,8 +20,8 @@ function(configure_project)
 	if(NOT DEFINED EnableExperimentalFeatures)
 		option(EnableExperimentalFeatures "enables experimental features" OFF)
 	endif()
-	if(NOT DEFINED EnableTesting)
-		option(EnableTesting "enables testing targets" ON)
+	if(NOT DEFINED MoleDemo_EnableTesting)
+		option(MoleDemo_EnableTesting "enables testing targets" ON)
 	endif()
 	if(NOT DEFINED DisableAllButExperimental)
 		option(DisableAllButExperimental "DISABLES regular targets" OFF)
@@ -32,21 +32,12 @@ function(configure_project)
 			"EnableExperimentalFeatures" OFF
 		)
 	endif()
-
-	# Compiler choice
-	if(NOT DEFINED Config_Compiler)
-		set(Config_Compiler
-			"${CMAKE_CXX_COMPILER}"
-			CACHE PATH
-			"Specify the compiler to be used"
+	if(NOT DEFINED MoleDemo_Testing_EnableCoverage)
+		cmake_dependent_option(
+			MoleDemo_Testing_EnableCoverage "enables test coverage" ON
+			MoleDemo_EnableTesting ON
 		)
 	endif()
-	set(CMAKE_CXX_COMPILER ${Config_Compiler}
-		CACHE PATH
-		"[AUTOMATICALLY REGENERATED] the effective compiler to be used"
-		FORCE
-	)
-	mark_as_advanced(FORCE CMAKE_RUNTIME_OUTPUT_DIRECTORY)
 
 	# Runtime files output
 	if(NOT DEFINED Config_PathFor_Binaries)

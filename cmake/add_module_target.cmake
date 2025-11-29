@@ -9,6 +9,11 @@ function(add_module_target_transitional MODULE_NAME)
 
 	add_library(${MODULE_NAME})
 	target_compile_features(${MODULE_NAME} PUBLIC cxx_std_20)
+	if(MoleDemo_Testing_EnableCoverage)
+		target_compile_options(${MODULE_NAME} PRIVATE -coverage)
+		target_link_options(${MODULE_NAME} PRIVATE -coverage)
+	endif()
+
 
 	if(EXISTS "${CMAKE_CURRENT_SOURCE_DIR}/interface.cpp")
 		target_sources(${MODULE_NAME} PUBLIC
