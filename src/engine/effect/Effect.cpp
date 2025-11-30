@@ -12,30 +12,33 @@ namespace MoleDemo
     {
         ReserveBuffer();
     }
-    /*
 
-    index Effect::GetPixelIndex(Point2D& point) {
+    index Effect::GetPixelIndex(Point2D& point)
+    {
         return GetPixelIndex(point, buffer);
     }
 
-    index Effect::GetPixelIndex(Point2D& point, PixelBuffer& pixelBuffer) {
-        return (pixel_count)screen->w * (pixel_count)point.y + (pixel_count)point.x;
+    index Effect::GetPixelIndex(Point2D& point, PixelBuffer& pixelBuffer)
+    {
+        return (pixel_count) screen->w * (pixel_count) point.y + (pixel_count) point.x;
     }
 
-    rgbaColor Effect::GetColorAt(Point2D point, PixelBuffer& pixelBuffer) {
+    rgbaColor Effect::GetColorAt(Point2D point, PixelBuffer& pixelBuffer)
+    {
         return pixelBuffer[GetPixelIndex(point, pixelBuffer)];
     }
 
-    void Effect::PutPixel(Point2D point, rgbaColor color) {
+    void Effect::PutPixel(Point2D point, rgbaColor color)
+    {
         PutPixel(point, color, buffer);
     }
 
-    void Effect::PutPixel(Point2D point, rgbaColor color, PixelBuffer& buffer) {
+    void Effect::PutPixel(Point2D point, rgbaColor color, PixelBuffer& buffer)
+    {
 
         rgbaColor& pixel = buffer.at(GetPixelIndex(point));
         pixel = color;
     }
-    */
 
     void Effect::ReserveBuffer()
     {
@@ -53,13 +56,13 @@ namespace MoleDemo
         pixelBuffer.assign(screen->GetPixelCount(), color);
     }
 
-    /*
-    rgbaColor Effect::GetPixel(Point2D p) {
+    rgbaColor Effect::GetPixel(Point2D p)
+    {
         return GetPixel(GetPixelIndex(p));
     }
 
-    rgbaColor Effect::GetPixel(index index) {
+    rgbaColor Effect::GetPixel(index index)
+    {
         return buffer[index];
     }
-     */
 }

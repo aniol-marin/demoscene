@@ -26,10 +26,8 @@ public:
     void Load() override;
     void Unload() override;
 
-	/*
     void Update(permille intensity, milliseconds delta) override;
     void Cache(StencilBuffer& mask) override;
-	 */
 };
 
 class MoleDemo::Star

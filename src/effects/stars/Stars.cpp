@@ -73,11 +73,8 @@ namespace MoleDemo
 
     Stars::Stars(Timer* timer, Screen* screen) : Effect{ timer, screen }
     {
-        /*
         ClearBuffer(transparent);
-         */
     }
-
 
     void Stars::Load()
     {
@@ -85,8 +82,6 @@ namespace MoleDemo
     }
 
     void Stars::Unload() {}
-
-    /*
 
     void Stars::Update(permille intensity, milliseconds delta)
     {
@@ -112,5 +107,4 @@ namespace MoleDemo
             star.Draw([&](Point2D point, rgbaColor color) { PutPixel(point, color); });
         }
     }
-     */
 }
