@@ -13,9 +13,11 @@ namespace MoleDemo
 		screen{ screen },
 		buffer{}
 	{
-
+		/*
 		ReserveBuffer();
+		 */
 	}
+	/*
 
 	index Effect::GetPixelIndex(Point2D& point) {
 		return GetPixelIndex(point, buffer);
@@ -40,9 +42,7 @@ namespace MoleDemo
 	}
 
 	void Effect::ReserveBuffer() {
-		/*
 		   buffer.reserve(screen->GetPixelCount());
-		   */
 		ClearBuffer(transparent);
 	}
 
@@ -52,9 +52,7 @@ namespace MoleDemo
 
 	void Effect::ClearBuffer(rgbaColor color, PixelBuffer& pixelBuffer) {
 		throw std::runtime_error{ "deactivated" };
-		/*
 		pixelBuffer.assign(screen->GetPixelCount(), color);
-		 */
 	}
 
 	rgbaColor Effect::GetPixel(Point2D p) {
@@ -64,5 +62,6 @@ namespace MoleDemo
 	rgbaColor Effect::GetPixel(index index) {
 		return buffer[index];
 	}
+	 */
 }
 

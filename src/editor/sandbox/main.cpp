@@ -1,17 +1,6 @@
 import std;
-import injection;
-import definitions;
-import program;
-import input;
-import timer;
-import sound;
-import render;
-import timeline;
-import cycle;
-import effect;
+import engine;
 import stars;
-// leaked implementation
-import sdl_wrapper;
 
 using namespace MoleDemo;
 using namespace mole_def;
@@ -63,7 +52,7 @@ int main(int argc, char** argv)
         sdl.UpdateSurface();
         sdl.UnlockSurface();
 
-	timer.WaitUntilNextFrame();
+    timer.WaitUntilNextFrame();
     }
 
     std::cout << std::endl;
@@ -74,7 +63,8 @@ int main(int argc, char** argv)
     return 0;
 }
 
-void InstallBindings(Container& container)
+void
+InstallBindings(Container& container)
 {
     container.BindShared<Timer>();
     container.BindShared<Screen>([] { return Screen{ 640, 480 }; });
@@ -86,8 +76,8 @@ void InstallBindings(Container& container)
             });
     container.BindShared<InputManager>([&] { return InputManager{ container.Inject<SDL::SDLManager>() }; });
     container.BindShared<Program>([&] { return Program{ container.Inject<Screen>() }; });
-    container.BindShared<Cycle>(
-            [&]
+    container.BindShared<Cycle>( //
+            [&] //
             {
                 return Cycle{ container.Inject<Program>(),
                               container.Inject<Timer>(),

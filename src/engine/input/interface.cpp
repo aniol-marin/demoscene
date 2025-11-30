@@ -1,7 +1,7 @@
 export module input;
 
 import definitions;
-import sdl_wrapper;
+export import sdl_wrapper;
 
 namespace MoleDemo
 {

@@ -1,8 +1,8 @@
 export module effect;
 
 import std;
-import definitions;
-import timer;
+export import definitions;
+export import timer;
 
 using namespace mole_def;
 
@@ -21,6 +21,7 @@ protected:
 
 	Effect(Timer* timer, Screen* screen);
 
+	/*
 	index GetPixelIndex(Point2D& point);
 	index GetPixelIndex(Point2D& point, PixelBuffer& pixelBuffer);
 	rgbaColor GetColorAt(Point2D point, PixelBuffer& pixelBuffer);
@@ -44,5 +45,15 @@ public:
 	virtual void Update(permille intensity, milliseconds delta) = 0;
 
 	virtual void Cache(StencilBuffer& mask) = 0;
+	 */
+public:
+	Effect() = delete;
+	virtual ~Effect() = default;
+	virtual rgbaColor GetPixel(Point2D p){ return {}; }
+	virtual rgbaColor GetPixel(index index){ return {}; }
+	virtual void Cache(StencilBuffer& mask) {}
+	virtual void Update(permille intensity, milliseconds delta) {}
+	virtual void Load() {}
+	virtual void Unload() {}
 };
 

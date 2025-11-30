@@ -14,20 +14,20 @@ add_subdirectory(sound)
 add_subdirectory(timeline)
 add_subdirectory(timer)
 
-target_link_libraries(${MODULE_NAME}
-	PUBLIC effect
-	PUBLIC engine_definitions
-	PUBLIC injection
-	PUBLIC input
-	PUBLIC program
-	PUBLIC render
-	PUBLIC renderables
-	PUBLIC sound
-	PUBLIC timeline
-	PUBLIC timer
+target_link_libraries(${MODULE_NAME} PUBLIC
+	effect
+	engine_definitions
+	injection
+	input
+	program
+	render
+	renderables
+	sound
+	timeline
+	timer
 )
 
-target_sources(${MODULE_NAME} PUBLIC
+target_sources(${MODULE_NAME} PRIVATE
 	engine.cpp
 )
 

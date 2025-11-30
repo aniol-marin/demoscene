@@ -21,13 +21,15 @@ class MoleDemo::Stars : public Effect
 
 public:
     Stars(Timer* timer, Screen* screen);
-    ~Stars();
+    ~Stars() override = default;
 
+	/*
     void Load() override;
     void Unload() override;
 
     void Update(permille intensity, milliseconds delta) override;
     void Cache(StencilBuffer& mask) override;
+	 */
 };
 
 class MoleDemo::Star
