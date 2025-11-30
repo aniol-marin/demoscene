@@ -13,27 +13,15 @@ namespace MoleDemo
 {
     using namespace mole_def;
 
-    /*
-    Event::Event(Timestamp time, Renderables renderables)
-	    : time { time}
-    , background {}
-    , foreground {}
-    , renderables { renderables}
+    Event::Event(Timestamp time, Renderables renderables) :
+      time{ time }, background{}, foreground{}, renderables{ renderables }
     {
     }
 
-    Event::Event(
-		Timestamp time,
-		Renderable* a_background,
-		Renderable* a_foreground,
-		TransitionType transitionType)
-	: time { time }
-	, background { a_background }
-	, foreground { a_foreground }
+    Event::Event(Timestamp time, Renderable* a_background, Renderable* a_foreground, TransitionType transitionType) :
+      time{ time }, background{ a_background }, foreground{ a_foreground }, renderables{}
     {
     }
-     */
-
 
     bool Event::Done(milliseconds deltaTime)
     {
@@ -48,12 +36,28 @@ namespace MoleDemo
 
     Renderables Event::GetRenderables()
     {
-        throw std::runtime_error{ "event GetRenderables not implemented" };
+        Renderables active = Renderables{};
+        if (!instantaneous)
+        {
+            if (!isDone())
+            {
+                active.push_back(transition.get());
+            }
+            else
+            {
+                active.push_back(foreground);
+            }
+        }
+        else
+        {
+            active = renderables;
+        }
+        return active;
     }
 
     bool Event::TriggerReached(seconds current)
     {
-        throw std::runtime_error{ "event GetRenderables not implemented" };
+        return current >= time.start;
     }
 
     Timeline::Timeline(Timer& timer,
@@ -211,6 +215,10 @@ namespace MoleDemo
             throw std::runtime_error{ "trying to unload a timeline twice" };
         }
 
+        for (std::unique_ptr<Effect>& effect: availableEffects)
+        {
+            effect->Unload();
+        }
         loaded = false;
     }
     void Timeline::Start()
@@ -224,6 +232,10 @@ namespace MoleDemo
             throw std::runtime_error{ "truing to start a timeline twice" };
         }
 
+        /*
+       timer.SetEndTime(sound.GetMusicDuration());
+     */
+        timer.SetEndTime(2000);
         started = true;
     }
     void Timeline::Stop()
@@ -324,8 +336,8 @@ namespace MoleDemo
         }
 
         renderables.push_back(stars);
-        /*
         events.push(std::make_unique<Event>(Timestamp{ 5, 2000 }, stars, stars, TransitionType::Fade));
+        /*
             events.push(std::make_unique<Event>(Timestamp{ 5, 2000 }, stars, sanitaryPollution, TransitionType::Fade));
             events.push(std::make_unique<Event>(Timestamp{ 31, 2000 }, fire, wheel, TransitionType::Fade));
             events.push(std::make_unique<Event>(Timestamp{ 40, 2000 }, wheel, black, TransitionType::Fade));
@@ -352,13 +364,6 @@ namespace MoleDemo
         UpdateRenderables(renderables);
     }
 
-    /*
-       void Timeline::Start()
-       {
-       timer.SetEndTime(sound.GetMusicDuration());
-       }
-       */
-
     void Timeline::Update()
     {
         HandleTimeline();
@@ -368,18 +373,4 @@ namespace MoleDemo
         cycle.Draw();
         cycle.Synch();
     }
-
-    /*
-       void Timeline::Update()
-       */
-
-    /*
-       void Timeline::Unload()
-       {
-       for (std::unique_ptr<Effect>& effect: availableEffects)
-       {
-       effect->Unload();
-       }
-       }
-       */
 }
