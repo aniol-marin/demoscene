@@ -1,6 +1,8 @@
 function(manage_dependency_imgui)
 
-	find_package(imgui)
+	if(NOT MoleDemo_ForceFetchedDependencies)
+		find_package(imgui)
+	endif()
 
 	if(NOT imgui_FOUND)
 		FetchContent_Declare(

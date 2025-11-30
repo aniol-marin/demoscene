@@ -3,9 +3,7 @@ export module editor_;
 import std;
 import glfw_wrapper;
 import glad_wrapper;
-/*
 import imgui_wrapper;
- */
 
 namespace mole::editor
 {
@@ -18,9 +16,7 @@ namespace mole::editor
     {
         mole::graphics::WindowContext context;
         mole::graphics::RenderContext render;
-        /*
         mole::ui::UIContext ui;
-         */
         bool active{ true };
 
     public:

@@ -3,16 +3,11 @@ module editor_;
 import std;
 import glfw_wrapper;
 import glad_wrapper;
-/*
 import imgui_wrapper;
-*/
 
 namespace mole::editor
 {
-    Context::Context() : context{ { 640, 480 }, "MoleDemo Editor" }, render{ context }
-    /*
-    , ui{ context }
-     */
+    Context::Context() : context{ { 640, 480 }, "MoleDemo Editor" }, render{ context }, ui{ context }
     {
         const char key = 0;
         context.AddCallback(key, [this] { active = false; });
@@ -30,10 +25,7 @@ namespace mole::editor
     void Context::Draw()
     {
         render.Render();
-        /*
         ui.RenderUI();
-         */
         context.Swap();
     }
 }
-

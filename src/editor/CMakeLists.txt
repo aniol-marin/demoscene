@@ -38,8 +38,6 @@ target_sources(${EXECUTABLE_NAME} PRIVATE
 target_link_libraries(${MODULE_NAME} PUBLIC
 	glfw_wrapper
 	glad_wrapper
-	#[[
 	imgui_wrapper
-	]]#
 )
 
