@@ -11,12 +11,16 @@ namespace MoleDemo
 
 using namespace mole_def;
 
-class MoleDemo::SoundManager : 
-	public Initializable,
-	public Loadable
+class MoleDemo::SoundManager
+/*
+	: public Initializable
+	, public Loadable
+ */
 {
 
+	/*
 	raudio::AudioManager m{};
+	 */
 public:
 
 	SoundManager() = default;

@@ -1,15 +1,17 @@
 export module demo;
 
-using Container = MoleDemo::Container;
+import std;
+import engine;
+
+using namespace mole_def;
 
 namespace MoleDemo
-
+{
     export class Demo;
 }
 
 class MoleDemo::Demo
 {
-    RAudio::AudioManager am{};
     Screen screen{ 600, 300 };
     const std::string project{};
     std::string source{};

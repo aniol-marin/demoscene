@@ -1,7 +1,5 @@
 module demo;
 
-using Container = MoleDemo::Container;
-
 namespace MoleDemo
 {
     void Demo::LoadData(std::string source) {}
@@ -28,12 +26,14 @@ namespace MoleDemo
     {
         InstallBindings();
 
-        initializables.push_back(&container.Inject<RenderManager>());
-        initializables.push_back(timeline);
-        initializables.push_back(sound);
+        /*
+           initializables.push_back(&container.Inject<RenderManager>());
+           initializables.push_back(timeline);
+           initializables.push_back(sound);
 
-        loadables.push_back(timeline);
-        loadables.push_back(sound);
+           loadables.push_back(timeline);
+           loadables.push_back(sound);
+           */
 
         timer->SetFPS(60);
 
@@ -76,16 +76,23 @@ namespace MoleDemo
         container.BindShared<Timeline>(
                 [&]
                 {
-                    return Timeline{ container.Inject<Timer>(),  container.Inject<Program>(),
-                                     container.Inject<Cycle>(),  container.Inject<SoundManager>(),
-                                     container.Inject<Screen>(), project };
-                });
+                    return Timeline{
 
+                        container.Inject<Timer>(),
+                        container.Inject<Program>(),
+                        container.Inject<Cycle>(),
+                        /*
+                         container.Inject<SoundManager>(),
+                        */
+                        container.Inject<Screen>(),
+                        project
+                    };
+                });
         /* TODO replace manual functor resolution with in-place factories. Examples follow:
-        container.BindUniqueFromFactory<Cycle, Cycle, Program, Timer, InputManager, RenderManager>();
-        container.BindSharingFromFactory<Timeline, Timeline, Timer, Cycle, SoundManager, Screen>();
-        */
-        //
+           container.BindUniqueFromFactory<Cycle, Cycle, Program, Timer, InputManager, RenderManager>();
+           container.BindSharingFromFactory<Timeline, Timeline, Timer, Cycle, SoundManager, Screen>();
+           */
+
         // Self injection (TO DO separate concerns)
         program = &container.Inject<Program>();
         timer = &container.Inject<Timer>();
@@ -104,7 +111,9 @@ namespace MoleDemo
         while (program->Running())
         {
             sound->Update();
-            timeline->Update();
+            /*
+               timeline->Update();
+               */
         }
 
         sound->Stop();

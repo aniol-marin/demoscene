@@ -2,23 +2,23 @@ set(MODULE_NAME timeline)
 
 add_module_target_transitional(${MODULE_NAME})
 
-target_link_libraries( ${MODULE_NAME}
-	PRIVATE cycle
-	PRIVATE effect
+target_link_libraries( ${MODULE_NAME} PUBLIC
+	cycle
+	effect
 	#[[
 	PRIVATE effects
 	]]#
-	PRIVATE engine_definitions
-	PRIVATE program
-	PRIVATE raudio
-	PRIVATE render
-	PRIVATE renderables
-	PRIVATE serialization
-	PRIVATE sound
-	PRIVATE timer
+	engine_definitions
+	program
+	raudio
+	render
+	renderables
+	serialization
+	sound
+	timer
 )
 
-target_sources( ${MODULE_NAME} PUBLIC
+target_sources( ${MODULE_NAME} PRIVATE 
 	timeline.cpp
 )
 

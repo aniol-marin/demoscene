@@ -26,10 +26,10 @@ int main(int argc, char** argv)
     sdl.Init(screen);
     timer.SetFPS(60);
 
-    int requested_timeout {};
-    std::istringstream s { argv[1] };
+    int requested_timeout{};
+    std::istringstream s{ argv[1] };
     s >> requested_timeout;
-    int timeout { requested_timeout ? requested_timeout : 15 };
+    int timeout{ requested_timeout ? requested_timeout : 15 };
     std::cout << "\n set timeout to: [" << timeout << "]\n";
     timer.SetEndTime(timeout);
     renderable.Load();
@@ -52,7 +52,7 @@ int main(int argc, char** argv)
         sdl.UpdateSurface();
         sdl.UnlockSurface();
 
-    timer.WaitUntilNextFrame();
+        timer.WaitUntilNextFrame();
     }
 
     std::cout << std::endl;
