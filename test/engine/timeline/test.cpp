@@ -9,6 +9,7 @@ import input;
 import program;
 import render;
 import sdl_wrapper;
+import sound;
 import timer;
 
 SCENARIO("Timeline")
@@ -68,16 +69,16 @@ SCENARIO("Timeline")
 					MoleDemo::InputManager input_manager { sdl_manager };
 					MoleDemo::RenderManager render_manager { screen, sdl_manager };
 					MoleDemo::Cycle cycle { program, timer, input_manager, render_manager };
+					MoleDemo::SoundManager sound_manager { };
 
-					//MoleDemo::SoundManager sound_manager { ...};
 					MoleDemo::Timeline _ {
 						timer,
 						program,
 						cycle,
+						sound_manager,
 						screen,
 						"test project"
 					};
-						/*sound_manager,*/
 				}));
 			}
 		}
@@ -90,15 +91,16 @@ SCENARIO("Timeline")
 			MoleDemo::InputManager input_manager { sdl_manager };
 			MoleDemo::RenderManager render_manager { screen, sdl_manager };
 			MoleDemo::Cycle cycle { program, timer, input_manager, render_manager };
-			//MoleDemo::SoundManager sound_manager { ...};
+			MoleDemo::SoundManager sound_manager { };
+
 			MoleDemo::Timeline timeline {
 				timer,
 				program,
 				cycle,
+				sound_manager,
 				screen,
 				"test project"
 			};
-				/*sound_manager,*/
 
 			THEN("it should work as an Initializable")
 			{

@@ -26,14 +26,12 @@ namespace MoleDemo
     {
         InstallBindings();
 
-        /*
-           initializables.push_back(&container.Inject<RenderManager>());
-           initializables.push_back(timeline);
-           initializables.push_back(sound);
+        initializables.push_back(&container.Inject<RenderManager>());
+        initializables.push_back(timeline);
+        initializables.push_back(sound);
 
-           loadables.push_back(timeline);
-           loadables.push_back(sound);
-           */
+        loadables.push_back(timeline);
+        loadables.push_back(sound);
 
         timer->SetFPS(60);
 
@@ -77,13 +75,10 @@ namespace MoleDemo
                 [&]
                 {
                     return Timeline{
-
                         container.Inject<Timer>(),
                         container.Inject<Program>(),
                         container.Inject<Cycle>(),
-                        /*
-                         container.Inject<SoundManager>(),
-                        */
+			container.Inject<SoundManager>(),
                         container.Inject<Screen>(),
                         project
                     };
@@ -111,9 +106,7 @@ namespace MoleDemo
         while (program->Running())
         {
             sound->Update();
-            /*
-               timeline->Update();
-               */
+            timeline->Update();
         }
 
         sound->Stop();

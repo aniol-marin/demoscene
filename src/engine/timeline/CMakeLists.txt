@@ -5,6 +5,8 @@ add_module_target_transitional(${MODULE_NAME})
 target_link_libraries( ${MODULE_NAME} PUBLIC
 	cycle
 	effect
+	stars
+	effects
 	#[[
 	PRIVATE effects
 	]]#
