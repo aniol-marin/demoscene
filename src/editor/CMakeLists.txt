@@ -17,9 +17,6 @@ target_sources(${EXECUTABLE_NAME} PUBLIC
 	main.cpp
 )
 target_link_libraries(${EXECUTABLE_NAME} PRIVATE
-	glfw_wrapper
-	glad_wrapper
-	imgui_wrapper
 	editor_
 )
 
@@ -35,12 +32,14 @@ endif()
 
 set(MODULE_NAME editor_)
 add_module_target_transitional(${MODULE_NAME})
-target_sources(${EXECUTABLE_NAME} PUBLIC
+target_sources(${EXECUTABLE_NAME} PRIVATE
 	editor.cpp
 )
-target_link_libraries(${MODULE_NAME} PRIVATE
+target_link_libraries(${MODULE_NAME} PUBLIC
 	glfw_wrapper
 	glad_wrapper
+	#[[
 	imgui_wrapper
+	]]#
 )
 

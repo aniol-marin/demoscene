@@ -3,22 +3,34 @@ export module editor_;
 import std;
 import glfw_wrapper;
 import glad_wrapper;
+/*
 import imgui_wrapper;
+ */
 
-export class Context
+namespace mole::editor
 {
-    mole::graphics::WindowContext context;
-    mole::graphics::RenderContext render;
-    mole::ui::UIContext ui;
-    bool active{ true };
+    export class Context;
+}
 
-public:
-    Context();
-    Context(const Context&) = delete;
-    Context(Context&&) = default;
+namespace mole::editor
+{
+    class Context
+    {
+        mole::graphics::WindowContext context;
+        mole::graphics::RenderContext render;
+        /*
+        mole::ui::UIContext ui;
+         */
+        bool active{ true };
 
-    [[nodiscard]] bool is_active();
-    void PollEvents();
+    public:
+        Context();
+        Context(const Context&) = delete;
+        Context(Context&&) = default;
 
-    void Draw();
-};
+        [[nodiscard]] bool is_active();
+        void PollEvents();
+
+        void Draw();
+    };
+}

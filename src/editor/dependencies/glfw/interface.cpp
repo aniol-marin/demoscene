@@ -8,9 +8,17 @@ import std;
 import definitions;
 
 using callback = std::function<void(void)>;
+
 namespace mole::graphics
 {
+    export using proc_address = decltype(glfwGetProcAddress);
     export using size_1D = std::uint_fast16_t;
+
+    export struct WindowContext;
+}
+
+namespace mole::graphics
+{
     struct Vector2
     {
         float x, y;
@@ -28,8 +36,7 @@ namespace mole::graphics
     static std::map<int, std::vector<callback>> MouseCursorPosCallbacks;
     static Vector2 delta;
 
-    export using proc_address = decltype(glfwGetProcAddress);
-    export struct WindowContext
+    struct WindowContext
     {
         GLFWwindow* window{ NULL };
         const window_size size;
