@@ -110,6 +110,7 @@ namespace MoleDemo
         }
 
         sound->Stop();
+	timeline->Stop();
         Finalize();
     }
 }

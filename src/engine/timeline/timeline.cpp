@@ -13,6 +13,28 @@ namespace MoleDemo
 {
     using namespace mole_def;
 
+    /*
+    Event::Event(Timestamp time, Renderables renderables)
+	    : time { time}
+    , background {}
+    , foreground {}
+    , renderables { renderables}
+    {
+    }
+
+    Event::Event(
+		Timestamp time,
+		Renderable* a_background,
+		Renderable* a_foreground,
+		TransitionType transitionType)
+	: time { time }
+	, background { a_background }
+	, foreground { a_foreground }
+    {
+    }
+     */
+
+
     bool Event::Done(milliseconds deltaTime)
     {
         throw std::runtime_error{ "event done not implemented" };
@@ -25,6 +47,11 @@ namespace MoleDemo
     }
 
     Renderables Event::GetRenderables()
+    {
+        throw std::runtime_error{ "event GetRenderables not implemented" };
+    }
+
+    bool Event::TriggerReached(seconds current)
     {
         throw std::runtime_error{ "event GetRenderables not implemented" };
     }
@@ -76,9 +103,10 @@ namespace MoleDemo
             Renderables::iterator unused = std::find(newLayers.begin(), newLayers.end(), oldLayer);
             if (unused != newLayers.end())
             {
-                /*
-                        unused->effect->Unload();
-                */
+                // TO DO really would need some refactor...
+                Renderable* renderable{ *unused };
+                Loadable* loadable{ reinterpret_cast<Loadable*>(renderable) };
+                loadable->Unload();
             }
         }
 
@@ -88,10 +116,10 @@ namespace MoleDemo
             Renderables::iterator unloaded = std::find(oldLayers->begin(), oldLayers->end(), newLayer);
             if (unloaded == oldLayers->end())
             {
-                throw std::runtime_error{ " effect loading deactivated" };
-                /*
-                        newLayer->effect->Load();
-                */
+                // TO DO really would need some refactor...
+                Renderable* renderable{ *unloaded };
+                Loadable* loadable{ reinterpret_cast<Loadable*>(renderable) };
+                loadable->Load({});
             }
         }
 
@@ -101,19 +129,13 @@ namespace MoleDemo
 
     void Timeline::HandleTimeline()
     {
-        /*
-            throw std::runtime_error { " timeline handling deactivated" };
-           */
         if (currentEvent != nullptr)
         {
             if (!currentEvent->Done(timer.GetDeltaTime()))
             {
 
                 throw std::runtime_error{ " timeline handling deactivated" };
-                currentEvent->Update({}, timer.GetDeltaTime());
-                /*
-                        currentEvent->Update(sound.GetCurrentIntensity(), timer.GetDeltaTime());
-                 */
+                currentEvent->Update(sound.GetCurrentIntensity(), timer.GetDeltaTime());
             }
             else
             {
@@ -122,15 +144,12 @@ namespace MoleDemo
                 events.pop();
             }
         }
-        /*
         else if (!events.empty() && events.front()->TriggerReached(timer.GetTime()))
         {
-            throw std::runtime_error { " timeline handling deactivated" };
             currentEvent = events.front().get();
             UpdateRenderables(currentEvent->GetRenderables());
             cycle.SetRenderables(renderables);
         }
-         */
     }
 
     Layer* Timeline::CreateLayer(BlendMode mode, Effect* effect)
@@ -142,21 +161,19 @@ namespace MoleDemo
     }
 
     /*
-       std::unique_ptr<Event> CreateEvent(Timestamp time, Renderables renderables)
-       {
-       return std::move(std::make_unique<Event>(time, renderables));
-       }
-       */
+    std::unique_ptr<Event> Timeline::CreateEvent(Timestamp time, Renderables renderables)
+    {
+        return std::move(std::make_unique<Event>(time, renderables));
+    }
 
-    /*
-       std::unique_ptr<Event> Timeline::CreateEvent(Timestamp time,
-       Renderable* background,
-       Renderable* foreground,
-       TransitionType transition)
-       {
-       return std::move(std::make_unique<Event>(time, background, foreground, transition));
-       }
-       */
+    std::unique_ptr<Event> Timeline::CreateEvent(Timestamp time,
+                                                 Renderable* background,
+                                                 Renderable* foreground,
+                                                 TransitionType transition)
+    {
+        return std::move(std::make_unique<Event>(time, background, foreground, transition));
+    }
+     */
 
     /*
        Solid* Timeline::CreateSolid(const pugi::xml_node node)
@@ -299,15 +316,16 @@ namespace MoleDemo
         Layer* sonicPollution{ CreateLayer(BlendMode::Override, noise) };
         Layer* sanitaryPollution{ CreateLayer(BlendMode::Override, tunnelDirty) };
 
+    */
         // Layers initialization
         for (std::unique_ptr<Effect>& effect: availableEffects)
         {
             effect->Load();
         }
 
-    */
         renderables.push_back(stars);
         /*
+        events.push(std::make_unique<Event>(Timestamp{ 5, 2000 }, stars, stars, TransitionType::Fade));
             events.push(std::make_unique<Event>(Timestamp{ 5, 2000 }, stars, sanitaryPollution, TransitionType::Fade));
             events.push(std::make_unique<Event>(Timestamp{ 31, 2000 }, fire, wheel, TransitionType::Fade));
             events.push(std::make_unique<Event>(Timestamp{ 40, 2000 }, wheel, black, TransitionType::Fade));
@@ -345,12 +363,10 @@ namespace MoleDemo
     {
         HandleTimeline();
 
-        /*
         cycle.PollEvents();
         cycle.Update(sound.GetCurrentIntensity());
         cycle.Draw();
         cycle.Synch();
-         */
     }
 
     /*

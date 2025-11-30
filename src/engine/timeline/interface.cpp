@@ -37,9 +37,11 @@ namespace MoleDemo
         const Timestamp time;
         Renderable* const background;
         Renderable* const foreground;
+
+        Event() = delete;
         Event(Timestamp time, Renderables renderables);
         Event(Timestamp time, Renderable* background, Renderable* foreground, TransitionType transitionType);
-        ~Event() {}
+        ~Event() = default;
 
         bool TriggerReached(seconds current);
         bool Done(milliseconds deltaTime);
@@ -76,7 +78,6 @@ namespace MoleDemo
         bool started{ false };
 
         void UpdateRenderables(Renderables newLayers); // TO DO simplify
-
         void HandleTimeline(); // TO DO simplify
 
         template<typename T>
@@ -97,6 +98,11 @@ namespace MoleDemo
                                            TransitionType transition);
 
         void LoadInternal(std::string_view content); // TO DO simplify
+    public: // TO DO refactor
+        void Init() override; // TO DO simplify
+        void Finalize() override; // TO DO simplify
+        void Load(std::string_view content) override;
+        void Unload() override; // TO DO simplify
     public:
         Timeline() = delete;
         Timeline(Timer& timer,
@@ -109,12 +115,8 @@ namespace MoleDemo
         Timeline(Timeline&&) = default;
         ~Timeline() = default;
 
-        void Init() override; // TO DO simplify
-        void Finalize() override; // TO DO simplify
-        void Load(std::string_view content) override;
-        void Unload() override; // TO DO simplify
         void Start();
-        void Stop();
         void Update();
+        void Stop();
     };
 }
