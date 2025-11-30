@@ -11,7 +11,6 @@ namespace MoleDemo
 
     Star::Star(const Screen& screen, const speed& maxSpeed) : maxSpeed{ maxSpeed }, screen{ screen }
     {
-
         Reset();
     }
 
@@ -74,12 +73,11 @@ namespace MoleDemo
 
     Stars::Stars(Timer* timer, Screen* screen) : Effect{ timer, screen }
     {
-	    /*
+        /*
         ClearBuffer(transparent);
-	     */
+         */
     }
 
-    /*
 
     void Stars::Load()
     {
@@ -87,6 +85,8 @@ namespace MoleDemo
     }
 
     void Stars::Unload() {}
+
+    /*
 
     void Stars::Update(permille intensity, milliseconds delta)
     {

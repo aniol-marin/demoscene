@@ -14,24 +14,62 @@ namespace MoleDemo
     using namespace mole_def;
 
     Event::Event(Timestamp time, Renderables renderables) :
-      time{ time }, background{}, foreground{}, renderables{ renderables }
+      timeSinceStart{ 0 },
+      time{ time },
+      renderables{ renderables },
+      background{},
+      foreground{},
+      isDone{ [] { return true; } },
+      instantaneous{ true },
+      transition{}
     {
     }
-
-    Event::Event(Timestamp time, Renderable* a_background, Renderable* a_foreground, TransitionType transitionType) :
-      time{ time }, background{ a_background }, foreground{ a_foreground }, renderables{}
+    Event::Event(Timestamp time, Renderable* background, Renderable* foreground, TransitionType transitionType) :
+      timeSinceStart{ 0 },
+      time{ time },
+      renderables{ background, foreground },
+      background{ background },
+      foreground{ foreground },
+      instantaneous{ false },
+      isDone{ [&] { return timeSinceStart > this->time.duration; } },
+      transition{}
     {
+        switch (transitionType)
+        {
+            case TransitionType::Fade:
+            {
+                transition = std::make_unique<Fade>(time);
+                transition->Bind(background, foreground);
+                break;
+            }
+            default:
+                transition = nullptr;
+                break;
+        }
     }
 
     bool Event::Done(milliseconds deltaTime)
     {
-        throw std::runtime_error{ "event done not implemented" };
-        return true;
+        return isDone();
     }
 
     void Event::Update(permille intensity, permille deltaTime)
     {
-        throw std::runtime_error{ "event update not implemented" };
+        timeSinceStart += deltaTime;
+
+        if (!instantaneous)
+        {
+            transition->Update(intensity, deltaTime);
+        }
+        UpdateLayers(intensity, deltaTime);
+    }
+
+    void Event::UpdateLayers(permille i, permille d)
+    {
+        for (Renderable* r: renderables)
+        {
+            r->Update(i, d);
+        }
     }
 
     Renderables Event::GetRenderables()
