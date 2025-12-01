@@ -1,13 +1,6 @@
 function(add_module_target MODULE_NAME)
 
 	add_library(${MODULE_NAME})
-	target_compile_features(${MODULE_NAME} PUBLIC cxx_std_17)
-
-endfunction()
-
-function(add_module_target_transitional MODULE_NAME)
-
-	add_library(${MODULE_NAME})
 	target_compile_features(${MODULE_NAME} PUBLIC cxx_std_20)
 	if(MoleDemo_Testing_EnableCoverage)
 		target_compile_options(${MODULE_NAME} PRIVATE -coverage)
@@ -31,7 +24,23 @@ endfunction()
 
 function(add_module_target_no_implementation MODULE_NAME)
 
-	#no difference
-	add_module_target_transitional(${MODULE_NAME})
+	add_module_target(${MODULE_NAME})
+
+	if(MoleDemo_Testing_EnableCoverage)
+
+		target_compile_options(${MODULE_NAME} PRIVATE -coverage)
+		target_link_options(${MODULE_NAME} PRIVATE -coverage)
+	endif()
+
+endfunction()
+
+function(add_executable_target EXECUTABLE_NAME)
+
+	add_executable(${EXECUTABLE_NAME})
+
+	if(MoleDemo_Testing_EnableCoverage)
+		target_compile_options(${EXECUTABLE_NAME} PRIVATE -coverage)
+		target_link_options(${EXECUTABLE_NAME} PRIVATE -coverage)
+	endif()
 
 endfunction()

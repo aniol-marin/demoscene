@@ -14,7 +14,7 @@ set(CMAKE_COMPILE_WARNING_AS_ERROR ON)
 project(MoleDemoScene2025
 	VERSION 0.0.0
 	DESCRIPTION "A CPU based rendering creation"
-	LANGUAGES CXX C
+	LANGUAGES CXX
 )
 enable_testing()
 include(CTest)
@@ -48,5 +48,4 @@ list(APPEND CMAKE_MODULE_PATH "${CMAKE_CURRENT_SOURCE_DIR}/cmake/modules/")
 # Project generation info
 add_subdirectory(src)
 add_subdirectory(test)
-
 

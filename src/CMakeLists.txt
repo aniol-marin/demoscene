@@ -6,7 +6,7 @@ if(NOT MoleDemo_DisableAllButExperimental)
 	add_subdirectory(effects)
 	add_subdirectory(engine)
 	add_subdirectory(demo)
-	add_executable(${EXECUTABLE_NAME})
+	add_executable_target(${EXECUTABLE_NAME})
 
 	target_sources(${EXECUTABLE_NAME} PRIVATE
 		main.cpp

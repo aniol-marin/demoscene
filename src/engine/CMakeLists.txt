@@ -1,5 +1,5 @@
 set(MODULE_NAME engine)
-add_module_target_transitional(${MODULE_NAME})
+add_module_target(${MODULE_NAME})
 
 add_subdirectory(dependencies)
 

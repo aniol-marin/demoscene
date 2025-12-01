@@ -1,5 +1,5 @@
 set(MODULE_NAME stars)
-add_module_target_transitional(stars)
+add_module_target(stars)
 target_sources(${MODULE_NAME} PRIVATE
 	Stars.cpp
 )

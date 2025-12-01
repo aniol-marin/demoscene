@@ -12,7 +12,7 @@ if(NOT DisableAllButExperimental)
 endif()
 
 set(EXECUTABLE_NAME editor)
-add_executable(${EXECUTABLE_NAME})
+add_executable_target(${EXECUTABLE_NAME})
 target_sources(${EXECUTABLE_NAME} PUBLIC
 	main.cpp
 )
@@ -31,7 +31,7 @@ if(EnableTesting)
 endif()
 
 set(MODULE_NAME editor_)
-add_module_target_transitional(${MODULE_NAME})
+add_module_target(${MODULE_NAME})
 target_sources(${EXECUTABLE_NAME} PRIVATE
 	editor.cpp
 )

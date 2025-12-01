@@ -1,5 +1,5 @@
 set(MODULE_NAME raudio_wrapper)
-add_module_target_transitional(${MODULE_NAME})
+add_module_target(${MODULE_NAME})
 
 manage_dependency_raudio()
 

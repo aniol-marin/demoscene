@@ -1,4 +1,4 @@
-add_executable(sandbox)
+add_executable_target(sandbox)
 
 target_link_libraries(sandbox PRIVATE
 	engine
