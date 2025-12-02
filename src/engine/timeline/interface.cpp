@@ -3,23 +3,17 @@ export module timeline;
 import std;
 import definitions;
 import effect;
-/* TODO move to implementation
-import effects;
- */
 import renderables;
 import timer;
 import cycle;
 import sound;
-/* TODO move to implementation
-import raudio;
- */
 import program;
 import render;
 
+using namespace mole_def;
+
 namespace MoleDemo
 {
-    using namespace mole_def;
-
     export class Timeline;
 
     struct Event;
@@ -38,16 +32,16 @@ namespace MoleDemo
 
 namespace MoleDemo
 {
-    using namespace mole_def;
-
     struct Event
     {
         const Timestamp time;
         Renderable* const background;
         Renderable* const foreground;
+
+        Event() = delete;
         Event(Timestamp time, Renderables renderables);
         Event(Timestamp time, Renderable* background, Renderable* foreground, TransitionType transitionType);
-        ~Event() {}
+        ~Event() = default;
 
         bool TriggerReached(seconds current);
         bool Done(milliseconds deltaTime);
@@ -68,9 +62,7 @@ namespace MoleDemo
       : public Initializable
       , public Loadable
     {
-        /*
         SoundManager& sound;
-         */
         Screen& screen;
         Timer& timer;
         Program& program;
@@ -80,12 +72,16 @@ namespace MoleDemo
         Renderables renderables;
         Events events;
         Event* currentEvent;
-	std::string_view project;
-        void UpdateRenderables(Renderables newLayers);
-        void HandleTimeline();
+        std::string_view project;
+        bool initialized{ false };
+        bool loaded{ false };
+        bool started{ false };
+
+        void UpdateRenderables(Renderables newLayers); // TO DO simplify
+        void HandleTimeline(); // TO DO simplify
 
         template<typename T>
-        T* CreateEffect()
+        T* CreateEffect() // TO DO encapsulate
         {
             std::unique_ptr<T> p_effect{ std::make_unique<T>(&timer, &screen) };
             T* effect{ p_effect.get() };
@@ -93,7 +89,7 @@ namespace MoleDemo
             return effect;
         }
 
-        Layer* CreateLayer(BlendMode mode, Effect* effect);
+        Layer* CreateLayer(BlendMode mode, Effect* effect); // TO DO encapsulate
 
         std::unique_ptr<Event> CreateEvent(Timestamp time, Renderables renderables);
         std::unique_ptr<Event> CreateEvent(Timestamp time,
@@ -101,18 +97,26 @@ namespace MoleDemo
                                            Renderable* foreground,
                                            TransitionType transition);
 
+        void LoadInternal(std::string_view content); // TO DO simplify
+    public: // TO DO refactor
+        void Init() override; // TO DO simplify
+        void Finalize() override; // TO DO simplify
+        void Load(std::string_view content) override;
+        void Unload() override; // TO DO simplify
     public:
+        Timeline() = delete;
         Timeline(Timer& timer,
                  Program& program,
                  Cycle& cycle,
-                 /*SoundManager& sound,*/
+                 SoundManager& sound,
                  Screen& screen,
                  std::string_view project);
+        Timeline(const Timeline&) = delete;
+        Timeline(Timeline&&) = default;
+        ~Timeline() = default;
 
-        void Init() override;
-        void Finalize() override;
-        void Load(std::string_view content) override;
-        void Unload() override;
         void Start();
+        void Update();
+        void Stop();
     };
 }

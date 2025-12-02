@@ -1,6 +1,6 @@
 # CMake requirements
 #[[	Expected policies:
-	- [CMP0076] introduced in 3.13
+- [CMP0076] introduced in 3.13
 ]]#
 cmake_minimum_required(VERSION 3.13)
 
@@ -15,12 +15,18 @@ set(CMAKE_COMPILE_WARNING_AS_ERROR ON)
 project(MoleDemoScene2025
 	VERSION 0.0.0
 	DESCRIPTION "A CPU based rendering creation"
-	LANGUAGES CXX C
+	LANGUAGES CXX
 )
 enable_testing()
 include(CTest)
+# TO DO add CPack definition
+#include(InstallRequiredSystemLibraries)
+#set(CPACK_RESOURCE_FILE_LICENSE "./LICENSE")
+#set(CPACK_VERSION_MAJOR 0)
+#set(CPACK_VERSION_MINOR 2)
+#include(CPack)
 
-# Project requirements
+# Early check for project requirements
 if(${CMAKE_CXX_COMPILER_ID} STREQUAL "GNU")
 	if(CMAKE_CXX_COMPILER_VERSION VERSION_LESS GCC_EXPECTED_VERSION)
 		message(FATAL_ERROR "
@@ -35,48 +41,11 @@ else()
 	The current selected compiler is: ${CMAKE_CXX_COMPILER_ID}")
 endif()
 
-# Project build scripts
+# Load project build scripts
 add_subdirectory(cmake)
-
-manage_dependency_protobuf()
-add_executable(minitest main.cpp ./messages.pb.cc)
-target_link_libraries(minitest PUBLIC protobuf::libprotobuf)
-
-# Experimental features (WIP)
-if(EnableExperimentalFeatures)
-	message(WARNING "experimental features enabled")
-
-	if(EnableInterProceduralOptimization)
-		include(CheckIPOSupported)
-		check_ipo_supported(RESULT ipo_supported)
-		set(CMAKE_INTERPROCEDURAL_OPTIMIZATION ${ipo_supported})
-		if(NOT ipo_supported)
-			message(WARNING "Interprocedural Optimization not supported!")
-		else()
-			message(NOTICE "Interprocedural Optimization support enabled")
-		endif()
-	endif()
-else()
-	if(EnableInterProceduralOptimization)
-		#NOTE: send error since generation is valid otherwise
-		message(SEND_ERROR "
-		IPO is still experimental!
-		enable experimental features if you plan to use it")
-	endif()
-endif()
+list(APPEND CMAKE_MODULE_PATH "${CMAKE_CURRENT_SOURCE_DIR}/cmake/modules/")
 
 # Project generation info
 add_subdirectory(src)
+add_subdirectory(test)
 
-if(EnableTesting)
-	message(NOTICE "enabling testing")
-	add_subdirectory(test)
-else()
-	message(STATUS "testing not enabled")
-endif()
-
-#include(InstallRequiredSystemLibraries)
-#set(CPACK_RESOURCE_FILE_LICENSE "./LICENSE")
-#set(CPACK_VERSION_MAJOR 0)
-#set(CPACK_VERSION_MINOR 2)
-#include(CPack)

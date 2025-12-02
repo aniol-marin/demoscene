@@ -1,8 +1,9 @@
-include(manage_dependencies.cmake REQUIRED)
-manage_dependencies()
 
-include(${CMAKE_SOURCE_DIR}/cmake/add_module_target.cmake REQUIRED)
-include(${CMAKE_SOURCE_DIR}/cmake/configure_project.cmake OPTIONAL RESULT_VARIABLE status)
+add_subdirectory(dependency_managers)
+
+include(add_module_target.cmake QUIET)
+include(add_test_target.cmake QUIET)
+include(configure_project.cmake OPTIONAL RESULT_VARIABLE status)
 if(status)
 	message(STATUS "cmake configure_project script found")
 	configure_project()

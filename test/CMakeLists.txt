@@ -1,24 +1,16 @@
-enable_testing()
+if(MoleDemo_EnableTesting AND NOT MoleDemo_DisableAllButExperimental)
 
-include(${CMAKE_SOURCE_DIR}/cmake/add_test_target.cmake RESULT_VARIABLE status)
-if(status)
-	message(STATUS "cmake add_test_target script found")
-else()
-	message(ERROR_FAIL "add_test_target.cmake script not found.
-	Disable testing if this was intended")
-endif()
+	message(NOTICE "enabling testing")
 
-manage_dependency_catch()
+	enable_testing()
+	manage_dependency_catch()
 
-if(NOT DisableAllButExperimental)
 	add_subdirectory(engine)
+	add_subdirectory(custom_tests)
+	if(MoleDemo_EnableEditor)
+		add_subdirectory(editor)
+	endif()
+
+else()
+	message(STATUS "testing not enabled")
 endif()
-if(EnableEditor)
-	add_subdirectory(editor)
-endif()
-
-add_test(NAME coverage_demo COMMAND demoscene)
-add_test(NAME coverage_editor COMMAND sandbox)
-
-add_subdirectory(custom_tests)
-

@@ -1,6 +1,8 @@
 import editor_;
 import std;
 
+using namespace mole::editor;
+
 int main()
 {
     Context context{};

@@ -10,6 +10,9 @@ import definitions;
 namespace raudio
 {
 	using namespace mole_def;
+	AudioManager::AudioManager()
+	{
+	}
 
 	AudioManager::~AudioManager()
 	{

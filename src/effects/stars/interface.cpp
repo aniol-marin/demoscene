@@ -21,7 +21,7 @@ class MoleDemo::Stars : public Effect
 
 public:
     Stars(Timer* timer, Screen* screen);
-    ~Stars();
+    ~Stars() override = default;
 
     void Load() override;
     void Unload() override;

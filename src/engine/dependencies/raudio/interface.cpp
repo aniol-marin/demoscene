@@ -17,7 +17,7 @@ namespace raudio
 	using namespace mole_def;
 	struct AudioManager
 	{
-		AudioManager() = default;
+		AudioManager();
 		AudioManager(const AudioManager&) = delete;
 		AudioManager(AudioManager&&) = default;
 		~AudioManager();

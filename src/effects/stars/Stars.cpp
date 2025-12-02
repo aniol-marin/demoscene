@@ -11,7 +11,6 @@ namespace MoleDemo
 
     Star::Star(const Screen& screen, const speed& maxSpeed) : maxSpeed{ maxSpeed }, screen{ screen }
     {
-
         Reset();
     }
 
@@ -76,8 +75,6 @@ namespace MoleDemo
     {
         ClearBuffer(transparent);
     }
-
-    Stars::~Stars() {}
 
     void Stars::Load()
     {

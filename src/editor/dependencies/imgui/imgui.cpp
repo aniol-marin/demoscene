@@ -11,12 +11,11 @@ import glfw_wrapper;
 
 namespace mole::ui
 {
-
     using io_t = decltype(ImGui::GetIO());
     ImVec4 clear_color = ImVec4(0.45f, 0.55f, 0.60f, 1.00f);
+
     UIContext::UIContext(mole::graphics::WindowContext& window)
     {
-
         IMGUI_CHECKVERSION();
         ImGui::CreateContext();
 
@@ -38,7 +37,6 @@ namespace mole::ui
         // demo
         static float f = 0.0f;
         static int timeout = 2;
-
 
         ImGui::Begin("Mole Demoscene Editor [MOCK]");
         ImGui::Text("Hardcoded sandbox launch.");

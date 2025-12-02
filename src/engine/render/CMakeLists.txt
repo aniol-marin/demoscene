@@ -1,13 +1,13 @@
 set(MODULE_NAME render)
-add_module_target_transitional(${MODULE_NAME})
+add_module_target(${MODULE_NAME})
 
-target_link_libraries( ${MODULE_NAME}
-	PRIVATE engine_definitions
-	PRIVATE effect
-	PRIVATE renderables
-	PRIVATE sdl_wrapper
+target_link_libraries( ${MODULE_NAME} PUBLIC
+	engine_definitions
+	effect
+	renderables
+	sdl_wrapper
 )
 
-target_sources( ${MODULE_NAME} PUBLIC
+target_sources( ${MODULE_NAME} PRIVATE
 	render.cpp
 )

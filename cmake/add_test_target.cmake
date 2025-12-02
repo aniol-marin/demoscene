@@ -9,9 +9,13 @@ function(add_test_target TARGET_NAME)
 		PROPERTIES
 		RUNTIME_OUTPUT_DIRECTORY ${CMAKE_RUNTIME_OUTPUT_DIRECTORY}/test
 	)
+	if(MoleDemo_Testing_EnableCoverage)
+		target_compile_options(${TEST_TARGET} PRIVATE -coverage)
+		target_link_options(${TEST_TARGET} PRIVATE -coverage)
+	endif()
 
-	target_link_libraries(${TEST_TARGET}
-		PRIVATE Catch2::Catch2WithMain
+	target_link_libraries(${TEST_TARGET} PRIVATE
+		Catch2::Catch2WithMain
 	)
 
 	target_sources(${TEST_TARGET} PRIVATE
