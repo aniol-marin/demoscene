@@ -16,8 +16,15 @@ endfunction()
 
 function(add_module_target_no_implementation MODULE_NAME)
 
-	#[[ maybe interface? ]]#
-	add_module_target(${MODULE_NAME})
+	add_library(${MODULE_NAME} INTERFACE)
+
+	target_include_directories( ${MODULE_NAME} INTERFACE
+		$<BUILD_INTERFACE:${CMAKE_CURRENT_SOURCE_DIR}>
+	)
+	if(MoleDemo_Testing_EnableCoverage)
+		target_compile_options(${MODULE_NAME} INTERFACE -coverage)
+		target_link_options(${MODULE_NAME} INTERFACE -coverage)
+	endif()
 
 endfunction()
 
@@ -30,7 +37,7 @@ function(add_executable_target EXECUTABLE_NAME)
 		target_link_options(${EXECUTABLE_NAME} PRIVATE -coverage)
 	endif()
 
-	target_include_directories( ${MODULE_NAME} INTERFACE
+	target_include_directories( ${EXECUTABLE_NAME} INTERFACE
 		$<BUILD_INTERFACE:${CMAKE_CURRENT_SOURCE_DIR}>
 	)
 
