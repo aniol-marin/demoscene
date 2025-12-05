@@ -1,14 +1,11 @@
-module input;
+#include "input.h"
 
-import definitions;
-import sdl_wrapper;
-
-MoleDemo::InputManager::InputManager(SDL::SDLManager& manager):
-	manager {manager}
+namespace MoleDemo
 {
-}
+	MoleDemo::InputManager::InputManager(SDL::SDLManager& manager) : manager{ manager } {}
 
-mole_def::ProgramStatus MoleDemo::InputManager::PollEvents()
-{
-	return manager.PollSDLEvents();
+	mole_def::ProgramStatus MoleDemo::InputManager::PollEvents()
+	{
+		return manager.PollSDLEvents();
+	}
 }

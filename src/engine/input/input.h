@@ -15,7 +15,7 @@ class MoleDemo::InputManager
 {
 	SDL::SDLManager& manager;
 
-  public:
+	public:
 
 	InputManager() = delete;
 	InputManager(SDL::SDLManager& manager);

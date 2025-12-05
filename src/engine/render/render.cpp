@@ -1,58 +1,47 @@
-module render;
-
-import std;
-import definitions;
-import effect;
-import renderables;
-import sdl_wrapper;
+#include "render.h"
+#include "definitions.h"
 
 using namespace mole_def;
 
 namespace MoleDemo
 {
-    class RenderQueue
+    RenderQueue::RenderQueue()
     {
-        std::map<BlendMode, std::unique_ptr<Blending>> blending;
+        blending[BlendMode::Override] = std::make_unique<OverrideBlend>();
+        blending[BlendMode::AlphaBlend] = std::make_unique<AlphaBlend>();
+    }
 
-    public:
-        RenderQueue()
+    void RenderQueue::Cache(Renderables& renderables, StencilBuffer& mask)
+    {
+        for (Renderable* renderable: renderables)
         {
-            blending[BlendMode::Override] = std::make_unique<OverrideBlend>();
-            blending[BlendMode::AlphaBlend] = std::make_unique<AlphaBlend>();
+            renderable->Cache(mask);
         }
+    }
 
-        void Cache(Renderables& renderables, StencilBuffer& mask)
+    void RenderQueue::Render(Renderables& renderables, PixelBuffer& buffer)
+    {
+
+        Renderable* renderable;
+        Blending* blend;
+        size_t size;
+        for (int i{ (int) (renderables.size() - 1) }; i >= 0; --i)
         {
-            for (Renderable* renderable: renderables)
+
+            renderable = renderables[i];
+            blend = blending[renderable->GetBlend()].get();
+
+            // TODO use buffer iteration (only relevant pixels)
+            size = { buffer.size() };
+            for (mole_def::index p = 0; p < size; ++p)
             {
-                renderable->Cache(mask);
-            }
-        }
-
-        void Render(Renderables& renderables, PixelBuffer& buffer)
-        {
-
-            Renderable* renderable;
-            Blending* blend;
-            size_t size;
-            for (int i{ (int) (renderables.size() - 1) }; i >= 0; --i)
-            {
-
-                renderable = renderables[i];
-                blend = blending[renderable->GetBlend()].get();
-
-                // TODO use buffer iteration (only relevant pixels)
-                size = { buffer.size() };
-                for (index p = 0; p < size; ++p)
+                if (renderable->CheckStencil(p))
                 {
-                    if (renderable->CheckStencil(p))
-                    {
-                        buffer[p] = blend->Blend(buffer[p], renderable->GetPixel(p));
-                    }
+                    buffer[p] = blend->Blend(buffer[p], renderable->GetPixel(p));
                 }
             }
         }
-    };
+    }
 
     MoleDemo::RenderManager::RenderManager(Screen& screen, SDL::SDLManager& sdl) :
       m_screen{ screen }, sdl{ sdl }, queue{ new RenderQueue() }
@@ -94,7 +83,7 @@ namespace MoleDemo
         queue->Render(renderables, buffer);
 
         Lock();
-        index i{ 0 };
+		  mole_def::index i{ 0 };
         for (point1D y{ 0 }; y < m_screen.h; ++y)
         {
             for (point1D x{ 0 }; x < m_screen.w; ++x)
