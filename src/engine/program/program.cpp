@@ -1,8 +1,4 @@
-module program;
-
-/*
-#include "loaders/screen_loader.h"
-*/
+#include "program.h"
 
 namespace MoleDemo
 {

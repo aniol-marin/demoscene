@@ -1,6 +1,4 @@
-module sound;
-
-import std;
+#include "sound.h"
 
 using namespace mole_def;
 
@@ -19,6 +17,7 @@ namespace MoleDemo
     {
         m.Load("resources/molelofi.mp3");
     }
+
     void MoleDemo::SoundManager::Unload()
     {
         m.Unload();
