@@ -1,8 +1,11 @@
-module timer; 
+#include "timer.h"
+#include <iostream>
+#include <thread>
 
 namespace MoleDemo
 {
     using namespace mole_def;
+    using ms = std::chrono::milliseconds;
 
     Timer::Timer() :
       frameCount{ 0 },
