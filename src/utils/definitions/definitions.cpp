@@ -1,4 +1,4 @@
-module definitions;
+#include "definitions.h"
 
 namespace mole_def
 {
@@ -20,5 +20,4 @@ namespace mole_def
 
     Offset2D::Offset2D(offset1D x, offset1D y) : x{ x }, y{ y } {}
 
-    CoordinateUV::CoordinateUV(offset1D x, offset1D y) : u{ (permille) x }, v{ (permille) y } {}
 }

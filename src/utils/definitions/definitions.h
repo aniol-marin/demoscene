@@ -123,18 +123,21 @@ namespace mole_def
         point1D y{};
 
         Point2D() = default;
-        ~Point2D() = default;
+        Point2D(point1D x, point1D y);
         Point2D(const Point2D&) = default;
         Point2D(Point2D&&) = default;
-        Point2D(point1D x, point1D y);
+        ~Point2D() = default;
+
         const Point2D& operator=(const Point2D& other);
     };
 
     struct Offset2D
     {
-        const offset1D x, y;
-        Offset2D() : x{}, y{} {}
-        Offset2D(offset1D x, offset1D y) : x{ x }, y{ y } {}
+        const offset1D x{};
+        const offset1D y{};
+
+        Offset2D() = default;
+        Offset2D(offset1D x, offset1D y);
         ~Offset2D() {}
     };
 
@@ -154,53 +157,43 @@ namespace mole_def
         channel m_a{};
 
     public:
-        Color() = default;
+        Color();
+        Color(const rgbaColor& color);
+        Color(channel r, channel g, channel b, channel a = saturated);
         ~Color() = default;
         Color(const Color&) = default;
         Color(Color&&) = default;
-        constexpr Color& operator=(const Color&) = default;
+        Color& operator=(const Color&) = default;
 
-        Color(const rgbaColor color) :
-          m_r{ (channel) ((color & mask_red) >> 16) },
-          m_g{ (channel) ((color & mask_green) >> 8) },
-          m_b{ (channel) (color & mask_blue) },
-          m_a{ (channel) ((color & mask_opaque) >> 24) }
-        {
-        }
-
-        Color(channel r, channel g, channel b, channel a = saturated) : m_r{ r }, m_g{ g }, m_b{ b }, m_a{ a } {}
-
-        const channel r() const { return m_r; }
-        const channel g() const { return m_g; }
-        const channel b() const { return m_b; }
-        const channel a() const { return m_a; }
-        rgbaColor rgba() { return m_b | (m_g << 8) | (m_r << 16) | (m_a << 24); }
-        Color lerp(const Color& next, const permille permille)
-        {
-            return Color{ (channel) (m_r + (next.r() - m_r) * permille / permilleFactor),
-                          (channel) (m_g + (next.g() - m_g) * permille / permilleFactor),
-                          (channel) (m_b + (next.b() - m_b) * permille / permilleFactor),
-                          (channel) (m_a + (next.a() - m_a) * permille / permilleFactor) };
-        };
+        const channel r() const;
+        const channel g() const;
+        const channel b() const;
+        const channel a() const;
+        rgbaColor rgba();
+        Color lerp(const Color& next, const permille permille);
     };
+
     struct Screen
     {
-        point1D w, h;
+        point1D w;
+        point1D h;
 
-        constexpr Screen(point1D width, point1D heigth) : w{ width }, h{ heigth } {}
+        Screen(point1D width, point1D heigth);
+        ~Screen() = default;
         Screen(const Screen&) = default;
         Screen(Screen&&) = default;
-        ~Screen() = default;
         Screen& operator=(const Screen&) = default;
         Screen& operator=(Screen&&) = default;
 
-        index GetIndex(Point2D point) const;
         const pixel_count GetPixelCount() const;
+        constexpr index GetIndex(Point2D point) const;
     };
 
-    inline Screen defaultScreen{ 640, 480 };
-    inline Screen textureSize{ 512, 512 };
-    inline Screen superSampler{ 2048, 2048 };
+    /*
+    constexpr Screen defaultScreen{ 640, 480 };
+    constexpr Screen textureSize{ 512, 512 };
+    constexpr Screen superSampler{ 2048, 2048 };
+     */
 
     struct Initializable
     {
