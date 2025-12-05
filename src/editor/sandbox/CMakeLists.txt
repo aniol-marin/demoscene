@@ -1,6 +1,6 @@
 add_executable_target(sandbox)
 
-target_link_libraries(sandbox PRIVATE
+target_link_libraries(sandbox PUBLIC
 	engine
 	stars
 )

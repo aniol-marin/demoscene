@@ -1,7 +1,7 @@
 set(MODULE_NAME demo)
 add_module_target(${MODULE_NAME})
 
-target_link_libraries(${MODULE_NAME} PRIVATE
+target_link_libraries(${MODULE_NAME} PUBLIC
 	engine
 	effects
 )

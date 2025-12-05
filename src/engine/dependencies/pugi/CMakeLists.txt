@@ -3,7 +3,7 @@ add_module_target(${MODULE_NAME})
 
 manage_dependency_pugixml()
 
-target_link_libraries( ${MODULE_NAME}
+target_link_libraries( ${MODULE_NAME} PUBLIC
 	pugixml
 )
 

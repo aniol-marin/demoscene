@@ -16,7 +16,7 @@ add_executable_target(${EXECUTABLE_NAME})
 target_sources(${EXECUTABLE_NAME} PUBLIC
 	main.cpp
 )
-target_link_libraries(${EXECUTABLE_NAME} PRIVATE
+target_link_libraries(${EXECUTABLE_NAME} PUBLIC
 	editor_
 )
 

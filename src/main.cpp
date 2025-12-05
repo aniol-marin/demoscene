@@ -1,4 +1,4 @@
-import demo;
+#include "demo.h"
 
 int main()
 {

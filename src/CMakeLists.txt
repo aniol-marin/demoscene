@@ -12,7 +12,7 @@ if(NOT MoleDemo_DisableAllButExperimental)
 		main.cpp
 	)
 
-	target_link_libraries(${EXECUTABLE_NAME} PRIVATE
+	target_link_libraries(${EXECUTABLE_NAME} PUBLIC
 		demo
 	)
 

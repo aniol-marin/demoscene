@@ -1,5 +1,5 @@
-#ifndef MOLE_DEFINITIONS
-#define MOLE_DEFINITIONS
+#ifndef MOLE_DEFINITIONS_H
+#define MOLE_DEFINITIONS_H
 
 #include <cstdint>
 #include <functional>
@@ -235,4 +235,4 @@ namespace mole_def
     };
 }
 
-#endif // !MOLE_DEFINITIONS
+#endif // !MOLE_DEFINITIONS_H

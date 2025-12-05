@@ -7,7 +7,7 @@ target_sources(${MODULE_NAME} PUBLIC
 	glad.cpp
 )
 
-target_link_libraries(glad_wrapper
+target_link_libraries(glad_wrapper PUBLIC
 	glfw_wrapper
 	engine_definitions
 	glad
