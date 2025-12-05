@@ -20,9 +20,9 @@ namespace MoleDemo
 		void Update(permille intensity, milliseconds deltaTime) override;
 		void Cache(StencilBuffer& mask) override;
 		rgbaColor GetPixel(Point2D point) override;
-		rgbaColor GetPixel(index index) override;
+		rgbaColor GetPixel(mole_def::index index) override;
 		BlendMode GetBlend() override;
-		bool CheckStencil(index offset) override;
+		bool CheckStencil(mole_def::index offset) override;
 	};
 
 	class Transition : public Renderable
@@ -48,7 +48,7 @@ namespace MoleDemo
 		void Bind(Renderable* background, Renderable* foreground);
 		void Update(permille intensity, milliseconds deltaTime) final;
 		bool IsDone();
-		bool CheckStencil(index index) final;
+		bool CheckStencil(mole_def::index index) final;
 	};
 
 	class Cut : public Transition
@@ -61,7 +61,7 @@ namespace MoleDemo
 
 		void Cache(StencilBuffer& mask) override;
 		rgbaColor GetPixel(Point2D point) override;
-		rgbaColor GetPixel(index index) override;
+		rgbaColor GetPixel(mole_def::index index) override;
 		BlendMode GetBlend() override;
 	};
 
@@ -72,7 +72,7 @@ namespace MoleDemo
 			~Fade() override = default;
 
 			void Cache(StencilBuffer& mask) override;
-			rgbaColor GetPixel(index index) override;
+			rgbaColor GetPixel(mole_def::index index) override;
 			rgbaColor GetPixel(Point2D point) override;
 			BlendMode GetBlend() override;
 	};

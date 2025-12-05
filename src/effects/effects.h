@@ -1,8 +1,9 @@
-/*
-export module effects;
+#ifndef MOLE_SOUND
+#define MOLE_SOUND
 
-export import effect;
-export import stars;
+#include "Effect.h"
+#include "stars.h"
+/*
 export import solid;
 export import gradient;
 export import wheel;
@@ -13,3 +14,4 @@ export import tunel;
 export import fire;
  */
 
+#endif

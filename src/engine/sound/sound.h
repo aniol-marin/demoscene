@@ -1,5 +1,5 @@
-#ifndef MOLE_SOUND
-#define MOLE_SOUND
+#ifndef MOLE_SOUND_H
+#define MOLE_SOUND_H
 
 #include <string>
 
@@ -39,4 +39,4 @@ namespace MoleDemo
 	};
 }
 
-#endif //! MOLE_SOUND
+#endif //! MOLE_SOUND_H
