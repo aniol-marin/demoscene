@@ -1,125 +1,133 @@
-module;
 
-#include "SDL2/SDL.h"
+#include "sdl_wrapper.h"
 
-module sdl_wrapper;
-
-import std;
-import definitions;
+#include <exception>
 
 using namespace mole_def;
 
-bool SDL::SDLManager::Init(const Screen& screen)
+namespace SDL
 {
-	g_screen = screen;
+	bool SDLManager::Init(const Screen& screen)
+	{
+		g_screen = screen;
 
-	if (SDL_InitSubSystem(SDL_INIT_VIDEO) >= 0) {
+		if (SDL_InitSubSystem(SDL_INIT_VIDEO) >= 0)
+		{
 
-		window = SDL_CreateWindow("Mole Demo", SDL_WINDOWPOS_UNDEFINED, SDL_WINDOWPOS_UNDEFINED, screen.w, screen.h, SDL_WINDOW_SHOWN);
-		surface = SDL_GetWindowSurface(window);
-		initialized = surface != nullptr;
+			window = SDL_CreateWindow("Mole Demo",
+					SDL_WINDOWPOS_UNDEFINED,
+					SDL_WINDOWPOS_UNDEFINED,
+					screen.w,
+					screen.h,
+					SDL_WINDOW_SHOWN);
+			surface = SDL_GetWindowSurface(window);
+			initialized = surface != nullptr;
+		}
+
+		return initialized;
 	}
 
-	return initialized;
-}
-
-void SDL::SDLManager::Finalize()
-{
-	if (initialized)
+	void SDLManager::Finalize()
 	{
-		SDL_DestroyWindow(window);
-		SDL_Quit(); // assumes video is the last
+		if (initialized)
+		{
+			SDL_DestroyWindow(window);
+			SDL_Quit(); // assumes video is the last
+		}
+
+		initialized = false;
 	}
 
-	initialized = false;
-}
-
-ProgramStatus SDL::SDLManager::PollSDLEvents()
-{
-	SDL_Event events {};
-/*
-	*/
-	ProgramStatus status { ProgramStatus::RUNNING };
-
-	while (SDL_PollEvent(&events) != 0)
+	ProgramStatus SDLManager::PollSDLEvents()
 	{
-		if (events.type == SDL_KEYDOWN) {
-			if (events.key.keysym.scancode == SDL_SCANCODE_ESCAPE) {
+		SDL_Event events{};
+		/*
+		*/
+		ProgramStatus status{ ProgramStatus::RUNNING };
+
+		while (SDL_PollEvent(&events) != 0)
+		{
+			if (events.type == SDL_KEYDOWN)
+			{
+				if (events.key.keysym.scancode == SDL_SCANCODE_ESCAPE)
+				{
+					status = ProgramStatus::TERMINATE_OK;
+				}
+			}
+			// User requests quit
+			if (events.type == SDL_QUIT)
+			{
 				status = ProgramStatus::TERMINATE_OK;
 			}
 		}
-		//User requests quit
-		if (events.type == SDL_QUIT)
+
+		return status;
+	}
+
+	void SDLManager::LockSurface()
+	{
+		if (!initialized)
 		{
-			status = ProgramStatus::TERMINATE_OK;
+			throw std::exception{};
 		}
+
+		SDL_LockSurface(surface);
+		locked = true;
 	}
 
-	return status;
-}
-
-void SDL::SDLManager::LockSurface()
-{
-	if(!initialized)
+	void SDLManager::UnlockSurface()
 	{
-		throw std::exception{};
+		if (!initialized)
+		{
+			throw std::exception{};
+		}
+
+		SDL_UnlockSurface(surface);
+		locked = false;
 	}
 
-	SDL_LockSurface(surface);
-	locked = true;
-}
-
-void SDL::SDLManager::UnlockSurface()
-{
-	if(!initialized)
+	void SDLManager::UpdateSurface()
 	{
-		throw std::exception{};
+		if (!initialized)
+		{
+			throw std::exception{};
+		}
+
+		if (!locked)
+		{
+			throw std::exception();
+		}
+
+		SDL_UpdateWindowSurface(window);
 	}
 
-	SDL_UnlockSurface(surface);
-	locked = false;
-}
-
-void SDL::SDLManager::UpdateSurface()
-{
-	if(!initialized)
+	SDLManager::pixel& SDLManager::getPixel(offset x, offset y)
 	{
-		throw std::exception{};
+		if (!initialized)
+		{
+			throw std::exception{};
+		}
+		if (g_screen.w <= x || g_screen.h <= y)
+		{
+			throw std::exception{};
+		}
+
+		return *reinterpret_cast<uint32_t*>((uint8_t*) surface->pixels + y * surface->pitch +
+				x * surface->format->BytesPerPixel);
 	}
 
-	if (!locked)
+	void SDLManager::PutPixel(const offset x, const offset y, const pixel rgba)
 	{
-		throw std::exception();
-	}
+		if (!initialized)
+		{
+			throw std::exception{};
+		}
+		if (g_screen.w <= x || g_screen.h <= y)
+		{
+			throw std::exception{};
+		}
 
-	SDL_UpdateWindowSurface(window);
-}
-
-SDL::SDLManager::pixel& SDL::SDLManager::getPixel(offset x, offset y)
-{
-	if(!initialized)
-	{
-		throw std::exception{};
+		pixel& pixel = getPixel(x, y);
+		pixel = rgba;
 	}
-	if(g_screen.w <= x || g_screen.h <= y)
-	{
-		throw std::exception{};
-	}
-
-	return *reinterpret_cast<uint32_t*>((uint8_t*)surface->pixels + y * surface->pitch + x * surface->format->BytesPerPixel);
-}
-
-void SDL::SDLManager::PutPixel(const offset x, const offset y, const pixel rgba)
-{
-	if(!initialized)
-	{
-		throw std::exception{};
-	}
-	if(g_screen.w <= x || g_screen.h <= y)
-	{
-		throw std::exception{};
-	}
-
-	pixel& pixel = getPixel(x, y);
-	pixel = rgba;
 }

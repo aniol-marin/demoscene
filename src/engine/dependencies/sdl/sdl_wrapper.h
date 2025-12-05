@@ -5,21 +5,21 @@
 
 #include "SDL2/SDL.h"
 
-
-namespace SDL {
+namespace SDL
+{
 
 	using namespace mole_def;
 	struct SDLManager
 	{
-		SDL_Window* window {};
-		SDL_Surface* surface {};
+		SDL_Window* window{};
+		SDL_Surface* surface{};
 
 		using pixel = uint32_t;
 		using offset = uint_fast16_t;
 
-		Screen g_screen { 0, 0 };
-		bool initialized { false };
-		bool locked { false };
+		Screen g_screen{ 0, 0 };
+		bool initialized{ false };
+		bool locked{ false };
 
 		SDLManager() = default;
 		SDLManager(const SDLManager&) = delete;
@@ -36,12 +36,9 @@ namespace SDL {
 
 		void PutPixel(offset x, offset y, const pixel rgba);
 
-	private:
-
+		private:
 		pixel& getPixel(offset x, offset y);
-
 	};
 }
 
 #endif // !MOLE_SDL_WRAPPER
-
