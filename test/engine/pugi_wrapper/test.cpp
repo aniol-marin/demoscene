@@ -1,7 +1,7 @@
 #include <catch2/catch_test_macros.hpp>
 
-import std;
-import serialization;
+#include <functional>
+#include "engine.h"
 
 using tree = mole::pugi_wrapper::tree;
 using node = mole::pugi_wrapper::generic_node;

@@ -1,8 +1,7 @@
 #include<catch2/catch_test_macros.hpp>
 
-import std;
-import sdl_wrapper;
-import definitions;
+#include <functional>
+#include "engine.h"
 
 using namespace mole_def;
 

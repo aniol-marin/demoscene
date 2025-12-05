@@ -1,16 +1,7 @@
 #include <catch2/catch_test_macros.hpp>
 
-import std;
-import timeline;
-// dependencies:
-import cycle;
-import definitions;
-import input;
-import program;
-import render;
-import sdl_wrapper;
-import sound;
-import timer;
+#include <functional>
+#include "engine.h"
 
 SCENARIO("Timeline")
 {

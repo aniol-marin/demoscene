@@ -8,8 +8,7 @@ set_tests_properties(${TEST_TARGET}
 )
 ]]#
 
-target_link_libraries(${TEST_TARGET}
-	PRIVATE sdl_wrapper
-	PRIVATE engine_definitions
+target_link_libraries(${TEST_TARGET} PUBLIC
+	engine
 )
 

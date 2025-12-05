@@ -1,7 +1,7 @@
 #include<catch2/catch_test_macros.hpp>
 
-import std;
-import injection;
+#include <functional>
+#include "engine.h"
 
 struct test_class
 {

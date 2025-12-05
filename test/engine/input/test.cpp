@@ -1,6 +1,7 @@
 #include <catch2/catch_test_macros.hpp>
 
-import input;
+#include <functional>
+#include "input.h"
 
 TEST_CASE("test", "[input]")
 {
