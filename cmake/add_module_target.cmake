@@ -2,14 +2,14 @@ function(add_module_target MODULE_NAME)
 
 	add_library(${MODULE_NAME})
 	target_compile_features(${MODULE_NAME} PUBLIC cxx_std_17)
-
-	target_include_directories( ${MODULE_NAME} PUBLIC
-		$<BUILD_INTERFACE:${CMAKE_CURRENT_SOURCE_DIR}>
-	)
 	if(MoleDemo_Testing_EnableCoverage)
 		target_compile_options(${MODULE_NAME} PRIVATE -coverage)
 		target_link_options(${MODULE_NAME} PRIVATE -coverage)
 	endif()
+
+	target_sources(${MODULE_NAME} PUBLIC
+		FILE_SET HEADERS
+	)
 
 endfunction()
 
