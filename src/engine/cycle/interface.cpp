@@ -36,4 +36,3 @@ public:
     void Synch();
     void SetRenderables(const Renderables& aRenderables);
 };
-

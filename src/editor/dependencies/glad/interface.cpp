@@ -49,7 +49,6 @@ namespace mole::graphics
         ~RenderContext() = default;
 
         void Render();
-	void Present();
+        void Present();
     };
 }
-

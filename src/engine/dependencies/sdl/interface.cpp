@@ -5,7 +5,6 @@ module;
 export module sdl_wrapper;
 import definitions;
 
-
 namespace SDL
 {
     using namespace mole_def;
@@ -40,4 +39,3 @@ namespace SDL
         pixel& getPixel(offset x, offset y);
     };
 }
-

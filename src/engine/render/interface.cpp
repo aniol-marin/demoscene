@@ -96,4 +96,3 @@ public:
     void Draw(Renderables& renderables);
     StencilBuffer& GetMask();
 };
-

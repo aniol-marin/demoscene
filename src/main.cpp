@@ -1,6 +1,7 @@
 #include "demo.h"
 
-int main()
+int
+main()
 {
     MoleDemo::Demo demo{ "resources/project.xml" };
 

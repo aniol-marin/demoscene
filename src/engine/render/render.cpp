@@ -83,7 +83,7 @@ namespace MoleDemo
         queue->Render(renderables, buffer);
 
         Lock();
-		  mole_def::index i{ 0 };
+        mole_def::index i{ 0 };
         for (point1D y{ 0 }; y < m_screen.h; ++y)
         {
             for (point1D x{ 0 }; x < m_screen.w; ++x)
