@@ -7,18 +7,12 @@ function(add_module_target MODULE_NAME)
 		target_link_options(${MODULE_NAME} PRIVATE -coverage)
 	endif()
 
-
-	if(EXISTS "${CMAKE_CURRENT_SOURCE_DIR}/interface.cpp")
-		target_sources(${MODULE_NAME} PUBLIC
-			FILE_SET ${MODULE_NAME} TYPE CXX_MODULES
-			FILES
-			interface.cpp
-		)
-	else()
-		message(WARNING "didn't find module interface file
-		expected route: ${CMAKE_CURRENT_SOURCE_DIR}/interface.cpp
-		")
-	endif()
+	target_sources(${MODULE_NAME} PUBLIC
+		FILE_SET CXX_MODULES
+		BASE_DIRS ${CMAKE_CURRENT_SOURCE_DIR}
+		FILES
+		interface.cpp
+	)
 
 endfunction()
 

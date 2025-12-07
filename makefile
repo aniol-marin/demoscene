@@ -11,17 +11,17 @@ COMPILER_PATH := g++
 listify = $(subst ., ,$(1))
 current_folder = $(shell echo $$PWD)
 RUNTIME = export LD_LIBRARY_PATH=/usr/local/lib64/:LD_LIBRARY_PATH;
-CMAKE_ROOT_PATH := $(call current_folder)
-BUILD_PATH := $(call current_folder)/build/$(BUILD_TYPE)
-BINARY_PATH := $(call current_folder)/bin
-LIBRARY_PATH := $(call current_folder)/lib
-EXPORT_PATH := /home/bru/demoscene/export
-TEMP_PATH := /tmp
-DEPENDENCIES_PATH := $(call current_folder)/external
-CACHE := $(BUILD_PATH)/CMakeCache.txt
-STATUS_FOLDER := /tmp/$(BUILD_PATH)
-STATUS_OUTPUT := $(STATUS_FOLDER)/status_output
-TEST_PATH := $(BINARY_PATH)/test
+	CMAKE_ROOT_PATH := $(call current_folder)
+	BUILD_PATH := $(call current_folder)/build/$(BUILD_TYPE)
+	BINARY_PATH := $(call current_folder)/bin
+	LIBRARY_PATH := $(call current_folder)/lib
+	EXTERNALS_PATH := $(call current_folder)/external
+	EXPORT_PATH := $(call current_folder)/export
+	TEMP_PATH := /tmp
+	CACHE := $(BUILD_PATH)/CMakeCache.txt
+	STATUS_FOLDER := /tmp/$(BUILD_PATH)
+	STATUS_OUTPUT := $(STATUS_FOLDER)/status_output
+	TEST_PATH := $(BINARY_PATH)/test
 
 # Default action: run demo for final users
 main:
@@ -59,10 +59,10 @@ edit: .editor
 debug: #build-$(BINARY_NAME)
 	if ! command -v gdb > /dev/null 2>&1; then \
 		make .call_fail MESSAGE="couldnt find gdb at path, recipe cannot be completed"; \
-	else \
+		else \
 		make .call_log MESSAGE="debugging"; \
 		gdb $(BINARY_PATH)/$(BINARY_NAME); \
-	fi
+		fi
 
 attach:
 	gdb attach $$(pgrep $(EDITOR_BINARY_NAME))
@@ -70,10 +70,10 @@ attach:
 profile: .final
 	if ! command -v valgrind > /dev/null 2>&1; then \
 		make .call_fail MESSAGE="couldnt find valgrind at path, recipe cannot be completed"; \
-	else \
+		else \
 		make .call_log MESSAGE="profiling"; \
 		valgrind --track-origins=yes $(BINARY_PATH)/$(BINARY_NAME); \
-	fi
+		fi
 
 .PHONY: pack
 pack:
@@ -94,10 +94,10 @@ check-coverage:
 
 cross-compile:
 	ctest --script ./ctest/cross_compiled_windows_from_linux.cmake
-#needed for:
-# - glad generation (curl, python)
-# - glfw generation (alsa sound 2, wayland scanner, pkg-config, xkb, opengl)
-# - sdl  generation (ext, only when opengl is added?)
+	#needed for:
+	# - glad generation (curl, python)
+	# - glfw generation (alsa sound 2, wayland scanner, pkg-config, xkb, opengl)
+	# - sdl  generation (ext, only when opengl is added?)
 initialize:
 	sudo apt install \
 		git-lfs \
@@ -119,11 +119,12 @@ generate:
 		-B$(BUILD_PATH) \
 		-G$(GENERATOR) \
 		-DCMAKE_BUILD_TYPE=$(BUILD_TYPE) \
-		-DCMAKE_EXPORT_COMPILE_COMMANDS=ON \
 		-DCMAKE_CXX_COMPILER=$(COMPILER_PATH) \
-		-DMoleDemo_Config_PathFor_Binaries:PATH=$(BINARY_PATH) \
-		-DMoleDemo_Config_PathFor_Libraries:PATH=$(LIBRARY_PATH) \
-		-DMoleDemo_Config_PathFor_Dependencies:PATH=$(DEPENDENCIES_PATH) \
+		-DCMAKE_RUNTIME_OUTPUT_DIRECTORY:PATH=$(BINARY_PATH) \
+		-DCMAKE_ARCHIVE_OUTPUT_DIRECTORY:PATH=$(BINARY_PATH) \
+		-DCMAKE_LIBRARY_OUTPUT_DIRECTORY:PATH=$(LIBRARY_PATH) \
+		-DCMAKE_EXPORT_COMPILE_COMMANDS=ON \
+		-DFETCHCONTENT_BASE_DIR=$(EXTERNALS_PATH) \
 		--log-level=$(CMAKE_LOG_LEVEL)
 	rm -f compile_commands.json
 	ln -s ./$(BUILD_PATH)/compile_commands.json compile_commands.json
@@ -181,47 +182,47 @@ format:
 clean:
 	make .call_warn MESSAGE="are you sure you want to clear all CMake artifacts? [yes]"
 	echo -n ">> " && \
-	read safe; \
-	if [ "$${safe}" = yes ]; then \
+		read safe; \
+		if [ "$${safe}" = yes ]; then \
 		make .call_log MESSAGE="cleaning build artifacts in $(BUILD_PATH)"; \
 		$(CMAKE_PATH) --build $(BUILD_PATH) --target clean; \
-	else \
+		else \
 		make .call_fail MESSAGE="safe word not provided, aborting"; \
-	fi
+		fi
 
 wipe:
 	make .call_warn MESSAGE="are you sure you want to wipe all artifacts from $(BUILD_PATH)? [yes]"
 	echo -n ">> " && \
-	read safe; \
-	if [ "$${safe}" = yes ]; then \
+		read safe; \
+		if [ "$${safe}" = yes ]; then \
 		make .call_warn MESSAGE="wiping build info in $(BUILD_PATH)"; \
 		rm -rf $(BUILD_PATH); \
-	else \
+		else \
 		make .call_fail MESSAGE="safe word not provided, aborting"; \
-	fi
+		fi
 
 full-wipe:
 	make .call_warn MESSAGE="are you sure you want to clear ALL untracked files? [yes]"
 	echo -n ">> " && \
-	read safe; \
-	if [ "$${safe}" = yes ]; then \
+		read safe; \
+		if [ "$${safe}" = yes ]; then \
 		make .call_warn MESSAGE="wiping ALL untracked info in $(call current_folder)"; \
 		git clean -ffdx; \
-	else \
+		else \
 		make .call_fail MESSAGE="safe word not provided, aborting"; \
-	fi
+		fi
 
 # Internal recipes (not meant to be called from the user)
 
 .final: $(BINARY_PATH)/$(BINARY_NAME) ;
 $(BINARY_PATH)/$(BINARY_NAME):
 	make .build_final
-.build_final: generate build-$(BINARY_NAME) ;
+	.build_final: generate build-$(BINARY_NAME) ;
 
 .editor: $(BINARY_PATH)/$(EDITOR_BINARY_NAME) ;
 $(BINARY_PATH)/$(EDITOR_BINARY_NAME):
 	make .build_editor
-.build_editor: generate build-$(EDITOR_BINARY_NAME) ;
+	.build_editor: generate build-$(EDITOR_BINARY_NAME) ;
 
 .help:
 	cmake --build $(BUILD_PATH) -t help | grep phony \
@@ -241,15 +242,16 @@ $(CACHE):
 	make .call_log MESSAGE="starting custom configuration of the project in $(BUILD_PATH)/CMakeCache.txt"
 	mkdir -p $(BUILD_PATH)
 	ccmake $(CMAKE_ROOT_PATH) \
-		   -S$(CMAKE_ROOT_PATH) \
-		   -B$(BUILD_PATH) \
-		   -G$(GENERATOR) \
-		   -DCMAKE_BUILD_TYPE=$(BUILD_TYPE) \
-		   -DCMAKE_CXX_COMPILER=$(COMPILER_PATH) \
-		   -DMoleDemo_Config_PathFor_Binaries:PATH=$(BINARY_PATH) \
-		   -DMoleDemo_Config_PathFor_Libraries:PATH=$(LIBRARY_PATH) \
-		   -DMoleDemo_Config_PathFor_Dependencies:PATH=$(DEPENDENCIES_PATH) \
-		   -DMoleDemo_DisableAllButExperimental:BOOL=ON
+		-S$(CMAKE_ROOT_PATH) \
+		-B$(BUILD_PATH) \
+		-G$(GENERATOR) \
+		-DCMAKE_BUILD_TYPE=$(BUILD_TYPE) \
+		-DCMAKE_CXX_COMPILER=$(COMPILER_PATH) \
+		-DCMAKE_RUNTIME_OUTPUT_DIRECTORY:PATH=$(BINARY_PATH) \
+		-DCMAKE_ARCHIVE_OUTPUT_DIRECTORY:PATH=$(BINARY_PATH) \
+		-DCMAKE_LIBRARY_OUTPUT_DIRECTORY:PATH=$(LIBRARY_PATH) \
+		-DFETCHCONTENT_BASE_DIR=$(EXTERNALS_PATH) \
+		-DMoleDemo_DisableAllButExperimental:BOOL=ON
 
 .regenerate-status:
 	make generate
