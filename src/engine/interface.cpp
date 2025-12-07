@@ -14,5 +14,5 @@ export import timer;
 
 namespace mole::engine
 {
-	export void engine_placeholder();
+    export void engine_placeholder();
 }

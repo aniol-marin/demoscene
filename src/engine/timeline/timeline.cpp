@@ -375,7 +375,7 @@ namespace MoleDemo
 
         renderables.push_back(stars);
         /*
-	   events.push(std::make_unique<Event>(Timestamp{ 5, 2000 }, stars, stars, TransitionType::Fade));
+       events.push(std::make_unique<Event>(Timestamp{ 5, 2000 }, stars, stars, TransitionType::Fade));
             events.push(std::make_unique<Event>(Timestamp{ 5, 2000 }, stars, sanitaryPollution, TransitionType::Fade));
             events.push(std::make_unique<Event>(Timestamp{ 31, 2000 }, fire, wheel, TransitionType::Fade));
             events.push(std::make_unique<Event>(Timestamp{ 40, 2000 }, wheel, black, TransitionType::Fade));

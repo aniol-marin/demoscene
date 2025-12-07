@@ -74,14 +74,9 @@ namespace MoleDemo
         container.BindShared<Timeline>(
                 [&]
                 {
-                    return Timeline{
-                        container.Inject<Timer>(),
-                        container.Inject<Program>(),
-                        container.Inject<Cycle>(),
-			container.Inject<SoundManager>(),
-                        container.Inject<Screen>(),
-                        project
-                    };
+                    return Timeline{ container.Inject<Timer>(),  container.Inject<Program>(),
+                                     container.Inject<Cycle>(),  container.Inject<SoundManager>(),
+                                     container.Inject<Screen>(), project };
                 });
         /* TODO replace manual functor resolution with in-place factories. Examples follow:
            container.BindUniqueFromFactory<Cycle, Cycle, Program, Timer, InputManager, RenderManager>();
@@ -110,7 +105,7 @@ namespace MoleDemo
         }
 
         sound->Stop();
-	timeline->Stop();
+        timeline->Stop();
         Finalize();
     }
 }

@@ -12,16 +12,8 @@ using namespace mole_def;
 
 namespace MoleDemo
 {
-    Cycle::Cycle(
-	    Program& program,
-	    Timer& timer,
-	    InputManager& input,
-	    RenderManager& render
-    )
-	    : program{ program }
-	    , inputManager{ input }
-	    , renderManager{ render }
-	    , timer{ timer }
+    Cycle::Cycle(Program& program, Timer& timer, InputManager& input, RenderManager& render) :
+      program{ program }, inputManager{ input }, renderManager{ render }, timer{ timer }
     {
     }
 

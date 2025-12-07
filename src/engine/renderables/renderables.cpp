@@ -6,7 +6,7 @@ import effect;
 
 namespace MoleDemo
 {
-using namespace mole_def;
+    using namespace mole_def;
     Layer::Layer(BlendMode mode, Effect* effect) : blend{ mode }, effect{ effect } {}
 
     void Layer::Update(permille intensity, milliseconds deltaTime)

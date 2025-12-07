@@ -31,4 +31,3 @@ namespace mole::pugi_wrapper
         return m_tree.get_children(*this);
     }
 }
-

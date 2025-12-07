@@ -6,9 +6,11 @@ using namespace MoleDemo;
 using namespace mole_def;
 using Container = MoleDemo::Container;
 
-void InstallBindings(Container& container);
+void
+InstallBindings(Container& container);
 
-int main(int argc, char** argv)
+int
+main(int argc, char** argv)
 {
     Container container;
     InstallBindings(container);

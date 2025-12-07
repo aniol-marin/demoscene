@@ -4,9 +4,8 @@ import definitions;
 
 namespace MoleDemo
 {
-	export class Program;
+    export class Program;
 }
-
 
 namespace MoleDemo
 {
@@ -28,4 +27,3 @@ namespace MoleDemo
         bool Running();
     };
 }
-

@@ -1,6 +1,7 @@
 import demo;
 
-int main()
+int
+main()
 {
     MoleDemo::Demo demo{ "resources/project.xml" };
 

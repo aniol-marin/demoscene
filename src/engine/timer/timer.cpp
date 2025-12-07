@@ -1,4 +1,4 @@
-module timer; 
+module timer;
 
 namespace MoleDemo
 {

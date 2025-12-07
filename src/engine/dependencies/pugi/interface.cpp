@@ -48,4 +48,3 @@ namespace mole::pugi_wrapper
         [[nodiscard]] std::vector<generic_node> get_children(const generic_node& node) const;
     };
 }
-

@@ -41,6 +41,13 @@ run: .final
 	make .call_log MESSAGE="running final project"
 	$(RUNTIME) $(BINARY_PATH)/$(BINARY_NAME)
 
+run-all:
+	make .call_log MESSAGE="building all targets"
+	-make build-all
+	make .call_log MESSAGE="running all targets"
+	find $(BINARY_PATH) -type f -executable | xargs -I {} 'echo "== running {}"; {};'
+
+
 .PHONY: build
 build: build-$(BINARY_NAME)
 	make .call_log MESSAGE="main build done"
@@ -85,6 +92,8 @@ check-coverage:
 	make .call_log MESSAGE="testing CTest coverage"
 	cd $(BUILD_PATH); ctest -T Coverage
 
+cross-compile:
+	ctest --script ./ctest/cross_compiled_windows_from_linux.cmake
 #needed for:
 # - glad generation (curl, python)
 # - glfw generation (alsa sound 2, wayland scanner, pkg-config, xkb, opengl)
@@ -165,6 +174,9 @@ status:
 
 previous-status: $(STATUS_OUTPUT)
 	cat $(STATUS_OUTPUT)
+
+format:
+	find src/ -type f | grep '.cpp' | xargs -L1 /usr/local/bin/clang-format -i
 
 clean:
 	make .call_warn MESSAGE="are you sure you want to clear all CMake artifacts? [yes]"
