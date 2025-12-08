@@ -146,17 +146,9 @@ test: generate
 	$(CMAKE_PATH) --build $(BUILD_PATH) --target test
 
 .report-experimental:
-	#if ! [ -f $(CACHE) ]; then \
-		#make $(CACHE) CMAKE_PRESET=builder; \
-	#fi
-	cmake \
-		-S$(CMAKE_ROOT_PATH) \
-		-Bbuild-experimental \
-		-GNinja \
-		-DCMAKE_CXX_COMPILER=$(COMPILER_PATH) \
-		--preset=builder \
-		--log-level=WARNING
-	cmake --build build-experimental -t all
+	if ! [ -f $(CACHE) ]; then \
+		make $(CACHE) CMAKE_PRESET=builder; \
+	fi
 	cd $(BUILD_PATH); ctest --dashboard Experimental
 
 .PHONY: run-
