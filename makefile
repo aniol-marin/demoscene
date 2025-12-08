@@ -93,7 +93,7 @@ check-coverage:
 	cd $(BUILD_PATH); ctest -T Coverage
 
 cross-compile:
-	ctest --script ./ctest/cross_compiled_windows_from_linux.cmake
+	cmake --toolchain=./ctest/cross_compiled_windows_from_linux.cmake
 	#needed for:
 	# - glad generation (curl, python)
 	# - glfw generation (alsa sound 2, wayland scanner, pkg-config, xkb, opengl)

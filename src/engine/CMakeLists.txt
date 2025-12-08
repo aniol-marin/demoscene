@@ -1,5 +1,6 @@
 set(MODULE_NAME engine)
 add_module_target(${MODULE_NAME})
+add_module_target(mole::${MODULE_NAME} ALIAS ${MODULE_NAME})
 
 add_subdirectory(dependencies)
 
