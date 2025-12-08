@@ -1,9 +1,10 @@
 \.*/
 bin/
-build/
+build*/
 compile_commands.json
 external/
 export/
 lib/
 [Tt]esting/
 imgui.ini
+demoscene

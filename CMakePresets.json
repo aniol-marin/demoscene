@@ -1,0 +1,76 @@
+{
+	"version": 3,
+	"cmakeMinimumRequired": {
+		"major": 4,
+		"minor": 0,
+		"patch": 3
+	},
+	"configurePresets": [
+		{
+			"name": "default",
+			"hidden": false,
+			"generator": "Ninja",
+			"binaryDir": "${sourceDir}/build",
+			"cacheVariables": {
+				"CMAKE_BUILD_TYPE": "Release"
+			}
+		},
+		{
+			"name": "user",
+			"hidden": false,
+			"generator": "Ninja",
+			"binaryDir": "${sourceDir}/build-debug",
+			"cacheVariables": {
+				"CMAKE_BUILD_TYPE": "Release",
+				"CMAKE_RUNTIME_OUTPUT_DIRECTORY": "${sourceDir}",
+				"MoleDemo_ForceFetchedDependencies": true,
+				"MoleDemo_EnableEditor": false,
+				"MoleDemo_EnableTesting": false
+			}
+		},
+		{
+			"name": "developer",
+			"hidden": false,
+			"generator": "Ninja",
+			"binaryDir": "${sourceDir}/build-debug",
+			"cacheVariables": {
+				"CMAKE_BUILD_TYPE": "Debug",
+				"CMAKE_RUNTIME_OUTPUT_DIRECTORY": "${sourceDir}/bin",
+				"CMAKE_ARCHIVE_OUTPUT_DIRECTORY": "${sourceDir}/lib",
+				"CMAKE_LIBRARY_OUTPUT_DIRECTORY": "${sourceDir}/lib",
+				"FETCHCONTENT_BASE_DIR": "${sourceDir}/external",
+				"CMAKE_EXPORT_COMPILE_COMMANDS": true,
+				"MoleDemo_ForceFetchedDependencies": false,
+				"MoleDemo_EnableEditor": true,
+				"MoleDemo_EnableTesting": true
+			}
+		},
+		{
+			"name": "builder",
+			"hidden": false,
+			"generator": "Ninja",
+			"binaryDir": "${sourceDir}/build-experimental",
+			"cacheVariables": {
+				"CMAKE_BUILD_TYPE": "Release",
+				"MoleDemo_ForceFetchedDependencies": true,
+				"MoleDemo_EnableEditor": true,
+				"MoleDemo_EnableTesting": true,
+				"MoleDemo_Testing_EnableCoverage": true
+			}
+		},
+		{
+			"name": "maintainer",
+			"hidden": false,
+			"generator": "Ninja",
+			"binaryDir": "${sourceDir}/build-debug",
+			"cacheVariables": {
+				"CMAKE_BUILD_TYPE": "Debug",
+				"CMAKE_RUNTIME_OUTPUT_DIRECTORY": "${sourceDir}/bin",
+				"CMAKE_ARCHIVE_OUTPUT_DIRECTORY": "${sourceDir}/lib",
+				"CMAKE_LIBRARY_OUTPUT_DIRECTORY": "${sourceDir}/lib",
+				"FETCHCONTENT_BASE_DIR": "${sourceDir}/external",
+				"MoleDemo_DisableAllButExperimental": true
+			}
+		}
+	]
+}

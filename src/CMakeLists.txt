@@ -52,7 +52,7 @@ if(NOT MoleDemo_DisableAllButExperimental)
 	)
 	]]#
 
-	#[[ unified post-modern-version ]]#
+	#[[ unified post-modern-version
 	install(
 		PACKAGE_INFO moledemo
 		EXPORT moledemo-targets
@@ -62,6 +62,7 @@ if(NOT MoleDemo_DisableAllButExperimental)
 		COMPONENT moledemo
 		EXPORT_PACKAGE_DEPENDENCIES pugixml
 	)
+	]]#
 
 	#[=[ naive approach, with commments
 	install(
