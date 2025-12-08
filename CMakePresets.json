@@ -10,29 +10,32 @@
 			"name": "default",
 			"hidden": false,
 			"generator": "Ninja",
-			"binaryDir": "${sourceDir}/build",
 			"cacheVariables": {
 				"CMAKE_BUILD_TYPE": "Release"
+			},
+			"warnings": {
+				"dev": false
 			}
 		},
 		{
 			"name": "user",
 			"hidden": false,
 			"generator": "Ninja",
-			"binaryDir": "${sourceDir}/build-debug",
 			"cacheVariables": {
 				"CMAKE_BUILD_TYPE": "Release",
 				"CMAKE_RUNTIME_OUTPUT_DIRECTORY": "${sourceDir}",
 				"MoleDemo_ForceFetchedDependencies": true,
 				"MoleDemo_EnableEditor": false,
 				"MoleDemo_EnableTesting": false
+			},
+			"warnings": {
+				"dev": false
 			}
 		},
 		{
 			"name": "developer",
 			"hidden": false,
 			"generator": "Ninja",
-			"binaryDir": "${sourceDir}/build-debug",
 			"cacheVariables": {
 				"CMAKE_BUILD_TYPE": "Debug",
 				"CMAKE_RUNTIME_OUTPUT_DIRECTORY": "${sourceDir}/bin",
@@ -43,26 +46,31 @@
 				"MoleDemo_ForceFetchedDependencies": false,
 				"MoleDemo_EnableEditor": true,
 				"MoleDemo_EnableTesting": true
+			},
+			"warnings": {
+				"dev": true
 			}
 		},
 		{
 			"name": "builder",
 			"hidden": false,
 			"generator": "Ninja",
-			"binaryDir": "${sourceDir}/build-experimental",
 			"cacheVariables": {
 				"CMAKE_BUILD_TYPE": "Release",
+				"CMAKE_RUNTIME_OUTPUT_DIRECTORY": "${sourceDir}",
 				"MoleDemo_ForceFetchedDependencies": true,
 				"MoleDemo_EnableEditor": true,
 				"MoleDemo_EnableTesting": true,
 				"MoleDemo_Testing_EnableCoverage": true
+			},
+			"warnings": {
+				"dev": true
 			}
 		},
 		{
 			"name": "maintainer",
 			"hidden": false,
 			"generator": "Ninja",
-			"binaryDir": "${sourceDir}/build-debug",
 			"cacheVariables": {
 				"CMAKE_BUILD_TYPE": "Debug",
 				"CMAKE_RUNTIME_OUTPUT_DIRECTORY": "${sourceDir}/bin",
@@ -70,6 +78,9 @@
 				"CMAKE_LIBRARY_OUTPUT_DIRECTORY": "${sourceDir}/lib",
 				"FETCHCONTENT_BASE_DIR": "${sourceDir}/external",
 				"MoleDemo_DisableAllButExperimental": true
+			},
+			"warnings": {
+				"dev": false
 			}
 		}
 	]

@@ -31,6 +31,9 @@ main:
 		-S$(CMAKE_ROOT_PATH) \
 		-Bbuild-artifacts \
 		-DCMAKE_CXX_COMPILER=$(COMPILER_PATH) \
+		-DCMAKE_RUNTIME_OUTPUT_DIRECTORY:PATH=$(call current_folder) \
+		-DCMAKE_ARCHIVE_OUTPUT_DIRECTORY:PATH=$(BUILD_PATH) \
+		-DCMAKE_LIBRARY_OUTPUT_DIRECTORY:PATH=$(BUILD_PATH) \
 		--preset=user \
 		-Wno-dev \
 		--log-level=ERROR
@@ -125,8 +128,8 @@ generate:
 	$(CMAKE_PATH) \
 		-S$(CMAKE_ROOT_PATH) \
 		-B$(BUILD_PATH) \
-		-DCMAKE_CXX_COMPILER=$(COMPILER_PATH) \
 		-GNinja \
+		-DCMAKE_CXX_COMPILER=$(COMPILER_PATH) \
 		--log-level=$(CMAKE_LOG_LEVEL)
 	ln -sf ./$(BUILD_PATH)/compile_commands.json compile_commands.json
 
@@ -149,10 +152,11 @@ test: generate
 	cmake \
 		-S$(CMAKE_ROOT_PATH) \
 		-Bbuild-experimental \
+		-GNinja \
 		-DCMAKE_CXX_COMPILER=$(COMPILER_PATH) \
 		--preset=builder \
-		-Wno-dev \
-		--log-level=ERROR
+		--log-level=WARNING
+	cmake --build build-experimental -t all
 	cd $(BUILD_PATH); ctest --dashboard Experimental
 
 .PHONY: run-
@@ -263,6 +267,9 @@ $(CACHE):
 		-B$(BUILD_PATH) \
 		-GNinja \
 		-DCMAKE_CXX_COMPILER=$(COMPILER_PATH) \
+		-DCMAKE_RUNTIME_OUTPUT_DIRECTORY:PATH=$(BINARY_PATH) \
+		-DCMAKE_ARCHIVE_OUTPUT_DIRECTORY:PATH=$(BINARY_PATH) \
+		-DCMAKE_LIBRARY_OUTPUT_DIRECTORY:PATH=$(LIBRARY_PATH) \
 		--preset=$(CMAKE_PRESET) \
 		--log-level=$(CMAKE_LOG_LEVEL)
 
