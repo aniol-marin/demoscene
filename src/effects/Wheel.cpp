@@ -28,7 +28,7 @@ public:
     void Update(permille intensity, milliseconds delta) override;
     void Cache(StencilBuffer& mask) override;
     rgbaColor GetPixel(Point2D p) override;
-    rgbaColor GetPixel(index index) override;
+    rgbaColor GetPixel(index_t index) override;
 };
 
 namespace MoleDemo
@@ -70,7 +70,7 @@ namespace MoleDemo
         return rgbColor;
     }
 
-    rgbaColor Wheel::GetPixel(index index)
+    rgbaColor Wheel::GetPixel(index_t index)
     {
         return rgbColor;
     }

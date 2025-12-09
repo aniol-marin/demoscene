@@ -1,7 +1,9 @@
 #include <catch2/catch_test_macros.hpp>
 
 #include <functional>
-#include "engine.h"
+#include <iostream>
+#include <fstream>
+#include "pugi.h"
 
 using tree = mole::pugi_wrapper::tree;
 using node = mole::pugi_wrapper::generic_node;

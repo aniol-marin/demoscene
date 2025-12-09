@@ -44,7 +44,7 @@ namespace MoleDemo
     {
 
         Screen sampler{ repetitions, repetitions };
-        index samples{ (index) sampler.GetPixelCount() };
+        index_t samples{ (index) sampler.GetPixelCount() };
 
         noise.clear();
         noise.assign(samples, clear);
@@ -59,10 +59,10 @@ namespace MoleDemo
             for (point1D x = 0; x < screen->w; ++x)
             {
 
-                index horizontal{ (x / period) % period };
-                index right{ (horizontal + 1) % period };
-                index vertical{ (y / period) % period };
-                index down{ (vertical + 1) % period };
+                index_t horizontal{ (x / period) % period };
+                index_t right{ (horizontal + 1) % period };
+                index_t vertical{ (y / period) % period };
+                index_t down{ (vertical + 1) % period };
 
                 permille offsetVertical{ (permille) (x % period) };
                 permille offsetHorizontal{ (permille) (y % period) };

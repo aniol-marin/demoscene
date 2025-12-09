@@ -9,12 +9,12 @@ namespace MoleDemo
         ReserveBuffer();
     }
 
-    index Effect::GetPixelIndex(Point2D& point)
+    index_t Effect::GetPixelIndex(Point2D& point)
     {
         return GetPixelIndex(point, buffer);
     }
 
-    index Effect::GetPixelIndex(Point2D& point, PixelBuffer& pixelBuffer)
+    index_t Effect::GetPixelIndex(Point2D& point, PixelBuffer& pixelBuffer)
     {
         return (pixel_count) screen->w * (pixel_count) point.y + (pixel_count) point.x;
     }
@@ -57,7 +57,7 @@ namespace MoleDemo
         return GetPixel(GetPixelIndex(p));
     }
 
-    rgbaColor Effect::GetPixel(index index)
+    rgbaColor Effect::GetPixel(index_t index)
     {
         return buffer[index];
     }

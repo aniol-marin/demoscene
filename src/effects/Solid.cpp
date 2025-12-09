@@ -34,7 +34,7 @@ public:
     void Update(permille intensity, milliseconds delta) override;
     void Cache(StencilBuffer& mask) override;
     rgbaColor GetPixel(Point2D p) override;
-    rgbaColor GetPixel(index index) override;
+    rgbaColor GetPixel(index_t index) override;
     rgbaColor GetMappedUV(CoordinateUV uv) override;
 };
 
@@ -66,7 +66,7 @@ namespace MoleDemo
         return rgbColor;
     }
 
-    rgbaColor Solid::GetPixel(index index)
+    rgbaColor Solid::GetPixel(index_t index)
     {
         return rgbColor;
     }

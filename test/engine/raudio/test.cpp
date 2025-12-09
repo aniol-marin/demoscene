@@ -2,6 +2,7 @@
 #include <filesystem>
 
 #include <functional>
+#include <iostream>
 #include "raudio_wrapper.h"
 
 SCENARIO("Manager behavior")

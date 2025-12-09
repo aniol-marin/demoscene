@@ -19,8 +19,8 @@ namespace MoleDemo
 
 		Effect(Timer* timer, Screen* screen);
 
-		index GetPixelIndex(Point2D& point);
-		index GetPixelIndex(Point2D& point, PixelBuffer& pixelBuffer);
+		index_t GetPixelIndex(Point2D& point);
+		index_t GetPixelIndex(Point2D& point, PixelBuffer& pixelBuffer);
 		rgbaColor GetColorAt(Point2D point, PixelBuffer& pixelBuffer);
 		void PutPixel(Point2D point, rgbaColor color);
 		void PutPixel(Point2D point, rgbaColor color, PixelBuffer& buffer);
@@ -34,7 +34,7 @@ namespace MoleDemo
 		virtual ~Effect() = default;
 
 		virtual rgbaColor GetPixel(Point2D p);
-		virtual rgbaColor GetPixel(index index);
+		virtual rgbaColor GetPixel(index_t index);
 
 		virtual void Load() = 0;
 		virtual void Unload() = 0;

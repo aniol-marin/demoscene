@@ -33,7 +33,7 @@ namespace MoleDemo
 
             // TODO use buffer iteration (only relevant pixels)
             size = { buffer.size() };
-            for (mole_def::index p = 0; p < size; ++p)
+            for (index_t p = 0; p < size; ++p)
             {
                 if (renderable->CheckStencil(p))
                 {
@@ -83,7 +83,7 @@ namespace MoleDemo
         queue->Render(renderables, buffer);
 
         Lock();
-        mole_def::index i{ 0 };
+        index_t i{ 0 };
         for (point1D y{ 0 }; y < m_screen.h; ++y)
         {
             for (point1D x{ 0 }; x < m_screen.w; ++x)

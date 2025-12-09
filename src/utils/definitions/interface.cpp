@@ -17,7 +17,7 @@ export namespace mole_def
     using milliseconds = uint_fast16_t;
     using permille = int_fast16_t;
     using speed = uint_fast16_t;
-    using index = uint_fast32_t;
+    using index_t = uint_fast32_t;
     using point1D = uint_fast16_t;
     using offset1D = int_fast64_t;
     using rgbaColor = uint32_t;
@@ -184,7 +184,7 @@ export namespace mole_def
         Screen& operator=(Screen&&) = default;
 
         const pixel_count GetPixelCount() const;
-        constexpr index GetIndex(Point2D point) const;
+        constexpr index_t GetIndex(Point2D point) const;
     };
 
     /*
@@ -210,9 +210,9 @@ export namespace mole_def
         virtual void Update(permille intenisty, milliseconds deltaTime) = 0;
         virtual void Cache(StencilBuffer& mask) = 0;
         virtual rgbaColor GetPixel(Point2D point) = 0;
-        virtual rgbaColor GetPixel(index index) = 0;
+        virtual rgbaColor GetPixel(index_t index) = 0;
         virtual BlendMode GetBlend() = 0;
-        virtual bool CheckStencil(index index) = 0;
+        virtual bool CheckStencil(index_t index) = 0;
     };
 
     struct Texturable

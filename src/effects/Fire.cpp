@@ -30,7 +30,7 @@ public:
     void Update(permille intensity, milliseconds delta) override;
     void Cache(StencilBuffer& mask) override;
     rgbaColor GetPixel(Point2D p) override;
-    rgbaColor GetPixel(index index) override;
+    rgbaColor GetPixel(index_t index) override;
 };
 
 namespace MoleDemo
@@ -92,13 +92,13 @@ namespace MoleDemo
             point1D start{ rand() % screen->w };
             point1D end{ std::min(start + (point1D) (rand() % (1 + intensity / 32)), screen->w - 3) };
             rgbaColor random{};
-            index paletteStart{ rand() % palette.size() };
+            index_t paletteStart{ rand() % palette.size() };
             for (int i = start; i < end; ++i)
             {
 
-                index i1{ screen->GetIndex(Point2D{ (point1D) i, (point1D) (screen->h + 1) }) };
-                index i2{ screen->GetIndex(Point2D{ (point1D) i, (point1D) (screen->h + 2) }) };
-                index i3{ screen->GetIndex(Point2D{ (point1D) i, (point1D) (screen->h + 3) }) };
+                index_t i1{ screen->GetIndex(Point2D{ (point1D) i, (point1D) (screen->h + 1) }) };
+                index_t i2{ screen->GetIndex(Point2D{ (point1D) i, (point1D) (screen->h + 2) }) };
+                index_t i3{ screen->GetIndex(Point2D{ (point1D) i, (point1D) (screen->h + 3) }) };
 
                 random = Color(white).lerp(palette[rand() % palette.size()], rand() % 1000).rgba();
                 buffer[i1] = random;
@@ -165,7 +165,7 @@ namespace MoleDemo
         return GetColorAt(p, firstBuffer);
     }
 
-    rgbaColor Fire::GetPixel(index index)
+    rgbaColor Fire::GetPixel(index_t index)
     {
         return firstBuffer[index];
     }

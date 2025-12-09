@@ -20,7 +20,7 @@ namespace MoleDemo
         return effect->GetPixel(point);
     }
 
-    rgbaColor Layer::GetPixel(index index)
+    rgbaColor Layer::GetPixel(index_t index)
     {
         return effect->GetPixel(index);
     }
@@ -30,7 +30,7 @@ namespace MoleDemo
         return blend;
     }
 
-    bool Layer::CheckStencil(index offset)
+    bool Layer::CheckStencil(index_t offset)
     {
         // TODO buffer relevant content
         return true;
@@ -59,7 +59,7 @@ namespace MoleDemo
         return m_elapsed > time.duration;
     }
 
-    bool Transition::CheckStencil(index index)
+    bool Transition::CheckStencil(index_t index)
     {
         return true; // transitions by now are always be full screen
     }
@@ -82,7 +82,7 @@ namespace MoleDemo
         return ActiveLayer()->GetPixel(point);
     }
 
-    rgbaColor Cut::GetPixel(index index)
+    rgbaColor Cut::GetPixel(index_t index)
     {
         return ActiveLayer()->GetPixel(index);
     }
@@ -100,7 +100,7 @@ namespace MoleDemo
         foreground->Cache(mask);
     }
 
-    rgbaColor Fade::GetPixel(index index)
+    rgbaColor Fade::GetPixel(index_t index)
     {
         Color next{ foreground->GetPixel(index) };
         rgbaColor result;

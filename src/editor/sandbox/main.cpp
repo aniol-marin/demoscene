@@ -42,7 +42,7 @@ main(int argc, char** argv)
         renderable.Update(intensity, delta);
 
         sdl.LockSurface();
-        index i{ 0 };
+        index_t i{ 0 };
         for (point1D y{ 0 }; y < screen.h; ++y)
         {
             for (point1D x{ 0 }; x < screen.w; ++x)
