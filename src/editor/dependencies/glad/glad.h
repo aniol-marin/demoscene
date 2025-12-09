@@ -1,7 +1,11 @@
 #ifndef MOLE_GLAD_WRAPPER_H
 #define MOLE_GLAD_WRAPPER_H
 
+#define GLAD_IMPLEMENTATION
+#include "glad/gl.h"
 #include "glfw_wrapper.h"
+
+#include <vector>
 
 namespace mole::graphics
 {
@@ -44,9 +48,8 @@ namespace mole::graphics
         ~RenderContext() = default;
 
         void Render();
-	void Present();
+        void Present();
     };
 }
 
 #endif
-

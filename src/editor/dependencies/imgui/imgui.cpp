@@ -1,13 +1,10 @@
-module;
+#include "imgui_wrapper.h"
 
 #include "imgui.h"
 #include "imgui_impl_glfw.h"
 #include "imgui_impl_opengl3.h"
 
-module imgui_wrapper;
-
-import std;
-import glfw_wrapper;
+#include <string>
 
 namespace mole::ui
 {

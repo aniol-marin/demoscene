@@ -4,17 +4,20 @@
 extern "C" {
 #include "GLFW/glfw3.h"
 }
-
-#include "definitions.h"
 #include <functional>
-#include <iostream>
 #include <map>
 #include <string>
+#include <string_view>
+#include <vector>
 
-using callback = std::function<void(void)>;
+#include "definitions.h"
+
 namespace mole::graphics
 {
-    /*export*/ using size_1D = std::uint_fast16_t;
+    using proc_address = decltype(glfwGetProcAddress);
+    using size_1D = std::uint_fast16_t;
+    using callback = std::function<void(void)>;
+
     struct Vector2
     {
         float x, y;
@@ -23,7 +26,7 @@ namespace mole::graphics
     {
         const size_1D w, h;
     };
-    /*constexpr*/ std::string name{ "test" };
+    const std::string name{ "test" };
     constexpr auto width{ 480 };
     constexpr auto height{ 640 };
     static std::map<char, std::vector<callback>> callbacks;
@@ -32,23 +35,23 @@ namespace mole::graphics
     static std::map<int, std::vector<callback>> MouseCursorPosCallbacks;
     static Vector2 delta;
 
-    static void ErrorCallback(int code, const char* message);
-    static void KeyCallback(GLFWwindow* window, int key, int scancode, int action, int mods);
-    static void MouseButtonCallback(GLFWwindow* window, int button, int action, int mods);
-    static void MouseCursorPosCallback(GLFWwindow* window, double x, double y);
-
-    /*export*/ struct Context
+    struct WindowContext
     {
         GLFWwindow* window{ NULL };
         const window_size size;
+        const std::string_view name;
+        proc_address* address;
 
-        Context() = delete;
-        Context(window_size&& size, std::string_view name);
-        Context(const Context&) = delete;
-        Context(Context&&) = default;
-        ~Context();
+        WindowContext() = delete;
+        WindowContext(window_size&& size, std::string_view name);
+        WindowContext(const WindowContext&) = delete;
+        WindowContext(WindowContext&&) = default;
+        ~WindowContext();
+
+        void Swap() const { glfwSwapBuffers(window); }
+        void AddCallback(const char key, callback&& callback) { callbacks[key].emplace_back(std::move(callback)); }
+        void PollEvents();
     };
 }
 
 #endif
-
