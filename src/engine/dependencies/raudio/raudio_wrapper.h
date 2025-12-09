@@ -6,6 +6,7 @@
 #include "raudio.h"
 
 #include <string_view>
+#include <queue>
 
 namespace raudio
 {
@@ -33,7 +34,6 @@ namespace raudio
         bool initialized{ false };
         bool loaded{ false };
         Music music{};
-        permille intensity{};
 
         static void SampleIntensity(void* buffer, unsigned int frames);
     };
