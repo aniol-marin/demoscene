@@ -38,7 +38,6 @@ namespace raudio
         bool initialized{ false };
         bool loaded{ false };
         Music music{};
-        permille intensity{};
 
         static void SampleIntensity(void* buffer, unsigned int frames);
     };

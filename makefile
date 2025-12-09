@@ -4,6 +4,7 @@ EDITOR_BINARY_NAME := editor
 BUILD_TYPE := Debug
 CMAKE_PATH := cmake
 CMAKE_LOG_LEVEL := NOTICE
+CMAKE_PRESET := default
 GENERATOR := Ninja
 COMPILER_PATH := g++
 
@@ -11,26 +12,33 @@ COMPILER_PATH := g++
 listify = $(subst ., ,$(1))
 current_folder = $(shell echo $$PWD)
 RUNTIME = export LD_LIBRARY_PATH=/usr/local/lib64/:LD_LIBRARY_PATH;
-CMAKE_ROOT_PATH := $(call current_folder)
-BUILD_PATH := $(call current_folder)/build/$(BUILD_TYPE)
-BINARY_PATH := $(call current_folder)/bin
-LIBRARY_PATH := $(call current_folder)/lib
-EXPORT_PATH := /home/bru/demoscene/export
-TEMP_PATH := /tmp
-DEPENDENCIES_PATH := $(call current_folder)/external
-CACHE := $(BUILD_PATH)/CMakeCache.txt
-STATUS_FOLDER := /tmp/$(BUILD_PATH)
-STATUS_OUTPUT := $(STATUS_FOLDER)/status_output
-TEST_PATH := $(BINARY_PATH)/test
+	CMAKE_ROOT_PATH := $(call current_folder)
+	BUILD_PATH := $(call current_folder)/build/$(BUILD_TYPE)
+	BINARY_PATH := $(call current_folder)/bin
+	LIBRARY_PATH := $(call current_folder)/lib
+	EXTERNALS_PATH := $(call current_folder)/external
+	EXPORT_PATH := $(call current_folder)/export
+	TEMP_PATH := /tmp
+	CACHE := $(BUILD_PATH)/CMakeCache.txt
+	STATUS_FOLDER := /tmp/$(BUILD_PATH)
+	STATUS_OUTPUT := $(STATUS_FOLDER)/status_output
+	TEST_PATH := $(BINARY_PATH)/test
 
 # Default action: run demo for final users
 main:
 	make .call_log MESSAGE="building and running final demo" --no-print-directory
-	make \
-		BUILD_TYPE=Release \
-		CMAKE_LOG_LEVEL="ERROR -Wno-dev" \
-		--no-print-directory \
-		generate build run
+	cmake \
+		-S$(CMAKE_ROOT_PATH) \
+		-Bbuild-artifacts \
+		-DCMAKE_CXX_COMPILER=$(COMPILER_PATH) \
+		-DCMAKE_RUNTIME_OUTPUT_DIRECTORY:PATH=$(call current_folder) \
+		-DCMAKE_ARCHIVE_OUTPUT_DIRECTORY:PATH=$(BUILD_PATH) \
+		-DCMAKE_LIBRARY_OUTPUT_DIRECTORY:PATH=$(BUILD_PATH) \
+		--preset=user \
+		-Wno-dev \
+		--log-level=ERROR
+	cmake --build build-artifacts -t $(BINARY_NAME)
+	./$(BINARY_NAME)
 
 # Public recipes
 
@@ -70,18 +78,18 @@ attach:
 profile: .final
 	if ! command -v valgrind > /dev/null 2>&1; then \
 		make .call_fail MESSAGE="couldnt find valgrind at path, recipe cannot be completed"; \
-	else \
+		else \
 		make .call_log MESSAGE="profiling"; \
 		valgrind --track-origins=yes $(BINARY_PATH)/$(BINARY_NAME); \
-	fi
+		fi
 
 .PHONY: pack
 pack:
 	cd $(BUILD_PATH); cpack -DCPACK_PACKAGE_DIRECTORY=$(EXPORT_PATH)
 
-report-experimental: generate
-	cd $(BUILD_PATH); ctest --dashboard Experimental
-	#ctest --script ./ctest/CTestScript.cmake
+report-experimental:
+	make .call_log MESSAGE="reporting to Experimental CDash board"
+	make .report-experimental BUILD_PATH=./build-experimental
 
 check-test: generate
 	make .call_log MESSAGE="testing CTest tests"
@@ -93,11 +101,11 @@ check-coverage:
 	cd $(BUILD_PATH); ctest -T Coverage
 
 cross-compile:
-	ctest --script ./ctest/cross_compiled_windows_from_linux.cmake
-#needed for:
-# - glad generation (curl, python)
-# - glfw generation (alsa sound 2, wayland scanner, pkg-config, xkb, opengl)
-# - sdl  generation (ext, only when opengl is added?)
+	cmake --toolchain=./ctest/cross_compiled_windows_from_linux.cmake
+	#needed for:
+	# - glad generation (curl, python)
+	# - glfw generation (alsa sound 2, wayland scanner, pkg-config, xkb, opengl)
+	# - sdl  generation (ext, only when opengl is added?)
 initialize:
 	sudo apt install \
 		git-lfs \
@@ -114,28 +122,34 @@ initialize:
 
 generate:
 	make .call_log MESSAGE="generating config $(BUILD_TYPE) in $(BUILD_PATH)"
+	if ! [ -f $(CACHE) ]; then \
+		make $(CACHE) CMAKE_PRESET=developer; \
+	fi
 	$(CMAKE_PATH) \
 		-S$(CMAKE_ROOT_PATH) \
 		-B$(BUILD_PATH) \
-		-G$(GENERATOR) \
-		-DCMAKE_BUILD_TYPE=$(BUILD_TYPE) \
-		-DCMAKE_EXPORT_COMPILE_COMMANDS=ON \
+		-GNinja \
 		-DCMAKE_CXX_COMPILER=$(COMPILER_PATH) \
-		-DMoleDemo_Config_PathFor_Binaries:PATH=$(BINARY_PATH) \
-		-DMoleDemo_Config_PathFor_Libraries:PATH=$(LIBRARY_PATH) \
-		-DMoleDemo_Config_PathFor_Dependencies:PATH=$(DEPENDENCIES_PATH) \
 		--log-level=$(CMAKE_LOG_LEVEL)
-	rm -f compile_commands.json
-	ln -s ./$(BUILD_PATH)/compile_commands.json compile_commands.json
+	ln -sf ./$(BUILD_PATH)/compile_commands.json compile_commands.json
 
-configure: $(CACHE)
-	make .call_log MESSAGE="configuring project"
-	ccmake $(BUILD_PATH)
+configure:
+	if ! [ -f $(CACHE) ]; then \
+		make $(CACHE) CMAKE_PRESET=maintainer; \
+	fi
+	make .call_log MESSAGE="configuring project";
+	ccmake $(BUILD_PATH);
 
 .PHONY: test
 test: generate
 	make .call_log MESSAGE="testing all CTest targets"
 	$(CMAKE_PATH) --build $(BUILD_PATH) --target test
+
+.report-experimental:
+	if ! [ -f $(CACHE) ]; then \
+		make $(CACHE) CMAKE_PRESET=builder; \
+	fi
+	cd $(BUILD_PATH); ctest --dashboard Experimental
 
 .PHONY: run-
 run-%: $(CACHE)
@@ -240,16 +254,16 @@ $(BINARY_PATH)/$(EDITOR_BINARY_NAME):
 $(CACHE):
 	make .call_log MESSAGE="starting custom configuration of the project in $(BUILD_PATH)/CMakeCache.txt"
 	mkdir -p $(BUILD_PATH)
-	ccmake $(CMAKE_ROOT_PATH) \
-		   -S$(CMAKE_ROOT_PATH) \
-		   -B$(BUILD_PATH) \
-		   -G$(GENERATOR) \
-		   -DCMAKE_BUILD_TYPE=$(BUILD_TYPE) \
-		   -DCMAKE_CXX_COMPILER=$(COMPILER_PATH) \
-		   -DMoleDemo_Config_PathFor_Binaries:PATH=$(BINARY_PATH) \
-		   -DMoleDemo_Config_PathFor_Libraries:PATH=$(LIBRARY_PATH) \
-		   -DMoleDemo_Config_PathFor_Dependencies:PATH=$(DEPENDENCIES_PATH) \
-		   -DMoleDemo_DisableAllButExperimental:BOOL=ON
+	cmake \
+		-S$(CMAKE_ROOT_PATH) \
+		-B$(BUILD_PATH) \
+		-GNinja \
+		-DCMAKE_CXX_COMPILER=$(COMPILER_PATH) \
+		-DCMAKE_RUNTIME_OUTPUT_DIRECTORY:PATH=$(BINARY_PATH) \
+		-DCMAKE_ARCHIVE_OUTPUT_DIRECTORY:PATH=$(LIBRARY_PATH) \
+		-DCMAKE_LIBRARY_OUTPUT_DIRECTORY:PATH=$(BINARY_PATH) \
+		--preset=$(CMAKE_PRESET) \
+		--log-level=$(CMAKE_LOG_LEVEL)
 
 .regenerate-status:
 	make generate
@@ -290,9 +304,9 @@ MESSAGE := no message
 .call_fail:
 	$(call fail, $(MESSAGE))
 
-log =  $(info $(shell echo -e '[INFO] \033[35m $(1) \033[m'))
-warn = $(info $(shell echo -e '[WARN] \033[33m $(1) \033[m'))
-fail = $(info $(shell echo -e '[ERROR]\033[31m $(1) \033[m'))
+log =  $(info  $(shell echo -e '[INFO] \033[35m $(1) \033[m'))
+warn = $(info  $(shell echo -e '[WARN] \033[33m $(1) \033[m'))
+fail = $(error $(shell echo -e '[ERROR]\033[31m $(1) \033[m'))
 
 %:
 	make .call_fail MESSAGE="Inexisting recipe: [ $@ ]"

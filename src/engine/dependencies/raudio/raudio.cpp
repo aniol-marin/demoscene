@@ -6,6 +6,7 @@ namespace raudio
 {
     using namespace mole_def;
     AudioManager::AudioManager() {}
+    permille intensity{};
 
     AudioManager::~AudioManager()
     {
@@ -18,8 +19,7 @@ namespace raudio
 
     void AudioManager::SampleIntensity(void* buffer, unsigned int frames)
     {
-        /*
-        static std::queue<float> average {};
+        static std::queue<float> average{};
         float* intensities{ static_cast<float*>(buffer) };
 
         float accumulated{};
@@ -43,8 +43,7 @@ namespace raudio
             average.push(average.front());
             average.pop();
         }
-        intensity = (permille)(max * permilleFactor);
-*/
+        intensity = static_cast<permille>(max * permilleFactor);
     }
 
     void AudioManager::Init()
@@ -55,11 +54,9 @@ namespace raudio
             throw std::exception{};
         }
 
-        /*
-                InitAudioDevice();
-                SetAudioStreamBufferSizeDefault(4096);
+        InitAudioDevice();
+        SetAudioStreamBufferSizeDefault(4096);
 
-        */
         initialized = true;
     }
 
@@ -71,10 +68,8 @@ namespace raudio
             throw std::exception{};
         }
 
-        /*
-                StopMusicStream(music);
-                CloseAudioDevice();
-        */
+        StopMusicStream(music);
+        CloseAudioDevice();
 
         initialized = false;
     }
@@ -92,11 +87,9 @@ namespace raudio
             throw std::exception{};
         }
 
-        /*
-                std::string s { source };
-                music = LoadMusicStream(s.c_str());
-                AttachAudioStreamProcessor(music.stream, SampleIntensity);
-        */
+        std::string s{ source };
+        music = LoadMusicStream(s.c_str());
+        AttachAudioStreamProcessor(music.stream, SampleIntensity);
 
         loaded = true;
     }
@@ -115,10 +108,8 @@ namespace raudio
         }
         loaded = false;
 
-        /*
-                DetachAudioStreamProcessor(music.stream, SampleIntensity);
-                //UnloadMusicStream(music); // TODO fix exception while unloading
-        */
+        DetachAudioStreamProcessor(music.stream, SampleIntensity);
+        // UnloadMusicStream(music); // TODO fix exception while unloading
     }
 
     void AudioManager::Play()
@@ -140,9 +131,7 @@ namespace raudio
             throw std::exception{};
         }
 
-        /*
-                StopMusicStream(music);
-        */
+        StopMusicStream(music);
     }
 
     void AudioManager::Update()
@@ -153,9 +142,7 @@ namespace raudio
             throw std::exception{};
         }
 
-        /*
-                UpdateMusicStream(music);
-        */
+        UpdateMusicStream(music);
     }
 
     mole_def::seconds AudioManager::GetDuration()
@@ -165,6 +152,6 @@ namespace raudio
 
     mole_def::permille AudioManager::GetIntensity()
     {
-        return (permille) intensity;
+        return static_cast<permille>(intensity);
     }
 }

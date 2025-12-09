@@ -4,6 +4,11 @@
 ]]#
 cmake_minimum_required(VERSION 3.13)
 
+# Pre-project experimental requirements
+#[[ not available in 3.13
+set(CMAKE_EXPERIMENTAL_CXX_IMPORT_STD "d0edc3af-4c50-42ea-a356-e2862fe7a444")
+set(CMAKE_EXPERIMENTAL_EXPORT_PACKAGE_DEPENDENCIES "1942b4fa-b2c5-4546-9385-83f254070067")
+]]#
 # Pre-project definition compilation requirements
 set(CMAKE_CXX_STANDARD 17)
 set(CMAKE_CXX_STANDARD_REQUIRED ON)
