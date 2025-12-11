@@ -1,6 +1,0 @@
-package test;
-
-message Hello
-{
-  required string world = 1;
-}
