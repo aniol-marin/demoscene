@@ -83,7 +83,7 @@ namespace MoleDemo
 
     void Stars::Load()
     {
-	    std::srand(0);
+        std::srand(0);
     }
 
     void Stars::Unload() {}
