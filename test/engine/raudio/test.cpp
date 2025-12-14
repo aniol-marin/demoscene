@@ -1,9 +1,9 @@
 #include<catch2/catch_test_macros.hpp>
 #include <filesystem>
+
 #include <functional>
 #include <iostream>
-
-import raudio_wrapper;
+#include "raudio_wrapper.h"
 
 SCENARIO("Manager behavior")
 {

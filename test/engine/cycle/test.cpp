@@ -1,17 +1,7 @@
 #include <catch2/catch_test_macros.hpp>
-#include <filesystem>
-#include <functional>
-#include <iostream>
 
-import cycle;
-// dependencies:
-import cycle;
-import definitions;
-import input;
-import program;
-import render;
-import sdl_wrapper;
-import timer;
+#include <functional>
+#include "engine.h"
 
 SCENARIO("Cycle")
 {

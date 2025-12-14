@@ -1,21 +1,4 @@
-module;
-
-#include <vector>
-#include <memory>
-#include <string_view>
-#include <exception>
-#include <stdexcept>
-#include <algorithm>
-
-module timeline;
-import definitions;
-import effect;
-import renderables;
-import timer;
-import cycle;
-import program;
-import render;
-import stars;
+#include "timeline.h"
 
 namespace MoleDemo
 {

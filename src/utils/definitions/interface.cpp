@@ -18,6 +18,22 @@ export namespace mole_def
 
     constexpr double PI = 3.14159265358979323846264338327950288;
 
+    using Id = uint_fast8_t;
+    using bunch = uint_fast8_t;
+    using seconds = uint_fast16_t;
+    using milliseconds = uint_fast16_t;
+    using permille = int_fast16_t;
+    using speed = uint_fast16_t;
+    using index_t = uint_fast32_t;
+    using point1D = uint_fast16_t;
+    using offset1D = int_fast64_t;
+    using rgbaColor = uint32_t;
+    using hslaColor = uint32_t;
+    using tempChannel = uint_fast16_t;
+    using channel = uint_fast8_t;
+    using hue = uint_fast8_t;
+    using saturation = uint_fast8_t;
+    using lightness = uint_fast8_t;
 
     struct PixelBuffer : std::vector<rgbaColor>
     {
@@ -146,7 +162,7 @@ export namespace mole_def
         channel m_a{};
 
     public:
-        Color() : Color{ black } {};
+        Color();
         Color(const rgbaColor& color);
         Color(channel r, channel g, channel b, channel a = saturated);
         ~Color() = default;
@@ -179,10 +195,10 @@ export namespace mole_def
     };
 
     /*
-       constexpr Screen defaultScreen{ 640, 480 };
-       constexpr Screen textureSize{ 512, 512 };
-       constexpr Screen superSampler{ 2048, 2048 };
-       */
+    constexpr Screen defaultScreen{ 640, 480 };
+    constexpr Screen textureSize{ 512, 512 };
+    constexpr Screen superSampler{ 2048, 2048 };
+     */
 
     struct Initializable
     {

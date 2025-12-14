@@ -1,16 +1,4 @@
-module;
-
-#include <vector>
-
-module cycle;
-
-import definitions;
-import effect;
-import renderables;
-import timer;
-import program;
-import input;
-import render;
+#include "cycle.h"
 using namespace mole_def;
 
 namespace MoleDemo

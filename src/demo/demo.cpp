@@ -1,9 +1,4 @@
-module;
-
-#include <string>
-#include <typeinfo>
-
-module demo;
+#include "demo.h"
 
 namespace MoleDemo
 {

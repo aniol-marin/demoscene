@@ -1,13 +1,4 @@
-module;
-
-#include <typeinfo>
-#include <functional>
-
-module editor_;
-
-import glfw_wrapper;
-import glad_wrapper;
-import imgui_wrapper;
+#include "editor.h"
 
 namespace mole::editor
 {

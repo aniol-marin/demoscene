@@ -1,7 +1,4 @@
-module input;
-
-import definitions;
-import sdl_wrapper;
+#include "input.h"
 
 namespace MoleDemo
 {

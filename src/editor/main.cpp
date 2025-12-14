@@ -1,14 +1,11 @@
+#include "editor.h"
+
 #include <iostream>
-#include <typeinfo>
-
-import editor_;
-
-using namespace mole::editor;
 
 int
 main()
 {
-    Context context{};
+    mole::editor::Context context{};
 
     std::cout << "[EDITOR] running\n";
     while (context.is_active())

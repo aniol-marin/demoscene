@@ -1,14 +1,5 @@
-module;
-
-#include <functional>
+#include "stars.h"
 #include <cstdlib>
-#include <cstdint>
-
-module stars;
-
-import definitions;
-import timer;
-import effect;
 
 namespace MoleDemo
 {

@@ -1,4 +1,4 @@
-module definitions;
+#include "definitions.h"
 
 namespace mole_def
 {

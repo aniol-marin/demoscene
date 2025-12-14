@@ -1,12 +1,6 @@
-module;
 
-#include "raudio.h"
 #include <iostream>
-#include <queue>
-
-module raudio_wrapper;
-
-import definitions;
+#include "raudio_wrapper.h"
 
 namespace raudio
 {

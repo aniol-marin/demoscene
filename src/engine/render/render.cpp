@@ -1,13 +1,5 @@
-module;
-
-#include <memory>
-
-module render;
-
-import definitions;
-import effect;
-import renderables;
-import sdl_wrapper;
+#include "render.h"
+#include "definitions.h"
 
 using namespace mole_def;
 

@@ -1,10 +1,7 @@
-module;
+#include "glfw_wrapper.h"
 
-#include "GLFW/glfw3.h"
-#include <string>
 #include <iostream>
-
-module glfw_wrapper;
+#include "GLFW/glfw3.h"
 
 namespace mole::graphics
 {

@@ -1,5 +1,4 @@
-import demo;
-import definitions;
+#include "demo.h"
 
 int
 main()

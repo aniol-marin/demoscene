@@ -4,19 +4,30 @@ include(CMakeParseArguments) # placeholder include since 3.5
 function(add_module_target MODULE_NAME)
 
 	add_library(${MODULE_NAME})
-	target_compile_features(${MODULE_NAME} PUBLIC cxx_std_20)
+	target_compile_features(${MODULE_NAME} PUBLIC cxx_std_17)
 	if(MoleDemo_Testing_EnableCoverage)
 		target_compile_options(${MODULE_NAME} PRIVATE -coverage)
 		target_link_options(${MODULE_NAME} PRIVATE -coverage)
 	endif()
 
 	target_sources(${MODULE_NAME} PUBLIC
-		FILE_SET CXX_MODULES
-		BASE_DIRS ${CMAKE_CURRENT_SOURCE_DIR}
-		FILES
-		interface.cpp
+		FILE_SET HEADERS
 	)
 
+
+endfunction()
+
+function(add_module_target_no_implementation NAME)
+
+	add_library(${MODULE_NAME} INTERFACE)
+	target_compile_features(${MODULE_NAME} INTERFACE cxx_std_17)
+	target_include_directories( ${NAME} INTERFACE
+		$<BUILD_INTERFACE:${CMAKE_CURRENT_SOURCE_DIR}>
+	)
+	if(MoleDemo_Testing_EnableCoverage)
+		target_compile_options(${MODULE_NAME} INTERFACE -coverage)
+		target_link_options(${MODULE_NAME} INTERFACE -coverage)
+	endif()
 endfunction()
 
 function(add_module NAME)
@@ -52,31 +63,23 @@ function(add_module NAME)
 	endif()
 
 	add_library(${NAME})
-	target_compile_features(${NAME} PUBLIC cxx_std_20)
+	target_compile_features(${NAME} PUBLIC cxx_std_17)
 	target_sources(${NAME}
 		PRIVATE ${A_IMPLEMENTATIONS}
 
 		PUBLIC FILE_SET CXX_MODULES
 		BASE_DIRS ${CMAKE_CURRENT_SOURCE_DIR}
 		FILES ${interface_name} ${A_INTERFACES}
+	)
 
-		PUBLIC FILE_SET HEADERS
-		BASE_DIRS ${CMAKE_CURRENT_SOURCE_DIR}
-		FILES ${A_HEADERS}
+	target_include_directories( ${MODULE_NAME} INTERFACE
+		$<BUILD_INTERFACE:${CMAKE_CURRENT_SOURCE_DIR}>
 	)
 
 	if(MoleDemo_Testing_EnableCoverage)
-		target_compile_options(${NAME} PRIVATE -coverage)
-		target_link_options(${NAME} PRIVATE -coverage)
+		target_compile_options(${MODULE_NAME} INTERFACE -coverage)
+		target_link_options(${MODULE_NAME} INTERFACE -coverage)
 	endif()
-
-
-endfunction()
-
-# TO DO deprecate in favor of add_module
-function(add_module_target_no_implementation NAME)
-
-	add_module_target(${NAME})
 
 endfunction()
 
@@ -91,5 +94,9 @@ function(add_executable_target EXECUTABLE_NAME)
 		target_compile_options(${EXECUTABLE_NAME} PRIVATE -coverage)
 		target_link_options(${EXECUTABLE_NAME} PRIVATE -coverage)
 	endif()
+
+	target_include_directories( ${EXECUTABLE_NAME} INTERFACE
+		$<BUILD_INTERFACE:${CMAKE_CURRENT_SOURCE_DIR}>
+	)
 
 endfunction()

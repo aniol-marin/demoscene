@@ -29,7 +29,6 @@ namespace MoleDemo
     };
 
     template<typename I, typename T, typename... TArguments>
-        requires std::convertible_to<T, I>
     class UniqueFactory : public Factory
     {
         std::vector<std::unique_ptr<T>> instances;
@@ -91,7 +90,6 @@ namespace MoleDemo
         }
 
         template<typename TInterface, typename TConcrete, typename... TArguments>
-            requires std::convertible_to<TConcrete, TInterface>
         void BindUnique()
         {
             id_t id{ typeid(TInterface).hash_code() };
@@ -99,7 +97,6 @@ namespace MoleDemo
         }
 
         template<typename TInterface, typename TConcrete, typename... TArguments>
-            requires std::convertible_to<TConcrete, TInterface>
         void BindUnique(std::function<TConcrete()>&& functor)
         {
             id_t id{ typeid(TInterface).hash_code() };
@@ -119,7 +116,6 @@ namespace MoleDemo
         }
 
         template<typename TInterface, typename TConcrete, typename... TArguments>
-            requires std::convertible_to<TConcrete, TInterface>
         void BindShared()
         {
             id_t id{ typeid(TInterface).hash_code() };
@@ -127,7 +123,6 @@ namespace MoleDemo
         }
 
         template<typename TInterface, typename TConcrete, typename... TArguments>
-            requires std::convertible_to<TConcrete, TInterface>
         void BindShared(std::function<TConcrete()>&& functor)
         {
             id_t id{ typeid(TInterface).hash_code() };

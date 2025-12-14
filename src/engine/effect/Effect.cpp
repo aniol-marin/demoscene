@@ -1,7 +1,4 @@
-module effect;
-
-import definitions;
-import timer;
+#include "Effect.h"
 
 namespace MoleDemo
 {

@@ -4,21 +4,14 @@ Expected policies:
 - [CMP0076] introduced in 3.13
 Expected features:
 - [FILE SETS] introduced in 3.23
-- [CXX MODULES] introduced in 3.30
-Expected experimental features:
-- [IMPORT STD] introduced in 3.30, last breaking change: 4.0.3
-- [EXPORT PACKAGE DEPENDENCIES] introduced in 3.29, last breaking change: 4.1.0-rc4
 ]]#
-cmake_minimum_required(VERSION 4.1.0..4.2.0)
+cmake_minimum_required(VERSION 3.13)
 
-# Pre-project experimental requirements
-set(CMAKE_EXPERIMENTAL_EXPORT_PACKAGE_DEPENDENCIES "1942b4fa-b2c5-4546-9385-83f254070067")
 # Pre-project definition compilation requirements
-set(CMAKE_CXX_STANDARD 20)
+set(CMAKE_CXX_STANDARD 17)
 set(CMAKE_CXX_STANDARD_REQUIRED ON)
-set(CMAKE_CXX_SCAN_FOR_MODULES ON)
 set(CMAKE_CXX_EXTENSION OFF)
-set(CMAKE_COMPILE_WARNING_AS_ERROR ON)
+set(CMAKE_COMPILE_WARNING_AS_ERROR OFF)
 
 # Project definition
 project(MoleDemoScene2025
@@ -37,16 +30,13 @@ include(CTest)
 
 # Early check for project requirements
 #[[ Compiler feature requirements and compiler adoption
-- [CPP Modules Scanning]
-	- g++: 14.1
-	- clang++: 17.0
-	- MSVC: 19.34
-- [c++20 support]
-	- g++: 8.1
-	- clang++: 10.0
-	- MSVC: 19.30
+- [c++17 support]
+	- g++: 5.1
+	- clang++: 5.0
+	- MSVC: 19.0
 ]]#
-set(GCC_EXPERTED_VERSION 14.1)
+set(GCC_EXPECTED_VERSION 5.0)
+set(MSVC_EXPECTED_VERSION 19.0)
 if(${CMAKE_CXX_COMPILER_ID} STREQUAL "GNU")
 	if(CMAKE_CXX_COMPILER_VERSION VERSION_LESS GCC_EXPECTED_VERSION)
 		message(FATAL_ERROR "
@@ -54,11 +44,17 @@ if(${CMAKE_CXX_COMPILER_ID} STREQUAL "GNU")
 		found:    ${CMAKE_CXX_COMPILER_ID} ${CMAKE_CXX_COMPILER_VERSION}
 		required: ${CMAKE_CXX_COMPILER_ID} ${GCC_EXPECTED_VERSION}")
 	endif()
+elseif (${CMAKE_CXX_COMPILER_ID} STREQUAL MSVC)
+	message(WARNING "
+		Support with the current compiler is still highly experimental.
+		found:    ${CMAKE_CXX_COMPILER_ID} ${CMAKE_CXX_COMPILER_VERSION}
+		required: ${CMAKE_CXX_COMPILER_ID} ${GCC_EXPECTED_VERSION}")
 else()
 	#[[ TODO: add support for the right version of clang and so on ]]#
 	message(FATAL_ERROR "
 	this version of the project requires one of the following c++ compilers:
 	- GNU  version ${GCC_EXPECTED_VERSION}
+	- MSVC version ${MSVC_EXPECTED_VERSION}
 	used compiler instead:
 	- ${CMAKE_CXX_COMPILER_ID} version ${CMAKE_CXX_COMPILER_VERSION}")
 endif()

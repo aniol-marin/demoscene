@@ -1,7 +1,4 @@
-module renderables;
-
-import definitions;
-import effect;
+#include "renderables.h"
 
 namespace MoleDemo
 {

@@ -1,11 +1,6 @@
-module;
-
-#include <chrono>
-#include <thread>
+#include "timer.h"
 #include <iostream>
-#include <cstdint>
-
-module timer;
+#include <thread>
 
 namespace MoleDemo
 {

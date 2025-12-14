@@ -1,9 +1,4 @@
-module;
-
-#include <string_view>
-#include <vector>
-
-module serialization;
+#include "pugi.h"
 
 namespace mole::pugi_wrapper
 {

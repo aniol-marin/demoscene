@@ -1,8 +1,4 @@
-module; 
-
-#include <string_view>
-
-module sound;
+#include "sound.h"
 
 using namespace mole_def;
 

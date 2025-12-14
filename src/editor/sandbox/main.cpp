@@ -1,9 +1,8 @@
-#include <string>
-#include <iostream>
-#include <typeinfo>
+#include "engine.h"
+#include "stars.h"
 
-import engine;
-import stars;
+#include <iostream>
+#include <sstream>
 
 using namespace MoleDemo;
 using namespace mole_def;
