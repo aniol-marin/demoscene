@@ -1,6 +1,5 @@
 export module imgui_wrapper;
 
-import std;
 import glfw_wrapper;
 
 namespace mole::ui

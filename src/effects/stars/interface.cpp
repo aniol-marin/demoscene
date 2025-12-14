@@ -1,6 +1,10 @@
+module;
+
+#include <vector>
+#include <functional>
+
 export module stars;
 
-import std.compat;
 import definitions;
 import timer;
 import effect;

@@ -1,6 +1,5 @@
 module effect;
 
-import std;
 import definitions;
 import timer;
 

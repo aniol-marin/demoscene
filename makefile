@@ -252,6 +252,7 @@ $(BINARY_PATH)/$(EDITOR_BINARY_NAME):
 		-e glad[^_]  \
 		-e imgui[^_]  \
 		-e ^glfw[^_] -e update_mappings \
+		-e test[^\-] \
 		| tr -d : | awk '{ print $$1; }'
 
 $(CACHE):

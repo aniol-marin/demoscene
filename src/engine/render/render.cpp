@@ -1,6 +1,9 @@
+module;
+
+#include <memory>
+
 module render;
 
-import std;
 import definitions;
 import effect;
 import renderables;

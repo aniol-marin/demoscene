@@ -1,6 +1,6 @@
 #include<catch2/catch_test_macros.hpp>
+#include <functional>
 
-import std;
 import sdl_wrapper;
 import definitions;
 

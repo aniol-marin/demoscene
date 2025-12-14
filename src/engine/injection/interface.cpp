@@ -1,7 +1,13 @@
-export module injection;
+module;
 
-import std;
-import std.compat;
+#include <functional>
+#include <map>
+#include <cstdint>
+#include <any>
+#include <memory>
+#include <typeinfo>
+
+export module injection;
 
 namespace MoleDemo
 {

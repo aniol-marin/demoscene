@@ -1,5 +1,13 @@
+module;
+
+#include <vector>
+#include <memory>
+#include <string_view>
+#include <exception>
+#include <stdexcept>
+#include <algorithm>
+
 module timeline;
-import std;
 import definitions;
 import effect;
 import renderables;

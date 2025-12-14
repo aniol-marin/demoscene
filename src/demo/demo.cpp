@@ -1,3 +1,8 @@
+module;
+
+#include <string>
+#include <typeinfo>
+
 module demo;
 
 namespace MoleDemo

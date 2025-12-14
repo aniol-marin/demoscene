@@ -1,6 +1,11 @@
+module;
+
+#include <memory>
+#include <map>
+#include <cstdint>
+
 export module render;
 
-import std;
 import definitions;
 import effect;
 import renderables;

@@ -1,6 +1,9 @@
+module;
+
+#include <vector>
+
 module cycle;
 
-import std;
 import definitions;
 import effect;
 import renderables;

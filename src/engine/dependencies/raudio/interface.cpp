@@ -1,10 +1,10 @@
 module;
 
 #include "raudio.h"
+#include <string_view>
 
 export module raudio_wrapper;
 
-import std;
 import definitions;
 
 namespace raudio

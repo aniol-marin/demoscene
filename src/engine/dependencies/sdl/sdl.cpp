@@ -1,10 +1,10 @@
 module;
 
 #include "SDL2/SDL.h"
+#include <exception>
 
 module sdl_wrapper;
 
-import std;
 import definitions;
 
 using namespace mole_def;

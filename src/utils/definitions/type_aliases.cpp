@@ -1,6 +1,8 @@
-export module definitions:type_aliases;
+module;
 
-import std;
+#include <cstdint>
+
+export module definitions:type_aliases;
 
 export namespace mole_def
 {

@@ -1,10 +1,12 @@
 module;
 
+#include <map>
+#include <filesystem>
+#include <vector>
+
 #include "pugixml.hpp"
 
 module serialization;
-
-import std;
 
 namespace mole::pugi_wrapper
 {

@@ -1,8 +1,13 @@
+module;
+
+#include <vector>
+#include <string_view>
+#include <functional>
+#include <memory>
+
 export module definitions;
 
 export import :type_aliases;
-
-import std;
 
 export namespace mole_def
 {

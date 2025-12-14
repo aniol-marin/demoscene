@@ -1,6 +1,11 @@
+module;
+
+#include <functional>
+#include <cstdlib>
+#include <cstdint>
+
 module stars;
 
-import std.compat;
 import definitions;
 import timer;
 import effect;
@@ -78,7 +83,7 @@ namespace MoleDemo
 
     void Stars::Load()
     {
-        srand(0);
+	    std::srand(0);
     }
 
     void Stars::Unload() {}

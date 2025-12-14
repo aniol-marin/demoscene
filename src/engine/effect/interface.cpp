@@ -1,6 +1,9 @@
+module;
+
+#include <vector>
+
 export module effect;
 
-import std;
 export import definitions;
 export import timer;
 

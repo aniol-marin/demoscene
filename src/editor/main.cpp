@@ -1,5 +1,7 @@
+#include <iostream>
+#include <typeinfo>
+
 import editor_;
-import std;
 
 using namespace mole::editor;
 

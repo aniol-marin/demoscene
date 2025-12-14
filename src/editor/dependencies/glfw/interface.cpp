@@ -1,10 +1,15 @@
 module;
 
 #include "GLFW/glfw3.h"
+#include <functional>
+#include <string>
+#include <string_view>
+#include <map>
+#include <cstdint>
+#include <typeinfo>
 
 export module glfw_wrapper;
 
-import std;
 import definitions;
 
 using callback = std::function<void(void)>;

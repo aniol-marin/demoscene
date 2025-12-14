@@ -1,4 +1,7 @@
-import std;
+#include <string>
+#include <iostream>
+#include <typeinfo>
+
 import engine;
 import stars;
 

@@ -1,6 +1,10 @@
+module;
+
+#include <typeinfo>
+#include <functional>
+
 module editor_;
 
-import std;
 import glfw_wrapper;
 import glad_wrapper;
 import imgui_wrapper;

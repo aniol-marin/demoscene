@@ -1,6 +1,8 @@
-module sound;
+module; 
 
-import std;
+#include <string_view>
+
+module sound;
 
 using namespace mole_def;
 

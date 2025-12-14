@@ -2,10 +2,10 @@ module;
 
 #define GLAD_IMPLEMENTATION
 #include "glad/gl.h"
+#include <vector>
 
 export module glad_wrapper;
 
-import std;
 import glfw_wrapper;
 
 namespace mole::graphics

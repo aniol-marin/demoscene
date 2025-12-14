@@ -12,11 +12,9 @@ Expected experimental features:
 cmake_minimum_required(VERSION 4.1.0..4.2.0)
 
 # Pre-project experimental requirements
-set(CMAKE_EXPERIMENTAL_CXX_IMPORT_STD "d0edc3af-4c50-42ea-a356-e2862fe7a444")
 set(CMAKE_EXPERIMENTAL_EXPORT_PACKAGE_DEPENDENCIES "1942b4fa-b2c5-4546-9385-83f254070067")
 # Pre-project definition compilation requirements
-set(CMAKE_CXX_STANDARD 23)
-set(CMAKE_CXX_MODULE_STD ON)
+set(CMAKE_CXX_STANDARD 20)
 set(CMAKE_CXX_STANDARD_REQUIRED ON)
 set(CMAKE_CXX_SCAN_FOR_MODULES ON)
 set(CMAKE_CXX_EXTENSION OFF)
@@ -43,10 +41,10 @@ include(CTest)
 	- g++: 14.1
 	- clang++: 17.0
 	- MSVC: 19.34
-- [c++23 current draft support]
-	- g++: 11.1
-	- clang++: 13.0
-	- MSVC: 19.44
+- [c++20 support]
+	- g++: 8.1
+	- clang++: 10.0
+	- MSVC: 19.30
 ]]#
 set(GCC_EXPERTED_VERSION 14.1)
 if(${CMAKE_CXX_COMPILER_ID} STREQUAL "GNU")

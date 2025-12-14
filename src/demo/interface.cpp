@@ -1,6 +1,10 @@
+module;
+
+#include <string>
+#include <vector>
+
 export module demo;
 
-import std;
 import engine;
 
 using namespace mole_def;

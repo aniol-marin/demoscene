@@ -1,6 +1,9 @@
+module; 
+
+#include <string_view>
+
 export module sound;
 
-import std;
 import definitions;
 import raudio_wrapper;
 

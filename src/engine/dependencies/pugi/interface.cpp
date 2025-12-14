@@ -1,6 +1,10 @@
-export module serialization;
+module;
 
-import std;
+#include <vector>
+#include <string_view>
+#include <filesystem>
+
+export module serialization;
 
 namespace mole::pugi_wrapper
 {

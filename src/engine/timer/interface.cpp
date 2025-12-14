@@ -1,6 +1,12 @@
+module;
+
+#include <chrono>
+#include <thread>
+#include <iostream>
+#include <cstdint>
+
 export module timer;
 
-import std.compat;
 import definitions;
 
 namespace MoleDemo

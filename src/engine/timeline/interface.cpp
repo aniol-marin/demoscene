@@ -1,6 +1,16 @@
+module;
+
+#include <vector>
+#include <memory>
+#include <string_view>
+#include <exception>
+#include <stdexcept>
+#include <algorithm>
+#include <queue>
+#include <functional>
+
 export module timeline;
 
-import std;
 import definitions;
 import effect;
 import renderables;
