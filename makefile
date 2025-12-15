@@ -89,7 +89,15 @@ pack:
 
 report-experimental:
 	make .call_log MESSAGE="reporting to Experimental CDash board"
-	make .report-experimental BUILD_PATH=$(call current_folder)/build-experimental
+	make .report BUILD_PATH=$(call current_folder)/build-experimental DASHBOARD=Experimental
+
+report-continuous:
+	make .call_log MESSAGE="reporting to Experimental CDash board"
+	make .report BUILD_PATH=$(call current_folder)/build-experimental DASHBOARD=Continuous
+
+report-cpp%:
+	make .call_log MESSAGE="reporting to Experimental CDash board"
+	make .report BUILD_PATH=$(call current_folder)/build-experimental DASHBOARD=cpp$*
 
 check-test: generate
 	make .call_log MESSAGE="testing CTest tests"
@@ -145,7 +153,7 @@ test: generate
 	make .call_log MESSAGE="testing all CTest targets"
 	$(CMAKE_PATH) --build $(BUILD_PATH) --target test
 
-.report-experimental:
+.report:
 	if ! [ -f $(CACHE) ]; then \
 		make $(CACHE) CMAKE_PRESET=builder; \
 	fi
@@ -154,19 +162,7 @@ test: generate
 		-DCTEST_BINARY_DIRECTORY=$(BUILD_PATH) \
 		-DCTEST_CMAKE_GENERATOR=Ninja \
 		-DCTEST_MEMORYCHECK_COMMAND=$(MEMCHECK_PATH) \
-		-DDASBOARD=Experimental \
-		-S ctest/full-report.cmake
-
-report-continuous:
-	if ! [ -f $(CACHE) ]; then \
-		make $(CACHE) CMAKE_PRESET=builder; \
-	fi
-	ctest \
-		-DCTEST_SOURCE_DIRECTORY=$(call current_folder) \
-		-DCTEST_BINARY_DIRECTORY=$(BUILD_PATH) \
-		-DCTEST_CMAKE_GENERATOR=Ninja \
-		-DCTEST_MEMORYCHECK_COMMAND=$(MEMCHECK_PATH) \
-		-DDASHBOARD=Continuous \
+		-DDASHBOARD=$(DASHBOARD) \
 		-S ctest/full-report.cmake
 
 .PHONY: run-
