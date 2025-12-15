@@ -21,7 +21,7 @@ struct MoleDemo::Layer : public Renderable
     Effect* const effect;
 
     Layer(BlendMode mode, Effect* effect);
-    Layer(const Layer&) = delete;
+    Layer(const Layer&) = delete ("a single unique instance  is allowed, move it instead");
     Layer(Layer&&) = default;
     ~Layer() = default;
 
@@ -43,9 +43,9 @@ protected:
     Renderable* background{};
     Renderable* foreground{};
 
-    Transition() = delete;
+    Transition() = delete ("dependency injection is required for the invariant");
     explicit Transition(Timestamp time, TransitionType type);
-    Transition(const Transition&) = delete;
+    Transition(const Transition&) = delete ("a single unique instance is allowed, move it instead");
     Transition(Transition&&) = default;
 
     permille elapsed() const;

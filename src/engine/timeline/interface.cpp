@@ -38,7 +38,7 @@ namespace MoleDemo
         Renderable* const background;
         Renderable* const foreground;
 
-        Event() = delete;
+        Event() = delete ("dependency injection is required for the invariant");
         Event(Timestamp time, Renderables renderables);
         Event(Timestamp time, Renderable* background, Renderable* foreground, TransitionType transitionType);
         ~Event() = default;
@@ -104,14 +104,14 @@ namespace MoleDemo
         void Load(std::string_view content) override;
         void Unload() override; // TO DO simplify
     public:
-        Timeline() = delete;
+        Timeline() = delete ("dependency injection is required for the invariant");
         Timeline(Timer& timer,
                  Program& program,
                  Cycle& cycle,
                  SoundManager& sound,
                  Screen& screen,
                  std::string_view project);
-        Timeline(const Timeline&) = delete;
+        Timeline(const Timeline&) = delete ("a single instance is allowed, move it instead");
         Timeline(Timeline&&) = default;
         ~Timeline() = default;
 

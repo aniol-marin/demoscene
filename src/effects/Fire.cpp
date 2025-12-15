@@ -1,6 +1,6 @@
 export module fire;
 
-import std.compat;
+import std;
 import effect;
 import definitions;
 import timer;

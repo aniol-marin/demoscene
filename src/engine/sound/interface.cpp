@@ -21,7 +21,7 @@ namespace MoleDemo
 
     public:
         SoundManager() = default;
-        SoundManager(const SoundManager&) = delete;
+        SoundManager(const SoundManager&) = delete ("a single instance is allowed, move it instead");
         SoundManager(SoundManager&&) = default;
         ~SoundManager() = default;
 

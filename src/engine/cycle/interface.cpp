@@ -24,9 +24,9 @@ class MoleDemo::Cycle
     RenderManager& renderManager;
 
 public:
-    Cycle() = delete;
+    Cycle() = delete ("dependency injection is required for the invariant");
     Cycle(Program& program, Timer& timer, InputManager& input, RenderManager& render);
-    Cycle(const Cycle&) = delete;
+    Cycle(const Cycle&) = delete ("a single instance is allowed, move it instead");
     Cycle(Cycle&&) = default;
     ~Cycle() = default;
 

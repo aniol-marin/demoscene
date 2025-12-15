@@ -15,9 +15,9 @@ namespace mole::ui
         bool show_demo_window = true;
         bool show_another_window = false;
 
-        UIContext() = delete;
+        UIContext() = delete ("dependency injection is required for the invariant");
         UIContext(mole::graphics::WindowContext& window);
-        UIContext(const UIContext&&) = delete;
+        UIContext(const UIContext&&) = delete ("a single instance is allowed, move it instead");
         UIContext(UIContext&&) = default;
 
         void RenderUI();

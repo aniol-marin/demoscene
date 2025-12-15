@@ -33,7 +33,7 @@ class MoleDemo::Timer
 
 public:
     Timer();
-    Timer(const Timer&) = delete;
+    Timer(const Timer&) = delete ("a single instance is allowed, move it instead");
     Timer(Timer&&) = default;
     ~Timer() = default;
 

@@ -19,9 +19,9 @@ namespace mole::pugi_wrapper
         const tree& m_tree;
 
     public:
-        generic_node() = delete;
+        generic_node() = delete ("dependency injection is required for the invariant");
         generic_node(id_t a_id, const tree& a_tree);
-        generic_node(const generic_node&) = delete;
+        generic_node(const generic_node&) = delete ("a single instance is allowed, move it instead");
         generic_node(generic_node&&) = default;
         virtual ~generic_node() = default;
 
@@ -35,9 +35,9 @@ namespace mole::pugi_wrapper
 
     struct tree
     {
-        tree() = delete;
+        tree() = delete ("dependency injection is required for the invariant");
         explicit tree(std::filesystem::path path);
-        tree(const tree&) = delete;
+        tree(const tree&) = delete ("a single instance is allowed, move it instead");
         tree(tree&&) = default;
         ~tree();
 

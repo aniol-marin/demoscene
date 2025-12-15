@@ -21,7 +21,7 @@ namespace SDL
         bool locked{ false };
 
         SDLManager() = default;
-        SDLManager(const SDLManager&) = delete;
+        SDLManager(const SDLManager&) = delete ("a single instance is allowed, move it instead");
         SDLManager(SDLManager&&) = default;
         ~SDLManager() = default;
 

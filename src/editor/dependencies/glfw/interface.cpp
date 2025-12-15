@@ -43,9 +43,9 @@ namespace mole::graphics
         const std::string_view name;
         proc_address* address;
 
-        WindowContext() = delete;
+        WindowContext() = delete ("dependency injection is required for the invariant");
         WindowContext(window_size&& size, std::string_view name);
-        WindowContext(const WindowContext&) = delete;
+        WindowContext(const WindowContext&) = delete ("a single instance is allowed, move it instead");
         WindowContext(WindowContext&&) = default;
         ~WindowContext();
 

@@ -92,7 +92,7 @@ export namespace mole_def
         const seconds start;
         const milliseconds duration;
 
-        Timestamp() = delete;
+        Timestamp() = delete ("no valid default allowed");
         Timestamp(seconds start, milliseconds duration);
         ~Timestamp() = default;
     };

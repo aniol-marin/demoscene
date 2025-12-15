@@ -21,7 +21,7 @@ namespace mole::editor
 
     public:
         Context();
-        Context(const Context&) = delete;
+        Context(const Context&) = delete ("a single instance is allowed, move it instead");
         Context(Context&&) = default;
 
         [[nodiscard]] bool is_active();

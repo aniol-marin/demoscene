@@ -18,7 +18,7 @@ namespace raudio
     struct AudioManager
     {
         AudioManager();
-        AudioManager(const AudioManager&) = delete;
+        AudioManager(const AudioManager&) = delete ("a single instance is allowed, move it instead");
         AudioManager(AudioManager&&) = default;
         ~AudioManager();
 

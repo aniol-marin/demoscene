@@ -18,7 +18,7 @@ namespace MoleDemo
 
     public:
         Program(const Screen& screen);
-        Program(const Program&) = delete;
+        Program(const Program&) = delete ("a single instance is allowed, move it instead");
         Program(Program&&) = default;
         ~Program() = default;
 

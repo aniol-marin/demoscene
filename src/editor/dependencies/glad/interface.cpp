@@ -42,9 +42,9 @@ namespace mole::graphics
         WindowContext& window;
         std::vector<DrawCall> drawCalls;
 
-        RenderContext() = delete;
+        RenderContext() = delete ("window context is required");
         RenderContext(WindowContext& window);
-        RenderContext(const RenderContext&) = delete;
+        RenderContext(const RenderContext&) = delete ("a single instance is allowed, move it instead");
         RenderContext(RenderContext&& tmp);
         ~RenderContext() = default;
 

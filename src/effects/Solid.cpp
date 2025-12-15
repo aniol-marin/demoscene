@@ -1,6 +1,6 @@
 export module solid;
 
-import std.compat;
+import std;
 import definitions;
 import timer;
 import effect;
@@ -82,9 +82,9 @@ struct mole::pugi_wrapper::node<MoleDemo::Solid>
 {
     MoleDemo::Solid data;
 
-    node() = delete;
+    node() = delete ("dependency injection is required for the invariant");
     node(const pugi::xml_node& node, MoleDemo::Timer* timer, Screen* screen);
-    node(const node&) = delete;
+    node(const node&) = delete ("a single instance is allowed, move it instead");
     node(node&&) = default;
     ~node() = default;
 

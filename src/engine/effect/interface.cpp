@@ -32,7 +32,7 @@ protected:
     void ClearBuffer(rgbaColor color, PixelBuffer& pixelBuffer);
 
 public:
-    Effect() = delete;
+    Effect() = delete ("cannot instantiate an abstract type, choose a concrete implementation");
     virtual ~Effect() = default;
     virtual rgbaColor GetPixel(Point2D p);
     virtual rgbaColor GetPixel(index_t index);

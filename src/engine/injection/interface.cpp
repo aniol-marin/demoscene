@@ -69,8 +69,8 @@ namespace MoleDemo
     public:
         Container() = default;
         ~Container() = default;
-        Container(const Container&) = delete;
-        Container(Container&&) = delete;
+        Container(const Container&) = delete ("containers are meant to be temporary. Create a new one instead");
+        Container(Container&&) = delete ("containers are meant to be temporary. Create a new one instead");
 
         template<typename T>
         void BindUnique()

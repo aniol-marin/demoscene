@@ -86,7 +86,7 @@ namespace MoleDemo
     class RenderManager : public Initializable
     {
     public:
-        RenderManager() = delete;
+        RenderManager() = delete ("dependency injection is required for the invariant");
         RenderManager(Screen& screen, SDL::SDLManager& sdl);
         RenderManager(const RenderManager&) = default;
         RenderManager(RenderManager&&) = default;
