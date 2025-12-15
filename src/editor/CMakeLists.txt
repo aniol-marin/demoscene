@@ -20,16 +20,6 @@ target_link_libraries(${EXECUTABLE_NAME} PUBLIC
 	editor_
 )
 
-
-#[[ TODO create executable cmake script
-in order to encapsulate coverate logic
-]]#
-if(EnableTesting)
-	target_compile_options(${EXECUTABLE_NAME} PRIVATE
-		-coverage
-	)
-endif()
-
 set(MODULE_NAME editor_)
 add_module_target(${MODULE_NAME})
 target_sources(${EXECUTABLE_NAME} PRIVATE

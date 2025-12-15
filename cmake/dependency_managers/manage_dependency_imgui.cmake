@@ -26,17 +26,13 @@ function(manage_dependency_imgui)
 		)
 		target_include_directories(imgui PUBLIC
 			$<BUILD_INTERFACE:${imgui_SOURCE_DIR}>
-		)
-		target_include_directories(imgui PUBLIC
 			$<BUILD_INTERFACE:${imgui_SOURCE_DIR}>/misc/cpp
-		)
-		target_include_directories(imgui PUBLIC
 			$<BUILD_INTERFACE:${imgui_SOURCE_DIR}/backends>
 			$<INSTALL_INTERFACE:imgui>
 		)
-		target_link_libraries(imgui
-			PRIVATE glfw
-			PRIVATE glfw_wrapper
+		target_link_libraries(imgui PUBLIC
+			glfw
+			glfw_wrapper
 		)
 
 		mark_as_advanced(FORCE

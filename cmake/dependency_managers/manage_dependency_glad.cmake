@@ -1,6 +1,8 @@
 function(manage_dependency_glad)
 
-	find_package(glad)
+	if(MoleDemo_ForceFetchedDependencies)
+		find_package(glad QUIET)
+	endif()
 
 	if(NOT glad_FOUND)
 		FetchContent_Declare(
