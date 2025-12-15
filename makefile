@@ -11,17 +11,17 @@ COMPILER_PATH := g++
 listify = $(subst ., ,$(1))
 current_folder = $(shell echo $$PWD)
 RUNTIME = export LD_LIBRARY_PATH=/usr/local/lib64/:LD_LIBRARY_PATH;
-	CMAKE_ROOT_PATH := $(call current_folder)
-	BUILD_PATH := $(call current_folder)/build/$(BUILD_TYPE)
-	BINARY_PATH := $(call current_folder)/bin
-	LIBRARY_PATH := $(call current_folder)/lib
-	EXTERNALS_PATH := $(call current_folder)/external
-	EXPORT_PATH := $(call current_folder)/export
-	TEMP_PATH := /tmp
-	CACHE := $(BUILD_PATH)/CMakeCache.txt
-	STATUS_FOLDER := /tmp/$(BUILD_PATH)
-	STATUS_OUTPUT := $(STATUS_FOLDER)/status_output
-	TEST_PATH := $(BINARY_PATH)/test
+CMAKE_ROOT_PATH := $(call current_folder)
+BUILD_PATH := $(call current_folder)/build/$(BUILD_TYPE)
+BINARY_PATH := $(call current_folder)/bin
+LIBRARY_PATH := $(call current_folder)/lib
+EXTERNALS_PATH := $(call current_folder)/external
+EXPORT_PATH := $(call current_folder)/export
+TEMP_PATH := /tmp
+CACHE := $(BUILD_PATH)/CMakeCache.txt
+STATUS_FOLDER := /tmp/$(BUILD_PATH)
+STATUS_OUTPUT := $(STATUS_FOLDER)/status_output
+TEST_PATH := $(BINARY_PATH)/test
 
 # Default action: run demo for final users
 main:
@@ -88,11 +88,7 @@ pack:
 
 report-experimental:
 	make .call_log MESSAGE="reporting to Experimental CDash board"
-	ctest \
-		-DCTEST_SOURCE_DIRECTORY=$(call current_folder) \
-		-DCTEST_BINARY_DIRECTORY=$(call current_folder)/build-experimental/ \
-		-DCTEST_CMAKE_GENERATOR=Ninja \
-		-S ctest/full-report.cmake
+	make .report-experimental BUILD_PATH=$(call current_folder)/build-experimental
 
 check-test: generate
 	make .call_log MESSAGE="testing CTest tests"
@@ -152,7 +148,11 @@ test: generate
 	if ! [ -f $(CACHE) ]; then \
 		make $(CACHE) CMAKE_PRESET=builder; \
 	fi
-	make build-Experimental
+	ctest \
+		-DCTEST_SOURCE_DIRECTORY=$(call current_folder) \
+		-DCTEST_BINARY_DIRECTORY=$(BUILD_PATH) \
+		-DCTEST_CMAKE_GENERATOR=Ninja \
+		-S ctest/full-report.cmake
 
 .PHONY: run-
 run-%: $(CACHE)
