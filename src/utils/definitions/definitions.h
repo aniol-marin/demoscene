@@ -4,7 +4,6 @@
 #include <cstdint>
 #include <functional>
 #include <memory>
-#include <string_view>
 #include <vector>
 
 namespace mole_def
@@ -186,7 +185,7 @@ namespace mole_def
         Screen& operator=(Screen&&) = default;
 
         const pixel_count GetPixelCount() const;
-        constexpr index_t GetIndex(Point2D point) const;
+        index_t GetIndex(Point2D point) const;
     };
 
     /*
@@ -203,7 +202,7 @@ namespace mole_def
 
     struct Loadable
     {
-        virtual void Load(std::string_view source) = 0;
+        virtual void Load(const std::string& source) = 0;
         virtual void Unload() = 0;
     };
 

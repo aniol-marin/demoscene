@@ -17,7 +17,7 @@ set(CMAKE_COMPILE_WARNING_AS_ERROR OFF)
 project(MoleDemoScene2025
 	VERSION 0.0.0
 	DESCRIPTION "A CPU based rendering creation"
-	LANGUAGES CXX
+	LANGUAGES CXX C
 )
 enable_testing()
 include(CTest)
