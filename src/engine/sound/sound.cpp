@@ -13,7 +13,7 @@ namespace MoleDemo
         m.Finalize();
     }
 
-    void MoleDemo::SoundManager::Load(std::string_view file)
+    void MoleDemo::SoundManager::Load(const std::string& file)
     {
         m.Load("resources/molelofi.mp3");
     }
