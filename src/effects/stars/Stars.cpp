@@ -1,6 +1,6 @@
 module stars;
 
-import std.compat;
+import std;
 import definitions;
 import timer;
 import effect;

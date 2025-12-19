@@ -25,7 +25,7 @@ class MoleDemo::Plasma
     long src1, src2;
     Color palette[256];
 
-    void buildPalette(uint16_t time);
+    void buildPalette(std::uint16_t time);
 
 public:
     Plasma(Timer* timer, Screen* screen);
@@ -85,9 +85,9 @@ namespace MoleDemo
     void Plasma::Cache(StencilBuffer& mask)
     {
         int indexColor;
-        for (uint16_t y = 0; y < screen->h; y++)
+        for (std::uint16_t y = 0; y < screen->h; y++)
         {
-            for (uint16_t x = 0; x < screen->w; x++)
+            for (std::uint16_t x = 0; x < screen->w; x++)
             {
 
                 indexColor = (plasma1[src1 % plasma1.size()] + plasma2[src2 % plasma2.size()]) % 256;
@@ -102,7 +102,7 @@ namespace MoleDemo
         }
     }
 
-    void Plasma::buildPalette(uint16_t time)
+    void Plasma::buildPalette(std::uint16_t time)
     {
         for (int i = 0; i < 256; i++)
         {

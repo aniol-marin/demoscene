@@ -116,7 +116,7 @@ namespace SDL
             throw std::exception{};
         }
 
-        return *reinterpret_cast<uint32_t*>((uint8_t*) surface->pixels + y * surface->pitch +
+        return *reinterpret_cast<std::uint32_t*>((std::uint8_t*) surface->pixels + y * surface->pitch +
                                             x * surface->format->BytesPerPixel);
     }
 
