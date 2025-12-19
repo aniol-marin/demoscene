@@ -18,17 +18,12 @@ target_sources(${EXECUTABLE_NAME} PUBLIC
 )
 target_link_libraries(${EXECUTABLE_NAME} PUBLIC
 	editor_
+	# TO DO fix implementation depenency leakage
+	imgui
+	glfw_wrapper
+	glad_wrapper
+	imgui_wrapper
 )
-
-
-#[[ TODO create executable cmake script
-in order to encapsulate coverate logic
-]]#
-if(EnableTesting)
-	target_compile_options(${EXECUTABLE_NAME} PRIVATE
-		-coverage
-	)
-endif()
 
 set(MODULE_NAME editor_)
 add_module_target(${MODULE_NAME})

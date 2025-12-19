@@ -28,7 +28,7 @@ class MoleDemo::Tunel
 
     permille du, dv, speedU, speedV;
 
-    void buildPalette(uint16_t time);
+    void buildPalette(std::uint16_t time);
 
 public:
     Tunel(Timer* timer, Screen* screen);
@@ -159,7 +159,7 @@ namespace MoleDemo
         }
     }
 
-    void Tunel::buildPalette(uint16_t time) {}
+    void Tunel::buildPalette(std::uint16_t time) {}
 
     void Tunel::AssignTexture(std::unique_ptr<Texturable> texture, Id id = 0)
     {

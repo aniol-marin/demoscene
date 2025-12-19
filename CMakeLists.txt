@@ -4,8 +4,10 @@ Expected policies:
 - [CMP0076] introduced in 3.13
 Expected features:
 - [FILE SETS] introduced in 3.23
+Expected experimental features:
+-
 ]]#
-cmake_minimum_required(VERSION 3.13)
+cmake_minimum_required(VERSION 3.13..4.2.1)
 
 # Pre-project definition compilation requirements
 set(CMAKE_CXX_STANDARD 17)
@@ -17,7 +19,7 @@ set(CMAKE_COMPILE_WARNING_AS_ERROR OFF)
 project(MoleDemoScene2025
 	VERSION 0.0.0
 	DESCRIPTION "A CPU based rendering creation"
-	LANGUAGES CXX
+	LANGUAGES CXX C
 )
 enable_testing()
 include(CTest)
@@ -35,10 +37,10 @@ include(CTest)
 	- clang++: 5.0
 	- MSVC: 19.0
 ]]#
-set(GCC_EXPECTED_VERSION 5.0)
+set(GCC_EXPECTED_VERSION 5.1)
 set(MSVC_EXPECTED_VERSION 19.0)
 if(${CMAKE_CXX_COMPILER_ID} STREQUAL "GNU")
-	if(CMAKE_CXX_COMPILER_VERSION VERSION_LESS GCC_EXPECTED_VERSION)
+	if(${CMAKE_CXX_COMPILER_VERSION} VERSION_LESS ${GCC_EXPECTED_VERSION})
 		message(FATAL_ERROR "
 		incompatible compiler version.
 		found:    ${CMAKE_CXX_COMPILER_ID} ${CMAKE_CXX_COMPILER_VERSION}
