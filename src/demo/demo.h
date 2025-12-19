@@ -1,9 +1,9 @@
 #ifndef MOLE_DEMO_H
 #define MOLE_DEMO_H
 
-#include "../engine/engine.h"
 #include "engine.h"
 #include <string>
+#include <vector>
 
 using namespace mole_def;
 

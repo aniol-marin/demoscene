@@ -2,21 +2,21 @@
 #define MOLE_TIMELINE_H
 
 #include "Effect.h"
-#include "effects.h"
 #include "cycle.h"
 #include "definitions.h"
+#include "effects.h"
 #include "program.h"
 #include "render.h"
 #include "renderables.h"
 #include "sound.h"
 #include "timer.h"
 
+#include <algorithm>
 #include <memory>
 #include <queue>
-#include <vector>
-#include <string_view>
 #include <stdexcept>
-#include <algorithm>
+#include <string>
+#include <vector>
 
 using namespace mole_def;
 
@@ -78,7 +78,7 @@ namespace MoleDemo
         Renderables renderables;
         Events events;
         Event* currentEvent;
-        std::string_view project;
+        const std::string& project;
         bool initialized{ false };
         bool loaded{ false };
         bool started{ false };
@@ -89,7 +89,7 @@ namespace MoleDemo
         template<typename T>
         T* CreateEffect() // TO DO encapsulate
         {
-            std::unique_ptr<T> p_effect{ std::make_unique<T>(&timer, &screen) };
+            std::unique_ptr<T> p_effect{ new T{ &timer, &screen } };
             T* effect{ p_effect.get() };
             availableEffects.push_back(std::move(p_effect));
             return effect;
@@ -103,11 +103,11 @@ namespace MoleDemo
                                            Renderable* foreground,
                                            TransitionType transition);
 
-        void LoadInternal(std::string_view content); // TO DO simplify
+        void LoadInternal(const std::string& content); // TO DO simplify
     public: // TO DO refactor
         void Init() override; // TO DO simplify
         void Finalize() override; // TO DO simplify
-        void Load(std::string_view content) override;
+        void Load(const std::string& content) override;
         void Unload() override; // TO DO simplify
     public:
         Timeline() = delete;
@@ -116,7 +116,7 @@ namespace MoleDemo
                  Cycle& cycle,
                  SoundManager& sound,
                  Screen& screen,
-                 std::string_view project);
+                 const std::string& project);
         Timeline(const Timeline&) = delete;
         Timeline(Timeline&&) = default;
         ~Timeline() = default;

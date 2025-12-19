@@ -4,7 +4,6 @@
 #include <cstdint>
 #include <functional>
 #include <memory>
-#include <any>
 #include <map>
 
 namespace MoleDemo
@@ -17,7 +16,7 @@ namespace MoleDemo
 		Factory() = default;
 		virtual ~Factory() {};
 
-		virtual std::any GetAnyToInstance(id_capacity id = 0) = 0;
+		virtual void* GetAnyToInstance(id_capacity id = 0) = 0;
 	};
 
 	template<typename I, typename T, typename ...TArguments>
@@ -36,9 +35,9 @@ namespace MoleDemo
 		}
 		~UniqueFactory() override = default;
 
-		std::any GetAnyToInstance(id_capacity id = 0) override
+		void* GetAnyToInstance(id_capacity id = 0) override
 		{
-			return std::make_any<I*>(instances.emplace_back(std::make_unique<T>(functor())).get());
+			return static_cast<void*>(instances.emplace_back(std::unique_ptr<T>(functor())).get());
 		}
 	};
 
@@ -60,14 +59,14 @@ namespace MoleDemo
 		~SharingFactory() override {}
 
 
-		std::any GetAnyToInstance(id_capacity id = 0) override
+		void* GetAnyToInstance(id_capacity id = 0) override
 		{
 			if (!instances.count(id))
 			{
-				instances.emplace(id, std::make_unique<T>(functor()));
+				instances.emplace(id, std::unique_ptr<T>(functor()));
 			}
 
-			return std::make_any<I*>( instances.at(id).get() );
+			return static_cast<void*>( instances.at(id).get() );
 		}
 	};
 
@@ -97,14 +96,14 @@ namespace MoleDemo
 		void BindUnique()
 		{
 			id_t id { typeid(TInterface).hash_code() };
-			factories[id] = { std::make_unique<UniqueFactory<TInterface, TConcrete>>() };
+			factories[id] = { std::unique_ptr<UniqueFactory<TInterface, TConcrete>>() };
 		}
 		
 		template<typename TInterface, typename TConcrete, typename ...TArguments>
 		void BindUnique(std::function<TConcrete()>&& functor)
 		{
 			id_t id { typeid(TInterface).hash_code() };
-			factories[id] = { std::make_unique<UniqueFactory<TInterface, TConcrete>>(std::move(functor)) };
+			factories[id] = { std::unique_ptr<UniqueFactory<TInterface, TConcrete>>(std::move(functor)) };
 		}
 
 		template<typename T>
@@ -123,14 +122,14 @@ namespace MoleDemo
 		void BindShared()
 		{
 			id_t id { typeid(TInterface).hash_code() };
-			factories[id] = { std::make_unique<SharingFactory<TInterface, TConcrete>>() };
+			factories[id] = { std::unique_ptr<SharingFactory<TInterface, TConcrete>>() };
 		}
 
 		template<typename TInterface, typename TConcrete, typename ...TArguments>
 		void BindShared(std::function<TConcrete()>&& functor)
 		{
 			id_t id { typeid(TInterface).hash_code() };
-			factories[id] = { std::make_unique<SharingFactory<TInterface, TConcrete>>(std::move(functor)) };
+			factories[id] = { std::unique_ptr<SharingFactory<TInterface, TConcrete>>(std::move(functor)) };
 		}
 
 		template<typename T, typename ... TArguments>
@@ -143,8 +142,8 @@ namespace MoleDemo
 				throw std::exception{};
 			}
 
-			std::any value { it->second->GetAnyToInstance() };
-			auto* instance { std::any_cast<T*>(value) };
+			void* value { it->second->GetAnyToInstance() };
+			auto* instance { reinterpret_cast<T*>(value) };
 
 			return *instance;
 		}
