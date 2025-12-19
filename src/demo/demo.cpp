@@ -57,16 +57,16 @@ namespace MoleDemo
     {
         container.BindShared<Timer>();
         container.BindShared<SoundManager>();
-        container.BindShared<Screen>([this] { return Screen{ this->screen }; });
-        container.BindShared<Program>([&] { return Program{ container.Inject<Screen>() }; });
+        container.BindShared<Screen>([this] { return new Screen{ this->screen }; });
+        container.BindShared<Program>([&] { return new Program{ container.Inject<Screen>() }; });
         container.BindShared<SDL::SDLManager>();
         container.BindShared<RenderManager>(
-                [&] { return RenderManager{ container.Inject<Screen>(), container.Inject<SDL::SDLManager>() }; });
-        container.BindShared<InputManager>([&] { return InputManager{ container.Inject<SDL::SDLManager>() }; });
+                [&] { return new RenderManager{ container.Inject<Screen>(), container.Inject<SDL::SDLManager>() }; });
+        container.BindShared<InputManager>([&] { return new InputManager{ container.Inject<SDL::SDLManager>() }; });
         container.BindShared<Cycle>(
                 [&]
                 {
-                    return Cycle{ container.Inject<Program>(),
+                    return new Cycle{ container.Inject<Program>(),
                                   container.Inject<Timer>(),
                                   container.Inject<InputManager>(),
                                   container.Inject<RenderManager>() };
@@ -74,7 +74,7 @@ namespace MoleDemo
         container.BindShared<Timeline>(
                 [&]
                 {
-                    return Timeline{ container.Inject<Timer>(),  container.Inject<Program>(),
+                    return new Timeline{ container.Inject<Timer>(),  container.Inject<Program>(),
                                      container.Inject<Cycle>(),  container.Inject<SoundManager>(),
                                      container.Inject<Screen>(), project };
                 });
