@@ -6,22 +6,23 @@ CMAKE_PATH := cmake
 CMAKE_LOG_LEVEL := NOTICE
 CMAKE_PRESET := default
 COMPILER_PATH := g++
+MEMCHECK_PATH := valgrind
 
 # Internal definitions
 listify = $(subst ., ,$(1))
 current_folder = $(shell echo $$PWD)
 RUNTIME = export LD_LIBRARY_PATH=/usr/local/lib64/:LD_LIBRARY_PATH;
-	CMAKE_ROOT_PATH := $(call current_folder)
-	BUILD_PATH := $(call current_folder)/build/$(BUILD_TYPE)
-	BINARY_PATH := $(call current_folder)/bin
-	LIBRARY_PATH := $(call current_folder)/lib
-	EXTERNALS_PATH := $(call current_folder)/external
-	EXPORT_PATH := $(call current_folder)/export
-	TEMP_PATH := /tmp
-	CACHE := $(BUILD_PATH)/CMakeCache.txt
-	STATUS_FOLDER := /tmp/$(BUILD_PATH)
-	STATUS_OUTPUT := $(STATUS_FOLDER)/status_output
-	TEST_PATH := $(BINARY_PATH)/test
+CMAKE_ROOT_PATH := $(call current_folder)
+BUILD_PATH := $(call current_folder)/build/$(BUILD_TYPE)
+BINARY_PATH := $(call current_folder)/bin
+LIBRARY_PATH := $(call current_folder)/lib
+EXTERNALS_PATH := $(call current_folder)/external
+EXPORT_PATH := $(call current_folder)/export
+TEMP_PATH := /tmp
+CACHE := $(BUILD_PATH)/CMakeCache.txt
+STATUS_FOLDER := /tmp/$(BUILD_PATH)
+STATUS_OUTPUT := $(STATUS_FOLDER)/status_output
+TEST_PATH := $(BINARY_PATH)/test
 
 # Default action: run demo for final users
 main:
@@ -75,11 +76,11 @@ attach:
 	gdb attach $$(pgrep $(EDITOR_BINARY_NAME))
 
 profile: .final
-	if ! command -v valgrind > /dev/null 2>&1; then \
-		make .call_fail MESSAGE="couldnt find valgrind at path, recipe cannot be completed"; \
+	if ! command -v $(MEMCHECK_PATH) > /dev/null 2>&1; then \
+		make .call_fail MESSAGE="couldnt find $(MEMCHECK_PATH) at path, recipe cannot be completed"; \
 		else \
 		make .call_log MESSAGE="profiling"; \
-		valgrind --track-origins=yes $(BINARY_PATH)/$(BINARY_NAME); \
+		$(MEMCHECK_PATH) --track-origins=yes $(BINARY_PATH)/$(BINARY_NAME); \
 		fi
 
 .PHONY: pack
@@ -88,11 +89,15 @@ pack:
 
 report-experimental:
 	make .call_log MESSAGE="reporting to Experimental CDash board"
-	ctest \
-		-DCTEST_SOURCE_DIRECTORY=$(call current_folder) \
-		-DCTEST_BINARY_DIRECTORY=$(call current_folder)/build-experimental/ \
-		-DCTEST_CMAKE_GENERATOR=Ninja \
-		-S ctest/full-report.cmake
+	make .report BUILD_PATH=$(call current_folder)/build-experimental DASHBOARD=Experimental
+
+report-continuous:
+	make .call_log MESSAGE="reporting to Experimental CDash board"
+	make .report BUILD_PATH=$(call current_folder)/build-experimental DASHBOARD=Continuous
+
+report-cpp%:
+	make .call_log MESSAGE="reporting to Experimental CDash board"
+	make .report BUILD_PATH=$(call current_folder)/build-experimental DASHBOARD=cpp$*
 
 check-test: generate
 	make .call_log MESSAGE="testing CTest tests"
@@ -148,11 +153,17 @@ test: generate
 	make .call_log MESSAGE="testing all CTest targets"
 	$(CMAKE_PATH) --build $(BUILD_PATH) --target test
 
-.report-experimental:
+.report:
 	if ! [ -f $(CACHE) ]; then \
 		make $(CACHE) CMAKE_PRESET=builder; \
 	fi
-	make build-Experimental
+	ctest \
+		-DCTEST_SOURCE_DIRECTORY=$(call current_folder) \
+		-DCTEST_BINARY_DIRECTORY=$(BUILD_PATH) \
+		-DCTEST_CMAKE_GENERATOR=Ninja \
+		-DCTEST_MEMORYCHECK_COMMAND=$(MEMCHECK_PATH) \
+		-DDASHBOARD=$(DASHBOARD) \
+		-S ctest/full-report.cmake
 
 .PHONY: run-
 run-%: $(CACHE)

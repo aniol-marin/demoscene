@@ -1,7 +1,6 @@
 export module injection;
 
 import std;
-import std.compat;
 
 namespace MoleDemo
 {
@@ -11,7 +10,7 @@ namespace MoleDemo
 
 namespace MoleDemo
 {
-    using id_capacity = uint_fast8_t;
+    using id_capacity = std::uint_fast8_t;
     using id_t = std::size_t;
 
     struct Factory
