@@ -40,7 +40,7 @@ namespace MoleDemo
         return deltaTime;
     }
 
-    void Timer::SetFPS(uint_fast8_t fps)
+    void Timer::SetFPS(std::uint_fast8_t fps)
     {
         frameTime = ms{ permilleFactor / fps };
     }

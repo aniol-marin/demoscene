@@ -85,7 +85,7 @@ namespace MoleDemo
     void Fire::GenerateHotspots(PixelBuffer& buffer, permille intensity)
     {
 
-        uint_fast8_t newFires = 1 + intensity / 32;
+        std::uint_fast8_t newFires = 1 + intensity / 32;
 
         for (int f = 0; f < newFires; ++f)
         {

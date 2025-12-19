@@ -6,13 +6,10 @@ Expected features:
 - [FILE SETS] introduced in 3.23
 - [CXX MODULES] introduced in 3.30
 Expected experimental features:
-- [IMPORT STD] introduced in 3.30, last breaking change: 4.0.3
-- [EXPORT PACKAGE DEPENDENCIES] introduced in 3.29, last breaking change: 4.1.0-rc4
+-
 ]]#
-cmake_minimum_required(VERSION 4.1.0..4.2.0)
+cmake_minimum_required(VERSION 3.30.0..4.2.0)
 
-# Pre-project experimental requirements
-set(CMAKE_EXPERIMENTAL_EXPORT_PACKAGE_DEPENDENCIES "1942b4fa-b2c5-4546-9385-83f254070067")
 # Pre-project definition compilation requirements
 set(CMAKE_CXX_STANDARD 20)
 set(CMAKE_CXX_STANDARD_REQUIRED ON)
@@ -46,9 +43,9 @@ include(CTest)
 	- clang++: 10.0
 	- MSVC: 19.30
 ]]#
-set(GCC_EXPERTED_VERSION 14.1)
+set(GCC_EXPECTED_VERSION 14.1)
 if(${CMAKE_CXX_COMPILER_ID} STREQUAL "GNU")
-	if(CMAKE_CXX_COMPILER_VERSION VERSION_LESS GCC_EXPECTED_VERSION)
+	if(${CMAKE_CXX_COMPILER_VERSION} VERSION_LESS ${GCC_EXPECTED_VERSION})
 		message(FATAL_ERROR "
 		incompatible compiler version.
 		found:    ${CMAKE_CXX_COMPILER_ID} ${CMAKE_CXX_COMPILER_VERSION}
