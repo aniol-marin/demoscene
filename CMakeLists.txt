@@ -4,8 +4,10 @@ Expected policies:
 - [CMP0076] introduced in 3.13
 Expected features:
 - [FILE SETS] introduced in 3.23
+Expected experimental features:
+-
 ]]#
-cmake_minimum_required(VERSION 3.13)
+cmake_minimum_required(VERSION 3.13..4.2.1)
 
 # Pre-project definition compilation requirements
 set(CMAKE_CXX_STANDARD 11)
@@ -39,7 +41,7 @@ set(GCC_EXPECTED_VERSION 4.8.1)
 set(CLANG_EXPECTED_VERSION 3.3)
 set(MSVC_EXPECTED_VERSION 15.7)
 if(${CMAKE_CXX_COMPILER_ID} STREQUAL "GNU")
-	if(CMAKE_CXX_COMPILER_VERSION VERSION_LESS GCC_EXPECTED_VERSION)
+	if(${CMAKE_CXX_COMPILER_VERSION} VERSION_LESS ${GCC_EXPECTED_VERSION})
 		message(FATAL_ERROR "
 		incompatible compiler version.
 		found:    ${CMAKE_CXX_COMPILER_ID} ${CMAKE_CXX_COMPILER_VERSION}

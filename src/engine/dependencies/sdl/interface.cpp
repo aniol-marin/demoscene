@@ -13,8 +13,8 @@ namespace SDL
         SDL_Window* window{};
         SDL_Surface* surface{};
 
-        using pixel = uint32_t;
-        using offset = uint_fast16_t;
+        using pixel = std::uint32_t;
+        using offset = std::uint_fast16_t;
 
         Screen g_screen{ 0, 0 };
         bool initialized{ false };

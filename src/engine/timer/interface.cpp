@@ -27,7 +27,7 @@ class MoleDemo::Timer
     ms frameTime;
     seconds previousSecond = 0;
     seconds secondCount;
-    uint_fast32_t frameCount;
+    std::uint_fast32_t frameCount;
     milliseconds deltaTime;
     Time initialTime;
     Time endTime;
@@ -44,9 +44,9 @@ public:
     ~Timer() = default;
 
     milliseconds GetDeltaTime() const;
-    void SetFPS(uint_fast8_t fps);
+    void SetFPS(std::uint_fast8_t fps);
     void SetEndTime(seconds seconds);
     void WaitUntilNextFrame();
-    int_fast8_t GetTime() const;
+    std::int_fast8_t GetTime() const;
     bool EndReached() const;
 };
