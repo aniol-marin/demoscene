@@ -3,6 +3,8 @@ module;
 #include "SDL2/SDL.h"
 
 export module sdl_wrapper;
+
+import std;
 import definitions;
 
 namespace SDL
