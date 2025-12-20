@@ -1,6 +1,6 @@
 function(manage_dependency_glfw)
 
-	if(MoleDemo_ForceFetchedDependencies)
+	if(NOT MoleDemo_ForceFetchedDependencies)
 		find_package(glfw3 QUIET)
 	endif()
 
@@ -10,9 +10,6 @@ function(manage_dependency_glfw)
 			EXCLUDE_FROM_ALL
 			GIT_REPOSITORY https://github.com/glfw/glfw.git
 			GIT_TAG 7b6aead9fb88b3623e3b3725ebb42670cbe4c579 # v3.4
-			#[[ disabled while forcing fetched dependencies is improved
-			FIND_PACKAGE_ARGS NAMES glfw3
-			]]#
 		)
 		FetchContent_MakeAvailable(glfw)
 

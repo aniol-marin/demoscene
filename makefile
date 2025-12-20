@@ -2,12 +2,15 @@
 BINARY_NAME := demoscene
 EDITOR_BINARY_NAME := editor
 BUILD_TYPE := Debug
-CMAKE_PATH := cmake
-CMAKE_LOG_LEVEL := NOTICE
+CMAKE_PATH := /usr/bin/cmake
+GENERATOR_NAME := Ninja
+GENERATOR_PATH := /usr/bin/ninja
+CMAKE_LOG_LEVEL := STATUS
 CMAKE_PRESET := default
-COMPILER_PATH := g++
+COMPILER_PATH := /usr/bin/g++
+C_COMPILER_PATH := /usr/bin/gcc
 MEMCHECK_BIN := valgrind
-COVERAGE_BIN := gcov
+COVERAGE_BIN := /usr/bin/gcov
 
 # Internal definitions
 listify = $(subst ., ,$(1))
@@ -30,20 +33,22 @@ COVERAGE_PATH = $(shell which $(COVERAGE_BIN))
 # Default action: run demo for final users
 main:
 	make .call_log MESSAGE="building and running final demo" --no-print-directory
-	cmake \
+	$(CMAKE_PATH) \
 		-S$(CMAKE_ROOT_PATH) \
 		-Bbuild-artifacts \
+		-G$(GENERATOR_NAME) \
+		-DCMAKE_MAKE_PROGRAM=$(GENERATOR_PATH)\
 		-DCMAKE_CXX_COMPILER=$(COMPILER_PATH) \
+		-DCMAKE_C_COMPILER=$(C_COMPILER_PATH) \
 		-DCMAKE_RUNTIME_OUTPUT_DIRECTORY:PATH=$(call current_folder) \
-		-DCMAKE_ARCHIVE_OUTPUT_DIRECTORY:PATH=$(BUILD_PATH) \
-		-DCMAKE_LIBRARY_OUTPUT_DIRECTORY:PATH=$(BUILD_PATH) \
 		--preset=user \
-		-Wno-dev \
 		--log-level=ERROR
 	cmake --build build-artifacts -t $(BINARY_NAME)
 	./$(BINARY_NAME)
 
+########################
 # Public recipes
+########################
 
 clear:
 	clear;
@@ -139,8 +144,6 @@ generate:
 	$(CMAKE_PATH) \
 		-S$(CMAKE_ROOT_PATH) \
 		-B$(BUILD_PATH) \
-		-GNinja \
-		-DCMAKE_CXX_COMPILER=$(COMPILER_PATH) \
 		--log-level=$(CMAKE_LOG_LEVEL)
 	ln -sf ./$(BUILD_PATH)/compile_commands.json compile_commands.json
 
@@ -156,6 +159,21 @@ test: generate
 	make .call_log MESSAGE="testing all CTest targets"
 	$(CMAKE_PATH) --build $(BUILD_PATH) --target test
 
+check-toolchain:
+	echo "------------------------------------------"
+	echo "c++ compiler:"
+	$(COMPILER_PATH) --version
+	echo "------------------------------------------"
+	echo "cmake:"
+	$(CMAKE_PATH) --version
+	echo "------------------------------------------"
+	echo "generator:"
+	$(GENERATOR_PATH) --version
+	echo "------------------------------------------"
+
+########################
+# Implementation details
+########################
 USER = $(shell uname -n)
 .report:
 	if ! [ -f $(CACHE) ]; then \
@@ -164,7 +182,7 @@ USER = $(shell uname -n)
 	ctest \
 		-DCTEST_SOURCE_DIRECTORY=$(call current_folder) \
 		-DCTEST_BINARY_DIRECTORY=$(BUILD_PATH) \
-		-DCTEST_CMAKE_GENERATOR=Ninja \
+		-DCTEST_CMAKE_GENERATOR=$(GENERATOR_NAME) \
 		-DCTEST_MEMORYCHECK_COMMAND=$(MEMCHECK_PATH) \
 		-DCTEST_COVERAGE_COMMAND=$(COVERAGE_PATH) \
 		-DDASHBOARD=$(DASHBOARD) \
@@ -279,8 +297,10 @@ $(CACHE):
 	cmake \
 		-S$(CMAKE_ROOT_PATH) \
 		-B$(BUILD_PATH) \
-		-GNinja \
+		-G$(GENERATOR_NAME) \
+		-DCMAKE_MAKE_PROGRAM=$(GENERATOR_PATH)\
 		-DCMAKE_CXX_COMPILER=$(COMPILER_PATH) \
+		-DCMAKE_C_COMPILER=$(C_COMPILER_PATH) \
 		-DCMAKE_RUNTIME_OUTPUT_DIRECTORY:PATH=$(BINARY_PATH) \
 		-DCMAKE_ARCHIVE_OUTPUT_DIRECTORY:PATH=$(LIBRARY_PATH) \
 		-DCMAKE_LIBRARY_OUTPUT_DIRECTORY:PATH=$(BINARY_PATH) \

@@ -4,7 +4,6 @@
 		{
 			"name": "default",
 			"hidden": false,
-			"generator": "Ninja",
 			"cacheVariables": {
 				"CMAKE_BUILD_TYPE": "Release"
 			},
@@ -15,7 +14,6 @@
 		{
 			"name": "user",
 			"hidden": false,
-			"generator": "Ninja",
 			"cacheVariables": {
 				"CMAKE_BUILD_TYPE": "Release",
 				"CMAKE_RUNTIME_OUTPUT_DIRECTORY": "${sourceDir}",
@@ -30,7 +28,6 @@
 		{
 			"name": "developer",
 			"hidden": false,
-			"generator": "Ninja",
 			"cacheVariables": {
 				"CMAKE_BUILD_TYPE": "Debug",
 				"CMAKE_RUNTIME_OUTPUT_DIRECTORY": "${sourceDir}/bin",
@@ -49,7 +46,6 @@
 		{
 			"name": "builder",
 			"hidden": false,
-			"generator": "Ninja",
 			"cacheVariables": {
 				"CMAKE_BUILD_TYPE": "Release",
 				"CMAKE_RUNTIME_OUTPUT_DIRECTORY": "${sourceDir}",
@@ -65,7 +61,6 @@
 		{
 			"name": "maintainer",
 			"hidden": false,
-			"generator": "Ninja",
 			"cacheVariables": {
 				"CMAKE_BUILD_TYPE": "Debug",
 				"CMAKE_RUNTIME_OUTPUT_DIRECTORY": "${sourceDir}/bin",

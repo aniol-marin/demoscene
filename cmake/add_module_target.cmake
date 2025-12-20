@@ -5,15 +5,13 @@ function(add_module_target MODULE_NAME)
 
 	add_library(${MODULE_NAME})
 	target_compile_features(${MODULE_NAME} PUBLIC cxx_std_98)
+	target_include_directories(${MODULE_NAME} INTERFACE
+		$<BUILD_INTERFACE:${CMAKE_CURRENT_SOURCE_DIR}>
+	)
 	if(MoleDemo_Testing_EnableCoverage)
 		target_compile_options(${MODULE_NAME} PRIVATE -coverage)
 		target_link_options(${MODULE_NAME} PRIVATE -coverage)
 	endif()
-
-	target_sources(${MODULE_NAME} PUBLIC
-		FILE_SET HEADERS
-	)
-
 
 endfunction()
 
@@ -66,10 +64,6 @@ function(add_module NAME)
 	target_compile_features(${NAME} PUBLIC cxx_std_17)
 	target_sources(${NAME}
 		PRIVATE ${A_IMPLEMENTATIONS}
-
-		PUBLIC FILE_SET CXX_MODULES
-		BASE_DIRS ${CMAKE_CURRENT_SOURCE_DIR}
-		FILES ${interface_name} ${A_INTERFACES}
 	)
 
 	target_include_directories( ${MODULE_NAME} INTERFACE

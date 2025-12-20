@@ -37,9 +37,12 @@ In order to compile it from source extra packages may be needed. At the time of 
 
 ## Verified toolchains
 
-- CMake 4.2.1+
-- Ninja Build 1.11.2 +
-- GCC 15.1+
+- CMake 3.22.1+
+
+- Ninja Build 1.10.1+
+- GNU Make 4.3 +
+
+- GCC 11.4.0+
 
 Other toolchains may be possible as long as they support compilation of ISO c++.
 Feel free to send your own CTest reports in order to expand the verified toolchain list.
