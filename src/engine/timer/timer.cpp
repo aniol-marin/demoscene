@@ -63,7 +63,7 @@ namespace MoleDemo
         }
     }
 
-    int_fast8_t Timer::GetTime() const
+    std::int_fast8_t Timer::GetTime() const
     {
         return secondCount;
     }
