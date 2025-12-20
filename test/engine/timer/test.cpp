@@ -28,12 +28,12 @@ SCENARIO("Timer")
 		CHECK(std::invoke([]()
 		{
 			MoleDemo::Timer t{};
-			int initial { t. GetTime() };
+			auto initial { t. GetTime() };
 			std::cerr << "\n initial: [" << initial << "]";
 			std::cerr << "\n sleeping...";
 			std::this_thread::sleep_for(std::chrono::seconds{1});
 			t.WaitUntilNextFrame();
-			int final { t. GetTime() };
+			auto final { t. GetTime() };
 			std::cerr << "\n final: [" << final << "]";
 			return final == initial + 1;
 		}));

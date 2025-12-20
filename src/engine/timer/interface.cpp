@@ -2,7 +2,6 @@ module;
 
 #include <chrono>
 #include <thread>
-#include <iostream>
 #include <cstdint>
 
 export module timer;
@@ -11,31 +10,30 @@ import definitions;
 
 namespace MoleDemo
 {
-
     export class Timer;
 
-    using Clock = std::chrono::steady_clock;
-    using seconds = mole_def::seconds;
-    using milliseconds = mole_def::milliseconds;
+    using clock_t = std::chrono::steady_clock;
+    export using time_t = clock_t::time_point;
+
+    using frame_t = std::uint_fast32_t;
+    using mole_s = mole_def::seconds;
+    using mole_ms = mole_def::milliseconds;
     using ms = std::chrono::milliseconds;
-    export using Time = Clock::time_point;
 }
 
 class MoleDemo::Timer
 {
+    const time_t initial_time;
+    time_t last_time;
+    time_t last_mark;
+    mole_ms delta_time{};
+    ms frameTime{};
 
-    ms frameTime;
-    seconds previousSecond = 0;
-    seconds secondCount;
-    std::uint_fast32_t frameCount;
-    milliseconds deltaTime;
-    Time initialTime;
-    Time endTime;
-    Time previousTime;
-    Time nextTime;
+    time_t endTime;
+    frame_t frames_since_mark{};
 
-    void SetNextFrameTime();
-    ms GetNextDelayTime() const;
+    void update_frame_level_state();
+    ms get_next_time_target() const;
 
 public:
     Timer();
@@ -43,10 +41,13 @@ public:
     Timer(Timer&&) = default;
     ~Timer() = default;
 
-    milliseconds GetDeltaTime() const;
+    mole_ms GetDeltaTime() const;
     void SetFPS(std::uint_fast8_t fps);
-    void SetEndTime(seconds seconds);
+    void SetEndTime(mole_s mole_s);
+    void set_mark();
     void WaitUntilNextFrame();
-    std::int_fast8_t GetTime() const;
+    mole_s GetTime() const;
     bool EndReached() const;
+    mole_s get_total_time() const;
+    frame_t get_frames_since_mark() const;
 };

@@ -116,8 +116,8 @@ namespace SDL
             throw std::exception{};
         }
 
-        return *reinterpret_cast<std::uint32_t*>((std::uint8_t*) surface->pixels + y * surface->pitch +
-                                            x * surface->format->BytesPerPixel);
+        return *reinterpret_cast<uint32_t*>((uint8_t*) surface->pixels + y * surface->pitch +
+                                                 x * surface->format->BytesPerPixel);
     }
 
     void SDLManager::PutPixel(const offset x, const offset y, const pixel rgba)
