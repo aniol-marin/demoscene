@@ -1,8 +1,11 @@
+```
      _                                              
   __| | ___ _ __ ___   ___  ___  ___ ___ _ __   ___ 
  / _` |/ _ \ '_ ` _ \ / _ \/ __|/ __/ _ \ '_ \ / _ \
 | (_| |  __/ | | | | | (_) \__ \ (_|  __/ | | |  __/
  \__,_|\___|_| |_| |_|\___/|___/\___\___|_| |_|\___|
+```
+
                                                     
 
 a tiny audiovisual experience with an overkilled tooling environment.
@@ -38,7 +41,7 @@ In order to compile it from source extra packages may be needed. At the time of 
 - Ninja Build 1.11.2 +
 - GCC 15.1+
 
-Other toolchains may be possible as long as they support compilation of c++17 and modules.
+Other toolchains may be possible as long as they support compilation of c++17.
 Feel free to send your own CTest reports in order to expand the verified toolchain list.
 Alternative versions of the demoscene exist in the port branches, defined by c++ standard (CMake and build system requirements are lowered as a consequence). If you are unable to compile this specific branch, please try with an older one.
 
