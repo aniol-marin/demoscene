@@ -1,6 +1,6 @@
 function(manage_dependency_glad)
 
-	if(MoleDemo_ForceFetchedDependencies)
+	if(NOT MoleDemo_ForceFetchedDependencies)
 		find_package(glad QUIET)
 	endif()
 
