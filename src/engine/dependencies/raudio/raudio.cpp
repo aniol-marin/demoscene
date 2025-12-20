@@ -74,7 +74,7 @@ namespace raudio
         initialized = false;
     }
 
-    void AudioManager::Load(std::string_view source)
+    void AudioManager::Load(const std::string& source)
     {
         if (!initialized)
         {

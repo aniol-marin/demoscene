@@ -1,4 +1,5 @@
 #include "render.h"
+#include <memory>
 #include "definitions.h"
 
 using namespace mole_def;
@@ -7,8 +8,8 @@ namespace MoleDemo
 {
     RenderQueue::RenderQueue()
     {
-        blending[BlendMode::Override] = std::make_unique<OverrideBlend>();
-        blending[BlendMode::AlphaBlend] = std::make_unique<AlphaBlend>();
+        blending[BlendMode::Override] = std::unique_ptr<OverrideBlend>(new OverrideBlend{});
+        blending[BlendMode::AlphaBlend] = std::unique_ptr<AlphaBlend>(new AlphaBlend{});
     }
 
     void RenderQueue::Cache(Renderables& renderables, StencilBuffer& mask)

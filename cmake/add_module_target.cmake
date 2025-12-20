@@ -4,7 +4,7 @@ include(CMakeParseArguments) # placeholder include since 3.5
 function(add_module_target MODULE_NAME)
 
 	add_library(${MODULE_NAME})
-	target_compile_features(${MODULE_NAME} PUBLIC cxx_std_17)
+	target_compile_features(${MODULE_NAME} PUBLIC cxx_std_11)
 	if(MoleDemo_Testing_EnableCoverage)
 		target_compile_options(${MODULE_NAME} PRIVATE -coverage)
 		target_link_options(${MODULE_NAME} PRIVATE -coverage)
@@ -20,7 +20,7 @@ endfunction()
 function(add_module_target_no_implementation NAME)
 
 	add_library(${MODULE_NAME} INTERFACE)
-	target_compile_features(${MODULE_NAME} INTERFACE cxx_std_17)
+	target_compile_features(${MODULE_NAME} INTERFACE cxx_std_11)
 	target_include_directories( ${NAME} INTERFACE
 		$<BUILD_INTERFACE:${CMAKE_CURRENT_SOURCE_DIR}>
 	)

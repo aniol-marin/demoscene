@@ -5,8 +5,8 @@
 
 #include "raudio.h"
 
-#include <string_view>
 #include <queue>
+#include <string>
 
 namespace raudio
 {
@@ -20,7 +20,7 @@ namespace raudio
 
         void Init();
         void Finalize();
-        void Load(std::string_view source);
+        void Load(const std::string& source);
         void Unload();
 
         void Play();

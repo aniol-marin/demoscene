@@ -1,5 +1,9 @@
 #include "demo.h"
 
+#include <string>
+#include <typeinfo>
+#include <iostream>
+
 namespace MoleDemo
 {
     void Demo::LoadData(std::string source) {}
@@ -57,16 +61,16 @@ namespace MoleDemo
     {
         container.BindShared<Timer>();
         container.BindShared<SoundManager>();
-        container.BindShared<Screen>([this] { return Screen{ this->screen }; });
-        container.BindShared<Program>([&] { return Program{ container.Inject<Screen>() }; });
+        container.BindShared<Screen>([this] { return new Screen{ this->screen }; });
+        container.BindShared<Program>([&] { return new Program{ container.Inject<Screen>() }; });
         container.BindShared<SDL::SDLManager>();
         container.BindShared<RenderManager>(
-                [&] { return RenderManager{ container.Inject<Screen>(), container.Inject<SDL::SDLManager>() }; });
-        container.BindShared<InputManager>([&] { return InputManager{ container.Inject<SDL::SDLManager>() }; });
+                [&] { return new RenderManager{ container.Inject<Screen>(), container.Inject<SDL::SDLManager>() }; });
+        container.BindShared<InputManager>([&] { return new InputManager{ container.Inject<SDL::SDLManager>() }; });
         container.BindShared<Cycle>(
                 [&]
                 {
-                    return Cycle{ container.Inject<Program>(),
+                    return new Cycle{ container.Inject<Program>(),
                                   container.Inject<Timer>(),
                                   container.Inject<InputManager>(),
                                   container.Inject<RenderManager>() };
@@ -74,7 +78,7 @@ namespace MoleDemo
         container.BindShared<Timeline>(
                 [&]
                 {
-                    return Timeline{ container.Inject<Timer>(),  container.Inject<Program>(),
+                    return new Timeline{ container.Inject<Timer>(),  container.Inject<Program>(),
                                      container.Inject<Cycle>(),  container.Inject<SoundManager>(),
                                      container.Inject<Screen>(), project };
                 });
@@ -94,6 +98,8 @@ namespace MoleDemo
 
     void Demo::Run()
     {
+        seconds previous_time{};
+
         Init();
         sound->Play();
         timeline->Start();
@@ -102,6 +108,16 @@ namespace MoleDemo
         {
             sound->Update();
             timeline->Update();
+
+            if (const seconds current_time{ timer->GetTime() }; current_time > previous_time)
+            {
+                std::cout //
+                        << "time [" << current_time << "/" << timer->get_total_time() //
+                        << "],\t framerate: [" << timer->get_frames_since_mark() //
+                        << "], fps,\t delta: [" << timer->GetDeltaTime() << "]\n";
+                timer->set_mark();
+                previous_time = current_time;
+            }
         }
 
         sound->Stop();

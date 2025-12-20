@@ -29,7 +29,7 @@ namespace MoleDemo
         {
             case TransitionType::Fade:
             {
-                transition = std::make_unique<Fade>(time);
+                transition = std::unique_ptr<Fade>(new Fade{ time });
                 transition->Bind(background, foreground);
                 break;
             }
@@ -94,7 +94,7 @@ namespace MoleDemo
                        Cycle& cycle,
                        SoundManager& sound,
                        Screen& screen,
-                       std::string_view project) :
+                       const std::string& project) :
       currentEvent{ nullptr },
       timer{ timer },
       program{ program },
@@ -187,7 +187,7 @@ namespace MoleDemo
 
     Layer* Timeline::CreateLayer(BlendMode mode, Effect* effect)
     {
-        std::unique_ptr<Layer> p_layer{ std::make_unique<Layer>(mode, effect) };
+        std::unique_ptr<Layer> p_layer{ new Layer{ mode, effect } };
         Layer* layer{ p_layer.get() };
         availableLayers.push_back(std::move(p_layer));
         return layer;
@@ -219,7 +219,7 @@ namespace MoleDemo
        }
 */
 
-    void Timeline::Load(std::string_view content)
+    void Timeline::Load(const std::string& content)
     {
         if (!initialized)
         {
@@ -277,7 +277,7 @@ namespace MoleDemo
         started = false;
     }
 
-    void Timeline::LoadInternal(std::string_view content)
+    void Timeline::LoadInternal(const std::string& content)
     {
         // TODO argument forwarding on CreateEffect template
 

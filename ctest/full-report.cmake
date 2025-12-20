@@ -2,15 +2,15 @@ cmake_minimum_required(VERSION 4.2.1)
 
 set(ENV{CXXFLAGS} "-g")
 # Custom report settings, they can be skipped in favor of defaults
-cmake_host_system_information(RESULT user QUERY FQDN)
+if(NOT DEFINED USER)
+	cmake_host_system_information(RESULT user QUERY FQDN)
+	set(USER ${user})
+endif()
 cmake_host_system_information(RESULT distro QUERY DISTRIB_NAME)
 execute_process(
 	COMMAND git branch --show-current
 	OUTPUT_VARIABLE branch
 )
-if(NOT DEFINED USER)
-	set(USER ${user})
-endif()
 set(CTEST_SITE "${USER}@${distro}")
 set(CTEST_BUILD_NAME "${branch}")
 if(NOT DEFINED DASHBOARD)
@@ -18,11 +18,11 @@ if(NOT DEFINED DASHBOARD)
 else()
 	set(MODEL ${DASHBOARD})
 endif()
-if(NOT DEFINED ${CTEST_COVERAGE_COMMAND})
-	set(CTEST_COVERAGE_COMMAND /usr/bin/gcov)
+if(NOT DEFINED CTEST_COVERAGE_COMMAND)
+	set(CTEST_COVERAGE_COMMAND gcov)
 endif()
-if(NOT DEFINED ${CTEST_MEMORYCHECK_COMMAND})
-	set(CTEST_MEMORYCHECK_COMMAND /usr/bin/valgrind)
+if(NOT DEFINED CTEST_MEMORYCHECK_COMMAND)
+	set(CTEST_MEMORYCHECK_COMMAND valgrind)
 endif()
 set(CTEST_LABELS_FOR_SUBPROJECTS
 	demoscene

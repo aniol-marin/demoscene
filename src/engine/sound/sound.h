@@ -29,7 +29,7 @@ namespace MoleDemo
 
 		void Init();
 		void Finalize();
-		void Load(std::string_view file);
+		void Load(const std::string& file);
 		void Unload();
 		void Play();
 		void Stop();

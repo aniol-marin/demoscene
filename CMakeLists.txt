@@ -10,7 +10,7 @@ Expected experimental features:
 cmake_minimum_required(VERSION 3.13..4.2.1)
 
 # Pre-project definition compilation requirements
-set(CMAKE_CXX_STANDARD 17)
+set(CMAKE_CXX_STANDARD 11)
 set(CMAKE_CXX_STANDARD_REQUIRED ON)
 set(CMAKE_CXX_EXTENSION OFF)
 set(CMAKE_COMPILE_WARNING_AS_ERROR OFF)
@@ -33,12 +33,13 @@ include(CTest)
 # Early check for project requirements
 #[[ Compiler feature requirements and compiler adoption
 - [c++17 support]
-	- g++: 5.1
-	- clang++: 5.0
-	- MSVC: 19.0
+	- g++: 4.8.1
+	- clang++: 3.3
+	- MSVC: 15.7
 ]]#
-set(GCC_EXPECTED_VERSION 5.1)
-set(MSVC_EXPECTED_VERSION 19.0)
+set(GCC_EXPECTED_VERSION 4.8.1)
+set(CLANG_EXPECTED_VERSION 3.3)
+set(MSVC_EXPECTED_VERSION 15.7)
 if(${CMAKE_CXX_COMPILER_ID} STREQUAL "GNU")
 	if(${CMAKE_CXX_COMPILER_VERSION} VERSION_LESS ${GCC_EXPECTED_VERSION})
 		message(FATAL_ERROR "
