@@ -6,7 +6,8 @@ CMAKE_PATH := cmake
 CMAKE_LOG_LEVEL := NOTICE
 CMAKE_PRESET := default
 COMPILER_PATH := g++
-MEMCHECK_PATH := valgrind
+MEMCHECK_BIN := valgrind
+COVERAGE_BIN := gcov
 
 # Internal definitions
 listify = $(subst ., ,$(1))
@@ -23,6 +24,8 @@ CACHE := $(BUILD_PATH)/CMakeCache.txt
 STATUS_FOLDER := /tmp/$(BUILD_PATH)
 STATUS_OUTPUT := $(STATUS_FOLDER)/status_output
 TEST_PATH := $(BINARY_PATH)/test
+MEMCHECK_PATH = $(shell which $(MEMCHECK_BIN))
+COVERAGE_PATH = $(shell which $(COVERAGE_BIN))
 
 # Default action: run demo for final users
 main:
@@ -163,6 +166,7 @@ USER = $(shell uname -n)
 		-DCTEST_BINARY_DIRECTORY=$(BUILD_PATH) \
 		-DCTEST_CMAKE_GENERATOR=Ninja \
 		-DCTEST_MEMORYCHECK_COMMAND=$(MEMCHECK_PATH) \
+		-DCTEST_COVERAGE_COMMAND=$(COVERAGE_PATH) \
 		-DDASHBOARD=$(DASHBOARD) \
 		-DUSER=$(USER) \
 		$(CTEST_GROUP) \
@@ -176,7 +180,7 @@ run-%: $(CACHE)
 .PHONY: profile-
 profile-%: $(CACHE)
 	make .call_log MESSAGE="profiling target: $(subst profile-,,$@)"
-	valgrind --track-origins=yes --leak-check=full $(BINARY_PATH)/$(subst profile-,,$@) $(REDIRECT)
+	$(MEMCHECK_PATH) --track-origins=yes --leak-check=full $(BINARY_PATH)/$(subst profile-,,$@) $(REDIRECT)
 
 .PHONY: retest-
 retest-%:
