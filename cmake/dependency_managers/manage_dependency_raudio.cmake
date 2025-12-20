@@ -1,6 +1,8 @@
 function(manage_dependency_raudio)
 
-	find_package(raudio)
+	if(NOT MoleDemo_ForceFetchedDependencies)
+		find_package(raudio QUIET)
+	endif()
 
 	if(NOT raudio_FOUND)
 		FetchContent_Declare(
@@ -10,6 +12,7 @@ function(manage_dependency_raudio)
 			GIT_TAG 711c86eae17db9a94af575f7a5b496244b48b22d # master
 			SOURCE_SUBDIR projects/CMake
 		)
+		add_compile_options( -fPIE)
 		FetchContent_MakeAvailable(raudio)
 
 		mark_as_advanced(FORCE
