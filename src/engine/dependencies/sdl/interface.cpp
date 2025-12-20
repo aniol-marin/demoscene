@@ -4,7 +4,6 @@ module;
 
 export module sdl_wrapper;
 
-import std;
 import definitions;
 
 namespace SDL
