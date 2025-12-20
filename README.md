@@ -6,8 +6,6 @@
  \__,_|\___|_| |_| |_|\___/|___/\___\___|_| |_|\___|
 ```
 
-                                                    
-
 a tiny audiovisual experience with an overkilled tooling environment.
 
 See current development status at the [project CDash Page](https://my.cdash.org/overview.php?project=mole_demo)
@@ -37,12 +35,16 @@ In order to compile it from source extra packages may be needed. At the time of 
 
 ## Verified toolchains
 
+metabuild system:
 - CMake 3.22.1+
 
+build system generators:
 - Ninja Build 1.10.1+
 - GNU Make 4.3 +
 
+compilers:
 - GCC 11.4.0+
+- Clang 14.0.0+
 
 Other toolchains may be possible as long as they support compilation of c++17.
 Feel free to send your own CTest reports in order to expand the verified toolchain list.

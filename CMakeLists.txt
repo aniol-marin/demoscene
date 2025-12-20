@@ -38,25 +38,31 @@ include(CTest)
 	- MSVC: 19.0
 ]]#
 set(GCC_EXPECTED_VERSION 5.1)
+set(CLANG_EXPECTED_VERSION 5.0)
 set(MSVC_EXPECTED_VERSION 19.0)
-if(${CMAKE_CXX_COMPILER_ID} STREQUAL "GNU")
-	if(${CMAKE_CXX_COMPILER_VERSION} VERSION_LESS ${GCC_EXPECTED_VERSION})
-		message(FATAL_ERROR "
-		incompatible compiler version.
-		found:    ${CMAKE_CXX_COMPILER_ID} ${CMAKE_CXX_COMPILER_VERSION}
-		required: ${CMAKE_CXX_COMPILER_ID} ${GCC_EXPECTED_VERSION}")
-	endif()
-elseif (${CMAKE_CXX_COMPILER_ID} STREQUAL MSVC)
-	message(WARNING "
-		Support with the current compiler is still highly experimental.
-		found:    ${CMAKE_CXX_COMPILER_ID} ${CMAKE_CXX_COMPILER_VERSION}
-		required: ${CMAKE_CXX_COMPILER_ID} ${GCC_EXPECTED_VERSION}")
-else()
-	#[[ TODO: add support for the right version of clang and so on ]]#
+if(${CMAKE_CXX_COMPILER_ID} STREQUAL "GNU" AND ${CMAKE_CXX_COMPILER_VERSION} VERSION_LESS ${GCC_EXPECTED_VERSION})
 	message(FATAL_ERROR "
-	this version of the project requires one of the following c++ compilers:
-	- GNU  version ${GCC_EXPECTED_VERSION}
-	- MSVC version ${MSVC_EXPECTED_VERSION}
+	incompatible compiler version.
+	found:    ${CMAKE_CXX_COMPILER_ID} ${CMAKE_CXX_COMPILER_VERSION}
+	required: ${CMAKE_CXX_COMPILER_ID} ${GCC_EXPECTED_VERSION}")
+elseif (${CMAKE_CXX_COMPILER_ID} STREQUAL "Clang" AND ${CMAKE_CXX_COMPILER_VERSION} VERSION_LESS ${CLANG_EXPECTED_VERSION})
+	message(FATAL_ERROR "
+	incompatible compiler version.
+	found:    ${CMAKE_CXX_COMPILER_ID} ${CMAKE_CXX_COMPILER_VERSION}
+	required: ${CMAKE_CXX_COMPILER_ID} ${CLANG_EXPECTED_VERSION}")
+elseif (${CMAKE_CXX_COMPILER_ID} STREQUAL MSVC AND ${CMAKE_CXX_COMPILER_VERSION} VERSION_LESS ${MSVC_EXPECTED_VERSION})
+	message(FATAL_ERROR "
+	incompatible compiler version.
+	found:    ${CMAKE_CXX_COMPILER_ID} ${CMAKE_CXX_COMPILER_VERSION}
+	required: ${CMAKE_CXX_COMPILER_ID} ${MSVC_EXPECTED_VERSION}")
+elseif(${CMAKE_CXX_COMPILER_ID} STREQUAL "GNU" OR ${CMAKE_CXX_COMPILER_ID} STREQUAL "Clang" OR ${CMAKE_CXX_COMPILER_ID} STREQUAL MSVC)
+	message(STATUS "c++ compiler validated")
+else()
+	message(FATAL_ERROR "
+	this version of the project requires one of the following validated c++ compilers:
+	- GCC   version ${GCC_EXPECTED_VERSION}
+	- Clang version ${CLANG_EXPECTED_VERSION}
+	- MSVC  version ${MSVC_EXPECTED_VERSION}
 	used compiler instead:
 	- ${CMAKE_CXX_COMPILER_ID} version ${CMAKE_CXX_COMPILER_VERSION}")
 endif()
