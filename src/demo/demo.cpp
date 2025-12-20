@@ -1,5 +1,9 @@
 #include "demo.h"
 
+#include <string>
+#include <typeinfo>
+#include <iostream>
+
 namespace MoleDemo
 {
     void Demo::LoadData(std::string source) {}
@@ -94,6 +98,8 @@ namespace MoleDemo
 
     void Demo::Run()
     {
+        seconds previous_time{};
+
         Init();
         sound->Play();
         timeline->Start();
@@ -102,6 +108,16 @@ namespace MoleDemo
         {
             sound->Update();
             timeline->Update();
+
+            if (const seconds current_time{ timer->GetTime() }; current_time > previous_time)
+            {
+                std::cout //
+                        << "time [" << current_time << "/" << timer->get_total_time() //
+                        << "],\t framerate: [" << timer->get_frames_since_mark() //
+                        << "], fps,\t delta: [" << timer->GetDeltaTime() << "]\n";
+                timer->set_mark();
+                previous_time = current_time;
+            }
         }
 
         sound->Stop();
