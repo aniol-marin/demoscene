@@ -97,7 +97,7 @@ report-continuous:
 
 report-cpp%:
 	make .call_log MESSAGE="reporting to Experimental CDash board"
-	make .report BUILD_PATH=$(call current_folder)/build-experimental DASHBOARD=cpp$*
+	make .report BUILD_PATH=$(call current_folder)/build-experimental DASHBOARD=Experimental CTEST_GROUP=--group=cpp$*
 
 check-test: generate
 	make .call_log MESSAGE="testing CTest tests"
@@ -153,6 +153,7 @@ test: generate
 	make .call_log MESSAGE="testing all CTest targets"
 	$(CMAKE_PATH) --build $(BUILD_PATH) --target test
 
+USER = $(shell uname -n)
 .report:
 	if ! [ -f $(CACHE) ]; then \
 		make $(CACHE) CMAKE_PRESET=builder; \
@@ -163,6 +164,8 @@ test: generate
 		-DCTEST_CMAKE_GENERATOR=Ninja \
 		-DCTEST_MEMORYCHECK_COMMAND=$(MEMCHECK_PATH) \
 		-DDASHBOARD=$(DASHBOARD) \
+		-DUSER=$(USER) \
+		$(CTEST_GROUP) \
 		-S ctest/full-report.cmake
 
 .PHONY: run-

@@ -19,13 +19,13 @@ namespace MoleDemo
     void Star::Reset()
     {
         progress = 0;
-        position = { rand() % screen.w, 0 };
-        baseSpeed = 1 + rand() % maxSpeed;
+        position = { std::rand() % screen.w, 0 };
+        baseSpeed = 1 + std::rand() % maxSpeed;
         currentSpeed = baseSpeed;
         brightness = permilleFactor * baseSpeed / maxSpeed;
-        color = { static_cast<channel>(rand() % saturated),
-                  static_cast<channel>(rand() % saturated),
-                  static_cast<channel>(rand() % saturated) };
+        color = { static_cast<channel>(std::rand() % saturated),
+                  static_cast<channel>(std::rand() % saturated),
+                  static_cast<channel>(std::rand() % saturated) };
     }
 
     void Star::Update(permille intensity, milliseconds deltaTime)
@@ -46,8 +46,8 @@ namespace MoleDemo
 
     void Star::Draw(std::function<void(Point2D, rgbaColor)> putPixel)
     {
-        int_fast64_t y{ static_cast<int_fast64_t>(position.y) };
-        int_fast16_t trail{ (int_fast16_t) brightness };
+        std::int_fast64_t y{ static_cast<std::int_fast64_t>(position.y) };
+        std::int_fast16_t trail{ (std::int_fast16_t) brightness };
         permille fade{ permilleFactor / (int) (1 + currentSpeed / maxSpeed) };
         while (trail > 0 && y >= 0)
         {

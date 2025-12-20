@@ -7,7 +7,7 @@
 
 a tiny audiovisual experience with an overkilled tooling environment.
 
-See current development status at the [project CDash Page](https://my.cdash.org/index.php?project=mole_demo)
+See current development status at the [project CDash Page](https://my.cdash.org/overview.php?project=mole_demo)
 
 ## Usage
 
@@ -34,7 +34,7 @@ In order to compile it from source extra packages may be needed. At the time of 
 
 ## Verified toolchains
 
-- CMake 4.0.3+
+- CMake 4.2.1+
 - Ninja Build 1.11.2 +
 - GCC 15.1+
 
