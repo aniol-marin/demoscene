@@ -3,7 +3,7 @@ Expected policies:
 - [CMP0154] introduced in 3.28
 - [CMP0076] introduced in 3.13
 Expected features:
-- [FILE SETS] introduced in 3.23
+-
 Expected experimental features:
 -
 ]]#
