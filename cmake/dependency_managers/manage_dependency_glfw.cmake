@@ -1,6 +1,6 @@
 function(manage_dependency_glfw)
 
-	if(MoleDemo_ForceFetchedDependencies)
+	if(NOT MoleDemo_ForceFetchedDependencies)
 		find_package(glfw3 QUIET)
 	endif()
 
