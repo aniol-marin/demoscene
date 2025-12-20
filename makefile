@@ -35,15 +35,14 @@ main:
 		-Bbuild-artifacts \
 		-DCMAKE_CXX_COMPILER=$(COMPILER_PATH) \
 		-DCMAKE_RUNTIME_OUTPUT_DIRECTORY:PATH=$(call current_folder) \
-		-DCMAKE_ARCHIVE_OUTPUT_DIRECTORY:PATH=$(BUILD_PATH) \
-		-DCMAKE_LIBRARY_OUTPUT_DIRECTORY:PATH=$(BUILD_PATH) \
 		--preset=user \
-		-Wno-dev \
 		--log-level=ERROR
 	cmake --build build-artifacts -t $(BINARY_NAME)
 	./$(BINARY_NAME)
 
+########################
 # Public recipes
+########################
 
 clear:
 	clear;
@@ -156,6 +155,21 @@ test: generate
 	make .call_log MESSAGE="testing all CTest targets"
 	$(CMAKE_PATH) --build $(BUILD_PATH) --target test
 
+check-toolchain:
+	echo "------------------------------------------"
+	echo "c++ compiler:"
+	$(COMPILER_PATH) --version
+	echo "------------------------------------------"
+	echo "cmake:"
+	$(CMAKE_PATH) --version
+	echo "------------------------------------------"
+	echo "ninja:"
+	ninja --version
+	echo "------------------------------------------"
+
+########################
+# Implementation details
+########################
 USER = $(shell uname -n)
 .report:
 	if ! [ -f $(CACHE) ]; then \

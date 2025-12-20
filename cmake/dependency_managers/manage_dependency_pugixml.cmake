@@ -1,6 +1,6 @@
 function(manage_dependency_pugixml)
 
-	if(MoleDemo_ForceFetchedDependencies)
+	if(NOT MoleDemo_ForceFetchedDependencies)
 		find_package(pugixml 1.15 QUIET)
 	endif()
 
