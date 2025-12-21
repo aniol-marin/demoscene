@@ -9,6 +9,8 @@ Expected experimental features:
 ]]#
 cmake_minimum_required(VERSION 3.13..4.2.1)
 
+
+set(CMAKE_EXPERIMENTAL_CXX_MODULE_CMAKE_API "2182bf5c-ef0d-489a-91da-49dbc3090d2a")
 # Pre-project definition compilation requirements
 set(CMAKE_CXX_STANDARD 98)
 set(CMAKE_CXX_STANDARD_REQUIRED ON)
@@ -32,7 +34,7 @@ include(CTest)
 
 # Early check for project requirements
 #[[ Compiler feature requirements and compiler adoption
-- assumes any c++ compiler will comply with c++98 requirement
+- assumes any c++ compiler will comply with c++98 requirements
 ]]#
 
 # Load project build scripts
