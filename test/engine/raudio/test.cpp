@@ -51,7 +51,7 @@ SCENARIO("Manager behavior")
 		{
 			raudio::AudioManager m {};
 			std::filesystem::path path {std::filesystem::absolute(std::filesystem::current_path())/ "resources/molelofi.mp3"};
-			std::string_view file{ path.c_str() };
+			std::string_view file{ path.string() };
 
 			THEN("it should load correctly")
 			{
