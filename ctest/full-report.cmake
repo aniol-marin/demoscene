@@ -1,4 +1,4 @@
-cmake_minimum_required(VERSION 4.2.1)
+cmake_minimum_required(VERSION 3.13)
 
 set(ENV{CXXFLAGS} "-g")
 # Custom report settings, they can be skipped in favor of defaults
@@ -7,6 +7,9 @@ if(NOT DEFINED USER)
 	set(USER ${user})
 endif()
 cmake_host_system_information(RESULT distro QUERY DISTRIB_NAME)
+if(distro MATCHES "^$")
+	cmake_host_system_information(RESULT distro QUERY OS_NAME)
+endif()
 execute_process(
 	COMMAND git branch --show-current
 	OUTPUT_VARIABLE branch

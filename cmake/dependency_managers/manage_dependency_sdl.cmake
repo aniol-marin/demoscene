@@ -1,11 +1,18 @@
 function(manage_dependency_sdl)
 
+	if(NOT MoleDemo_ForceFetchedDependencies)
+		find_package(SDL2 QUIET)
+	endif()
+
+	if(NOT SDL2_FOUND)
 	FetchContent_Declare(
 		SDL2
 		EXCLUDE_FROM_ALL
 		GIT_REPOSITORY https://github.com/libsdl-org/SDL.git
 		GIT_TAG e11183ea6caa3ae4895f4bc54cad2bbb0e365417 # 2.32.2
+		#[[ incompatible with custom toggle
 		FIND_PACKAGE_ARGS NAMES SDL2
+		]]#
 	)
 	FetchContent_MakeAvailable(SDL2)
 
@@ -159,5 +166,6 @@ function(manage_dependency_sdl)
 		XSS_LIB
 		X_INCLUDEDIR
 	)
+	endif()
 
 endfunction()
