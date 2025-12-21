@@ -9,6 +9,8 @@ Expected experimental features:
 ]]#
 cmake_minimum_required(VERSION 3.13..4.2.1)
 
+
+set(CMAKE_EXPERIMENTAL_CXX_MODULE_CMAKE_API "2182bf5c-ef0d-489a-91da-49dbc3090d2a")
 # Pre-project definition compilation requirements
 set(CMAKE_CXX_STANDARD 11)
 set(CMAKE_CXX_STANDARD_REQUIRED ON)
@@ -40,24 +42,29 @@ include(CTest)
 set(GCC_EXPECTED_VERSION 4.8.1)
 set(CLANG_EXPECTED_VERSION 3.3)
 set(MSVC_EXPECTED_VERSION 15.7)
-if(${CMAKE_CXX_COMPILER_ID} STREQUAL "GNU")
-	if(${CMAKE_CXX_COMPILER_VERSION} VERSION_LESS ${GCC_EXPECTED_VERSION})
-		message(FATAL_ERROR "
-		incompatible compiler version.
-		found:    ${CMAKE_CXX_COMPILER_ID} ${CMAKE_CXX_COMPILER_VERSION}
-		required: ${CMAKE_CXX_COMPILER_ID} ${GCC_EXPECTED_VERSION}")
-	endif()
-elseif (${CMAKE_CXX_COMPILER_ID} STREQUAL MSVC)
-	message(WARNING "
-		Support with the current compiler is still highly experimental.
-		found:    ${CMAKE_CXX_COMPILER_ID} ${CMAKE_CXX_COMPILER_VERSION}
-		required: ${CMAKE_CXX_COMPILER_ID} ${GCC_EXPECTED_VERSION}")
-else()
-	#[[ TODO: add support for the right version of clang and so on ]]#
+if(${CMAKE_CXX_COMPILER_ID} STREQUAL "GNU" AND ${CMAKE_CXX_COMPILER_VERSION} VERSION_LESS ${GCC_EXPECTED_VERSION})
 	message(FATAL_ERROR "
-	this version of the project requires one of the following c++ compilers:
-	- GNU  version ${GCC_EXPECTED_VERSION}
-	- MSVC version ${MSVC_EXPECTED_VERSION}
+	incompatible compiler version.
+	found:    ${CMAKE_CXX_COMPILER_ID} ${CMAKE_CXX_COMPILER_VERSION}
+	required: ${CMAKE_CXX_COMPILER_ID} ${GCC_EXPECTED_VERSION}")
+elseif (${CMAKE_CXX_COMPILER_ID} STREQUAL "Clang" AND ${CMAKE_CXX_COMPILER_VERSION} VERSION_LESS ${CLANG_EXPECTED_VERSION})
+	message(FATAL_ERROR "
+	incompatible compiler version.
+	found:    ${CMAKE_CXX_COMPILER_ID} ${CMAKE_CXX_COMPILER_VERSION}
+	required: ${CMAKE_CXX_COMPILER_ID} ${CLANG_EXPECTED_VERSION}")
+elseif (${CMAKE_CXX_COMPILER_ID} STREQUAL MSVC AND ${CMAKE_CXX_COMPILER_VERSION} VERSION_LESS ${MSVC_EXPECTED_VERSION})
+	message(FATAL_ERROR "
+	incompatible compiler version.
+	found:    ${CMAKE_CXX_COMPILER_ID} ${CMAKE_CXX_COMPILER_VERSION}
+	required: ${CMAKE_CXX_COMPILER_ID} ${MSVC_EXPECTED_VERSION}")
+elseif(${CMAKE_CXX_COMPILER_ID} STREQUAL "GNU" OR ${CMAKE_CXX_COMPILER_ID} STREQUAL "Clang" OR ${CMAKE_CXX_COMPILER_ID} STREQUAL MSVC)
+	message(STATUS "c++ compiler validated")
+else()
+	message(FATAL_ERROR "
+	this version of the project requires one of the following validated c++ compilers:
+	- GCC   version ${GCC_EXPECTED_VERSION}
+	- Clang version ${CLANG_EXPECTED_VERSION}
+	- MSVC  version ${MSVC_EXPECTED_VERSION}
 	used compiler instead:
 	- ${CMAKE_CXX_COMPILER_ID} version ${CMAKE_CXX_COMPILER_VERSION}")
 endif()

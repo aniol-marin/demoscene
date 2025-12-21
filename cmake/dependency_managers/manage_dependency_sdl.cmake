@@ -1,6 +1,9 @@
 function(manage_dependency_sdl)
 
-	find_package(SDL2 QUIET)
+	if(NOT MoleDemo_ForceFetchedDependencies)
+		find_package(SDL2 QUIET)
+	endif()
+
 	if(NOT SDL2_FOUND)
 	FetchContent_Declare(
 		SDL2

@@ -168,7 +168,7 @@ export namespace mole_def
         ~Color() = default;
         Color(const Color&) = default;
         Color(Color&&) = default;
-        constexpr Color& operator=(const Color&) = default;
+        Color& operator=(const Color&) = default;
 
         const channel r() const;
         const channel g() const;
