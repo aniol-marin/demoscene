@@ -1,13 +1,16 @@
 #ifndef MOLE_DEFINITIONS_H
 #define MOLE_DEFINITIONS_H
 
+/*
 #include <cstdint>
 #include <functional>
 #include <memory>
 #include <vector>
+ */
 
 namespace mole_def
 {
+	/*
     class Color;
     struct Point2D;
     struct Renderable;
@@ -19,7 +22,9 @@ namespace mole_def
     using bunch = uint_fast8_t;
     using seconds = uint_fast16_t;
     using milliseconds = uint_fast16_t;
-    using permille = int_fast16_t;
+    */
+    typedef short int permille;
+    /*
     using speed = uint_fast16_t;
     using index_t = uint_fast32_t;
     using point1D = uint_fast16_t;
@@ -27,7 +32,9 @@ namespace mole_def
     using rgbaColor = uint32_t;
     using hslaColor = uint32_t;
     using tempChannel = uint_fast16_t;
-    using channel = uint_fast8_t;
+    */
+    typedef unsigned char channel;
+    /*
     using hue = uint_fast8_t;
     using saturation = uint_fast8_t;
     using lightness = uint_fast8_t;
@@ -52,8 +59,10 @@ namespace mole_def
     {
     }; // TODO
     using Renderables = std::vector<Renderable*>;
+    */
 
-    constexpr permille permilleFactor{ 1024 };
+    permille permilleFactor();
+/*
     constexpr double permilleRad{ 2 * PI / permilleFactor };
 
     constexpr rgbaColor mask_opaque{ 0xFF000000 };
@@ -103,9 +112,11 @@ namespace mole_def
         Implode,
         Rotate,
     };
+*/
 
     channel lerp(channel m_r, channel next, permille permille);
 
+    /*
     struct Timestamp
     {
         const seconds start;
@@ -188,11 +199,11 @@ namespace mole_def
         index_t GetIndex(Point2D point) const;
     };
 
-    /*
+    \/\*
     constexpr Screen defaultScreen{ 640, 480 };
     constexpr Screen textureSize{ 512, 512 };
     constexpr Screen superSampler{ 2048, 2048 };
-     */
+     \*\/
 
     struct Initializable
     {
@@ -232,6 +243,7 @@ namespace mole_def
         virtual constexpr Id TextureLimit() const = 0;
         virtual void AssignTexture(std::unique_ptr<Texturable> texture, Id id = 0) = 0;
     };
+	 */
 }
 
 #endif // !MOLE_DEFINITIONS_H
