@@ -2,11 +2,13 @@
 #define MOLE_DEFINITIONS_H
 
 /*
-#include <cstdint>
 #include <functional>
 #include <memory>
 #include <vector>
  */
+
+#include <vector>
+#define PI 3.14159265358979323846264338327950288
 
 namespace mole_def
 {
@@ -16,33 +18,31 @@ namespace mole_def
     struct Renderable;
     struct Texturable;
 
-    constexpr double PI = 3.14159265358979323846264338327950288;
 
-    using Id = uint_fast8_t;
-    using bunch = uint_fast8_t;
-    using seconds = uint_fast16_t;
-    using milliseconds = uint_fast16_t;
     */
+    typedef char Id;
+    typedef char bunch;
+    typedef unsigned short seconds;
+    typedef unsigned short milliseconds;
     typedef short int permille;
-    /*
-    using speed = uint_fast16_t;
-    using index_t = uint_fast32_t;
-    using point1D = uint_fast16_t;
-    using offset1D = int_fast64_t;
-    using rgbaColor = uint32_t;
-    using hslaColor = uint32_t;
-    using tempChannel = uint_fast16_t;
-    */
+    typedef short permille;
+    typedef unsigned short speed;
+    typedef unsigned int index_t;
+    typedef unsigned short point1D;
+    typedef unsigned long offset1D;
+    typedef unsigned int rgbaColor;
+    typedef unsigned int hslaColor;
+    typedef unsigned short tempChannel;
     typedef unsigned char channel;
-    /*
-    using hue = uint_fast8_t;
-    using saturation = uint_fast8_t;
-    using lightness = uint_fast8_t;
+    typedef unsigned char hue;
+    typedef unsigned char saturation;
+    typedef unsigned char lightness;
 
+    /*
     struct PixelBuffer : std::vector<rgbaColor>
     {
     };
-    using pixel_count = PixelBuffer::size_type;
+    typedef PixelBuffer::size_type pixel_count;
     struct StencilBuffer : std::vector<bool>
     {
     };
@@ -52,38 +52,43 @@ namespace mole_def
     struct ColorBuffer : std::vector<Color>
     {
     };
-    struct stencil : std::function<bool(Point2D)>
-    {
-    };
+    typedef bool (*stencil)(Point2D);
     struct Texture : std::unique_ptr<Texturable>
     {
+	    private:
+		    Texturable* t {};
+
+	    ~Texture() { delete t; }
     }; // TODO
     using Renderables = std::vector<Renderable*>;
     */
 
     permille permilleFactor();
 /*
-    constexpr double permilleRad{ 2 * PI / permilleFactor };
+   typedef std::vector<Renderable*> Renderables;
 
-    constexpr rgbaColor mask_opaque{ 0xFF000000 };
-    constexpr rgbaColor mask_red{ 0x00FF0000 };
-    constexpr rgbaColor mask_green{ 0x0000FF00 };
-    constexpr rgbaColor mask_blue{ 0x000000FF };
+    permille permilleFactor{ 1024 };
+    double permilleRad{ 2 * PI / permilleFactor };
 
-    constexpr channel clear{ 0x0 };
-    constexpr channel saturated{ 0xFF };
-    constexpr channel halfValue{ 0xFF / 2 };
-    constexpr rgbaColor transparent{ clear };
-    constexpr rgbaColor black{ mask_opaque };
-    constexpr rgbaColor white{ mask_opaque | mask_red | mask_green | mask_blue };
-    constexpr rgbaColor red{ mask_opaque | mask_red };
-    constexpr rgbaColor green{ mask_opaque | mask_green };
-    constexpr rgbaColor blue{ mask_opaque | mask_blue };
-    constexpr rgbaColor yellow{ red | green };
-    constexpr rgbaColor magenta{ red | blue };
-    constexpr rgbaColor teal{ blue | green };
-    constexpr rgbaColor orange{ 0xFFFF9933 };
-    constexpr rgbaColor concrete{ 0xFF5D696B };
+    rgbaColor mask_opaque{ 0xFF000000 };
+    rgbaColor mask_red{ 0x00FF0000 };
+    rgbaColor mask_green{ 0x0000FF00 };
+    rgbaColor mask_blue{ 0x000000FF };
+
+    channel clear{ 0x0 };
+    channel saturated{ 0xFF };
+    channel halfValue{ 0xFF / 2 };
+    rgbaColor transparent{ clear };
+    rgbaColor black{ mask_opaque };
+    rgbaColor white{ mask_opaque | mask_red | mask_green | mask_blue };
+    rgbaColor red{ mask_opaque | mask_red };
+    rgbaColor green{ mask_opaque | mask_green };
+    rgbaColor blue{ mask_opaque | mask_blue };
+    rgbaColor yellow{ red | green };
+    rgbaColor magenta{ red | blue };
+    rgbaColor teal{ blue | green };
+    rgbaColor orange{ 0xFFFF9933 };
+    rgbaColor concrete{ 0xFF5D696B };
 
     enum class ProgramStatus
     {
@@ -200,10 +205,10 @@ namespace mole_def
     };
 
     \/\*
-    constexpr Screen defaultScreen{ 640, 480 };
-    constexpr Screen textureSize{ 512, 512 };
-    constexpr Screen superSampler{ 2048, 2048 };
-     \*\/
+    Screen defaultScreen{ 640, 480 };
+    Screen textureSize{ 512, 512 };
+    Screen superSampler{ 2048, 2048 };
+    \*\/
 
     struct Initializable
     {
@@ -240,7 +245,7 @@ namespace mole_def
 
     struct Customizable
     {
-        virtual constexpr Id TextureLimit() const = 0;
+        virtual Id TextureLimit() const = 0;
         virtual void AssignTexture(std::unique_ptr<Texturable> texture, Id id = 0) = 0;
     };
 	 */
