@@ -6,6 +6,24 @@ export module definitions:type_aliases;
 
 export namespace mole_def
 {
+    /* TO DO
+    class id_t
+    {
+        std::uint_fast8_t value;
+
+    public:
+        id_t() = delete ("a valid initialization is required for the invariant");
+        template<typename V>
+            requires std::no_narrowing_conversion<V, std::uint_fast8_t>, requires std::same_as<V, std::uint_fast8_t>
+        explicit constexpr id_t(V value) : value{ value }
+        {
+        }
+        template<typename V>
+            requires std::no_narrowing_conversion<V, std::uint_fast8_t>, requires std::same_as<V, std::uint_fast8_t>
+                                                                     constexpr id_t& operator=(id_t) = default;
+        constexpr auto v() const { return value; }
+    };
+     */
     using Id = std::uint_fast8_t;
     using bunch = std::uint_fast8_t;
     using seconds = std::uint_fast16_t;

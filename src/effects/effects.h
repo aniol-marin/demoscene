@@ -3,8 +3,8 @@
 
 #include "Effect.h"
 #include "stars.h"
+#include "solid.h"
 /*
-export import solid;
 export import gradient;
 export import wheel;
 export import chess;

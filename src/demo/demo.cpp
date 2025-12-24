@@ -6,6 +6,8 @@
 
 namespace MoleDemo
 {
+    using namespace mole_def;
+
     void Demo::LoadData(std::string source) {}
 
     void Demo::LoadTimeline(std::string source) {}
