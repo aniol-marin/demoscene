@@ -10,7 +10,7 @@ namespace mole::graphics
     static void MouseButtonCallback(GLFWwindow* window, int button, int action, int mods);
     static void MouseCursorPosCallback(GLFWwindow* window, double x, double y);
 
-    WindowContext::WindowContext(window_size&& size, std::string_view name) : size{ size }, name{ name }
+    WindowContext::WindowContext(window_size&& size, const std::string& name) : size{ size }, name{ name }
     {
         glfwSetErrorCallback(ErrorCallback);
 

@@ -3,6 +3,7 @@ set(MODULE_NAME effects)
 add_module_target(${MODULE_NAME})
 
 add_subdirectory(stars)
+add_subdirectory(solid)
 
 target_link_libraries(${MODULE_NAME} PUBLIC
 	effect
@@ -10,12 +11,12 @@ target_link_libraries(${MODULE_NAME} PUBLIC
 	timer
 	serialization
 	stars
+	solid
 )
 
 target_sources(${MODULE_NAME} PUBLIC
 	#[[
 	FILE_SET effects TYPE CXX_MODULES
-	FILE_SET solid TYPE CXX_MODULES
 	FILE_SET gradient TYPE CXX_MODULES
 	FILE_SET wheel TYPE CXX_MODULES
 	FILE_SET chess TYPE CXX_MODULES
@@ -28,7 +29,6 @@ target_sources(${MODULE_NAME} PUBLIC
 	]]#
 	effects.cpp
 	#[[
-	Solid.cpp
 	Gradient.cpp
 	Wheel.cpp
 	ChessBoard.cpp
