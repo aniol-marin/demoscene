@@ -48,7 +48,7 @@ compilers:
 
 Other toolchains may be possible as long as they support compilation of ISO c++.
 Feel free to send your own CTest reports in order to expand the verified toolchain list.
-Alternative versions of the demoscene exist in the port branches, defined by c++ standard (CMake and build system requirements are lowered as a consequence). If you are unable to compile this specific branch, please try with an older one.
+Alternative versions of the demoscene exist in the port branches, defined by c++ standard (CMake and build system requirements are modified as a consequence). If you are unable to compile this specific branch, please try with an older one.
 
 ## Roadmap
 

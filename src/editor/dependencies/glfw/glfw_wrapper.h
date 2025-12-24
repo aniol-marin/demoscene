@@ -7,7 +7,6 @@ extern "C" {
 #include <functional>
 #include <map>
 #include <string>
-#include <string_view>
 #include <vector>
 
 #include "definitions.h"
@@ -39,11 +38,11 @@ namespace mole::graphics
     {
         GLFWwindow* window{ NULL };
         const window_size size;
-        const std::string_view name;
+        const std::string name;
         proc_address* address;
 
         WindowContext() = delete;
-        WindowContext(window_size&& size, std::string_view name);
+        WindowContext(window_size&& size, const std::string& name);
         WindowContext(const WindowContext&) = delete;
         WindowContext(WindowContext&&) = default;
         ~WindowContext();
