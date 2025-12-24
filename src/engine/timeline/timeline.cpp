@@ -8,6 +8,7 @@ import cycle;
 import program;
 import render;
 import stars;
+import solid;
 
 namespace MoleDemo
 {
@@ -349,6 +350,7 @@ namespace MoleDemo
 
         // Layers
         Layer* stars{ CreateLayer(BlendMode::AlphaBlend, CreateEffect<Stars>()) };
+        Layer* solids{ CreateLayer(BlendMode::AlphaBlend, CreateEffect<Solid>()) };
         /*
         Layer* plasma{ CreateLayer(BlendMode::Override, CreateEffect<Plasma>()) };
         Layer* fire{ CreateLayer(BlendMode::Override, CreateEffect<Fire>()) };
@@ -374,8 +376,8 @@ namespace MoleDemo
         }
 
         renderables.push_back(stars);
-        /*
-       events.push(std::make_unique<Event>(Timestamp{ 5, 2000 }, stars, stars, TransitionType::Fade));
+       events.push(std::make_unique<Event>(Timestamp{ 5, 2000 }, stars, solids, TransitionType::Fade));
+       /*
             events.push(std::make_unique<Event>(Timestamp{ 5, 2000 }, stars, sanitaryPollution, TransitionType::Fade));
             events.push(std::make_unique<Event>(Timestamp{ 31, 2000 }, fire, wheel, TransitionType::Fade));
             events.push(std::make_unique<Event>(Timestamp{ 40, 2000 }, wheel, black, TransitionType::Fade));
