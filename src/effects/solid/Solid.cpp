@@ -1,52 +1,24 @@
-export module solid;
+module;
 
-import std;
+#include <functional>
+#include <cstdlib>
+#include <cstdint>
+
+module solid;
+
 import definitions;
 import timer;
 import effect;
+/*
 import serialization;
 
-namespace MoleDemo
-{
-    export class Solid;
-    export using SolidDeserializer = mole::pugi_wrapper::node<MoleDemo::Solid>;
-
-}
-
 struct mole::pugi_wrapper::node<MoleDemo::Solid>;
-
-class MoleDemo::Solid final
-  : public Texturable
-  , public Effect
-{
-    rgbaColor rgbColor;
-
-public:
-    Solid(); // texturable-enforced constructor
-    Solid(Timer* timer, Screen* screen);
-    Solid(Solid&&) noexcept;
-    ~Solid() override;
-
-    void SetColor(Color color);
-
-    void Load() override;
-    void Unload() override;
-    void Update(permille intensity, milliseconds delta) override;
-    void Cache(StencilBuffer& mask) override;
-    rgbaColor GetPixel(Point2D p) override;
-    rgbaColor GetPixel(index_t index) override;
-    rgbaColor GetMappedUV(CoordinateUV uv) override;
-};
+ */
 
 namespace MoleDemo
 {
-
-    Solid::Solid() : Solid{ nullptr, &textureSize } {}
-
     Solid::Solid(Timer* timer, Screen* screen) : Texturable{}, Effect{ timer, screen } {}
     Solid::Solid(Solid&& o) noexcept : Effect{ o.timer, o.screen }, rgbColor{ o.rgbColor } {}
-
-    Solid::~Solid() {}
 
     void Solid::Load() {}
 
@@ -77,6 +49,7 @@ namespace MoleDemo
     }
 }
 
+/*
 template<>
 struct mole::pugi_wrapper::node<MoleDemo::Solid>
 {
@@ -100,3 +73,4 @@ mole::pugi_wrapper::node<MoleDemo::Solid>::node(const pugi::xml_node& node, Mole
     rgbaColor color{ static_cast<rgbaColor>(content.get_number("color")) };
     data.SetColor(color);
 }
+ */
