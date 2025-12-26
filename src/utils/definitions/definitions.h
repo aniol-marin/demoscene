@@ -1,25 +1,18 @@
 #ifndef MOLE_DEFINITIONS_H
 #define MOLE_DEFINITIONS_H
 
-/*
-#include <functional>
-#include <memory>
 #include <vector>
- */
+#include <string>
 
-#include <vector>
 #define PI 3.14159265358979323846264338327950288
 
 namespace mole_def
 {
-	/*
     class Color;
     struct Point2D;
     struct Renderable;
     struct Texturable;
 
-
-    */
     typedef char Id;
     typedef char bunch;
     typedef unsigned short seconds;
@@ -38,7 +31,6 @@ namespace mole_def
     typedef unsigned char saturation;
     typedef unsigned char lightness;
 
-    /*
     struct PixelBuffer : std::vector<rgbaColor>
     {
     };
@@ -52,6 +44,7 @@ namespace mole_def
     struct ColorBuffer : std::vector<Color>
     {
     };
+    /*
     typedef bool (*stencil)(Point2D);
     struct Texture : std::unique_ptr<Texturable>
     {
@@ -64,15 +57,11 @@ namespace mole_def
     */
 
     permille permilleFactor();
-/*
    typedef std::vector<Renderable*> Renderables;
 
-    permille permilleFactor{ 1024 };
+/*
     double permilleRad{ 2 * PI / permilleFactor };
 
-    */
-
-    /*
     channel clear{ 0x0 };
     channel saturated{ 0xFF };
     channel halfValue{ 0xFF / 2 };
@@ -87,15 +76,16 @@ namespace mole_def
     rgbaColor teal{ blue | green };
     rgbaColor orange{ 0xFFFF9933 };
     rgbaColor concrete{ 0xFF5D696B };
+    */
 
-    enum class ProgramStatus
+    enum ProgramStatus // TO DO prefix
     {
         TERMINATE_OK,
         TERMINATE_ERROR,
         RUNNING,
     };
 
-    enum class BlendMode
+    enum BlendMode // TO DO prefix
     {
         Override,
         AlphaBlend,
@@ -106,7 +96,7 @@ namespace mole_def
         Screen,
     };
 
-    enum class TransitionType
+    enum TransitionType // TO DO prefix
     {
         Cut,
         Fade,
@@ -115,7 +105,6 @@ namespace mole_def
         Implode,
         Rotate,
     };
-*/
 
     channel lerp(channel m_r, channel next, permille permille);
 
@@ -185,28 +174,26 @@ namespace mole_def
         Color lerp(const Color& next, const permille permille);
     };
 
-    /*
     struct Screen
     {
         point1D w;
         point1D h;
 
+        Screen();
         Screen(point1D width, point1D heigth);
-        ~Screen() = default;
-        Screen(const Screen&) = default;
-        Screen(Screen&&) = default;
-        Screen& operator=(const Screen&) = default;
-        Screen& operator=(Screen&&) = default;
+        ~Screen();
+        Screen(const Screen&);
+        Screen& operator=(const Screen&);
 
         const pixel_count GetPixelCount() const;
         index_t GetIndex(Point2D point) const;
     };
 
-    \/\*
+    /*
     Screen defaultScreen{ 640, 480 };
     Screen textureSize{ 512, 512 };
     Screen superSampler{ 2048, 2048 };
-    \*\/
+	 */
 
     struct Initializable
     {
@@ -222,7 +209,7 @@ namespace mole_def
 
     struct Renderable
     {
-        virtual void Update(permille intenisty, milliseconds deltaTime) = 0;
+        virtual void Update(permille intensity, milliseconds deltaTime) = 0;
         virtual void Cache(StencilBuffer& mask) = 0;
         virtual rgbaColor GetPixel(Point2D point) = 0;
         virtual rgbaColor GetPixel(index_t index) = 0;
@@ -232,7 +219,7 @@ namespace mole_def
 
     struct Texturable
     {
-        Texturable() = default; // enforced default non-copy, non-default-arguments constructor
+        Texturable() {} // enforced default non-copy, non-default-arguments constructor
         virtual ~Texturable() {}
 
         virtual void Load() = 0;
@@ -244,9 +231,8 @@ namespace mole_def
     struct Customizable
     {
         virtual Id TextureLimit() const = 0;
-        virtual void AssignTexture(std::unique_ptr<Texturable> texture, Id id = 0) = 0;
+        virtual void AssignTexture(Texturable* texture_ownership, Id id = 0) = 0;
     };
-	 */
 }
 
 #endif // !MOLE_DEFINITIONS_H

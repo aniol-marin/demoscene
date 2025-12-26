@@ -2,10 +2,10 @@
 
 namespace mole_def
 {
-    rgbaColor mask_opaque( 0xFF000000 );
-    rgbaColor mask_red( 0x00FF0000 );
-    rgbaColor mask_green( 0x0000FF00 );
-    rgbaColor mask_blue( 0x000000FF );
+    const rgbaColor mask_opaque( 0xFF000000 );
+    const rgbaColor mask_red( 0x00FF0000 );
+    const rgbaColor mask_green( 0x0000FF00 );
+    const rgbaColor mask_blue( 0x000000FF );
     
     Color::Color() :
       m_r(),
