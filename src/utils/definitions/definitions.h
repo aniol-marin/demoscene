@@ -131,31 +131,30 @@ namespace mole_def
         ~Timestamp();
     };
 
-    /*
     struct Point2D
     {
-        point1D x{};
-        point1D y{};
+        point1D x;
+        point1D y;
 
-        Point2D() = default;
+        Point2D();
         Point2D(point1D x, point1D y);
-        Point2D(const Point2D&) = default;
-        Point2D(Point2D&&) = default;
-        ~Point2D() = default;
+        Point2D(const Point2D&);
+        ~Point2D();
 
         const Point2D& operator=(const Point2D& other);
     };
 
     struct Offset2D
     {
-        const offset1D x{};
-        const offset1D y{};
+        const offset1D x;
+        const offset1D y;
 
-        Offset2D() = default;
+        Offset2D();
         Offset2D(offset1D x, offset1D y);
-        ~Offset2D() {}
+        ~Offset2D();
     };
 
+    /*
     struct CoordinateUV
     {
         const permille u, v;
