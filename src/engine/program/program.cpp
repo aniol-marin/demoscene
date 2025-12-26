@@ -6,20 +6,15 @@ namespace MoleDemo
 {
     using namespace mole_def;
 
-    Program::Program()
+    Program::Program(const Screen& screen)
 	    : status( PROGRAM_RUNNING )
-	      /*
-		 Program::Program(const Screen& screen)
 	    , m_screen( screen )
-	    */
     {
     }
 
     Program::Program(const Program& other)
 	    : status( other.status )
-	      /*
-	    , m_screen( other.screen )
-	    */
+	    , m_screen( other.m_screen )
     {
 	    throw std::exception();
     }
@@ -33,12 +28,10 @@ namespace MoleDemo
         this->status = status;
     }
 
-	      /*
     const Screen* Program::GetScreen() const
     {
         return &m_screen;
     }
-    */
 
     bool Program::Running()
     {

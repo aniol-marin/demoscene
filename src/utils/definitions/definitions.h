@@ -12,6 +12,7 @@ namespace mole_def
     struct Point2D;
     struct Renderable;
     struct Texturable;
+    struct Screen;
 
     typedef char Id;
     typedef char bunch;
@@ -93,7 +94,7 @@ namespace mole_def
         Subtractive,
         Multiply,
         Divide,
-        Screen,
+        BLEND_MODE_SCREEN,
     };
 
     enum TransitionType // TO DO prefix
