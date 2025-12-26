@@ -121,17 +121,17 @@ namespace mole_def
 
     channel lerp(channel m_r, channel next, permille permille);
 
-    /*
     struct Timestamp
     {
         const seconds start;
         const milliseconds duration;
 
-        Timestamp() = delete;
+        Timestamp();
         Timestamp(seconds start, milliseconds duration);
-        ~Timestamp() = default;
+        ~Timestamp();
     };
 
+    /*
     struct Point2D
     {
         point1D x{};
