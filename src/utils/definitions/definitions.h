@@ -78,11 +78,11 @@ namespace mole_def
     rgbaColor concrete{ 0xFF5D696B };
     */
 
-    enum ProgramStatus // TO DO prefix
+    enum ProgramStatus
     {
-        TERMINATE_OK,
-        TERMINATE_ERROR,
-        RUNNING,
+        PROGRAM_TERMINATE_OK,
+        PROGRAM_TERMINATE_ERROR,
+        PROGRAM_RUNNING,
     };
 
     enum BlendMode // TO DO prefix

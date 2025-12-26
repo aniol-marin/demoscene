@@ -10,16 +10,22 @@ namespace MoleDemo
     class Program
     {
         ProgramStatus status;
-        const Screen& m_screen;
+	/*
+        const Screen m_screen;
+	 */
 
     public:
+	Program();
+	/*
         Program(const Screen& screen);
-        Program(const Program&) = delete;
-        Program(Program&&) = default;
-        ~Program() = default;
+	 */
+        Program(const Program&);
+        ~Program();
 
         void SetStatus(ProgramStatus status);
+	/*
         const Screen* GetScreen() const;
+	 */
         bool Running();
     };
 }
