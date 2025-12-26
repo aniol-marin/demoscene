@@ -70,11 +70,9 @@ namespace mole_def
     permille permilleFactor{ 1024 };
     double permilleRad{ 2 * PI / permilleFactor };
 
-    rgbaColor mask_opaque{ 0xFF000000 };
-    rgbaColor mask_red{ 0x00FF0000 };
-    rgbaColor mask_green{ 0x0000FF00 };
-    rgbaColor mask_blue{ 0x000000FF };
+    */
 
+    /*
     channel clear{ 0x0 };
     channel saturated{ 0xFF };
     channel halfValue{ 0xFF / 2 };
@@ -154,30 +152,30 @@ namespace mole_def
         ~Offset2D();
     };
 
-    /*
     struct CoordinateUV
     {
-        const permille u, v;
-        CoordinateUV() : u{}, v{} {}
-        CoordinateUV(offset1D x, offset1D y) : u{ (permille) x }, v{ (permille) y } {}
-        ~CoordinateUV() {}
+        const permille u;
+        const permille v;
+
+        CoordinateUV();
+        CoordinateUV(offset1D x, offset1D y);
+        ~CoordinateUV();
     };
 
     class Color
     {
-        channel m_r{};
-        channel m_g{};
-        channel m_b{};
-        channel m_a{};
+        channel m_r;
+        channel m_g;
+        channel m_b;
+        channel m_a;
 
     public:
-        Color() = default;
+        Color();
         Color(const rgbaColor& color);
-        Color(channel r, channel g, channel b, channel a = saturated);
-        ~Color() = default;
-        Color(const Color&) = default;
-        Color(Color&&) = default;
-        Color& operator=(const Color&) = default;
+        Color(channel r, channel g, channel b, channel a = 0xFF );
+        ~Color();
+        Color(const Color&);
+        Color& operator=(const Color&);
 
         const channel r() const;
         const channel g() const;
@@ -187,6 +185,7 @@ namespace mole_def
         Color lerp(const Color& next, const permille permille);
     };
 
+    /*
     struct Screen
     {
         point1D w;

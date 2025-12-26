@@ -72,4 +72,20 @@ namespace mole_def
 	Offset2D::~Offset2D()
 	{
 	}
+
+	CoordinateUV::CoordinateUV()
+		: u()
+		, v()
+	{
+	}
+
+	CoordinateUV::CoordinateUV(offset1D u, offset1D v)
+		: u( u )
+		, v( v )
+	{
+	}
+
+	CoordinateUV::~CoordinateUV()
+	{
+	}
 }
