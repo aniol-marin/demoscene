@@ -1,6 +1,7 @@
 #ifndef MOLE_STARS_H
 #define MOLE_STARS_H
 
+#include <vector>
 #include "Effect.h"
 #include "definitions.h"
 using namespace mole_def;
@@ -8,32 +9,33 @@ using namespace mole_def;
 namespace MoleDemo
 {
     class Star;
+    typedef void (*drawer)(Point2D, rgbaColor);
 
     class Stars : public Effect
     {
-        const int maxStars = 100;
-        const int newStarsPerFrame = 2;
-        const speed maxSpeed = 100;
+        const int maxStars;
+        const int newStarsPerFrame;
+        const speed maxSpeed;
         std::vector<Star> stars;
 
     public:
         Stars(Timer* timer, Screen* screen);
-        ~Stars() override = default;
+        ~Stars();
 
-        void Load() override;
-        void Unload() override;
+        void Load();
+        void Unload();
 
-        void Update(permille intensity, milliseconds delta) override;
-        void Cache(StencilBuffer& mask) override;
+        void Update(permille intensity, milliseconds delta);
+        void Cache(StencilBuffer& mask);
     };
 
     class Star
     {
         const Screen& screen;
         const speed& maxSpeed;
-        Color empty{ transparent };
-        Color dessaturated{ white };
-        Color color{ white };
+        Color empty;
+        Color dessaturated;
+        Color color;
         Point2D position;
         int progress;
         permille brightness;
@@ -48,7 +50,7 @@ namespace MoleDemo
         ~Star();
 
         void Update(permille intensity, milliseconds delta);
-        void Draw(std::function<void(Point2D pixel, rgbaColor color)> putPixel);
+        void Draw(drawer putPixel);
     };
 }
 #endif
