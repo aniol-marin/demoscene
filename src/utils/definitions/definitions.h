@@ -1,8 +1,8 @@
 #ifndef MOLE_DEFINITIONS_H
 #define MOLE_DEFINITIONS_H
 
-#include <vector>
 #include <string>
+#include <vector>
 
 #define PI 3.14159265358979323846264338327950288
 
@@ -49,35 +49,35 @@ namespace mole_def
     typedef bool (*stencil)(Point2D);
     struct Texture : std::unique_ptr<Texturable>
     {
-	    private:
-		    Texturable* t {};
+        private:
+            Texturable* t {};
 
-	    ~Texture() { delete t; }
+        ~Texture() { delete t; }
     }; // TODO
     using Renderables = std::vector<Renderable*>;
     */
 
     permille permilleFactor();
-   typedef std::vector<Renderable*> Renderables;
+    typedef std::vector<Renderable*> Renderables;
 
-/*
-    double permilleRad{ 2 * PI / permilleFactor };
+    /*
+        double permilleRad{ 2 * PI / permilleFactor };
 
-    channel clear{ 0x0 };
-    channel saturated{ 0xFF };
-    channel halfValue{ 0xFF / 2 };
-    rgbaColor transparent{ clear };
-    rgbaColor black{ mask_opaque };
-    rgbaColor white{ mask_opaque | mask_red | mask_green | mask_blue };
-    rgbaColor red{ mask_opaque | mask_red };
-    rgbaColor green{ mask_opaque | mask_green };
-    rgbaColor blue{ mask_opaque | mask_blue };
-    rgbaColor yellow{ red | green };
-    rgbaColor magenta{ red | blue };
-    rgbaColor teal{ blue | green };
-    rgbaColor orange{ 0xFFFF9933 };
-    rgbaColor concrete{ 0xFF5D696B };
-    */
+        channel clear{ 0x0 };
+        channel saturated{ 0xFF };
+        channel halfValue{ 0xFF / 2 };
+        rgbaColor transparent{ clear };
+        rgbaColor black{ mask_opaque };
+        rgbaColor white{ mask_opaque | mask_red | mask_green | mask_blue };
+        rgbaColor red{ mask_opaque | mask_red };
+        rgbaColor green{ mask_opaque | mask_green };
+        rgbaColor blue{ mask_opaque | mask_blue };
+        rgbaColor yellow{ red | green };
+        rgbaColor magenta{ red | blue };
+        rgbaColor teal{ blue | green };
+        rgbaColor orange{ 0xFFFF9933 };
+        rgbaColor concrete{ 0xFF5D696B };
+        */
 
     enum ProgramStatus
     {
@@ -162,7 +162,7 @@ namespace mole_def
     public:
         Color();
         Color(const rgbaColor& color);
-        Color(channel r, channel g, channel b, channel a = 0xFF );
+        Color(channel r, channel g, channel b, channel a = 0xFF);
         ~Color();
         Color(const Color&);
         Color& operator=(const Color&);
@@ -194,7 +194,7 @@ namespace mole_def
     Screen defaultScreen{ 640, 480 };
     Screen textureSize{ 512, 512 };
     Screen superSampler{ 2048, 2048 };
-	 */
+     */
 
     struct Initializable
     {

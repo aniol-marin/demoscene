@@ -2,8 +2,8 @@
 #define MOLE_SOUND
 
 #include "Effect.h"
-#include "stars.h"
 #include "solid.h"
+#include "stars.h"
 /*
 export import gradient;
 export import wheel;

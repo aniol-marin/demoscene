@@ -1,11 +1,11 @@
 #include "timeline.h"
 
-#include <vector>
-#include <memory>
-#include <string_view>
-#include <exception>
-#include <stdexcept>
 #include <algorithm>
+#include <exception>
+#include <memory>
+#include <stdexcept>
+#include <string_view>
+#include <vector>
 
 namespace MoleDemo
 {
@@ -373,30 +373,30 @@ namespace MoleDemo
         }
 
         renderables.push_back(stars);
-       events.push(std::make_unique<Event>(Timestamp{ 5, 2000 }, stars, solids, TransitionType::Fade));
-       /*
-            events.push(std::make_unique<Event>(Timestamp{ 5, 2000 }, stars, sanitaryPollution, TransitionType::Fade));
-            events.push(std::make_unique<Event>(Timestamp{ 31, 2000 }, fire, wheel, TransitionType::Fade));
-            events.push(std::make_unique<Event>(Timestamp{ 40, 2000 }, wheel, black, TransitionType::Fade));
-            events.push(std::make_unique<Event>(Timestamp{ 43, 2000 }, black, white, TransitionType::Fade));
-            events.push(std::make_unique<Event>(Timestamp{ 45, 2000 }, white, verticalGradient, TransitionType::Fade));
-            events.push(std::make_unique<Event>(
-                        Timestamp{ 47, 2000 }, verticalGradient, diagonalGradient, TransitionType::Fade));
-            events.push(std::make_unique<Event>(Timestamp{ 49, 4000 }, diagonalGradient, primaries,
-           TransitionType::Fade)); events.push(std::make_unique<Event>(Timestamp{ 53, 3000 }, primaries, secondaries,
-           TransitionType::Fade)); events.push(std::make_unique<Event>(Timestamp{ 56, 512 }, secondaries, chess,
-           TransitionType::Fade)); events.push(std::make_unique<Event>(Timestamp{ 58, 512 }, chess, sonicPollution,
-           TransitionType::Fade)); events.push(std::make_unique<Event>(Timestamp{ 65, 10000 }, sonicPollution, plasma,
-           TransitionType::Fade)); events.push(std::make_unique<Event>(Timestamp{ 77, 1000 }, plasma, black,
-           TransitionType::Fade)); events.push(std::make_unique<Event>(Timestamp{ 78, 1000 }, black, sky,
-           TransitionType::Fade)); events.push(std::make_unique<Event>(Timestamp{ 79, 0 }, Renderables{ sky, stars }));
-            events.push(std::make_unique<Event>(Timestamp{ 90, 0 }, Renderables{ tunnelSmooth }));
-            events.push(std::make_unique<Event>(Timestamp{ 100, 0 }, Renderables{ tunnelEpilepsy }));
-            events.push(std::make_unique<Event>(Timestamp{ 105, 0 }, Renderables{ sanitaryPollution }));
-            events.push(std::make_unique<Event>(Timestamp{ 110, 1000 }, sanitaryPollution, wheel,
-           TransitionType::Fade)); events.push(std::make_unique<Event>(Timestamp{ 300, 10000 }, wheel, black,
-           TransitionType::Fade));
-        */
+        events.push(std::make_unique<Event>(Timestamp{ 5, 2000 }, stars, solids, TransitionType::Fade));
+        /*
+             events.push(std::make_unique<Event>(Timestamp{ 5, 2000 }, stars, sanitaryPollution, TransitionType::Fade));
+             events.push(std::make_unique<Event>(Timestamp{ 31, 2000 }, fire, wheel, TransitionType::Fade));
+             events.push(std::make_unique<Event>(Timestamp{ 40, 2000 }, wheel, black, TransitionType::Fade));
+             events.push(std::make_unique<Event>(Timestamp{ 43, 2000 }, black, white, TransitionType::Fade));
+             events.push(std::make_unique<Event>(Timestamp{ 45, 2000 }, white, verticalGradient, TransitionType::Fade));
+             events.push(std::make_unique<Event>(
+                         Timestamp{ 47, 2000 }, verticalGradient, diagonalGradient, TransitionType::Fade));
+             events.push(std::make_unique<Event>(Timestamp{ 49, 4000 }, diagonalGradient, primaries,
+            TransitionType::Fade)); events.push(std::make_unique<Event>(Timestamp{ 53, 3000 }, primaries, secondaries,
+            TransitionType::Fade)); events.push(std::make_unique<Event>(Timestamp{ 56, 512 }, secondaries, chess,
+            TransitionType::Fade)); events.push(std::make_unique<Event>(Timestamp{ 58, 512 }, chess, sonicPollution,
+            TransitionType::Fade)); events.push(std::make_unique<Event>(Timestamp{ 65, 10000 }, sonicPollution, plasma,
+            TransitionType::Fade)); events.push(std::make_unique<Event>(Timestamp{ 77, 1000 }, plasma, black,
+            TransitionType::Fade)); events.push(std::make_unique<Event>(Timestamp{ 78, 1000 }, black, sky,
+            TransitionType::Fade)); events.push(std::make_unique<Event>(Timestamp{ 79, 0 }, Renderables{ sky, stars }));
+             events.push(std::make_unique<Event>(Timestamp{ 90, 0 }, Renderables{ tunnelSmooth }));
+             events.push(std::make_unique<Event>(Timestamp{ 100, 0 }, Renderables{ tunnelEpilepsy }));
+             events.push(std::make_unique<Event>(Timestamp{ 105, 0 }, Renderables{ sanitaryPollution }));
+             events.push(std::make_unique<Event>(Timestamp{ 110, 1000 }, sanitaryPollution, wheel,
+            TransitionType::Fade)); events.push(std::make_unique<Event>(Timestamp{ 300, 10000 }, wheel, black,
+            TransitionType::Fade));
+         */
 
         UpdateRenderables(renderables);
     }

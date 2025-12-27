@@ -13,7 +13,7 @@ namespace MoleDemo
         const Screen m_screen;
 
     public:
-	Program();
+        Program();
         Program(const Screen& screen);
         Program(const Program&);
         ~Program();

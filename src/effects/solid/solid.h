@@ -1,8 +1,8 @@
 #ifndef MOLE_SOLID_H
 #define MOLE_SOLID_H
 
-#include "definitions.h"
 #include "Effect.h"
+#include "definitions.h"
 using namespace mole_def;
 
 namespace MoleDemo

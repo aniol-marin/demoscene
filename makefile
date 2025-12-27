@@ -231,7 +231,7 @@ previous-status: $(STATUS_OUTPUT)
 	cat $(STATUS_OUTPUT)
 
 format:
-	find src/ -type f | grep '.cpp' | xargs -L1 /usr/local/bin/clang-format -i
+	find src/ -type f | grep -e '.cpp' -e '.h' | xargs -L1 /usr/local/bin/clang-format -i
 
 clean:
 	make .call_warn MESSAGE="are you sure you want to clear all CMake artifacts? [yes]"

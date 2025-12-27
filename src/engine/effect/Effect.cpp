@@ -4,7 +4,9 @@ namespace MoleDemo
 {
     using namespace mole_def;
 
-    Effect::Effect(Timer* timer, Screen* screen) : timer{ timer }, screen{ screen }, buffer{}
+    Effect::~Effect() {}
+
+    Effect::Effect(Timer* timer, Screen* screen) : timer(timer), screen(screen), buffer()
     {
         ReserveBuffer();
     }
@@ -39,7 +41,10 @@ namespace MoleDemo
     void Effect::ReserveBuffer()
     {
         buffer.reserve(screen->GetPixelCount());
-        ClearBuffer(transparent);
+        /*
+            ClearBuffer(transparent);
+         */
+        ClearBuffer(0x0);
     }
 
     void Effect::ClearBuffer(rgbaColor color)

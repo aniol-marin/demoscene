@@ -8,35 +8,35 @@
 
 namespace MoleDemo
 {
-	class SoundManager;
+    class SoundManager;
 }
 
 using namespace mole_def;
 
 namespace MoleDemo
 {
-	class SoundManager
-		: public Initializable
-		  , public Loadable
-	{
-		raudio::AudioManager m{};
+    class SoundManager
+      : public Initializable
+      , public Loadable
+    {
+        raudio::AudioManager m{};
 
-		public:
-		SoundManager() = default;
-		SoundManager(const SoundManager&) = delete;
-		SoundManager(SoundManager&&) = default;
-		~SoundManager() = default;
+    public:
+        SoundManager() = default;
+        SoundManager(const SoundManager&) = delete;
+        SoundManager(SoundManager&&) = default;
+        ~SoundManager() = default;
 
-		void Init();
-		void Finalize();
-		void Load(const std::string& file);
-		void Unload();
-		void Play();
-		void Stop();
-		void Update();
-		permille GetCurrentIntensity();
-		seconds GetMusicDuration();
-	};
+        void Init();
+        void Finalize();
+        void Load(const std::string& file);
+        void Unload();
+        void Play();
+        void Stop();
+        void Update();
+        permille GetCurrentIntensity();
+        seconds GetMusicDuration();
+    };
 }
 
 #endif //! MOLE_SOUND_H

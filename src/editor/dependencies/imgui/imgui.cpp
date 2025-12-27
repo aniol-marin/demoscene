@@ -46,7 +46,7 @@ namespace mole::ui
         if (ImGui::Button("Profile"))
         {
             std::system("echo 'profiling $PWD/bin/sandbox'");
-            std::system((std::string{"valgrind ./bin/sandbox "} + std::to_string(timeout)).c_str());
+            std::system((std::string{ "valgrind ./bin/sandbox " } + std::to_string(timeout)).c_str());
         }
 
         io_t io{ ImGui::GetIO() };

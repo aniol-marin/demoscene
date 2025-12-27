@@ -22,49 +22,39 @@ namespace MoleDemo
     using s = std::chrono::seconds;
     */
 
-    Timer::Timer()
-	    : initial_time()
-	    , last_time()
-	    , last_mark()
-	    , delta_time()
-	    , frameTime()
-	    /*
-	    : initial_time{ clock_t::now() }
-	    , last_time{ initial_time }
-	    , last_mark{ initial_time }
-	     */
+    Timer::Timer() : initial_time(), last_time(), last_mark(), delta_time(), frameTime()
+    /*
+    : initial_time{ clock_t::now() }
+    , last_time{ initial_time }
+    , last_mark{ initial_time }
+     */
     {
     }
 
-    Timer::Timer(const Timer&)
-	    : initial_time()
-	    , last_time()
-	    , last_mark()
-	    , delta_time()
-	    , frameTime()
+    Timer::Timer(const Timer&) : initial_time(), last_time(), last_mark(), delta_time(), frameTime()
     {
-	    throw std::exception();
+        throw std::exception();
     }
 
-    Timer::~Timer(){}
+    Timer::~Timer() {}
 
     void Timer::update_frame_level_state()
     {
         time_t current_time = 0;
-	    /*
+        /*
         time_t current_time{ clock_t::now() };
         delta_time = static_cast<mole_ms>(std::chrono::duration_cast<ms>(current_time - last_time).count());
-	     */
+         */
         last_time = current_time;
         ++frames_since_mark;
     }
 
     ms Timer::get_next_time_target() const
     {
-	    /*
+        /*
         return std::chrono::duration_cast<std::chrono::milliseconds>(last_time + frameTime - clock_t::now());
-	*/
-	    return 0;
+    */
+        return 0;
     }
 
     mole_ms Timer::GetDeltaTime() const
@@ -74,55 +64,55 @@ namespace MoleDemo
 
     mole_s Timer::get_total_time() const
     {
-	    /*
+        /*
         return static_cast<seconds>(std::chrono::duration_cast<std::chrono::seconds>(endTime - initial_time).count());
-	     */
-	    return 0;
+         */
+        return 0;
     }
 
     void Timer::SetFPS(fps_t fps)
     {
-        frameTime = static_cast<ms>( mole_def::permilleFactor() / fps );
+        frameTime = static_cast<ms>(mole_def::permilleFactor() / fps);
     }
 
     void Timer::SetEndTime(mole_s seconds)
     {
-	/*
-        endTime = initial_time + std::chrono::seconds(seconds);
-	*/
+        /*
+            endTime = initial_time + std::chrono::seconds(seconds);
+        */
     }
 
     void Timer::WaitUntilNextFrame()
     {
-	    /*
+        /*
         std::this_thread::sleep_for(get_next_time_target());
         update_frame_level_state();
-	     */
+         */
     }
 
     void Timer::set_mark()
     {
         frames_since_mark = 0;
-	/*
-        last_mark = { clock_t::now() };
-	 */
+        /*
+            last_mark = { clock_t::now() };
+         */
     }
 
     mole_s Timer::GetTime() const
     {
-	    /*
+        /*
         return static_cast<mole_s>(std::chrono::duration_cast<s>(last_time - initial_time).count());
-	     */
-	return 0;
+         */
+        return 0;
     }
 
     bool Timer::EndReached() const
     {
 
-	    /*
+        /*
         return clock_t::now() >= endTime;
-	     */
-	    return true;
+         */
+        return true;
     }
 
     frame_t Timer::get_frames_since_mark() const
