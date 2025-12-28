@@ -13,42 +13,46 @@ namespace MoleDemo
         Effect* const effect;
 
         Layer(BlendMode mode, Effect* effect);
-        Layer(const Layer&) = delete;
-        Layer(Layer&&) = default;
-        ~Layer() = default;
+        ~Layer() {}
 
-        void Update(permille intensity, milliseconds deltaTime) override;
-        void Cache(StencilBuffer& mask) override;
-        rgbaColor GetPixel(Point2D point) override;
-        rgbaColor GetPixel(index_t index) override;
-        BlendMode GetBlend() override;
-        bool CheckStencil(index_t offset) override;
+        void Update(permille intensity, milliseconds deltaTime);
+        void Cache(StencilBuffer& mask);
+        rgbaColor GetPixel(Point2D point);
+        rgbaColor GetPixel(index_t index);
+        BlendMode GetBlend();
+        bool CheckStencil(index_t offset);
     };
 
     class Transition : public Renderable
     {
         const TransitionType type;
         const Timestamp time;
-        milliseconds m_elapsed{};
+        milliseconds m_elapsed;
 
     protected:
-        Renderable* background{};
-        Renderable* foreground{};
+        Renderable* background;
+        Renderable* foreground;
 
-        Transition() = delete;
+        Transition() : type(), time(), m_elapsed(), background(), foreground() {}
         explicit Transition(Timestamp time, TransitionType type);
-        Transition(const Transition&) = delete;
-        Transition(Transition&&) = default;
+        Transition(const Transition& other) :
+          type(other.type),
+          time(other.time),
+          m_elapsed(other.m_elapsed),
+          background(other.background),
+          foreground(other.foreground)
+        {
+        }
 
         permille elapsed() const;
 
     public:
-        virtual ~Transition() = default;
+        virtual ~Transition() {}
 
         void Bind(Renderable* background, Renderable* foreground);
-        void Update(permille intensity, milliseconds deltaTime) final;
+        void Update(permille intensity, milliseconds deltaTime);
         bool IsDone();
-        bool CheckStencil(index_t index) final;
+        bool CheckStencil(index_t index);
     };
 
     class Cut : public Transition
@@ -57,24 +61,24 @@ namespace MoleDemo
 
     public:
         Cut(Timestamp time);
-        ~Cut() override = default;
+        ~Cut() {}
 
-        void Cache(StencilBuffer& mask) override;
-        rgbaColor GetPixel(Point2D point) override;
-        rgbaColor GetPixel(index_t index) override;
-        BlendMode GetBlend() override;
+        void Cache(StencilBuffer& mask);
+        rgbaColor GetPixel(Point2D point);
+        rgbaColor GetPixel(index_t index);
+        BlendMode GetBlend();
     };
 
     class Fade : public Transition
     {
     public:
         explicit Fade(Timestamp time);
-        ~Fade() override = default;
+        ~Fade() {}
 
-        void Cache(StencilBuffer& mask) override;
-        rgbaColor GetPixel(index_t index) override;
-        rgbaColor GetPixel(Point2D point) override;
-        BlendMode GetBlend() override;
+        void Cache(StencilBuffer& mask);
+        rgbaColor GetPixel(index_t index);
+        rgbaColor GetPixel(Point2D point);
+        BlendMode GetBlend();
     };
 }
 #endif

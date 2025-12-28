@@ -19,12 +19,12 @@ namespace MoleDemo
         virtual rgbaColor Blend(Color& base, Color& next) = 0;
 
     protected:
-        Blending(BlendMode mode) : mode{ mode } {}
+        Blending(BlendMode mode) : mode(mode) {}
     };
 
     struct OverrideBlend : public Blending
     {
-        OverrideBlend() : Blending(BlendMode::Override) {}
+        OverrideBlend() : Blending(mole_def::BLEND_MODE_OVERRIDE) {}
         ~OverrideBlend() {}
         rgbaColor Blend(const rgbaColor base, const rgbaColor next) { return next; }
         rgbaColor Blend(Color& base, Color& next) { return next.rgba(); };
@@ -32,16 +32,16 @@ namespace MoleDemo
 
     struct AlphaBlend : public Blending
     {
-        AlphaBlend() : Blending(BlendMode::AlphaBlend) {}
+        AlphaBlend() : Blending(mole_def::BLEND_MODE_ALPHABLEND) {}
         ~AlphaBlend() {}
 
-        rgbaColor Blend(const rgbaColor base, const rgbaColor next) override
+        rgbaColor Blend(const rgbaColor base, const rgbaColor next)
         {
-            Color ref_base{ base };
-            Color ref_next{ next };
+            Color ref_base(base);
+            Color ref_next(next);
             return Blend(ref_base, ref_next);
         };
-        rgbaColor Blend(Color& base, Color& next) override
+        rgbaColor Blend(Color& base, Color& next)
         {
 
             tempChannel aB(base.a());
@@ -79,8 +79,10 @@ namespace MoleDemo
     {
     public:
         RenderManager(Screen& screen, SDL::SDLManager& sdl);
-        RenderManager(const RenderManager&) {}
-        RenderManager(RenderManager&&) {}
+        RenderManager(const RenderManager& other) :
+          m_screen(other.m_screen), queue(other.queue), buffer(other.buffer), mask(other.mask), sdl(other.sdl)
+        {
+        }
         ~RenderManager() {}
 
     private:

@@ -3,7 +3,7 @@
 namespace MoleDemo
 {
     using namespace mole_def;
-    Layer::Layer(BlendMode mode, Effect* effect) : blend{ mode }, effect{ effect } {}
+    Layer::Layer(BlendMode mode, Effect* effect) : blend(mode), effect(effect) {}
 
     void Layer::Update(permille intensity, milliseconds deltaTime)
     {
@@ -36,11 +36,12 @@ namespace MoleDemo
         return true;
     }
 
-    Transition::Transition(Timestamp time, TransitionType type) : type{ type }, time{ time } {}
+    Transition::Transition(Timestamp time, TransitionType type)
+	    : type(type), time(time) {}
 
     permille Transition::elapsed() const
     {
-        return m_elapsed * permilleFactor / time.duration;
+        return m_elapsed * permilleFactor() / time.duration;
     }
 
     void Transition::Bind(Renderable* background, Renderable* foreground)
@@ -69,7 +70,7 @@ namespace MoleDemo
         return IsDone() ? foreground : background;
     }
 
-    Cut::Cut(Timestamp time) : Transition{ time, TransitionType::Cut } {}
+    Cut::Cut(Timestamp time) : Transition(time, mole_def::TRANSITION_TYPE_CUT) {}
 
     void Cut::Cache(StencilBuffer& mask)
     {
@@ -92,7 +93,7 @@ namespace MoleDemo
         return ActiveLayer()->GetBlend();
     }
 
-    Fade::Fade(Timestamp time) : Transition{ time, TransitionType::Fade } {}
+    Fade::Fade(Timestamp time) : Transition(time, mole_def::TRANSITION_TYPE_FADE) {}
 
     void Fade::Cache(StencilBuffer& mask)
     {
@@ -102,12 +103,12 @@ namespace MoleDemo
 
     rgbaColor Fade::GetPixel(index_t index)
     {
-        Color next{ foreground->GetPixel(index) };
+        Color next(foreground->GetPixel(index));
         rgbaColor result;
 
         if (!IsDone())
         {
-            Color base{ background->GetPixel(index) };
+            Color base(background->GetPixel(index));
             result = base.lerp(next, elapsed()).rgba();
         }
         else
@@ -121,11 +122,11 @@ namespace MoleDemo
     rgbaColor Fade::GetPixel(Point2D point)
     {
         rgbaColor result;
-        Color next{ foreground->GetPixel(point) };
+        Color next(foreground->GetPixel(point));
 
         if (!IsDone())
         {
-            Color base{ background->GetPixel(point) };
+            Color base(background->GetPixel(point));
             result = base.lerp(next, elapsed()).rgba();
         }
         else

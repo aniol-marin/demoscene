@@ -89,7 +89,7 @@ namespace mole_def
     enum BlendMode // TO DO prefix
     {
         BLEND_MODE_OVERRIDE,
-        AlphaBlend,
+        BLEND_MODE_ALPHABLEND,
         Additive,
         Subtractive,
         Multiply,
@@ -99,8 +99,8 @@ namespace mole_def
 
     enum TransitionType // TO DO prefix
     {
-        Cut,
-        Fade,
+        TRANSITION_TYPE_CUT,
+        TRANSITION_TYPE_FADE,
         Wipe,
         Explode,
         Implode,

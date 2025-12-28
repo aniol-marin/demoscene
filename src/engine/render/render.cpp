@@ -7,8 +7,8 @@ namespace MoleDemo
 {
     RenderQueue::RenderQueue()
     {
-        blending[BlendMode::Override] = new OverrideBlend();
-        blending[BlendMode::AlphaBlend] = new AlphaBlend();
+        blending[mole_def::BLEND_MODE_OVERRIDE] = new OverrideBlend();
+        blending[mole_def::BLEND_MODE_ALPHABLEND] = new AlphaBlend();
     }
 
     RenderQueue::~RenderQueue()
@@ -17,7 +17,7 @@ namespace MoleDemo
         {
             delete (it->second);
         }
-	blending.clear();
+        blending.clear();
     }
 
     void RenderQueue::Cache(Renderables& renderables, StencilBuffer& mask)
@@ -37,9 +37,8 @@ namespace MoleDemo
         size_t size;
         for (int i = renderables.size() - 1; i >= 0; --i)
         {
-
             renderable = renderables[i];
-            blend = blending[renderable->GetBlend()].get();
+            blend = blending[renderable->GetBlend()];
 
             // TODO use buffer iteration (only relevant pixels)
             size = size_t(buffer.size());
