@@ -3,28 +3,28 @@
 
 #include "definitions.h"
 
+#include <exception>
 #include "SDL2/SDL.h"
 
 namespace SDL
 {
-
     using namespace mole_def;
+
     struct SDLManager
     {
-        SDL_Window* window{};
-        SDL_Surface* surface{};
+        SDL_Window* window;
+        SDL_Surface* surface;
 
-        using pixel = uint32_t;
-        using offset = uint_fast16_t;
+        typedef unsigned int pixel;
+        typedef unsigned short int offset;
 
-        Screen g_screen{ 0, 0 };
-        bool initialized{ false };
-        bool locked{ false };
+        Screen g_screen;
+        bool initialized;
+        bool locked;
 
-        SDLManager() = default;
-        SDLManager(const SDLManager&) = delete;
-        SDLManager(SDLManager&&) = default;
-        ~SDLManager() = default;
+        SDLManager() {}
+        SDLManager(const SDLManager&) { throw std::exception(); }
+        ~SDLManager() {}
 
         bool Init(const Screen& screen);
         void Finalize();

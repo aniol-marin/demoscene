@@ -21,7 +21,7 @@ namespace SDL
                                       screen.h,
                                       SDL_WINDOW_SHOWN);
             surface = SDL_GetWindowSurface(window);
-            initialized = surface != nullptr;
+            initialized = surface != NULL;
         }
 
         return initialized;
@@ -40,10 +40,9 @@ namespace SDL
 
     ProgramStatus SDLManager::PollSDLEvents()
     {
-        SDL_Event events{};
-        /*
-         */
-        ProgramStatus status{ ProgramStatus::RUNNING };
+        SDL_Event events;
+
+        ProgramStatus status(mole_def::PROGRAM_RUNNING);
 
         while (SDL_PollEvent(&events) != 0)
         {
@@ -51,13 +50,13 @@ namespace SDL
             {
                 if (events.key.keysym.scancode == SDL_SCANCODE_ESCAPE)
                 {
-                    status = ProgramStatus::TERMINATE_OK;
+                    status = mole_def::PROGRAM_TERMINATE_OK;
                 }
             }
             // User requests quit
             if (events.type == SDL_QUIT)
             {
-                status = ProgramStatus::TERMINATE_OK;
+                status = mole_def::PROGRAM_TERMINATE_OK;
             }
         }
 
@@ -68,7 +67,7 @@ namespace SDL
     {
         if (!initialized)
         {
-            throw std::exception{};
+            throw std::exception();
         }
 
         SDL_LockSurface(surface);
@@ -79,7 +78,7 @@ namespace SDL
     {
         if (!initialized)
         {
-            throw std::exception{};
+            throw std::exception();
         }
 
         SDL_UnlockSurface(surface);
@@ -90,7 +89,7 @@ namespace SDL
     {
         if (!initialized)
         {
-            throw std::exception{};
+            throw std::exception();
         }
 
         if (!locked)
@@ -105,11 +104,11 @@ namespace SDL
     {
         if (!initialized)
         {
-            throw std::exception{};
+            throw std::exception();
         }
         if (g_screen.w <= x || g_screen.h <= y)
         {
-            throw std::exception{};
+            throw std::exception();
         }
 
         return *reinterpret_cast<uint32_t*>((uint8_t*) surface->pixels + y * surface->pitch +
@@ -120,11 +119,11 @@ namespace SDL
     {
         if (!initialized)
         {
-            throw std::exception{};
+            throw std::exception();
         }
         if (g_screen.w <= x || g_screen.h <= y)
         {
-            throw std::exception{};
+            throw std::exception();
         }
 
         pixel& pixel = getPixel(x, y);

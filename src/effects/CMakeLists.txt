@@ -9,7 +9,9 @@ target_link_libraries(${MODULE_NAME} PUBLIC
 	effect
 	engine_definitions
 	timer
+	#[[
 	serialization
+	]]#
 	stars
 	solid
 )

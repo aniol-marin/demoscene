@@ -1,6 +1,7 @@
 #ifndef MOLE_INPUT
 #define MOLE_INPUT
 
+#include <exception>
 #include "definitions.h"
 #include "sdl_wrapper.h"
 
@@ -16,11 +17,8 @@ class MoleDemo::InputManager
     SDL::SDLManager& manager;
 
 public:
-    InputManager() = delete;
     InputManager(SDL::SDLManager& manager);
-    InputManager(const InputManager&) = delete;
-    InputManager(InputManager&&) = default;
-    ~InputManager() = default;
+    ~InputManager() {}
 
     ProgramStatus PollEvents();
 };
