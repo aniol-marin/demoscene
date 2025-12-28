@@ -1,5 +1,4 @@
 #include "render.h"
-#include <memory>
 #include "definitions.h"
 
 using namespace mole_def;
@@ -8,15 +7,25 @@ namespace MoleDemo
 {
     RenderQueue::RenderQueue()
     {
-        blending[BlendMode::Override] = std::unique_ptr<OverrideBlend>(new OverrideBlend{});
-        blending[BlendMode::AlphaBlend] = std::unique_ptr<AlphaBlend>(new AlphaBlend{});
+        blending[BlendMode::Override] = new OverrideBlend();
+        blending[BlendMode::AlphaBlend] = new AlphaBlend();
+    }
+
+    RenderQueue::~RenderQueue()
+    {
+        for (std::map<BlendMode, Blending*>::iterator it = blending.begin(); it != blending.end(); ++it)
+        {
+            delete (it->second);
+        }
+	blending.clear();
     }
 
     void RenderQueue::Cache(Renderables& renderables, StencilBuffer& mask)
     {
-        for (Renderable* renderable: renderables)
+        for (Renderable* it = *renderables.begin(); it != *renderables.end(); ++it)
         {
-            renderable->Cache(mask);
+            Renderable& renderable(*it);
+            renderable.Cache(mask);
         }
     }
 
@@ -26,14 +35,14 @@ namespace MoleDemo
         Renderable* renderable;
         Blending* blend;
         size_t size;
-        for (int i{ (int) (renderables.size() - 1) }; i >= 0; --i)
+        for (int i = renderables.size() - 1; i >= 0; --i)
         {
 
             renderable = renderables[i];
             blend = blending[renderable->GetBlend()].get();
 
             // TODO use buffer iteration (only relevant pixels)
-            size = { buffer.size() };
+            size = size_t(buffer.size());
             for (index_t p = 0; p < size; ++p)
             {
                 if (renderable->CheckStencil(p))
@@ -45,7 +54,7 @@ namespace MoleDemo
     }
 
     MoleDemo::RenderManager::RenderManager(Screen& screen, SDL::SDLManager& sdl) :
-      m_screen{ screen }, sdl{ sdl }, queue{ new RenderQueue() }
+      m_screen(screen), sdl(sdl), queue(new RenderQueue())
     {
     }
     void MoleDemo::RenderManager::Lock()
@@ -63,8 +72,8 @@ namespace MoleDemo
 
     void MoleDemo::RenderManager::Init()
     {
-        sdl.Init({ m_screen.w, m_screen.h });
-        buffer.assign(size_t{ m_screen.GetPixelCount() }, black);
+        sdl.Init(mole_def::Screen(m_screen.w, m_screen.h));
+        buffer.assign(size_t(m_screen.GetPixelCount()), 0x000000FF);
     }
 
     void MoleDemo::RenderManager::Finalize()
@@ -75,19 +84,19 @@ namespace MoleDemo
     void MoleDemo::RenderManager::Draw(Renderables& renderables)
     {
 
-        if (!renderables.empty() && BlendMode::Override != renderables.front()->GetBlend())
+        if (!renderables.empty() && mole_def::BLEND_MODE_OVERRIDE != renderables.front()->GetBlend())
         {
-            buffer.assign(size_t{ m_screen.GetPixelCount() }, black);
+            buffer.assign(size_t(m_screen.GetPixelCount()), 0x000000FF);
         }
 
         queue->Cache(renderables, mask);
         queue->Render(renderables, buffer);
 
         Lock();
-        index_t i{ 0 };
-        for (point1D y{ 0 }; y < m_screen.h; ++y)
+        index_t i(0);
+        for (mole_def::point1D y(0); y < m_screen.h; ++y)
         {
-            for (point1D x{ 0 }; x < m_screen.w; ++x)
+            for (point1D x(0); x < m_screen.w; ++x)
             {
                 sdl.PutPixel(x, y, buffer[i]);
                 i++;

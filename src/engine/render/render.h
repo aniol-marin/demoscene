@@ -8,7 +8,6 @@
 #include "sdl_wrapper.h"
 
 using namespace mole_def;
-using size_t = std::size_t;
 
 namespace MoleDemo
 {
@@ -25,15 +24,15 @@ namespace MoleDemo
 
     struct OverrideBlend : public Blending
     {
-        OverrideBlend() : Blending{ BlendMode::Override } {}
+        OverrideBlend() : Blending(BlendMode::Override) {}
         ~OverrideBlend() {}
-        rgbaColor Blend(const rgbaColor base, const rgbaColor next) override { return next; }
-        rgbaColor Blend(Color& base, Color& next) override { return next.rgba(); };
+        rgbaColor Blend(const rgbaColor base, const rgbaColor next) { return next; }
+        rgbaColor Blend(Color& base, Color& next) { return next.rgba(); };
     };
 
     struct AlphaBlend : public Blending
     {
-        AlphaBlend() : Blending{ BlendMode::AlphaBlend } {}
+        AlphaBlend() : Blending(BlendMode::AlphaBlend) {}
         ~AlphaBlend() {}
 
         rgbaColor Blend(const rgbaColor base, const rgbaColor next) override
@@ -45,20 +44,20 @@ namespace MoleDemo
         rgbaColor Blend(Color& base, Color& next) override
         {
 
-            tempChannel aB{ base.a() };
-            tempChannel rB{ base.r() };
-            tempChannel gB{ base.g() };
-            tempChannel bB{ base.b() };
+            tempChannel aB(base.a());
+            tempChannel rB(base.r());
+            tempChannel gB(base.g());
+            tempChannel bB(base.b());
 
-            tempChannel aN{ next.a() };
-            tempChannel rN{ next.r() };
-            tempChannel gN{ next.g() };
-            tempChannel bN{ next.b() };
+            tempChannel aN(next.a());
+            tempChannel rN(next.r());
+            tempChannel gN(next.g());
+            tempChannel bN(next.b());
 
-            channel a{ (channel) (aN + (0xFF - aN) * aB / 0xFF) };
-            channel r{ (channel) (a == 0x0 ? 0x0 : (rN * aN + rB * (0xFF - aN)) / a) };
-            channel g{ (channel) (a == 0x0 ? 0x0 : (gN * aN + gB * (0xFF - aN)) / a) };
-            channel b{ (channel) (a == 0x0 ? 0x0 : (bN * aN + bB * (0xFF - aN)) / a) };
+            channel a((channel) (aN + (0xFF - aN) * aB / 0xFF));
+            channel r((channel) (a == 0x0 ? 0x0 : (rN * aN + rB * (0xFF - aN)) / a));
+            channel g((channel) (a == 0x0 ? 0x0 : (gN * aN + gB * (0xFF - aN)) / a));
+            channel b((channel) (a == 0x0 ? 0x0 : (bN * aN + bB * (0xFF - aN)) / a));
 
             return Color(r, g, b, a).rgba();
         };
@@ -66,10 +65,11 @@ namespace MoleDemo
 
     class RenderQueue
     {
-        std::map<BlendMode, std::unique_ptr<Blending>> blending;
+        std::map<BlendMode, Blending*> blending;
 
     public:
         RenderQueue();
+        ~RenderQueue();
 
         void Cache(Renderables& renderables, StencilBuffer& mask);
         void Render(Renderables& renderables, PixelBuffer& buffer);
@@ -78,11 +78,10 @@ namespace MoleDemo
     class RenderManager : public Initializable
     {
     public:
-        RenderManager() = delete;
         RenderManager(Screen& screen, SDL::SDLManager& sdl);
-        RenderManager(const RenderManager&) = default;
-        RenderManager(RenderManager&&) = default;
-        ~RenderManager() = default;
+        RenderManager(const RenderManager&) {}
+        RenderManager(RenderManager&&) {}
+        ~RenderManager() {}
 
     private:
         const Screen m_screen;

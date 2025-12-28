@@ -88,7 +88,7 @@ namespace mole_def
 
     enum BlendMode // TO DO prefix
     {
-        Override,
+        BLEND_MODE_OVERRIDE,
         AlphaBlend,
         Additive,
         Subtractive,
