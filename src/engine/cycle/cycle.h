@@ -15,18 +15,15 @@ namespace MoleDemo
 {
     class Cycle
     {
-        Renderables renderables{};
+        Renderables renderables;
         Program& program;
         Timer& timer;
         InputManager& inputManager;
         RenderManager& renderManager;
 
     public:
-        Cycle() = delete;
         Cycle(Program& program, Timer& timer, InputManager& input, RenderManager& render);
-        Cycle(const Cycle&) = delete;
-        Cycle(Cycle&&) = default;
-        ~Cycle() = default;
+        ~Cycle() {}
 
         void PollEvents();
         void Update(permille intensity);

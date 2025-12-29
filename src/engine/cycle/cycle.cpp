@@ -4,7 +4,7 @@ using namespace mole_def;
 namespace MoleDemo
 {
     Cycle::Cycle(Program& program, Timer& timer, InputManager& input, RenderManager& render) :
-      program{ program }, inputManager{ input }, renderManager{ render }, timer{ timer }
+      program(program), inputManager(input), renderManager(render), timer(timer)
     {
     }
 
@@ -12,7 +12,7 @@ namespace MoleDemo
     {
         if (timer.EndReached())
         {
-            program.SetStatus(ProgramStatus::TERMINATE_OK);
+            program.SetStatus(mole_def::PROGRAM_TERMINATE_OK);
         }
         else
         {
@@ -22,7 +22,7 @@ namespace MoleDemo
 
     void Cycle::Update(permille intensity)
     {
-        for (Renderable* renderable: renderables)
+        for (Renderable* renderable = *renderables.begin(); renderable != *renderables.end(); ++renderable)
         {
             renderable->Update(intensity, timer.GetDeltaTime());
         }
@@ -41,6 +41,6 @@ namespace MoleDemo
     void Cycle::SetRenderables(const Renderables& aRenderables)
     {
         renderables.clear();
-        renderables.insert(renderables.begin(), aRenderables.cbegin(), aRenderables.cend());
+        renderables.insert(renderables.begin(), aRenderables.begin(), aRenderables.end());
     }
 }
