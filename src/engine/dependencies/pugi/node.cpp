@@ -1,5 +1,6 @@
 #include "pugi.h"
 
+/*
 namespace mole::pugi_wrapper
 {
     generic_node::generic_node(id_t a_id, const tree& a_tree) : id{ a_id }, m_tree{ a_tree } {}
@@ -29,3 +30,4 @@ namespace mole::pugi_wrapper
         return m_tree.get_children(*this);
     }
 }
+ */

@@ -22,4 +22,12 @@ namespace mole_def
     {
         return static_cast<pixel_count>(w * h);
     }
+
+    Screen& Screen::operator=(const Screen& other)
+    {
+        w = other.w;
+        h = other.h;
+
+        return *this;
+    }
 }

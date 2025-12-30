@@ -55,4 +55,14 @@ namespace mole_def
                      (channel) (m_b + (next.b() - m_b) * permille / permilleFactor()),
                      (channel) (m_a + (next.a() - m_a) * permille / permilleFactor()));
     }
+
+    Color& Color::operator=(const Color& other)
+    {
+        m_r = other.m_r;
+        m_g = other.m_g;
+        m_b = other.m_b;
+        m_a = other.m_a;
+
+        return *this;
+    }
 }

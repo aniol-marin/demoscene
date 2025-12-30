@@ -1,6 +1,7 @@
 #ifndef MOLE_PUGI_WRAPPER_H
 #define MOLE_PUGI_WRAPPER_H
 
+/*
 #include <string>
 #include <vector>
 
@@ -47,4 +48,5 @@ namespace mole::pugi_wrapper
     };
 }
 
+ */
 #endif

@@ -8,6 +8,7 @@ function(add_module_target MODULE_NAME)
 	target_include_directories(${MODULE_NAME} INTERFACE
 		$<BUILD_INTERFACE:${CMAKE_CURRENT_SOURCE_DIR}>
 	)
+	target_compile_options(${MODULE_NAME} PRIVATE -fPIE)
 	if(MoleDemo_Testing_EnableCoverage)
 		target_compile_options(${MODULE_NAME} PRIVATE -coverage)
 		target_link_options(${MODULE_NAME} PRIVATE -coverage)
@@ -62,6 +63,7 @@ function(add_module NAME)
 
 	add_library(${NAME})
 	target_compile_features(${NAME} PUBLIC cxx_std_17)
+	target_compile_options(${NAME} PRIVATE -fPIE)
 	target_sources(${NAME}
 		PRIVATE ${A_IMPLEMENTATIONS}
 	)
@@ -81,6 +83,7 @@ endfunction()
 function(add_executable_target EXECUTABLE_NAME)
 
 	add_executable(${EXECUTABLE_NAME})
+	target_compile_options(${EXECUTABLE_NAME} PRIVATE -fPIE)
 
 	set_property(TARGET ${EXECUTABLE_NAME} PROPERTY LABELS ${EXECUTABLE_NAME})
 
