@@ -14,8 +14,6 @@ namespace raudio
     struct AudioManager
     {
         AudioManager();
-        AudioManager(const AudioManager&) = delete;
-        AudioManager(AudioManager&&) = default;
         ~AudioManager();
 
         void Init();
@@ -31,9 +29,9 @@ namespace raudio
         permille GetIntensity();
 
     private:
-        bool initialized{ false };
-        bool loaded{ false };
-        Music music{};
+        bool initialized;
+        bool loaded;
+        Music music;
 
         static void SampleIntensity(void* buffer, unsigned int frames);
     };

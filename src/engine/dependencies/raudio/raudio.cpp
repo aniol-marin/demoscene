@@ -1,12 +1,18 @@
 
 #include <iostream>
+#include <cmath>
 #include "raudio_wrapper.h"
 
 namespace raudio
 {
     using namespace mole_def;
-    AudioManager::AudioManager() {}
-    permille intensity{};
+    permille intensity;
+
+    AudioManager::AudioManager()
+	: initialized(false)
+	, loaded (false)
+	, music ()
+    {}
 
     AudioManager::~AudioManager()
     {
@@ -19,31 +25,31 @@ namespace raudio
 
     void AudioManager::SampleIntensity(void* buffer, unsigned int frames)
     {
-        static std::queue<float> average{};
-        float* intensities{ static_cast<float*>(buffer) };
+        static std::queue<float> average;
+        float* intensities( static_cast<float*>(buffer) );
 
-        float accumulated{};
+        float accumulated;
         for (int i = 0; i < frames; ++i)
         {
-            accumulated += std::abs(intensities[i * 2 + 0]);
-            accumulated += std::abs(intensities[i * 2 + 1]);
+            accumulated += abs(intensities[i * 2 + 0]);
+            accumulated += abs(intensities[i * 2 + 1]);
         }
 
-        float current{ accumulated / frames };
+        float current( accumulated / frames );
         average.push(current);
         while (average.size() > 100)
         {
             average.pop();
         }
 
-        float max{ current };
+        float max( current );
         for (int i = 0; i < average.size(); ++i)
         {
             max = max < average.front() ? average.front() : max;
             average.push(average.front());
             average.pop();
         }
-        intensity = static_cast<permille>(max * permilleFactor);
+        intensity = static_cast<permille>(max * permilleFactor());
     }
 
     void AudioManager::Init()
@@ -51,7 +57,7 @@ namespace raudio
         if (initialized)
         {
             std::cerr << "already initialized\n";
-            throw std::exception{};
+            throw std::exception();
         }
 
         InitAudioDevice();
@@ -65,7 +71,7 @@ namespace raudio
         if (!initialized)
         {
             std::cerr << "already finalized\n";
-            throw std::exception{};
+            throw std::exception();
         }
 
         StopMusicStream(music);
@@ -79,15 +85,15 @@ namespace raudio
         if (!initialized)
         {
             std::cerr << "load without initialization\n";
-            throw std::exception{};
+            throw std::exception();
         }
         if (loaded)
         {
             std::cerr << "attempt at double load\n";
-            throw std::exception{};
+            throw std::exception();
         }
 
-        std::string s{ source };
+        std::string s( source );
         music = LoadMusicStream(s.c_str());
         AttachAudioStreamProcessor(music.stream, SampleIntensity);
 
@@ -99,12 +105,12 @@ namespace raudio
         if (!initialized)
         {
             std::cerr << "unload without initialization\n";
-            throw std::exception{};
+            throw std::exception();
         }
         if (!loaded)
         {
             std::cerr << "attempt at double unload\n";
-            throw std::exception{};
+            throw std::exception();
         }
         loaded = false;
 
@@ -117,7 +123,7 @@ namespace raudio
         if (!initialized)
         {
             std::cerr << "play without initialization\n";
-            throw std::exception{};
+            throw std::exception();
         }
 
         PlayMusicStream(music);
@@ -128,7 +134,7 @@ namespace raudio
         if (!initialized)
         {
             std::cerr << "stop without initialization\n";
-            throw std::exception{};
+            throw std::exception();
         }
 
         StopMusicStream(music);
@@ -139,7 +145,7 @@ namespace raudio
         if (!initialized)
         {
             std::cerr << "tick without initialization\n";
-            throw std::exception{};
+            throw std::exception();
         }
 
         UpdateMusicStream(music);

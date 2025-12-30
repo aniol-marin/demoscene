@@ -19,13 +19,11 @@ namespace MoleDemo
       : public Initializable
       , public Loadable
     {
-        raudio::AudioManager m{};
+        raudio::AudioManager m;
 
     public:
-        SoundManager() = default;
-        SoundManager(const SoundManager&) = delete;
-        SoundManager(SoundManager&&) = default;
-        ~SoundManager() = default;
+        SoundManager() {}
+        ~SoundManager() {}
 
         void Init();
         void Finalize();
