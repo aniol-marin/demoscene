@@ -9,13 +9,13 @@ target_link_libraries( ${MODULE_NAME} PUBLIC
 	effects
 	#[[
 	PRIVATE effects
+	serialization
 	]]#
 	engine_definitions
 	program
 	raudio
 	render
 	renderables
-	serialization
 	sound
 	timer
 )

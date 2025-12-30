@@ -4,39 +4,54 @@
 #include <exception>
 #include <memory>
 #include <stdexcept>
-#include <string_view>
 #include <vector>
 
 namespace MoleDemo
 {
     using namespace mole_def;
 
+    milliseconds timeSinceStart;
+    milliseconds duration;
+
+    bool confirm_is_done()
+    {
+        return true;
+    }
+
+    bool check_song_end()
+    {
+        return timeSinceStart > duration;
+    }
+
     Event::Event(Timestamp time, Renderables renderables) :
-      timeSinceStart{ 0 },
-      time{ time },
-      renderables{ renderables },
-      background{},
-      foreground{},
-      isDone{ [] { return true; } },
-      instantaneous{ true },
-      transition{}
+      time(time),
+      renderables(renderables),
+      background(),
+      foreground(),
+      isDone(confirm_is_done),
+      instantaneous(true),
+      transition()
     {
     }
     Event::Event(Timestamp time, Renderable* background, Renderable* foreground, TransitionType transitionType) :
-      timeSinceStart{ 0 },
-      time{ time },
-      renderables{ background, foreground },
-      background{ background },
-      foreground{ foreground },
-      instantaneous{ false },
-      isDone{ [&] { return timeSinceStart > this->time.duration; } },
-      transition{}
+      time(time),
+      renderables(),
+      background(background),
+      foreground(foreground),
+      instantaneous(false),
+      isDone(check_song_end),
+      transition()
     {
+        renderables.push_back(background);
+        renderables.push_back(foreground);
+
+        delete transition;
+
         switch (transitionType)
         {
-            case TransitionType::Fade:
+            case mole_def::TRANSITION_TYPE_FADE:
             {
-                transition = std::unique_ptr<Fade>(new Fade{ time });
+                Transition* transition = new Fade(time);
                 transition->Bind(background, foreground);
                 break;
             }
@@ -77,7 +92,7 @@ namespace MoleDemo
         {
             if (!isDone())
             {
-                active.push_back(transition.get());
+                active.push_back(transition);
             }
             else
             {
@@ -186,7 +201,7 @@ namespace MoleDemo
         }
         else if (!events.empty() && events.front()->TriggerReached(timer.GetTime()))
         {
-            currentEvent = events.front().get();
+            currentEvent = events.front();
             UpdateRenderables(currentEvent->GetRenderables());
             cycle.SetRenderables(renderables);
         }
@@ -194,9 +209,8 @@ namespace MoleDemo
 
     Layer* Timeline::CreateLayer(BlendMode mode, Effect* effect)
     {
-        std::unique_ptr<Layer> p_layer{ new Layer{ mode, effect } };
-        Layer* layer{ p_layer.get() };
-        availableLayers.push_back(std::move(p_layer));
+        Layer* layer(new Layer(mode, effect));
+        availableLayers.push_back(layer);
         return layer;
     }
 
@@ -251,7 +265,7 @@ namespace MoleDemo
             throw std::runtime_error{ "trying to unload a timeline twice" };
         }
 
-        for (std::unique_ptr<Effect>& effect: availableEffects)
+        for (Effect* effect = *availableEffects.begin(); effect != *availableEffects.end(); ++effect)
         {
             effect->Unload();
         }
@@ -346,8 +360,8 @@ namespace MoleDemo
         */
 
         // Layers
-        Layer* stars{ CreateLayer(BlendMode::AlphaBlend, CreateEffect<Stars>()) };
-        Layer* solids{ CreateLayer(BlendMode::AlphaBlend, CreateEffect<Solid>()) };
+        Layer* stars(CreateLayer(mole_def::BLEND_MODE_ALPHABLEND, CreateEffect<Stars>()));
+        Layer* solids(CreateLayer(mole_def::BLEND_MODE_ALPHABLEND, CreateEffect<Solid>()));
         /*
         Layer* plasma{ CreateLayer(BlendMode::Override, CreateEffect<Plasma>()) };
         Layer* fire{ CreateLayer(BlendMode::Override, CreateEffect<Fire>()) };
@@ -367,36 +381,35 @@ namespace MoleDemo
 
     */
         // Layers initialization
-        for (std::unique_ptr<Effect>& effect: availableEffects)
+        for (Effect* effect = *availableEffects.begin(); effect != *availableEffects.end(); ++effect)
         {
             effect->Load();
         }
 
         renderables.push_back(stars);
-        events.push(std::make_unique<Event>(Timestamp{ 5, 2000 }, stars, solids, TransitionType::Fade));
         /*
-             events.push(std::make_unique<Event>(Timestamp{ 5, 2000 }, stars, sanitaryPollution, TransitionType::Fade));
-             events.push(std::make_unique<Event>(Timestamp{ 31, 2000 }, fire, wheel, TransitionType::Fade));
-             events.push(std::make_unique<Event>(Timestamp{ 40, 2000 }, wheel, black, TransitionType::Fade));
-             events.push(std::make_unique<Event>(Timestamp{ 43, 2000 }, black, white, TransitionType::Fade));
-             events.push(std::make_unique<Event>(Timestamp{ 45, 2000 }, white, verticalGradient, TransitionType::Fade));
-             events.push(std::make_unique<Event>(
-                         Timestamp{ 47, 2000 }, verticalGradient, diagonalGradient, TransitionType::Fade));
-             events.push(std::make_unique<Event>(Timestamp{ 49, 4000 }, diagonalGradient, primaries,
-            TransitionType::Fade)); events.push(std::make_unique<Event>(Timestamp{ 53, 3000 }, primaries, secondaries,
-            TransitionType::Fade)); events.push(std::make_unique<Event>(Timestamp{ 56, 512 }, secondaries, chess,
-            TransitionType::Fade)); events.push(std::make_unique<Event>(Timestamp{ 58, 512 }, chess, sonicPollution,
-            TransitionType::Fade)); events.push(std::make_unique<Event>(Timestamp{ 65, 10000 }, sonicPollution, plasma,
-            TransitionType::Fade)); events.push(std::make_unique<Event>(Timestamp{ 77, 1000 }, plasma, black,
-            TransitionType::Fade)); events.push(std::make_unique<Event>(Timestamp{ 78, 1000 }, black, sky,
-            TransitionType::Fade)); events.push(std::make_unique<Event>(Timestamp{ 79, 0 }, Renderables{ sky, stars }));
-             events.push(std::make_unique<Event>(Timestamp{ 90, 0 }, Renderables{ tunnelSmooth }));
-             events.push(std::make_unique<Event>(Timestamp{ 100, 0 }, Renderables{ tunnelEpilepsy }));
-             events.push(std::make_unique<Event>(Timestamp{ 105, 0 }, Renderables{ sanitaryPollution }));
-             events.push(std::make_unique<Event>(Timestamp{ 110, 1000 }, sanitaryPollution, wheel,
-            TransitionType::Fade)); events.push(std::make_unique<Event>(Timestamp{ 300, 10000 }, wheel, black,
-            TransitionType::Fade));
-         */
+            events.push(std::make_unique<Event>(Timestamp{ 5, 2000 }, stars, solids, TransitionType::Fade));
+                 events.push(std::make_unique<Event>(Timestamp{ 5, 2000 }, stars, sanitaryPollution,
+           TransitionType::Fade)); events.push(std::make_unique<Event>(Timestamp{ 31, 2000 }, fire, wheel,
+           TransitionType::Fade)); events.push(std::make_unique<Event>(Timestamp{ 40, 2000 }, wheel, black,
+           TransitionType::Fade)); events.push(std::make_unique<Event>(Timestamp{ 43, 2000 }, black, white,
+           TransitionType::Fade)); events.push(std::make_unique<Event>(Timestamp{ 45, 2000 }, white, verticalGradient,
+           TransitionType::Fade)); events.push(std::make_unique<Event>( Timestamp{ 47, 2000 }, verticalGradient,
+           diagonalGradient, TransitionType::Fade)); events.push(std::make_unique<Event>(Timestamp{ 49, 4000 },
+           diagonalGradient, primaries, TransitionType::Fade)); events.push(std::make_unique<Event>(Timestamp{ 53, 3000
+           }, primaries, secondaries, TransitionType::Fade)); events.push(std::make_unique<Event>(Timestamp{ 56, 512 },
+           secondaries, chess, TransitionType::Fade)); events.push(std::make_unique<Event>(Timestamp{ 58, 512 }, chess,
+           sonicPollution, TransitionType::Fade)); events.push(std::make_unique<Event>(Timestamp{ 65, 10000 },
+           sonicPollution, plasma, TransitionType::Fade)); events.push(std::make_unique<Event>(Timestamp{ 77, 1000 },
+           plasma, black, TransitionType::Fade)); events.push(std::make_unique<Event>(Timestamp{ 78, 1000 }, black, sky,
+                TransitionType::Fade)); events.push(std::make_unique<Event>(Timestamp{ 79, 0 }, Renderables{ sky, stars
+           })); events.push(std::make_unique<Event>(Timestamp{ 90, 0 }, Renderables{ tunnelSmooth }));
+                 events.push(std::make_unique<Event>(Timestamp{ 100, 0 }, Renderables{ tunnelEpilepsy }));
+                 events.push(std::make_unique<Event>(Timestamp{ 105, 0 }, Renderables{ sanitaryPollution }));
+                 events.push(std::make_unique<Event>(Timestamp{ 110, 1000 }, sanitaryPollution, wheel,
+                TransitionType::Fade)); events.push(std::make_unique<Event>(Timestamp{ 300, 10000 }, wheel, black,
+                TransitionType::Fade));
+             */
 
         UpdateRenderables(renderables);
     }
