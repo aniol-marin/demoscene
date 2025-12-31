@@ -96,11 +96,11 @@ namespace MoleDemo
         timeline = &container.Inject<Timeline>();
     }
 
-    Demo::Demo(std::string project) : project{ project }, container{} {}
+    Demo::Demo(std::string project) : screen(600, 300), project(project), source(), container() {}
 
     void Demo::Run()
     {
-        seconds previous_time{};
+        seconds previous_time;
 
         Init();
         sound->Play();

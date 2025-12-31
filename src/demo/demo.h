@@ -11,9 +11,9 @@ namespace MoleDemo
 {
     class Demo
     {
-        Screen screen{ 600, 300 };
-        const std::string project{};
-        std::string source{};
+        Screen screen;
+        const std::string project;
+        std::string source;
         Container container;
         std::vector<Initializable*> initializables;
         std::vector<Loadable*> loadables;

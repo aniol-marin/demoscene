@@ -5,6 +5,7 @@
 #include <functional>
 #include <map>
 #include <memory>
+#include <typeinfo>
 
 namespace MoleDemo
 {
@@ -60,7 +61,7 @@ namespace MoleDemo
 
     class Container
     {
-        std::map<id_t, std::unique_ptr<Factory>> factories{};
+        std::map<id_t, Factory*> factories{};
 
     public:
         Container() = default;
@@ -123,15 +124,16 @@ namespace MoleDemo
         template<typename T, typename... TArguments>
         T& Inject(id_t id = 0)
         {
-            auto it{ factories.find(typeid(T).hash_code()) };
 
-            if (it == factories.end())
+            if (factories.find(typeid(T).hash_code()) == factories.end())
             {
-                throw std::exception{};
+                throw std::exception();
             }
 
-            void* value{ it->second->GetAnyToInstance() };
-            auto* instance{ reinterpret_cast<T*>(value) };
+            Factory* it( factories.find(typeid(T).hash_code())->second );
+
+            void* value( it->GetAnyToInstance() );
+            T* instance( reinterpret_cast<T*>(value) );
 
             return *instance;
         }

@@ -88,7 +88,7 @@ namespace MoleDemo
         template<typename T>
         T* CreateEffect() // TO DO encapsulate
         {
-            T* effect( new T( &timer, &screen ) );
+            T* effect(new T(&timer, &screen));
             availableEffects.push_back(effect);
             return effect;
         }
@@ -96,17 +96,14 @@ namespace MoleDemo
         Layer* CreateLayer(BlendMode mode, Effect* effect); // TO DO encapsulate
 
         Event* CreateEvent(Timestamp time, Renderables renderables);
-        Event* CreateEvent(Timestamp time,
-                                           Renderable* background,
-                                           Renderable* foreground,
-                                           TransitionType transition);
+        Event* CreateEvent(Timestamp time, Renderable* background, Renderable* foreground, TransitionType transition);
 
         void LoadInternal(const std::string& content); // TO DO simplify
     public: // TO DO refactor
-        void Init() override; // TO DO simplify
-        void Finalize() override; // TO DO simplify
-        void Load(const std::string& content) override;
-        void Unload() override; // TO DO simplify
+        void Init(); // TO DO simplify
+        void Finalize(); // TO DO simplify
+        void Load(const std::string& content);
+        void Unload(); // TO DO simplify
     public:
         Timeline(Timer& timer,
                  Program& program,
