@@ -62,7 +62,7 @@ function(add_module NAME)
 	endif()
 
 	add_library(${NAME})
-	target_compile_features(${NAME} PUBLIC cxx_std_17)
+	target_compile_features(${NAME} PUBLIC cxx_std_98)
 	target_compile_options(${NAME} PRIVATE -fPIE)
 	target_sources(${NAME}
 		PRIVATE ${A_IMPLEMENTATIONS}
@@ -84,6 +84,7 @@ function(add_executable_target EXECUTABLE_NAME)
 
 	add_executable(${EXECUTABLE_NAME})
 	target_compile_options(${EXECUTABLE_NAME} PRIVATE -fPIE)
+	target_compile_features(${EXECUTABLE_NAME} PUBLIC cxx_std_98)
 
 	set_property(TARGET ${EXECUTABLE_NAME} PROPERTY LABELS ${EXECUTABLE_NAME})
 

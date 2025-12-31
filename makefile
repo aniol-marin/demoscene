@@ -9,8 +9,8 @@ CMAKE_LOG_LEVEL := STATUS
 CMAKE_PRESET := default
 #COMPILER_PATH := /usr/bin/clang++
 #C_COMPILER_PATH := /usr/bin/clang
-COMPILER_PATH := /usr/bin/g++
-C_COMPILER_PATH := /usr/bin/gcc
+COMPILER_PATH := /usr/bin/g++-12
+C_COMPILER_PATH := /usr/bin/gcc-12
 MEMCHECK_BIN := valgrind
 COVERAGE_BIN := /usr/bin/gcov
 
@@ -238,8 +238,7 @@ clean:
 	echo -n ">> " && \
 	read safe; \
 	if [ "$${safe}" = yes ]; then \
-		make .call_log MESSAGE="cleaning build artifacts in $(BUILD_PATH)"; \
-		$(CMAKE_PATH) --build $(BUILD_PATH) --target clean; \
+		make .clean; \
 	else \
 		make .call_fail MESSAGE="safe word not provided, aborting"; \
 	fi
@@ -267,6 +266,10 @@ full-wipe:
 	fi
 
 # Internal recipes (not meant to be called from the user)
+
+.clean:
+	make .call_log MESSAGE="cleaning build artifacts in $(BUILD_PATH)";
+	$(CMAKE_PATH) --build $(BUILD_PATH) --target clean;
 
 .final: $(BINARY_PATH)/$(BINARY_NAME) ;
 $(BINARY_PATH)/$(BINARY_NAME):
