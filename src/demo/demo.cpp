@@ -111,7 +111,8 @@ namespace MoleDemo
             sound->Update();
             timeline->Update();
 
-            if (const seconds current_time{ timer->GetTime() }; current_time > previous_time)
+            const seconds current_time = timer->GetTime();
+            if (current_time > previous_time)
             {
                 std::cout //
                         << "time [" << current_time << "/" << timer->get_total_time() //
