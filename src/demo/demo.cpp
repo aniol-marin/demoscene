@@ -14,7 +14,7 @@ namespace MoleDemo
 
     void Demo::Load(std::string source)
     {
-        for (Loadable* item: loadables)
+        for (Loadable* item = *loadables.begin(); item != *loadables.end(); ++item)
         {
             item->Load(source);
         }
@@ -22,7 +22,7 @@ namespace MoleDemo
 
     void Demo::Unload()
     {
-        for (Loadable* item: loadables)
+        for (Loadable* item = *loadables.begin(); item != *loadables.end(); ++item)
         {
             item->Unload();
         }
@@ -41,7 +41,7 @@ namespace MoleDemo
 
         timer->SetFPS(60);
 
-        for (Initializable* item: initializables)
+        for (Initializable* item = *initializables.begin(); item != *initializables.end(); ++item)
         {
             item->Init();
         }
@@ -53,7 +53,7 @@ namespace MoleDemo
     {
         Unload();
 
-        for (Initializable* item: initializables)
+        for (Initializable* item = *initializables.begin(); item != *initializables.end(); ++item)
         {
             item->Finalize();
         }
@@ -61,6 +61,7 @@ namespace MoleDemo
 
     void Demo::InstallBindings()
     {
+	    /*
         container.BindShared<Timer>();
         container.BindShared<SoundManager>();
         container.BindShared<Screen>([this] { return new Screen{ this->screen }; });
@@ -84,6 +85,7 @@ namespace MoleDemo
                                          container.Inject<Cycle>(),  container.Inject<SoundManager>(),
                                          container.Inject<Screen>(), project };
                 });
+	     */
         /* TODO replace manual functor resolution with in-place factories. Examples follow:
            container.BindUniqueFromFactory<Cycle, Cycle, Program, Timer, InputManager, RenderManager>();
            container.BindSharingFromFactory<Timeline, Timeline, Timer, Cycle, SoundManager, Screen>();
