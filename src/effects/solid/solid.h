@@ -7,27 +7,29 @@ using namespace mole_def;
 
 namespace MoleDemo
 {
-    class Solid final
+    class Solid
       : public Texturable
       , public Effect
     {
         rgbaColor rgbColor;
 
     public:
-        Solid() = default; // texturable-enforced constructor
+	/*
+        Solid(); // texturable-enforced constructor
+	 */
         Solid(Timer* timer, Screen* screen);
-        Solid(Solid&&) noexcept;
-        ~Solid() override = default;
+        Solid(const Solid&);
+        ~Solid() {}
 
         void SetColor(Color color);
 
-        void Load() override;
-        void Unload() override;
-        void Update(permille intensity, milliseconds delta) override;
-        void Cache(StencilBuffer& mask) override;
-        rgbaColor GetPixel(Point2D p) override;
-        rgbaColor GetPixel(index_t index) override;
-        rgbaColor GetMappedUV(CoordinateUV uv) override;
+        void Load();
+        void Unload();
+        void Update(permille intensity, milliseconds delta);
+        void Cache(StencilBuffer& mask);
+        rgbaColor GetPixel(Point2D p);
+        rgbaColor GetPixel(index_t index);
+        rgbaColor GetMappedUV(CoordinateUV uv);
     };
 }
 #endif
