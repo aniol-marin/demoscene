@@ -1,73 +1,108 @@
 #ifndef MOLE_INJECTION_H
 #define MOLE_INJECTION_H
 
-#include <cstdint>
 #include <functional>
 #include <map>
 #include <memory>
+#include <string>
 #include <typeinfo>
 
 namespace MoleDemo
 {
-    using id_capacity = uint_fast8_t;
-    using id_t = std::size_t;
+    typedef unsigned char id_capacity;
+    typedef size_t id_t;
+    typedef void* (*instancer_f)();
+
+    template<typename T>
+    int type_id_f(const std::type_info& ti)
+    {
+        // duff-device version of gawk's sdbm algorithm
+        std::string name(ti.name());
+        size_t hash = 0;
+        char* pos(&*name.begin());
+        while (pos != &*name.end())
+        {
+            hash = *pos + (hash << 6) + (hash << 16) - hash;
+            ++pos;
+        }
+        return hash;
+    }
+
+    template<typename T>
+    T* default_instancer()
+    {
+        return T();
+    }
 
     struct Factory
     {
-        Factory() = default;
         virtual ~Factory() {};
 
         virtual void* GetAnyToInstance(id_capacity id = 0) = 0;
     };
 
-    template<typename I, typename T, typename... TArguments>
+    template<typename I, typename T>
     class UniqueFactory : public Factory
     {
-        std::vector<std::unique_ptr<T>> instances;
-        const std::function<T*()> functor;
+        std::vector<T*> instances;
+        const instancer_f functor;
 
     public:
-        UniqueFactory() : UniqueFactory{ [] { return T{}; } } {}
-        UniqueFactory(std::function<T*()>&& instancer) : functor{ std::move(instancer) } {}
-        ~UniqueFactory() override = default;
-
-        void* GetAnyToInstance(id_capacity id = 0) override
+        UniqueFactory() : functor(default_instancer<T>) {}
+        UniqueFactory(instancer_f instancer) : functor(instancer) {}
+        ~UniqueFactory()
         {
-            return static_cast<void*>(instances.emplace_back(std::unique_ptr<T>(functor())).get());
+            for (T* iter = instances.begin(); iter != instances.end(); ++iter)
+            {
+                delete (iter);
+            }
         }
+
+        void* GetAnyToInstance(id_capacity id = 0) { return static_cast<void*>(instances.emplace_back(functor())); }
     };
 
     template<typename I, typename T>
     class SharingFactory : public Factory
     {
-        std::map<id_capacity, std::unique_ptr<T>> instances{};
-        const std::function<T*()> functor;
+        std::map<id_capacity, T*> instances;
+        const instancer_f functor;
 
     public:
-        SharingFactory() : SharingFactory{ [] { return new T{}; } } {}
-        SharingFactory(std::function<T*()>&& instancer) : functor{ std::move(instancer) } {}
-        ~SharingFactory() override {}
+        SharingFactory() : functor(default_instancer<T>) {}
+        SharingFactory(instancer_f instancer) : functor(instancer) {}
+        ~SharingFactory()
+        {
+            for (T* iter = instances.begin(); iter != instances.end(); ++iter)
+            {
+                delete (iter);
+            }
+        }
 
-        void* GetAnyToInstance(id_capacity id = 0) override
+        void* GetAnyToInstance(id_capacity id = 0)
         {
             if (!instances.count(id))
             {
-                instances.emplace(id, std::unique_ptr<T>(functor()));
+                instances.emplace(id, functor());
             }
 
-            return static_cast<void*>(instances.at(id).get());
+            return static_cast<void*>(instances.at(id));
         }
     };
 
     class Container
     {
-        std::map<id_t, Factory*> factories{};
+        std::map<id_t, Factory*> factories;
 
     public:
-        Container() = default;
-        ~Container() = default;
-        Container(const Container&) = delete;
-        Container(Container&&) = delete;
+        Container() {}
+        ~Container()
+        {
+            for (size_t iter = 0; iter < factories.size(); ++iter)
+            {
+                Factory* f = factories.at(iter);
+                delete (f);
+            }
+        }
 
         template<typename T>
         void BindUnique()
@@ -76,23 +111,23 @@ namespace MoleDemo
         }
 
         template<typename T>
-        void BindUnique(std::function<T*()>&& functor)
+        void BindUnique(instancer_f functor)
         {
-            BindUnique<T, T>(std::move(functor));
+            BindUnique<T, T>(functor);
         }
 
-        template<typename TInterface, typename TConcrete, typename... TArguments>
+        template<typename TInterface, typename TConcrete>
         void BindUnique()
         {
-            id_t id{ typeid(TInterface).hash_code() };
-            factories[id] = std::unique_ptr<Factory>{ new UniqueFactory<TInterface, TConcrete>{} };
+            id_t id(type_id_f<TInterface>(typeid(TInterface)));
+            factories[id] = new UniqueFactory<TInterface, TConcrete>(default_instancer<TConcrete>());
         }
 
-        template<typename TInterface, typename TConcrete, typename... TArguments>
-        void BindUnique(std::function<TConcrete*()>&& functor)
+        template<typename TInterface, typename TConcrete>
+        void BindUnique(instancer_f functor)
         {
-            id_t id{ typeid(TInterface).hash_code() };
-            factories[id] = std::unique_ptr<Factory>{ new UniqueFactory<TInterface, TConcrete>{ std::move(functor) } };
+            id_t id(type_id_f<TInterface>(typeid(TInterface)));
+            factories[id] = new UniqueFactory<TInterface, TConcrete>(functor);
         }
 
         template<typename T>
@@ -102,38 +137,37 @@ namespace MoleDemo
         }
 
         template<typename T>
-        void BindShared(std::function<T*()>&& functor)
+        void BindShared(instancer_f functor)
         {
-            BindShared<T, T>(std::move(functor));
+            BindShared<T, T>(functor);
         }
 
-        template<typename TInterface, typename TConcrete, typename... TArguments>
+        template<typename TInterface, typename TConcrete>
         void BindShared()
         {
-            id_t id{ typeid(TInterface).hash_code() };
-            factories[id] = std::unique_ptr<Factory>{ new SharingFactory<TInterface, TConcrete>{} };
+            id_t id(type_id_f<TInterface>(typeid(TInterface)));
+            factories[id] = new SharingFactory<TInterface, TConcrete>(default_instancer<TConcrete>);
         }
 
-        template<typename TInterface, typename TConcrete, typename... TArguments>
-        void BindShared(std::function<TConcrete*()>&& functor)
+        template<typename TInterface, typename TConcrete>
+        void BindShared(instancer_f functor)
         {
-            id_t id{ typeid(TInterface).hash_code() };
-            factories[id] = std::unique_ptr<Factory>(new SharingFactory<TInterface, TConcrete>{ std::move(functor) });
+            id_t id(type_id_f<TInterface>(typeid(TInterface)));
+            factories[id] = new SharingFactory<TInterface, TConcrete>(functor);
         }
 
-        template<typename T, typename... TArguments>
+        template<typename T>
         T& Inject(id_t id = 0)
         {
-
-            if (factories.find(typeid(T).hash_code()) == factories.end())
+            if (factories.find(type_id_f<T>(typeid(T))) == factories.end())
             {
                 throw std::exception();
             }
 
-            Factory* it( factories.find(typeid(T).hash_code())->second );
+            Factory* it(factories.find(type_id_f<T>(typeid(T)))->second);
 
-            void* value( it->GetAnyToInstance() );
-            T* instance( reinterpret_cast<T*>(value) );
+            void* value(it->GetAnyToInstance());
+            T* instance(reinterpret_cast<T*>(value));
 
             return *instance;
         }

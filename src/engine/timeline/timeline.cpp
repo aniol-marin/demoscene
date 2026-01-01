@@ -56,7 +56,7 @@ namespace MoleDemo
                 break;
             }
             default:
-                transition = nullptr;
+                transition = NULL;
                 break;
         }
     }
@@ -79,7 +79,7 @@ namespace MoleDemo
 
     void Event::UpdateLayers(permille i, permille d)
     {
-        for (Renderable* r: renderables)
+        for (Renderable* r = *renderables.begin(); r != *renderables.end(); ++r)
         {
             r->Update(i, d);
         }
@@ -87,7 +87,7 @@ namespace MoleDemo
 
     Renderables Event::GetRenderables()
     {
-        Renderables active = Renderables{};
+        Renderables active = Renderables();
         if (!instantaneous)
         {
             if (!isDone())
@@ -117,14 +117,14 @@ namespace MoleDemo
                        SoundManager& sound,
                        Screen& screen,
                        const std::string& project) :
-      currentEvent{ nullptr },
-      timer{ timer },
-      program{ program },
-      cycle{ cycle },
-      sound{ sound },
-      screen{ screen },
-      project{ project },
-      renderables{}
+      currentEvent(NULL),
+      timer(timer),
+      program(program),
+      cycle(cycle),
+      sound(sound),
+      screen(screen),
+      project(project),
+      renderables()
     {
     }
 
@@ -132,7 +132,7 @@ namespace MoleDemo
     {
         if (initialized)
         {
-            throw std::runtime_error{ "trying to initialize timeline twice" };
+            throw std::runtime_error("trying to initialize timeline twice");
         }
 
         initialized = true;
@@ -142,7 +142,7 @@ namespace MoleDemo
     {
         if (!initialized)
         {
-            throw std::runtime_error{ "trying to finalize timeline twice" };
+            throw std::runtime_error("trying to finalize timeline twice");
         }
 
         initialized = false;
@@ -153,28 +153,28 @@ namespace MoleDemo
         Renderables* oldLayers = &renderables;
 
         // unload previously loaded effects (no longer needed)
-        for (Renderable* oldLayer: *oldLayers)
+        for (Renderable* oldLayer = *oldLayers->begin(); oldLayer != *oldLayers->end(); ++oldLayer)
         {
             Renderables::iterator unused = std::find(newLayers.begin(), newLayers.end(), oldLayer);
             if (unused != newLayers.end())
             {
                 // TO DO really would need some refactor...
-                Renderable* renderable{ *unused };
-                Loadable* loadable{ reinterpret_cast<Loadable*>(renderable) };
+                Renderable* renderable(*unused);
+                Loadable* loadable(reinterpret_cast<Loadable*>(renderable));
                 loadable->Unload();
             }
         }
 
         // load previously unloaded effects
-        for (Renderable* newLayer: newLayers)
+        for (Renderable* newLayer = *newLayers.begin(); newLayer != *newLayers.end(); ++newLayer)
         {
             Renderables::iterator unloaded = std::find(oldLayers->begin(), oldLayers->end(), newLayer);
             if (unloaded == oldLayers->end())
             {
                 // TO DO really would need some refactor...
-                Renderable* renderable{ *unloaded };
-                Loadable* loadable{ reinterpret_cast<Loadable*>(renderable) };
-                loadable->Load({});
+                Renderable* renderable(*unloaded);
+                Loadable* loadable(reinterpret_cast<Loadable*>(renderable));
+                loadable->Load("");
             }
         }
 
@@ -184,18 +184,18 @@ namespace MoleDemo
 
     void Timeline::HandleTimeline()
     {
-        if (currentEvent != nullptr)
+        if (currentEvent != NULL)
         {
             if (!currentEvent->Done(timer.GetDeltaTime()))
             {
 
-                throw std::runtime_error{ " timeline handling deactivated" };
+                throw std::runtime_error(" timeline handling deactivated");
                 currentEvent->Update(sound.GetCurrentIntensity(), timer.GetDeltaTime());
             }
             else
             {
                 UpdateRenderables(currentEvent->GetRenderables());
-                currentEvent = nullptr;
+                currentEvent = NULL;
                 events.pop();
             }
         }
@@ -244,11 +244,11 @@ namespace MoleDemo
     {
         if (!initialized)
         {
-            throw std::runtime_error{ "trying to load an uninitialized timeline" };
+            throw std::runtime_error("trying to load an uninitialized timeline");
         }
         if (loaded)
         {
-            throw std::runtime_error{ "trying to load a timeline twice" };
+            throw std::runtime_error("trying to load a timeline twice");
         }
 
         LoadInternal(content);
@@ -258,11 +258,11 @@ namespace MoleDemo
     {
         if (!initialized)
         {
-            throw std::runtime_error{ "trying to unload an uninitialized timeline" };
+            throw std::runtime_error("trying to unload an uninitialized timeline");
         }
         if (!loaded)
         {
-            throw std::runtime_error{ "trying to unload a timeline twice" };
+            throw std::runtime_error("trying to unload a timeline twice");
         }
 
         for (Effect* effect = *availableEffects.begin(); effect != *availableEffects.end(); ++effect)
@@ -275,11 +275,11 @@ namespace MoleDemo
     {
         if (!loaded)
         {
-            throw std::runtime_error{ "truing to start an unloaded timeline" };
+            throw std::runtime_error("truing to start an unloaded timeline");
         }
         if (started)
         {
-            throw std::runtime_error{ "truing to start a timeline twice" };
+            throw std::runtime_error("truing to start a timeline twice");
         }
 
         /*
@@ -292,7 +292,7 @@ namespace MoleDemo
     {
         if (!started)
         {
-            throw std::runtime_error{ "trying to stop an unstarted timeline" };
+            throw std::runtime_error("trying to stop an unstarted timeline");
         }
 
         started = false;
