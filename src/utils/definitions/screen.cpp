@@ -2,11 +2,6 @@
 
 namespace mole_def
 {
-    Screen::Screen() : w(), h()
-    {
-        throw std::exception();
-    }
-
     Screen::Screen(point1D width, point1D heigth) : w(width), h(heigth) {}
 
     Screen::Screen(const Screen& other) : w(other.w), h(other.h) {}

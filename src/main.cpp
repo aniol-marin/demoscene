@@ -1,4 +1,5 @@
 #include "demo.h"
+#undef main
 
 int
 main()

@@ -2,6 +2,7 @@
 #define MOLE_INJECTION_H
 
 #include <functional>
+#include <iostream>
 #include <map>
 #include <memory>
 #include <string>
@@ -103,13 +104,19 @@ namespace MoleDemo
         Container() {}
         ~Container()
         {
+            std::cerr << "\n calling destructor\n";
             if (!factories.empty())
             {
+                std::cerr << "\n factories: " << factories.size() << "\n";
+                std::cerr << "\n DEACTIVATED CONTAINER DESTRUCTOR\n";
+								/*
                 for (Factory* f = factories.begin()->second; f < factories.rbegin()->second + 1; ++f)
                 {
                     delete (f);
                 }
+								*/
             }
+            std::cerr << "\n calling destructor done\n";
         }
 
         template<typename T>

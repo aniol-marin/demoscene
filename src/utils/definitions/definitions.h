@@ -180,7 +180,6 @@ namespace mole_def
         point1D w;
         point1D h;
 
-        Screen();
         Screen(point1D width, point1D heigth);
         ~Screen();
         Screen(const Screen&);
