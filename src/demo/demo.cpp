@@ -14,17 +14,23 @@ namespace MoleDemo
 
     void Demo::Load(std::string source)
     {
-        for (Loadable* item = *loadables.begin(); item != *loadables.end(); ++item)
+        if (!loadables.empty())
         {
-            item->Load(source);
+            for (Loadable* item = *loadables.begin(); item != *loadables.end(); ++item)
+            {
+                item->Load(source);
+            }
         }
     }
 
     void Demo::Unload()
     {
-        for (Loadable* item = *loadables.begin(); item != *loadables.end(); ++item)
+        if (!loadables.empty())
         {
-            item->Unload();
+            for (Loadable* item = *loadables.begin(); item != *loadables.end(); ++item)
+            {
+                item->Unload();
+            }
         }
     }
 
@@ -32,18 +38,23 @@ namespace MoleDemo
     {
         InstallBindings();
 
-        initializables.push_back(&container.Inject<RenderManager>());
-        initializables.push_back(timeline);
-        initializables.push_back(sound);
+        /*
+                initializables.push_back(&container.Inject<RenderManager>());
+                initializables.push_back(timeline);
+                initializables.push_back(sound);
 
-        loadables.push_back(timeline);
-        loadables.push_back(sound);
+                loadables.push_back(timeline);
+                loadables.push_back(sound);
+        */
 
         timer->SetFPS(60);
 
-        for (Initializable* item = *initializables.begin(); item != *initializables.end(); ++item)
+        if (!initializables.empty())
         {
-            item->Init();
+            for (Initializable* item = *initializables.begin(); item != *initializables.end(); ++item)
+            {
+                item->Init();
+            }
         }
 
         Load(source);
@@ -53,15 +64,18 @@ namespace MoleDemo
     {
         Unload();
 
-        for (Initializable* item = *initializables.begin(); item != *initializables.end(); ++item)
+        if (!initializables.empty())
         {
-            item->Finalize();
+            for (Initializable* item = *initializables.begin(); item != *initializables.end(); ++item)
+            {
+                item->Finalize();
+            }
         }
     }
 
     void Demo::InstallBindings()
     {
-	    /*
+        /*
         container.BindShared<Timer>();
         container.BindShared<SoundManager>();
         container.BindShared<Screen>([this] { return new Screen{ this->screen }; });
@@ -85,17 +99,20 @@ namespace MoleDemo
                                          container.Inject<Cycle>(),  container.Inject<SoundManager>(),
                                          container.Inject<Screen>(), project };
                 });
-	     */
+         */
         /* TODO replace manual functor resolution with in-place factories. Examples follow:
            container.BindUniqueFromFactory<Cycle, Cycle, Program, Timer, InputManager, RenderManager>();
            container.BindSharingFromFactory<Timeline, Timeline, Timer, Cycle, SoundManager, Screen>();
            */
 
         // Self injection (TO DO separate concerns)
-        program = &container.Inject<Program>();
-        timer = &container.Inject<Timer>();
-        sound = &container.Inject<SoundManager>();
-        timeline = &container.Inject<Timeline>();
+
+        /*
+                program = &container.Inject<Program>();
+                timer = &container.Inject<Timer>();
+                sound = &container.Inject<SoundManager>();
+                timeline = &container.Inject<Timeline>();
+        */
     }
 
     Demo::Demo(std::string project) : screen(600, 300), project(project), source(), container() {}
@@ -105,28 +122,30 @@ namespace MoleDemo
         seconds previous_time;
 
         Init();
-        sound->Play();
-        timeline->Start();
+        /*
+            sound->Play();
+            timeline->Start();
 
-        while (program->Running())
-        {
-            sound->Update();
-            timeline->Update();
-
-            const seconds current_time = timer->GetTime();
-            if (current_time > previous_time)
+            while (program->Running())
             {
-                std::cout //
-                        << "time [" << current_time << "/" << timer->get_total_time() //
-                        << "],\t framerate: [" << timer->get_frames_since_mark() //
-                        << "], fps,\t delta: [" << timer->GetDeltaTime() << "]\n";
-                timer->set_mark();
-                previous_time = current_time;
-            }
-        }
+                sound->Update();
+                timeline->Update();
 
-        sound->Stop();
-        timeline->Stop();
+                const seconds current_time = timer->GetTime();
+                if (current_time > previous_time)
+                {
+                    std::cout //
+                            << "time [" << current_time << "/" << timer->get_total_time() //
+                            << "],\t framerate: [" << timer->get_frames_since_mark() //
+                            << "], fps,\t delta: [" << timer->GetDeltaTime() << "]\n";
+                    timer->set_mark();
+                    previous_time = current_time;
+                }
+            }
+
+            sound->Stop();
+            timeline->Stop();
+         */
         Finalize();
     }
 }
