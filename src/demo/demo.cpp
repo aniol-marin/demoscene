@@ -75,8 +75,8 @@ namespace MoleDemo
 
     void Demo::InstallBindings()
     {
-        /*
         container.BindShared<Timer>();
+	/*
         container.BindShared<SoundManager>();
         container.BindShared<Screen>([this] { return new Screen{ this->screen }; });
         container.BindShared<Program>([&] { return new Program{ container.Inject<Screen>() }; });

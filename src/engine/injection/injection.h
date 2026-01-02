@@ -29,9 +29,9 @@ namespace MoleDemo
     }
 
     template<typename T>
-    T* default_instancer()
+    void* default_instancer()
     {
-        return T();
+        return reinterpret_cast<void*>(new T());
     }
 
     struct Factory
@@ -52,9 +52,12 @@ namespace MoleDemo
         UniqueFactory(instancer_f instancer) : functor(instancer) {}
         ~UniqueFactory()
         {
-            for (T* iter = instances.begin(); iter != instances.end(); ++iter)
+            if (!instances.empty())
             {
-                delete (iter);
+                for (T* iter = instances.begin()->second; iter != instances.rbegin()->second + 1; ++iter)
+                {
+                    delete (iter);
+                }
             }
         }
 
@@ -72,9 +75,12 @@ namespace MoleDemo
         SharingFactory(instancer_f instancer) : functor(instancer) {}
         ~SharingFactory()
         {
-            for (T* iter = instances.begin(); iter != instances.end(); ++iter)
+            if (!instances.empty())
             {
-                delete (iter);
+                for (T* iter = instances.begin()->second; iter != instances.rbegin()->second + 1; ++iter)
+                {
+                    delete (iter);
+                }
             }
         }
 
@@ -82,7 +88,7 @@ namespace MoleDemo
         {
             if (!instances.count(id))
             {
-                instances.emplace(id, functor());
+                instances.insert(std::make_pair(id, reinterpret_cast<T*>(functor())));
             }
 
             return static_cast<void*>(instances.at(id));
@@ -97,10 +103,12 @@ namespace MoleDemo
         Container() {}
         ~Container()
         {
-            for (size_t iter = 0; iter < factories.size(); ++iter)
+            if (!factories.empty())
             {
-                Factory* f = factories.at(iter);
-                delete (f);
+                for (Factory* f = factories.begin()->second; f < factories.rbegin()->second + 1; ++f)
+                {
+                    delete (f);
+                }
             }
         }
 
