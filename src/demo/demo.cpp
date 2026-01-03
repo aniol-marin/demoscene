@@ -49,8 +49,8 @@ namespace MoleDemo
         initializables.push_back(sound);
         initializables.push_back(timeline);
 
-	loadables.push_back(sound);
-	loadables.push_back(timeline);
+        loadables.push_back(sound);
+        loadables.push_back(timeline);
 
         timer->SetFPS(60);
 
@@ -142,9 +142,9 @@ namespace MoleDemo
         container.BindShared<Timeline>(instantiate_timeline);
 
         /* TODO replace manual functor resolution with in-place factories. Examples follow:
-    container.BindUniqueFromFactory<Cycle, Cycle, Program, Timer, InputManager, RenderManager>();
-    container.BindSharingFromFactory<Timeline, Timeline, Timer, Cycle, SoundManager, Screen>();
-    */
+	container.BindUniqueFromFactory<Cycle, Cycle, Program, Timer, InputManager, RenderManager>();
+	container.BindSharingFromFactory<Timeline, Timeline, Timer, Cycle, SoundManager, Screen>();
+	*/
 
         // Self injection (TO DO separate concerns)
         timer = &container.Inject<Timer>();
@@ -164,30 +164,28 @@ namespace MoleDemo
         seconds previous_time;
 
         Init();
-        /*
-            sound->Play();
-            timeline->Start();
+        sound->Play();
+        timeline->Start();
 
-            while (program->Running())
+        while (program->Running())
+        {
+            sound->Update();
+            timeline->Update();
+
+            const seconds current_time = timer->GetTime();
+            if (current_time > previous_time)
             {
-                sound->Update();
-                timeline->Update();
-
-                const seconds current_time = timer->GetTime();
-                if (current_time > previous_time)
-                {
-                    std::cout //
-                            << "time [" << current_time << "/" << timer->get_total_time() //
-                            << "],\t framerate: [" << timer->get_frames_since_mark() //
-                            << "], fps,\t delta: [" << timer->GetDeltaTime() << "]\n";
-                    timer->set_mark();
-                    previous_time = current_time;
-                }
+                std::cout //
+                        << "time [" << current_time << "/" << timer->get_total_time() //
+                        << "],\t framerate: [" << timer->get_frames_since_mark() //
+                        << "], fps,\t delta: [" << timer->GetDeltaTime() << "]\n";
+                timer->set_mark();
+                previous_time = current_time;
             }
+        }
 
-            sound->Stop();
-            timeline->Stop();
-         */
+        sound->Stop();
+        timeline->Stop();
         Finalize();
     }
 }
