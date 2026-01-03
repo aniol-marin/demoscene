@@ -265,9 +265,9 @@ namespace MoleDemo
             throw std::runtime_error("trying to unload a timeline twice");
         }
 
-        for (Effect* effect = *availableEffects.begin(); effect != *availableEffects.end(); ++effect)
+        for (EffectsRepository::iterator effect = availableEffects.begin(); effect != availableEffects.end(); ++effect)
         {
-            effect->Unload();
+            (*effect)->Unload();
         }
         loaded = false;
     }
@@ -361,8 +361,8 @@ namespace MoleDemo
 
         // Layers
         Layer* stars(CreateLayer(mole_def::BLEND_MODE_ALPHABLEND, CreateEffect<Stars>()));
+	/*
         Layer* solids(CreateLayer(mole_def::BLEND_MODE_ALPHABLEND, CreateEffect<Solid>()));
-        /*
         Layer* plasma{ CreateLayer(BlendMode::Override, CreateEffect<Plasma>()) };
         Layer* fire{ CreateLayer(BlendMode::Override, CreateEffect<Fire>()) };
         Layer* black{ CreateLayer(BlendMode::Override, solid1) };
@@ -381,9 +381,9 @@ namespace MoleDemo
 
     */
         // Layers initialization
-        for (Effect* effect = *availableEffects.begin(); effect != *availableEffects.end(); ++effect)
+        for (EffectsRepository::iterator effect = availableEffects.begin(); effect != availableEffects.end(); ++effect)
         {
-            effect->Load();
+            (*effect)->Load();
         }
 
         renderables.push_back(stars);
@@ -409,9 +409,9 @@ namespace MoleDemo
                  events.push(std::make_unique<Event>(Timestamp{ 110, 1000 }, sanitaryPollution, wheel,
                 TransitionType::Fade)); events.push(std::make_unique<Event>(Timestamp{ 300, 10000 }, wheel, black,
                 TransitionType::Fade));
-             */
 
         UpdateRenderables(renderables);
+	*/
     }
 
     void Timeline::Update()

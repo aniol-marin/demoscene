@@ -23,9 +23,9 @@ namespace MoleDemo
     {
         if (!loadables.empty())
         {
-            for (Loadable* item = *loadables.begin(); item != *loadables.end(); ++item)
+            for (std::vector<Loadable*>::iterator item = loadables.begin(); item != loadables.end(); ++item)
             {
-                item->Load(source);
+                (*item)->Load(source);
             }
         }
     }
@@ -34,9 +34,9 @@ namespace MoleDemo
     {
         if (!loadables.empty())
         {
-            for (Loadable* item = *loadables.begin(); item != *loadables.end(); ++item)
+            for (std::vector<Loadable*>::iterator item = loadables.begin(); item != loadables.end(); ++item)
             {
-                item->Unload();
+                (*item)->Unload();
             }
         }
     }
@@ -49,10 +49,8 @@ namespace MoleDemo
         initializables.push_back(sound);
         initializables.push_back(timeline);
 
-	/*
-	loadables.push_back(timeline);
 	loadables.push_back(sound);
-        */
+	loadables.push_back(timeline);
 
         timer->SetFPS(60);
 
