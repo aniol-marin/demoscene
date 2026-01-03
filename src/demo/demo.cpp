@@ -45,22 +45,23 @@ namespace MoleDemo
     {
         InstallBindings();
 
-        /*
-                initializables.push_back(&container.Inject<RenderManager>());
-                initializables.push_back(timeline);
-                initializables.push_back(sound);
+        initializables.push_back(&container.Inject<RenderManager>());
+        initializables.push_back(sound);
+        initializables.push_back(timeline);
 
-                loadables.push_back(timeline);
-                loadables.push_back(sound);
+	/*
+	loadables.push_back(timeline);
+	loadables.push_back(sound);
         */
 
         timer->SetFPS(60);
 
         if (!initializables.empty())
         {
-            for (Initializable* item = *initializables.begin(); item != *initializables.end(); ++item)
+            for (std::vector<Initializable*>::iterator item = initializables.begin(); item != initializables.end();
+                 ++item)
             {
-                item->Init();
+                (*item)->Init();
             }
         }
 
@@ -73,9 +74,10 @@ namespace MoleDemo
 
         if (!initializables.empty())
         {
-            for (Initializable* item = *initializables.begin(); item != *initializables.end(); ++item)
+            for (std::vector<Initializable*>::iterator item = initializables.begin(); item != initializables.end();
+                 ++item)
             {
-                item->Finalize();
+                (*item)->Finalize();
             }
         }
     }
