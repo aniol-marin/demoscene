@@ -6,7 +6,7 @@ function(add_test_target TARGET_NAME)
 	add_executable(${TEST_TARGET})
 
 	set_target_properties(${TEST_TARGET} PROPERTIES
-		RUNTIME_OUTPUT_DIRECTORY test
+		RUNTIME_OUTPUT_DIRECTORY ${CMAKE_RUNTIME_OUTPUT_DIRECTORY}/test
 	)
 	if(MoleDemo_Testing_EnableCoverage)
 		target_compile_options(${TEST_TARGET} PRIVATE -coverage)
@@ -21,6 +21,6 @@ function(add_test_target TARGET_NAME)
 		test.cpp
 	)
 
-	add_test(NAME ${TEST_TARGET} COMMAND ${TEST_TARGET})
+	add_test(NAME ${TEST_TARGET} COMMAND $<TARGET_FILE:${TEST_TARGET}>)
 
 endfunction()
