@@ -98,25 +98,21 @@ namespace MoleDemo
 
     class Container
     {
-        std::map<id_t, Factory*> factories;
+        typedef std::map<id_t, Factory*> map_t;
+
+        map_t factories;
 
     public:
         Container() {}
         ~Container()
         {
-            std::cerr << "\n calling destructor\n";
             if (!factories.empty())
             {
-                std::cerr << "\n factories: " << factories.size() << "\n";
-                std::cerr << "\n DEACTIVATED CONTAINER DESTRUCTOR\n";
-								/*
-                for (Factory* f = factories.begin()->second; f < factories.rbegin()->second + 1; ++f)
+                for (map_t::iterator f = factories.begin(); f != factories.end(); ++f)
                 {
-                    delete (f);
+                    delete (f->second);
                 }
-								*/
             }
-            std::cerr << "\n calling destructor done\n";
         }
 
         template<typename T>

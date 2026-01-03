@@ -250,6 +250,7 @@ wipe:
 	if [ "$${safe}" = yes ]; then \
 		make .call_warn MESSAGE="wiping build info in $(BUILD_PATH)"; \
 		rm -rf $(BUILD_PATH); \
+		rm -rf $(EXTERNALS_PATH)/**build; \
 	else \
 		make .call_fail MESSAGE="safe word not provided, aborting"; \
 	fi
