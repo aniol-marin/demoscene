@@ -12,7 +12,7 @@ CMAKE_PRESET := default
 COMPILER_PATH := /usr/local/bin/g++
 C_COMPILER_PATH := /usr/local/bin/gcc
 MEMCHECK_BIN := valgrind
-COVERAGE_BIN := /usr/bin/local/gcov
+COVERAGE_BIN := gcov
 
 # Internal definitions
 listify = $(subst ., ,$(1))
@@ -231,15 +231,14 @@ previous-status: $(STATUS_OUTPUT)
 	cat $(STATUS_OUTPUT)
 
 format:
-	find src/ -type f | grep '.cpp' | xargs -L1 /usr/local/bin/clang-format -i
+	find src/ -type f | grep -e '.cpp' -e '.h' | xargs -L1 /usr/local/bin/clang-format -i
 
 clean:
 	make .call_warn MESSAGE="are you sure you want to clear all CMake artifacts? [yes]"
 	echo -n ">> " && \
 	read safe; \
 	if [ "$${safe}" = yes ]; then \
-		make .call_log MESSAGE="cleaning build artifacts in $(BUILD_PATH)"; \
-		$(CMAKE_PATH) --build $(BUILD_PATH) --target clean; \
+		make .clean; \
 	else \
 		make .call_fail MESSAGE="safe word not provided, aborting"; \
 	fi
@@ -251,6 +250,7 @@ wipe:
 	if [ "$${safe}" = yes ]; then \
 		make .call_warn MESSAGE="wiping build info in $(BUILD_PATH)"; \
 		rm -rf $(BUILD_PATH); \
+		rm -rf $(EXTERNALS_PATH)/**build; \
 	else \
 		make .call_fail MESSAGE="safe word not provided, aborting"; \
 	fi
@@ -267,6 +267,10 @@ full-wipe:
 	fi
 
 # Internal recipes (not meant to be called from the user)
+
+.clean:
+	make .call_log MESSAGE="cleaning build artifacts in $(BUILD_PATH)";
+	$(CMAKE_PATH) --build $(BUILD_PATH) --target clean;
 
 .final: $(BINARY_PATH)/$(BINARY_NAME) ;
 $(BINARY_PATH)/$(BINARY_NAME):
