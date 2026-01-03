@@ -34,6 +34,7 @@ namespace MoleDemo
       transition()
     {
     }
+
     Event::Event(Timestamp time, Renderable* background, Renderable* foreground, TransitionType transitionType) :
       time(time),
       renderables(),
@@ -80,9 +81,9 @@ namespace MoleDemo
 
     void Event::UpdateLayers(permille i, permille d)
     {
-        for (Renderable* r = *renderables.begin(); r != *renderables.end(); ++r)
+        for (Renderables::iterator r = renderables.begin(); r != renderables.end(); ++r)
         {
-            r->Update(i, d);
+            (*r)->Update(i, d);
         }
     }
 
@@ -154,9 +155,9 @@ namespace MoleDemo
         Renderables* oldLayers = &renderables;
 
         // unload previously loaded effects (no longer needed)
-        for (Renderable* oldLayer = *oldLayers->begin(); oldLayer != *oldLayers->end(); ++oldLayer)
+        for (Renderables::iterator oldLayer = renderables.begin(); oldLayer != renderables.end(); ++oldLayer)
         {
-            Renderables::iterator unused = std::find(newLayers.begin(), newLayers.end(), oldLayer);
+            Renderables::iterator unused = std::find(newLayers.begin(), newLayers.end(), *oldLayer);
             if (unused != newLayers.end())
             {
                 // TO DO really would need some refactor...
@@ -283,10 +284,7 @@ namespace MoleDemo
             throw std::runtime_error("truing to start a timeline twice");
         }
 
-        /*
        timer.SetEndTime(sound.GetMusicDuration());
-     */
-        timer.SetEndTime(2000);
         started = true;
     }
     void Timeline::Stop()
@@ -427,11 +425,12 @@ namespace MoleDemo
 		    << "\n" //
 		    ;	
 	program.SetStatus(mole_def::PROGRAM_TERMINATE_OK);
-	/*
-        HandleTimeline();
+
+	HandleTimeline();
 
         cycle.PollEvents();
         cycle.Update(sound.GetCurrentIntensity());
+	/*
         cycle.Draw();
         cycle.Synch();
 	*/

@@ -22,9 +22,9 @@ namespace MoleDemo
 
     void Cycle::Update(permille intensity)
     {
-        for (Renderable* renderable = *renderables.begin(); renderable != *renderables.end(); ++renderable)
+        for (Renderables::iterator renderable = renderables.begin(); renderable != renderables.end(); ++renderable)
         {
-            renderable->Update(intensity, timer.GetDeltaTime());
+            (*renderable)->Update(intensity, timer.GetDeltaTime());
         }
     }
 
