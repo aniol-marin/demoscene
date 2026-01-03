@@ -22,9 +22,9 @@ namespace MoleDemo
 
     void RenderQueue::Cache(Renderables& renderables, StencilBuffer& mask)
     {
-        for (Renderable* it = *renderables.begin(); it != *renderables.end(); ++it)
+        for (Renderables::iterator it = renderables.begin(); it != renderables.end(); ++it)
         {
-            Renderable& renderable(*it);
+            Renderable& renderable(**it);
             renderable.Cache(mask);
         }
     }

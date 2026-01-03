@@ -9,8 +9,8 @@ CMAKE_LOG_LEVEL := STATUS
 CMAKE_PRESET := default
 #COMPILER_PATH := /usr/bin/clang++
 #C_COMPILER_PATH := /usr/bin/clang
-COMPILER_PATH := /usr/bin/g++-12
-C_COMPILER_PATH := /usr/bin/gcc-12
+COMPILER_PATH := /usr/bin/g++
+C_COMPILER_PATH := /usr/bin/gcc
 MEMCHECK_BIN := valgrind
 COVERAGE_BIN := /usr/bin/gcov
 

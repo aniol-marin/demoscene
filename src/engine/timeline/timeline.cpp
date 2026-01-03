@@ -2,10 +2,10 @@
 
 #include <algorithm>
 #include <exception>
+#include <iostream>
 #include <memory>
 #include <stdexcept>
 #include <vector>
-#include <iostream>
 
 namespace MoleDemo
 {
@@ -168,9 +168,9 @@ namespace MoleDemo
         }
 
         // load previously unloaded effects
-        for (Renderable* newLayer = *newLayers.begin(); newLayer != *newLayers.end(); ++newLayer)
+        for (Renderables::iterator newLayer = newLayers.begin(); newLayer != newLayers.end(); ++newLayer)
         {
-            Renderables::iterator unloaded = std::find(oldLayers->begin(), oldLayers->end(), newLayer);
+            Renderables::iterator unloaded = std::find(oldLayers->begin(), oldLayers->end(), *newLayer);
             if (unloaded == oldLayers->end())
             {
                 // TO DO really would need some refactor...
@@ -284,7 +284,7 @@ namespace MoleDemo
             throw std::runtime_error("truing to start a timeline twice");
         }
 
-       timer.SetEndTime(sound.GetMusicDuration());
+        timer.SetEndTime(sound.GetMusicDuration());
         started = true;
     }
     void Timeline::Stop()
@@ -360,25 +360,25 @@ namespace MoleDemo
 
         // Layers
         Layer* stars(CreateLayer(mole_def::BLEND_MODE_ALPHABLEND, CreateEffect<Stars>()));
-	/*
-        Layer* solids(CreateLayer(mole_def::BLEND_MODE_ALPHABLEND, CreateEffect<Solid>()));
-        Layer* plasma{ CreateLayer(BlendMode::Override, CreateEffect<Plasma>()) };
-        Layer* fire{ CreateLayer(BlendMode::Override, CreateEffect<Fire>()) };
-        Layer* black{ CreateLayer(BlendMode::Override, solid1) };
-        Layer* white{ CreateLayer(BlendMode::Override, solid2) };
-        Layer* verticalGradient{ CreateLayer(BlendMode::Override, gradient1) };
-        Layer* diagonalGradient{ CreateLayer(BlendMode::Override, gradient2) };
-        Layer* primaries{ CreateLayer(BlendMode::Override, gradient3) };
-        Layer* secondaries{ CreateLayer(BlendMode::Override, gradient4) };
-        Layer* sky{ CreateLayer(BlendMode::Override, gradient5) };
-        Layer* wheel{ CreateLayer(BlendMode::Override, CreateEffect<Wheel>()) };
-        Layer* tunnelSmooth{ CreateLayer(BlendMode::Override, tunnelGradient) };
-        Layer* tunnelEpilepsy{ CreateLayer(BlendMode::Override, tunnelChess) };
-        Layer* chess{ CreateLayer(BlendMode::Override, chessBoard) };
-        Layer* sonicPollution{ CreateLayer(BlendMode::Override, noise) };
-        Layer* sanitaryPollution{ CreateLayer(BlendMode::Override, tunnelDirty) };
+        /*
+            Layer* solids(CreateLayer(mole_def::BLEND_MODE_ALPHABLEND, CreateEffect<Solid>()));
+            Layer* plasma{ CreateLayer(BlendMode::Override, CreateEffect<Plasma>()) };
+            Layer* fire{ CreateLayer(BlendMode::Override, CreateEffect<Fire>()) };
+            Layer* black{ CreateLayer(BlendMode::Override, solid1) };
+            Layer* white{ CreateLayer(BlendMode::Override, solid2) };
+            Layer* verticalGradient{ CreateLayer(BlendMode::Override, gradient1) };
+            Layer* diagonalGradient{ CreateLayer(BlendMode::Override, gradient2) };
+            Layer* primaries{ CreateLayer(BlendMode::Override, gradient3) };
+            Layer* secondaries{ CreateLayer(BlendMode::Override, gradient4) };
+            Layer* sky{ CreateLayer(BlendMode::Override, gradient5) };
+            Layer* wheel{ CreateLayer(BlendMode::Override, CreateEffect<Wheel>()) };
+            Layer* tunnelSmooth{ CreateLayer(BlendMode::Override, tunnelGradient) };
+            Layer* tunnelEpilepsy{ CreateLayer(BlendMode::Override, tunnelChess) };
+            Layer* chess{ CreateLayer(BlendMode::Override, chessBoard) };
+            Layer* sonicPollution{ CreateLayer(BlendMode::Override, noise) };
+            Layer* sanitaryPollution{ CreateLayer(BlendMode::Override, tunnelDirty) };
 
-    */
+        */
         // Layers initialization
         for (EffectsRepository::iterator effect = availableEffects.begin(); effect != availableEffects.end(); ++effect)
         {
@@ -409,30 +409,28 @@ namespace MoleDemo
                 TransitionType::Fade)); events.push(std::make_unique<Event>(Timestamp{ 300, 10000 }, wheel, black,
                 TransitionType::Fade));
 
+*/
         UpdateRenderables(renderables);
-	*/
     }
 
     void Timeline::Update()
     {
-	    std::cerr //
-		    << "\n" //
-		    << "\n" //
-		    << "##########################################################\n" //
-		    << "## Timeline update temporarily disabled. Aborting loop. ##\n" //
-		    << "##########################################################\n" //
-		    << "\n" //
-		    << "\n" //
-		    ;	
-	program.SetStatus(mole_def::PROGRAM_TERMINATE_OK);
+        std::cerr //
+                << "\n" //
+                << "\n" //
+                << "##########################################################\n" //
+                << "## Timeline update temporarily disabled. Aborting loop. ##\n" //
+                << "##########################################################\n" //
+                << "\n" //
+                << "\n" //
+                ;
+        program.SetStatus(mole_def::PROGRAM_TERMINATE_OK);
 
-	HandleTimeline();
+        HandleTimeline();
 
         cycle.PollEvents();
         cycle.Update(sound.GetCurrentIntensity());
-	/*
-        cycle.Draw();
-        cycle.Synch();
-	*/
+	cycle.Draw();
+	cycle.Synch();
     }
 }
