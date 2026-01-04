@@ -10,19 +10,18 @@ namespace MoleDemo
 {
     class Effect
     {
-        PixelBuffer buffer;
 
     protected:
         Timer* const timer;
-        Screen* const screen;
 
         Effect(Timer* timer, Screen* screen);
 
-        index_t GetPixelIndex(Point2D& point);
-        index_t GetPixelIndex(Point2D& point, PixelBuffer& pixelBuffer);
+        static index_t GetPixelIndex(Point2D& point);
+        static index_t GetPixelIndex(Point2D& point, PixelBuffer& pixelBuffer);
         rgbaColor GetColorAt(Point2D point, PixelBuffer& pixelBuffer);
-        void PutPixel(Point2D point, rgbaColor color);
-        void PutPixel(Point2D point, rgbaColor color, PixelBuffer& buffer);
+        static void PutPixel(Point2D point, rgbaColor color);
+        static void PutPixel(Point2D point, rgbaColor color, PixelBuffer& buffer);
+        Screen* get_screen() const;
 
         void ReserveBuffer();
         void ClearBuffer(rgbaColor color);

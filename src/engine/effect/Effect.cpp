@@ -1,13 +1,20 @@
 #include "Effect.h"
 
+namespace
+{
+    PixelBuffer buffer;
+    Screen* screen;
+}
+
 namespace MoleDemo
 {
     using namespace mole_def;
 
     Effect::~Effect() {}
 
-    Effect::Effect(Timer* timer, Screen* screen) : timer(timer), screen(screen), buffer()
+    Effect::Effect(Timer* timer, Screen* a_screen) : timer(timer)
     {
+        screen = a_screen;
         ReserveBuffer();
     }
 
@@ -65,5 +72,10 @@ namespace MoleDemo
     rgbaColor Effect::GetPixel(index_t index)
     {
         return buffer[index];
+    }
+
+    Screen* Effect::get_screen() const
+    {
+        return screen;
     }
 }

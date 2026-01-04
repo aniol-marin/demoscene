@@ -21,7 +21,7 @@ namespace MoleDemo
 
     Solid::Solid(Timer* timer, Screen* screen) : Texturable(), Effect(timer, screen) {}
 
-    Solid::Solid(const Solid& o) : Effect(o.timer, o.screen), rgbColor(o.rgbColor) {}
+    Solid::Solid(const Solid& o) : Effect(o.timer, o.get_screen()), rgbColor(o.rgbColor) {}
 
     void Solid::Load() {}
 

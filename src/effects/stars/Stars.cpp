@@ -88,7 +88,7 @@ namespace MoleDemo
         {
             for (int i = 0; i < newStarsPerFrame; i++)
             {
-                stars.push_back(Star(*screen, maxSpeed));
+                stars.push_back(Star(*get_screen(), maxSpeed));
             }
         }
 
@@ -105,8 +105,8 @@ namespace MoleDemo
         for (Star* i = &*stars.begin(); i != &*stars.end(); ++i)
         {
             Star& star = *i;
+            star.Draw(PutPixel);
             /*
-        star.Draw(&PutPixel);
         star.Draw([&](Point2D point, rgbaColor color) { PutPixel(point, color); });
         */
         }
