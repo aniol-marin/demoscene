@@ -1,8 +1,8 @@
 #include "demo.h"
 
+#include <iostream>
 #include <string>
 #include <typeinfo>
-#include <iostream>
 
 namespace MoleDemo
 {

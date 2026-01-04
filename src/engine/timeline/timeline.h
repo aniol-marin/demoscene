@@ -2,21 +2,21 @@
 #define MOLE_TIMELINE_H
 
 #include "Effect.h"
-#include "effects.h"
 #include "cycle.h"
 #include "definitions.h"
+#include "effects.h"
 #include "program.h"
 #include "render.h"
 #include "renderables.h"
 #include "sound.h"
 #include "timer.h"
 
+#include <algorithm>
 #include <memory>
 #include <queue>
-#include <vector>
-#include <string_view>
 #include <stdexcept>
-#include <algorithm>
+#include <string_view>
+#include <vector>
 
 using namespace mole_def;
 

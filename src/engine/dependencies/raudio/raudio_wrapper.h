@@ -5,8 +5,8 @@
 
 #include "raudio.h"
 
-#include <string_view>
 #include <queue>
+#include <string_view>
 
 namespace raudio
 {

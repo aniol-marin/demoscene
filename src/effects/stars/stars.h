@@ -1,13 +1,13 @@
 #ifndef MOLE_STARS_H
 #define MOLE_STARS_H
 
-#include "definitions.h"
 #include "Effect.h"
+#include "definitions.h"
 using namespace mole_def;
 
 namespace MoleDemo
 {
-	class Star;
+    class Star;
 
     class Stars : public Effect
     {
