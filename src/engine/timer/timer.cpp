@@ -1,8 +1,8 @@
 #include "timer.h"
 
 #include <chrono>
-#include <thread>
 #include <cstdint>
+#include <thread>
 
 namespace MoleDemo
 {

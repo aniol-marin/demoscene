@@ -1,8 +1,8 @@
 #include "demo.h"
 
+#include <iostream>
 #include <string>
 #include <typeinfo>
-#include <iostream>
 
 namespace MoleDemo
 {
@@ -73,16 +73,16 @@ namespace MoleDemo
                 [&]
                 {
                     return new Cycle{ container.Inject<Program>(),
-                                  container.Inject<Timer>(),
-                                  container.Inject<InputManager>(),
-                                  container.Inject<RenderManager>() };
+                                      container.Inject<Timer>(),
+                                      container.Inject<InputManager>(),
+                                      container.Inject<RenderManager>() };
                 });
         container.BindShared<Timeline>(
                 [&]
                 {
                     return new Timeline{ container.Inject<Timer>(),  container.Inject<Program>(),
-                                     container.Inject<Cycle>(),  container.Inject<SoundManager>(),
-                                     container.Inject<Screen>(), project };
+                                         container.Inject<Cycle>(),  container.Inject<SoundManager>(),
+                                         container.Inject<Screen>(), project };
                 });
         /* TODO replace manual functor resolution with in-place factories. Examples follow:
            container.BindUniqueFromFactory<Cycle, Cycle, Program, Timer, InputManager, RenderManager>();
