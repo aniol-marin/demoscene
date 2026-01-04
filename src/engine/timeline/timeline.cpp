@@ -415,17 +415,6 @@ namespace MoleDemo
 
     void Timeline::Update()
     {
-        std::cerr //
-                << "\n" //
-                << "\n" //
-                << "##########################################################\n" //
-                << "## Timeline update temporarily disabled. Aborting loop. ##\n" //
-                << "##########################################################\n" //
-                << "\n" //
-                << "\n" //
-                ;
-        program.SetStatus(mole_def::PROGRAM_TERMINATE_OK);
-
         HandleTimeline();
 
         cycle.PollEvents();

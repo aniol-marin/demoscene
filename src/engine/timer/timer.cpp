@@ -1,6 +1,12 @@
 #include "timer.h"
 #include <exception>
 
+namespace
+{
+    // temporary mocking
+    long long g_fake_framecount = 0;
+}
+
 namespace MoleDemo
 {
     /* TO DO function template aliases
@@ -40,7 +46,9 @@ namespace MoleDemo
 
     void Timer::update_frame_level_state()
     {
-        time_t current_time = 0;
+        ++g_fake_framecount;
+        time_t current_time = g_fake_framecount / 60;
+
         /*
         time_t current_time{ clock_t::now() };
         delta_time = static_cast<mole_ms>(std::chrono::duration_cast<ms>(current_time - last_time).count());
@@ -67,7 +75,7 @@ namespace MoleDemo
         /*
         return static_cast<seconds>(std::chrono::duration_cast<std::chrono::seconds>(endTime - initial_time).count());
          */
-        return 0;
+        return g_fake_framecount / 60;
     }
 
     void Timer::SetFPS(fps_t fps)
@@ -77,6 +85,7 @@ namespace MoleDemo
 
     void Timer::SetEndTime(mole_s seconds)
     {
+	    endTime = seconds;
         /*
             endTime = initial_time + std::chrono::seconds(seconds);
         */
@@ -93,6 +102,7 @@ namespace MoleDemo
     void Timer::set_mark()
     {
         frames_since_mark = 0;
+	last_mark = g_fake_framecount;
         /*
             last_mark = { clock_t::now() };
          */
@@ -103,7 +113,7 @@ namespace MoleDemo
         /*
         return static_cast<mole_s>(std::chrono::duration_cast<s>(last_time - initial_time).count());
          */
-        return 0;
+        return g_fake_framecount / 60;
     }
 
     bool Timer::EndReached() const
@@ -112,7 +122,7 @@ namespace MoleDemo
         /*
         return clock_t::now() >= endTime;
          */
-        return true;
+        return (g_fake_framecount / 60) >= endTime;
     }
 
     frame_t Timer::get_frames_since_mark() const

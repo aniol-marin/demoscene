@@ -68,8 +68,11 @@ namespace MoleDemo
         }
     }
 
-    Stars::Stars(Timer* timer, Screen* screen) :
-      Effect(timer, screen), maxStars(100), newStarsPerFrame(2), maxSpeed(maxSpeed)
+    Stars::Stars(Timer* timer, Screen* screen)
+	: Effect(timer, screen)
+	, maxStars(100)
+	, newStarsPerFrame(2)
+	, maxSpeed(30)
     {
         ClearBuffer(0x0);
     }
