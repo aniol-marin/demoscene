@@ -14,9 +14,9 @@ namespace MoleDemo
         rgbaColor rgbColor;
 
     public:
-	/*
-        Solid(); // texturable-enforced constructor
-	 */
+        /*
+            Solid(); // texturable-enforced constructor
+         */
         Solid(Timer* timer, Screen* screen);
         Solid(const Solid&);
         ~Solid() {}

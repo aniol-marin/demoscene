@@ -1,6 +1,6 @@
 
-#include <iostream>
 #include <cmath>
+#include <iostream>
 #include "raudio_wrapper.h"
 
 namespace raudio
@@ -8,11 +8,7 @@ namespace raudio
     using namespace mole_def;
     permille intensity;
 
-    AudioManager::AudioManager()
-	: initialized(false)
-	, loaded (false)
-	, music ()
-    {}
+    AudioManager::AudioManager() : initialized(false), loaded(false), music() {}
 
     AudioManager::~AudioManager()
     {
@@ -26,7 +22,7 @@ namespace raudio
     void AudioManager::SampleIntensity(void* buffer, unsigned int frames)
     {
         static std::queue<float> average;
-        float* intensities( static_cast<float*>(buffer) );
+        float* intensities(static_cast<float*>(buffer));
 
         float accumulated;
         for (int i = 0; i < frames; ++i)
@@ -35,14 +31,14 @@ namespace raudio
             accumulated += abs(intensities[i * 2 + 1]);
         }
 
-        float current( accumulated / frames );
+        float current(accumulated / frames);
         average.push(current);
         while (average.size() > 100)
         {
             average.pop();
         }
 
-        float max( current );
+        float max(current);
         for (int i = 0; i < average.size(); ++i)
         {
             max = max < average.front() ? average.front() : max;
@@ -93,7 +89,7 @@ namespace raudio
             throw std::exception();
         }
 
-        std::string s( source );
+        std::string s(source);
         music = LoadMusicStream(s.c_str());
         AttachAudioStreamProcessor(music.stream, SampleIntensity);
 

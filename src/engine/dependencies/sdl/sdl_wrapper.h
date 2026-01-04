@@ -22,7 +22,7 @@ namespace SDL
         bool initialized;
         bool locked;
 
-        SDLManager(): g_screen(0,0) {}
+        SDLManager() : g_screen(0, 0) {}
         ~SDLManager() {}
 
         bool Init(const Screen& screen);

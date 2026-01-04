@@ -419,7 +419,7 @@ namespace MoleDemo
 
         cycle.PollEvents();
         cycle.Update(sound.GetCurrentIntensity());
-	cycle.Draw();
-	cycle.Synch();
+        cycle.Draw();
+        cycle.Synch();
     }
 }

@@ -68,11 +68,7 @@ namespace MoleDemo
         }
     }
 
-    Stars::Stars(Timer* timer, Screen* screen)
-	: Effect(timer, screen)
-	, maxStars(100)
-	, newStarsPerFrame(2)
-	, maxSpeed(30)
+    Stars::Stars(Timer* timer, Screen* screen) : Effect(timer, screen), maxStars(100), newStarsPerFrame(2), maxSpeed(30)
     {
         ClearBuffer(0x0);
     }
@@ -110,9 +106,9 @@ namespace MoleDemo
         {
             Star& star = *i;
             /*
-	    star.Draw(&PutPixel);
-	    star.Draw([&](Point2D point, rgbaColor color) { PutPixel(point, color); });
-	    */
+        star.Draw(&PutPixel);
+        star.Draw([&](Point2D point, rgbaColor color) { PutPixel(point, color); });
+        */
         }
     }
 }

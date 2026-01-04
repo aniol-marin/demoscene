@@ -36,8 +36,7 @@ namespace MoleDemo
         return true;
     }
 
-    Transition::Transition(Timestamp time, TransitionType type)
-	    : type(type), time(time) {}
+    Transition::Transition(Timestamp time, TransitionType type) : type(type), time(time) {}
 
     permille Transition::elapsed() const
     {

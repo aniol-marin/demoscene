@@ -11,25 +11,17 @@ struct mole::pugi_wrapper::node<MoleDemo::Solid>;
 
 namespace MoleDemo
 {
-	/*
+    /*
     Solid::Solid()
-	    : Texturable	(		)
-	    , Effect		( NULL, NULL )
+        : Texturable	(		)
+        , Effect		( NULL, NULL )
     {
     }
-	 */
+     */
 
-    Solid::Solid(Timer* timer, Screen* screen)
-	    : Texturable	(		)
-	    , Effect		( timer, screen )
-    {
-    }
+    Solid::Solid(Timer* timer, Screen* screen) : Texturable(), Effect(timer, screen) {}
 
-    Solid::Solid(const Solid& o)
-	    : Effect	( o.timer, o.screen 	)
-	    , rgbColor	( o.rgbColor 		)
-    {
-    }
+    Solid::Solid(const Solid& o) : Effect(o.timer, o.screen), rgbColor(o.rgbColor) {}
 
     void Solid::Load() {}
 

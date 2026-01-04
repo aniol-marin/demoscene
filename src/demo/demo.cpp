@@ -142,9 +142,9 @@ namespace MoleDemo
         container.BindShared<Timeline>(instantiate_timeline);
 
         /* TODO replace manual functor resolution with in-place factories. Examples follow:
-	container.BindUniqueFromFactory<Cycle, Cycle, Program, Timer, InputManager, RenderManager>();
-	container.BindSharingFromFactory<Timeline, Timeline, Timer, Cycle, SoundManager, Screen>();
-	*/
+    container.BindUniqueFromFactory<Cycle, Cycle, Program, Timer, InputManager, RenderManager>();
+    container.BindSharingFromFactory<Timeline, Timeline, Timer, Cycle, SoundManager, Screen>();
+    */
 
         // Self injection (TO DO separate concerns)
         timer = &container.Inject<Timer>();

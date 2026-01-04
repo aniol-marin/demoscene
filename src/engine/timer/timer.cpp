@@ -85,7 +85,7 @@ namespace MoleDemo
 
     void Timer::SetEndTime(mole_s seconds)
     {
-	    endTime = seconds;
+        endTime = seconds;
         /*
             endTime = initial_time + std::chrono::seconds(seconds);
         */
@@ -102,7 +102,7 @@ namespace MoleDemo
     void Timer::set_mark()
     {
         frames_since_mark = 0;
-	last_mark = g_fake_framecount;
+        last_mark = g_fake_framecount;
         /*
             last_mark = { clock_t::now() };
          */
