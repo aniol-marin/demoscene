@@ -1,5 +1,8 @@
 set(MODULE_NAME demo)
-add_module_target(${MODULE_NAME})
+add_module(${MODULE_NAME}
+	IMPLEMENTATIONS
+	installer.cpp
+)
 
 target_link_libraries(${MODULE_NAME} PUBLIC
 	engine
