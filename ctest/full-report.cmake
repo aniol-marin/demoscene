@@ -29,8 +29,6 @@ if(NOT DEFINED CTEST_MEMORYCHECK_COMMAND)
 endif()
 set(CTEST_LABELS_FOR_SUBPROJECTS
 	demoscene
-	editor
-	sandbox
 )
 
 
