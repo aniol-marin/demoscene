@@ -4,6 +4,7 @@ add_module_target(${MODULE_NAME})
 
 add_subdirectory(stars)
 add_subdirectory(solid)
+add_subdirectory(tunnel)
 
 target_link_libraries(${MODULE_NAME} PUBLIC
 	effect
@@ -22,7 +23,6 @@ target_sources(${MODULE_NAME} PUBLIC
 	FILE_SET chess TYPE CXX_MODULES
 	FILE_SET plasma TYPE CXX_MODULES
 	FILE_SET noise TYPE CXX_MODULES
-	FILE_SET tunel TYPE CXX_MODULES
 	FILE_SET fire TYPE CXX_MODULES
 	Fire.cpp
 	FILES
@@ -34,7 +34,6 @@ target_sources(${MODULE_NAME} PUBLIC
 	ChessBoard.cpp
 	Plasma.cpp
 	RandomNoise.cpp
-	Tunel.cpp
 	Fire.cpp
 	]]#
 )

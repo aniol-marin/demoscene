@@ -26,7 +26,7 @@ function(add_module NAME)
 		"A"
 		"HEADER_ONLY"
 		"INTERFACE"
-		"INTERFACES;HEADERS;IMPLEMENTATIONS"
+		"INTERFACES;HEADERS;IMPLEMENTATIONS;DEPENDENCIES"
 		#[[ preferred alternative, although less explicit than PARSE_ARGV in this case
 		${ARGN}
 		]]#
@@ -63,6 +63,9 @@ function(add_module NAME)
 		PUBLIC FILE_SET HEADERS
 		BASE_DIRS ${CMAKE_CURRENT_SOURCE_DIR}
 		FILES ${A_HEADERS}
+	)
+	target_link_libraries(${NAME} PUBLIC
+		${A_DEPENDENCIES}
 	)
 
 	if(MoleDemo_Testing_EnableCoverage)
