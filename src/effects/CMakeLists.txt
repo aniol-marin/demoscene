@@ -2,17 +2,16 @@
 set(MODULE_NAME effects)
 add_module_target(${MODULE_NAME})
 
-add_subdirectory(stars)
+add_subdirectory(fire)
 add_subdirectory(solid)
+add_subdirectory(stars)
 add_subdirectory(tunnel)
 
 target_link_libraries(${MODULE_NAME} PUBLIC
-	effect
-	engine_definitions
-	timer
-	serialization
 	stars
 	solid
+	tunnel
+	fire
 )
 
 target_sources(${MODULE_NAME} PUBLIC
@@ -23,8 +22,6 @@ target_sources(${MODULE_NAME} PUBLIC
 	FILE_SET chess TYPE CXX_MODULES
 	FILE_SET plasma TYPE CXX_MODULES
 	FILE_SET noise TYPE CXX_MODULES
-	FILE_SET fire TYPE CXX_MODULES
-	Fire.cpp
 	FILES
 	]]#
 	effects.cpp
@@ -34,16 +31,6 @@ target_sources(${MODULE_NAME} PUBLIC
 	ChessBoard.cpp
 	Plasma.cpp
 	RandomNoise.cpp
-	Fire.cpp
 	]]#
 )
 
-set(WARNING_SUPPRESSION "")
-if(MSVC)
-	set(${WARNING_SUPPRESSION} "/W0")
-else()
-	set(${WARNING_SUPPRESSION} "-w")
-endif()
-set_source_files_properties(Stars.cpp
-	APPEND PROPERTY COMPILE_DEFINITIONS ${WARNING_SUPPRESSION}
-)
