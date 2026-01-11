@@ -1,17 +1,11 @@
 module solid;
 
 import std;
-import definitions;
-import timer;
 import effect;
-/*
-import serialization;
-
-struct mole::pugi_wrapper::node<MoleDemo::Solid>;
- */
 
 namespace MoleDemo
 {
+using namespace mole_def;
     Solid::Solid(Timer* timer, Screen* screen) : Texturable{}, Effect{ timer, screen } {}
     Solid::Solid(Solid&& o) noexcept : Effect{ o.timer, o.screen }, rgbColor{ o.rgbColor } {}
 

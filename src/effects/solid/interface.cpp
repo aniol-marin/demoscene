@@ -1,8 +1,6 @@
 export module solid;
 
 import std;
-import definitions;
-import timer;
 import effect;
 using namespace mole_def;
 
