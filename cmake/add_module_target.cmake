@@ -1,7 +1,10 @@
 include(CMakeParseArguments) # placeholder include since 3.5
 
-# TO DO deprecate in favor of add_module
 function(add_module_target MODULE_NAME)
+
+	message(WARNING "
+	add_module_target is deprecated
+	called by: ${MODULE_NAME}")
 
 	add_library(${MODULE_NAME})
 	target_compile_features(${MODULE_NAME} PUBLIC cxx_std_20)
@@ -26,7 +29,7 @@ function(add_module NAME)
 		"A"
 		"HEADER_ONLY"
 		"INTERFACE"
-		"INTERFACES;HEADERS;IMPLEMENTATIONS"
+		"INTERFACES;HEADERS;IMPLEMENTATIONS;DEPENDENCIES"
 		#[[ preferred alternative, although less explicit than PARSE_ARGV in this case
 		${ARGN}
 		]]#
@@ -42,6 +45,7 @@ function(add_module NAME)
 		Provided interfaces: [${A_INTERFACES}]
 		Provided headers: [${A_HEADERS}]
 		Provided implementations: [${A_IMPLEMENTATIONS}]
+		Provided dependencies: [${A_DEPENDENCIES}]
 		Provided arguments: [${ARGN}]
 		")
 	endif()
@@ -64,24 +68,32 @@ function(add_module NAME)
 		BASE_DIRS ${CMAKE_CURRENT_SOURCE_DIR}
 		FILES ${A_HEADERS}
 	)
+	target_link_libraries(${NAME} PUBLIC
+		${A_DEPENDENCIES}
+	)
 
 	if(MoleDemo_Testing_EnableCoverage)
 		target_compile_options(${NAME} PRIVATE -coverage)
 		target_link_options(${NAME} PRIVATE -coverage)
 	endif()
 
-
 endfunction()
 
-# TO DO deprecate in favor of add_module
 function(add_module_target_no_implementation NAME)
+
+	message(WARNING "
+	add_module_target_no_implementation is deprecated
+	called by: ${NAME}")
 
 	add_module_target(${NAME})
 
 endfunction()
 
-# TO DO rename, add source files as args
 function(add_executable_target EXECUTABLE_NAME)
+
+	message(WARNING "
+	add_executable_target is deprecated
+	called by: ${EXECUTABLE_NAME}")
 
 	add_executable(${EXECUTABLE_NAME})
 
@@ -90,6 +102,46 @@ function(add_executable_target EXECUTABLE_NAME)
 	if(MoleDemo_Testing_EnableCoverage)
 		target_compile_options(${EXECUTABLE_NAME} PRIVATE -coverage)
 		target_link_options(${EXECUTABLE_NAME} PRIVATE -coverage)
+	endif()
+
+endfunction()
+
+function(add_mained NAME)
+
+	cmake_parse_arguments(
+		PARSE_ARGV 1 # discouraged alternative, prefer ${ARGN} at the end
+		"A"
+		""
+		""
+		"IMPLEMENTATIONS;DEPENDENCIES"
+		#[[ preferred alternative, although less explicit than PARSE_ARGV in this case
+		${ARGN}
+		]]#
+	)
+
+	if (NOT DEFINED NAME)
+		message(FATAL_ERROR "
+		add_mained needs an executable name to be provided.
+
+		Provided name: [${NAME}]
+		Provided implementations: [${A_IMPLEMENTATIONS}]
+		Provided dependencies: [${A_DEPENDENCIES}]
+		Provided arguments: [${ARGN}]
+		")
+	endif()
+
+	add_executable(${NAME})
+	target_compile_features(${NAME} PUBLIC cxx_std_20)
+	target_sources(${NAME}
+		PRIVATE ${A_IMPLEMENTATIONS}
+	)
+	target_link_libraries(${NAME} PRIVATE
+		${A_DEPENDENCIES}
+	)
+
+	if(MoleDemo_Testing_EnableCoverage)
+		target_compile_options(${NAME} PRIVATE -coverage)
+		target_link_options(${NAME} PRIVATE -coverage)
 	endif()
 
 endfunction()

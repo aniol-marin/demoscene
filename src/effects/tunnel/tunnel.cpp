@@ -1,53 +1,8 @@
-module;
-
-#include <cstdint>
-
-export module tunel;
-
-import std;
-import effect;
-import definitions;
-import timer;
+module tunnel;
 
 namespace MoleDemo
 {
-    export class Tunel;
-}
-
-class MoleDemo::Tunel
-  : public Customizable
-  , public Effect
-{
-    long long accumulatedTime{};
-    std::vector<channel> Tunel1;
-    std::vector<Point2D> uv;
-    int Windowx1, Windowy1, Windowx2, Windowy2;
-    long src1, src2;
-    Color palette[256];
-    std::unique_ptr<Texturable> texture;
-
-    permille du, dv, speedU, speedV;
-
-    void buildPalette(std::uint16_t time);
-
-public:
-    Tunel(Timer* timer, Screen* screen);
-    ~Tunel();
-
-    void Load() override;
-    void Unload() override;
-    void Update(permille intensity, milliseconds delta) override;
-    void Cache(StencilBuffer& mask) override;
-    constexpr Id TextureLimit() const override { return 1; }
-    void AssignTexture(std::unique_ptr<Texturable> texture, Id id) override;
-};
-
-namespace MoleDemo
-{
-
     Tunel::Tunel(Timer* timer, Screen* screen) : du{}, dv{}, speedU{ 128 }, speedV{ 32 }, Effect{ timer, screen } {}
-
-    Tunel::~Tunel() {}
 
     /*
      * position of the centre of the hole along the X axis
