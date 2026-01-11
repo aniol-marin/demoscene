@@ -1,6 +1,7 @@
 ---
 Language: Cpp
 BasedOnStyle: Mozilla
+BreakAfterReturnType: Automatic
 AccessModifierOffset: -4
 AlignConsecutiveAssignments: false
 AlignConsecutiveDeclarations: false

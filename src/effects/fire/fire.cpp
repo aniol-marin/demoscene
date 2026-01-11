@@ -1,37 +1,10 @@
-export module fire;
+#include "fire.h"
 
-import std;
-import effect;
-import definitions;
-import timer;
-
-namespace MoleDemo
-{
-    export class Fire;
-}
-
-class MoleDemo::Fire : public Effect
-{
-
-    PixelBuffer firstBuffer;
-    PixelBuffer secondBuffer;
-    std::vector<Color> palette;
-
-    void GeneratePalette();
-    void GenerateHotspots(PixelBuffer& buffer, permille intensity);
-    void FilterPrevious(PixelBuffer& src, PixelBuffer& dest, milliseconds delta, permille intensity);
-
-public:
-    Fire(Timer* timer, Screen* screen);
-    ~Fire();
-
-    void Load() override;
-    void Unload() override;
-    void Update(permille intensity, milliseconds delta) override;
-    void Cache(StencilBuffer& mask) override;
-    rgbaColor GetPixel(Point2D p) override;
-    rgbaColor GetPixel(index_t index) override;
-};
+#include <cmath>
+#include <cstdint>
+#include <cstdlib>
+#include <memory>
+#include <vector>
 
 namespace MoleDemo
 {
@@ -41,7 +14,7 @@ namespace MoleDemo
 
     void Fire::Load()
     {
-        srand(0);
+        std::srand(0);
 
         firstBuffer.assign(screen->w * (screen->h + 4), transparent);
         secondBuffer.assign(screen->w * (screen->h + 4), transparent);
@@ -89,10 +62,10 @@ namespace MoleDemo
 
         for (int f = 0; f < newFires; ++f)
         {
-            point1D start{ rand() % screen->w };
-            point1D end{ std::min(start + (point1D) (rand() % (1 + intensity / 32)), screen->w - 3) };
+            point1D start{ std::rand() % screen->w };
+            point1D end{ std::min(start + (point1D) (std::rand() % (1 + intensity / 32)), screen->w - 3) };
             rgbaColor random{};
-            index_t paletteStart{ rand() % palette.size() };
+            index_t paletteStart{ std::rand() % palette.size() };
             for (int i = start; i < end; ++i)
             {
 
@@ -100,7 +73,7 @@ namespace MoleDemo
                 index_t i2{ screen->GetIndex(Point2D{ (point1D) i, (point1D) (screen->h + 2) }) };
                 index_t i3{ screen->GetIndex(Point2D{ (point1D) i, (point1D) (screen->h + 3) }) };
 
-                random = Color(white).lerp(palette[rand() % palette.size()], rand() % 1000).rgba();
+                random = Color(white).lerp(palette[std::rand() % palette.size()], std::rand() % 1000).rgba();
                 buffer[i1] = random;
                 buffer[i2] = random;
                 buffer[i3] = random;

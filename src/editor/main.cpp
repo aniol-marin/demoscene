@@ -2,8 +2,7 @@
 
 #include <iostream>
 
-int
-main()
+int main()
 {
     mole::editor::Context context{};
 
