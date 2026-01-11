@@ -1,11 +1,11 @@
 module;
 
-#include <vector>
-#include <memory>
-#include <string_view>
-#include <exception>
-#include <stdexcept>
 #include <algorithm>
+#include <exception>
+#include <memory>
+#include <stdexcept>
+#include <string_view>
+#include <vector>
 
 module timeline;
 import definitions;

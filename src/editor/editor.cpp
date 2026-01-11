@@ -1,7 +1,7 @@
 module;
 
-#include <typeinfo>
 #include <functional>
+#include <typeinfo>
 
 module editor_;
 

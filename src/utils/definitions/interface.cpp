@@ -1,9 +1,9 @@
 module;
 
-#include <vector>
-#include <string_view>
 #include <functional>
 #include <memory>
+#include <string_view>
+#include <vector>
 
 export module definitions;
 

@@ -1,7 +1,7 @@
 module;
 
-#include <vector>
 #include <functional>
+#include <vector>
 
 export module stars;
 

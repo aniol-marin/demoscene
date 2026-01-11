@@ -1,8 +1,8 @@
 module;
 
 #define GLAD_IMPLEMENTATION
-#include "glad/gl.h"
 #include <vector>
+#include "glad/gl.h"
 
 export module glad_wrapper;
 

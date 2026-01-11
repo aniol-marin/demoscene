@@ -1,7 +1,5 @@
 export module solid;
 
-import definitions;
-import timer;
 import effect;
 using namespace mole_def;
 

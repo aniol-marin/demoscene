@@ -5,8 +5,7 @@ import editor_;
 
 using namespace mole::editor;
 
-int
-main()
+int main()
 {
     Context context{};
 

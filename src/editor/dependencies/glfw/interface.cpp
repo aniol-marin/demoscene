@@ -1,12 +1,12 @@
 module;
 
-#include "GLFW/glfw3.h"
+#include <cstdint>
 #include <functional>
+#include <map>
 #include <string>
 #include <string_view>
-#include <map>
-#include <cstdint>
 #include <typeinfo>
+#include "GLFW/glfw3.h"
 
 export module glfw_wrapper;
 

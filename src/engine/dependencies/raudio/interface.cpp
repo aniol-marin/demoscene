@@ -1,7 +1,7 @@
 module;
 
-#include "raudio.h"
 #include <string_view>
+#include "raudio.h"
 
 export module raudio_wrapper;
 

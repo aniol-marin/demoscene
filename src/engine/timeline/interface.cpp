@@ -1,13 +1,13 @@
 module;
 
-#include <vector>
-#include <memory>
-#include <string_view>
-#include <exception>
-#include <stdexcept>
 #include <algorithm>
-#include <queue>
+#include <exception>
 #include <functional>
+#include <memory>
+#include <queue>
+#include <stdexcept>
+#include <string_view>
+#include <vector>
 
 export module timeline;
 

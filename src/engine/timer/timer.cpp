@@ -1,8 +1,8 @@
 module;
 
 #include <chrono>
-#include <thread>
 #include <cstdint>
+#include <thread>
 
 module timer;
 

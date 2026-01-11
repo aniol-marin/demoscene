@@ -1,7 +1,7 @@
 module;
 
-#include "SDL2/SDL.h"
 #include <cstdint>
+#include "SDL2/SDL.h"
 
 export module sdl_wrapper;
 

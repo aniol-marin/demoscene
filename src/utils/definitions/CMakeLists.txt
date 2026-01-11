@@ -1,6 +1,4 @@
-set(MODULE_NAME engine_definitions)
-
-add_module(${MODULE_NAME}
+add_module(engine_definitions
 	INTERFACES
 	type_aliases.cpp
 	IMPLEMENTATIONS

@@ -1,8 +1,8 @@
 module;
 
-#include "GLFW/glfw3.h"
-#include <string>
 #include <iostream>
+#include <string>
+#include "GLFW/glfw3.h"
 
 module glfw_wrapper;
 
