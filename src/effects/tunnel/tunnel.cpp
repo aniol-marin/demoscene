@@ -1,53 +1,15 @@
-module;
+#include "tunnel.h"
 
-#include <cstdint>
-
-export module tunel;
-
-import std;
-import effect;
-import definitions;
-import timer;
+#include <cmath>
+#include <cstdlib>
+#include <memory>
+#include <vector>
+#include <iostream>
 
 namespace MoleDemo
 {
-    export class Tunel;
-}
-
-class MoleDemo::Tunel
-  : public Customizable
-  , public Effect
-{
-    long long accumulatedTime{};
-    std::vector<channel> Tunel1;
-    std::vector<Point2D> uv;
-    int Windowx1, Windowy1, Windowx2, Windowy2;
-    long src1, src2;
-    Color palette[256];
-    std::unique_ptr<Texturable> texture;
-
-    permille du, dv, speedU, speedV;
-
-    void buildPalette(std::uint16_t time);
-
-public:
-    Tunel(Timer* timer, Screen* screen);
-    ~Tunel();
-
-    void Load() override;
-    void Unload() override;
-    void Update(permille intensity, milliseconds delta) override;
-    void Cache(StencilBuffer& mask) override;
-    constexpr Id TextureLimit() const override { return 1; }
-    void AssignTexture(std::unique_ptr<Texturable> texture, Id id) override;
-};
-
-namespace MoleDemo
-{
-
-    Tunel::Tunel(Timer* timer, Screen* screen) : du{}, dv{}, speedU{ 128 }, speedV{ 32 }, Effect{ timer, screen } {}
-
-    Tunel::~Tunel() {}
+    using namespace mole_def;
+    Tunel::Tunel(Timer* timer, Screen* screen) : du(), dv(), speedU(128), speedV(32), Effect(timer, screen) {}
 
     /*
      * position of the centre of the hole along the X axis
@@ -78,17 +40,18 @@ namespace MoleDemo
 
         texture->Load();
 
-        uv.reserve(screen->GetPixelCount());
-        offset1D half{ 2 };
-        Offset2D center{ static_cast<offset1D>(screen->w) / half, static_cast<offset1D>(screen->h) / half };
-        for (offset1D j{ -center.y }; j < center.y; ++j)
+        uv.reserve(get_screen()->GetPixelCount());
+        offset1D half(2);
+        Offset2D center =
+                Offset2D(static_cast<offset1D>(get_screen()->w) / half, static_cast<offset1D>(get_screen()->h) / half);
+        for (offset1D j = -center.y; j < center.y; ++j)
         {
-            for (offset1D i{ -center.x }; i < center.x; ++i)
+            for (offset1D i = -center.x; i < center.x; ++i)
             {
 
                 // get coordinates of ray that projects through this pixel
-                float dx = (float) i / screen->h;
-                float dy = (float) -j / screen->h;
+                float dx = (float) i / get_screen()->h;
+                float dy = (float) -j / get_screen()->h;
                 float dz = 1;
                 // normalize them
                 float d = 20 / std::sqrt(dx * dx + dy * dy + 1);
@@ -129,7 +92,7 @@ namespace MoleDemo
                 unsigned char u = (unsigned char) ang;
                 unsigned char v = (unsigned char) z;
                 // store texture coordinates
-                uv.push_back(Point2D{ u, v });
+                uv.push_back(Point2D(u, v));
             }
         }
     }
@@ -138,31 +101,42 @@ namespace MoleDemo
 
     void Tunel::Update(permille intensity, milliseconds delta)
     {
-        du = (du + intensity / speedU) % screen->w;
-        dv = (dv + delta / speedV) % screen->h;
+        du = (du + intensity / speedU) % get_screen()->w;
+        dv = (dv + delta / speedV) % get_screen()->h;
     }
 
     void Tunel::Cache(StencilBuffer& mask)
     {
 
-        for (point1D y{}; y < screen->h; ++y)
+        for (point1D y; y < get_screen()->h; ++y)
         {
-            for (point1D x{}; x < screen->w; ++x)
+            for (point1D x; x < get_screen()->w; ++x)
             {
 
-                Point2D mapping{ uv[screen->GetIndex({ x, y })] };
-                point1D u{ mapping.x + du };
-                point1D v{ mapping.y + dv };
-                Color base{ texture->GetMappedUV({ static_cast<offset1D>(u), static_cast<offset1D>(v) }) };
-                PutPixel({ x, y }, base.rgba());
+                Point2D mapping(uv[get_screen()->GetIndex(Point2D(x, y))]);
+                point1D u(mapping.x + du);
+                point1D v(mapping.y + dv);
+		std::cerr << "deactivated\n";
+		exit(1);
+		/*
+                Color base(texture->GetMappedUV(static_cast<offset1D>(u), static_cast<offset1D>(v)));
+                PutPixel(Offset2D(x, y), base.rgba());
+		*/
             }
         }
     }
 
-    void Tunel::buildPalette(std::uint16_t time) {}
+    void Tunel::buildPalette(short int time) {}
 
-    void Tunel::AssignTexture(std::unique_ptr<Texturable> texture, Id id = 0)
+    void Tunel::AssignTexture(Texturable* texture, Id id = 0)
     {
-        this->texture = std::move(texture);
+        this->texture = texture;
+    }
+
+    rgbaColor Tunel::GetMappedUV(CoordinateUV uv)
+    {
+        Point2D mapped(std::abs((int) (uv.u * permilleFactor() / get_screen()->w)) % get_screen()->w,
+                       std::abs((int) (uv.v * permilleFactor() / get_screen()->h)) % get_screen()->h);
+        return Effect::GetPixel(mapped);
     }
 }
