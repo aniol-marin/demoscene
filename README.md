@@ -31,6 +31,7 @@ This version of the project has been tested in the following platforms:
 
 - Debian GNU/Linux 12.0+
 - Trisquel GNU/Linux-libre 11.0+
+- Gentoo Linux
 - Microsoft Windows 10+
 
 In order to compile it from source extra packages may be needed. At the time of writing some of them are not available in the usual channels of distribution and may need to be compiled from source including manual resolution of their dependencies.
