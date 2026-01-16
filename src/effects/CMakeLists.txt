@@ -1,37 +1,22 @@
-
-set(MODULE_NAME effects)
-add_module_target(${MODULE_NAME})
-
+add_subdirectory(chessboard)
 add_subdirectory(fire)
 add_subdirectory(gradient)
+add_subdirectory(plasma)
+add_subdirectory(random_noise)
 add_subdirectory(solid)
 add_subdirectory(stars)
 add_subdirectory(tunnel)
+add_subdirectory(wheel)
 
-target_link_libraries(${MODULE_NAME} PUBLIC
+add_module(effects
+	DEPENDENCIES
+	chessboard
 	fire
 	gradient
+	plasma
+	noise
 	solid
 	stars
 	tunnel
+	wheel
 )
-
-target_sources(${MODULE_NAME} PUBLIC
-	#[[
-	FILE_SET effects TYPE CXX_MODULES
-	FILE_SET gradient TYPE CXX_MODULES
-	FILE_SET wheel TYPE CXX_MODULES
-	FILE_SET chess TYPE CXX_MODULES
-	FILE_SET plasma TYPE CXX_MODULES
-	FILE_SET noise TYPE CXX_MODULES
-	FILES
-	]]#
-	effects.cpp
-	#[[
-	Wheel.cpp
-	ChessBoard.cpp
-	Plasma.cpp
-	RandomNoise.cpp
-	]]#
-)
-

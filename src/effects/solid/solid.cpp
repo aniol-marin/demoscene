@@ -5,7 +5,7 @@ import effect;
 
 namespace MoleDemo
 {
-using namespace mole_def;
+    using namespace mole_def;
     Solid::Solid(Timer* timer, Screen* screen) : Texturable{}, Effect{ timer, screen } {}
     Solid::Solid(Solid&& o) noexcept : Effect{ o.timer, o.screen }, rgbColor{ o.rgbColor } {}
 

@@ -1,6 +1,6 @@
-add_module(solid
+add_module(chessboard
 	IMPLEMENTATIONS
-	solid.cpp
+	chessboard.cpp
 	DEPENDENCIES
 	effect
 )

@@ -1,56 +1,21 @@
-export module noise;
-
-import std;
-import effect;
-import definitions;
-import timer;
+module noise;
 
 namespace MoleDemo
 {
-    export class RandomNoise;
-}
-
-class MoleDemo::RandomNoise
-  : public Texturable
-  , public Effect
-{
-    ChannelBuffer noise;
-    Color A, B;
-    bunch repetitions;
-
-public:
-    RandomNoise();
-    RandomNoise(Timer* timer, Screen* screen);
-    ~RandomNoise();
-
-    void Set(Color a, Color b, bunch repetitions);
-
-    void Load() override;
-    void Unload() override;
-    void Update(permille intensity, milliseconds delta) override;
-    void Cache(StencilBuffer& mask) override;
-    rgbaColor GetMappedUV(CoordinateUV uv) override;
-};
-namespace MoleDemo
-{
-
-    RandomNoise::RandomNoise() : RandomNoise{ nullptr, &textureSize } {}
+    using namespace mole_def;
 
     RandomNoise::RandomNoise(Timer* timer, Screen* screen) : Effect{ timer, screen } {}
 
-    RandomNoise::~RandomNoise() {}
-
     void RandomNoise::Load()
     {
-
         Screen sampler{ repetitions, repetitions };
-        index_t samples{ (index) sampler.GetPixelCount() };
+        index_t samples{ (index_t) sampler.GetPixelCount() };
 
         noise.clear();
         noise.assign(samples, clear);
-        for (index i{ 0 }; i < samples; ++i)
+        for (index_t i{ 0 }; i < samples; ++i)
         {
-            noise[i] = rand() % permilleFactor;
+            noise[i] = std::rand() % permilleFactor;
         }
 
         point1D period{ screen->w / repetitions };
