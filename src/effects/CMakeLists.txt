@@ -3,15 +3,17 @@ set(MODULE_NAME effects)
 add_module_target(${MODULE_NAME})
 
 add_subdirectory(fire)
+add_subdirectory(gradient)
 add_subdirectory(solid)
 add_subdirectory(stars)
 add_subdirectory(tunnel)
 
 target_link_libraries(${MODULE_NAME} PUBLIC
-	stars
-	solid
-	tunnel
 	fire
+	gradient
+	solid
+	stars
+	tunnel
 )
 
 target_sources(${MODULE_NAME} PUBLIC
@@ -26,7 +28,6 @@ target_sources(${MODULE_NAME} PUBLIC
 	]]#
 	effects.cpp
 	#[[
-	Gradient.cpp
 	Wheel.cpp
 	ChessBoard.cpp
 	Plasma.cpp
