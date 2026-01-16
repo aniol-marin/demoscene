@@ -66,7 +66,7 @@ namespace MoleDemo
         std::map<id_t, std::unique_ptr<Factory>> factories{};
 
     public:
-        Container() = default;
+        constexpr Container() = default;
         ~Container() = default;
         Container(const Container&) = delete ("containers are meant to be temporary. Create a new one instead");
         Container(Container&&) = delete ("containers are meant to be temporary. Create a new one instead");
