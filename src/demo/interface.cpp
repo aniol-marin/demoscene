@@ -9,6 +9,7 @@ namespace MoleDemo
 {
     export class Demo;
     class application;
+    void InstallBindings(Container& container, std::string& project);
 }
 
 namespace MoleDemo
@@ -21,7 +22,6 @@ namespace MoleDemo
 
         void Init(std::string& project);
         void Finalize();
-        void InstallBindings(std::string& project);
 
     public:
         Demo(std::string project);
