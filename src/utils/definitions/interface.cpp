@@ -169,7 +169,7 @@ export namespace mole_def
         Screen& operator=(Screen&&) = default;
 
         const pixel_count GetPixelCount() const;
-        constexpr index_t GetIndex(Point2D point) const;
+        index_t GetIndex(Point2D point) const;
     };
 
     /*

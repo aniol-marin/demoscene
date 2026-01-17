@@ -1,14 +1,11 @@
 export module timeline;
 
 import std;
-import definitions;
-import effect;
-import renderables;
-import timer;
 import cycle;
-import sound;
+import effect;
 import program;
-import render;
+import renderables;
+import sound;
 
 using namespace mole_def;
 

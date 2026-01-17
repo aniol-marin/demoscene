@@ -104,7 +104,6 @@ namespace MoleDemo
         {
             for (point1D x{}; x < screen->w; ++x)
             {
-
                 Point2D mapping{ uv[screen->GetIndex({ x, y })] };
                 point1D u{ mapping.x + du };
                 point1D v{ mapping.y + dv };
