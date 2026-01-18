@@ -8,7 +8,7 @@ namespace MoleDemo
 
     void ChessBoard::Load()
     {
-        point1D period{ screen->w / repetitions };
+        point1D period{ screen->w >= repetitions ? screen->w / repetitions : 1 };
         Color right;
         for (point1D y = 0; y < screen->h; ++y)
         {

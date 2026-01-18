@@ -18,7 +18,7 @@ namespace MoleDemo
             noise[i] = std::rand() % permilleFactor;
         }
 
-        point1D period{ screen->w / repetitions };
+        point1D period{ std::max(screen->w / repetitions, static_cast<point1D>(1)) };
         for (point1D y = 0; y < screen->h; ++y)
         {
             for (point1D x = 0; x < screen->w; ++x)

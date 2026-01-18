@@ -17,7 +17,7 @@ namespace MoleDemo
       , public Effect
     {
         Color A, B;
-        bunch repetitions;
+        bunch repetitions{1};
 
     public:
         ChessBoard() = delete;
