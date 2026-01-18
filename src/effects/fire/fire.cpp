@@ -2,6 +2,8 @@ module fire;
 
 namespace MoleDemo
 {
+    using namespace mole_def;
+
     Fire::Fire(Timer* timer, Screen* screen) : Effect{ timer, screen } {}
 
     Fire::~Fire() {}
