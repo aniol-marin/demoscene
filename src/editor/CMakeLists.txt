@@ -11,21 +11,17 @@ if(NOT DisableAllButExperimental)
 	add_subdirectory(sandbox)
 endif()
 
-set(EXECUTABLE_NAME editor)
-add_executable_target(${EXECUTABLE_NAME})
-target_sources(${EXECUTABLE_NAME} PUBLIC
+add_mained(editor
+	IMPLEMENTATIONS
 	main.cpp
-)
-target_link_libraries(${EXECUTABLE_NAME} PUBLIC
+	DEPENDENCIES
 	editor_
 )
 
-set(MODULE_NAME editor_)
-add_module_target(${MODULE_NAME})
-target_sources(${EXECUTABLE_NAME} PRIVATE
+add_module(editor_
+	IMPLEMENTATIONS
 	editor.cpp
-)
-target_link_libraries(${MODULE_NAME} PUBLIC
+	DEPENDENCIES
 	glfw_wrapper
 	glad_wrapper
 	imgui_wrapper

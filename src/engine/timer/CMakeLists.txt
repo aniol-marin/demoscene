@@ -1,7 +1,7 @@
 add_module(timer
-	implementations
+	IMPLEMENTATIONS
 	timer.cpp
-	dependencies
+	DEPENDENCIES
 	engine_definitions
 )
 
