@@ -347,6 +347,7 @@ namespace MoleDemo
         // Layers
         Layer* stars{ CreateLayer(BlendMode::AlphaBlend, CreateEffect<Stars>()) };
         Layer* solids{ CreateLayer(BlendMode::AlphaBlend, CreateEffect<Solid>()) };
+	static_cast<Solid*>(solids->effect)->SetColor(0xAABBFFFF);
         Layer* plasma{ CreateLayer(BlendMode::Override, CreateEffect<Plasma>()) };
         Layer* fire{ CreateLayer(BlendMode::Override, CreateEffect<Fire>()) };
         Layer* black{ CreateLayer(BlendMode::Override, solid1) };
@@ -371,7 +372,7 @@ namespace MoleDemo
 
         renderables.push_back(stars);
         events.push(std::make_unique<Event>(Timestamp{ 5, 2000 }, stars, solids, TransitionType::Fade));
-        events.push(std::make_unique<Event>(Timestamp{ 5, 2000 }, stars, sanitaryPollution, TransitionType::Fade));
+        events.push(std::make_unique<Event>(Timestamp{ 5, 2000 }, solids, sanitaryPollution, TransitionType::Fade));
         events.push(std::make_unique<Event>(Timestamp{ 31, 2000 }, fire, wheel, TransitionType::Fade));
         events.push(std::make_unique<Event>(Timestamp{ 40, 2000 }, wheel, black, TransitionType::Fade));
         events.push(std::make_unique<Event>(Timestamp{ 43, 2000 }, black, white, TransitionType::Fade));
