@@ -1,6 +1,6 @@
-add_module(solid
+add_module(gradient
 	IMPLEMENTATIONS
-	solid.cpp
+	gradient.cpp
 	DEPENDENCIES
 	effect
 )

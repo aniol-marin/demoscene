@@ -12,122 +12,51 @@ namespace MoleDemo
 {
     using namespace mole_def;
 
-    void Demo::LoadData(std::string source) {}
-
-    void Demo::LoadTimeline(std::string source) {}
-
-    void Demo::Load(std::string source)
+    Demo::Demo(std::string project)
     {
-        for (Loadable* item: loadables)
-        {
-            item->Load(source);
-        }
+        // TO DO load values from config string
     }
 
-    void Demo::Unload()
+    void Demo::Run()
     {
-        for (Loadable* item: loadables)
-        {
-            item->Unload();
-        }
+        std::string project{}; // TO DO get values from constructor maybe
+        Init(project);
+
+        container.Inject<application>().run();
+
+        Finalize();
     }
 
-    void Demo::Init()
+    void Demo::Init(std::string& project)
     {
-        InstallBindings();
+        InstallBindings(container, project);
 
+        // TO DO automatic interface detection
         initializables.push_back(&container.Inject<RenderManager>());
-        initializables.push_back(timeline);
-        initializables.push_back(sound);
-
-        loadables.push_back(timeline);
-        loadables.push_back(sound);
-
-        timer->SetFPS(60);
-
+        initializables.push_back(&container.Inject<Timeline>());
+        initializables.push_back(&container.Inject<SoundManager>());
         for (Initializable* item: initializables)
         {
             item->Init();
         }
 
-        Load(source);
+        loadables.push_back(&container.Inject<Timeline>());
+        loadables.push_back(&container.Inject<SoundManager>());
+        for (Loadable* item: loadables)
+        {
+            item->Load(project);
+        }
     }
 
     void Demo::Finalize()
     {
-        Unload();
-
+        for (Loadable* item: loadables)
+        {
+            item->Unload();
+        }
         for (Initializable* item: initializables)
         {
             item->Finalize();
         }
-    }
-
-    void Demo::InstallBindings()
-    {
-        container.BindShared<Timer>();
-        container.BindShared<SoundManager>();
-        container.BindShared<Screen>([this] { return Screen{ this->screen }; });
-        container.BindShared<Program>([&] { return Program{ container.Inject<Screen>() }; });
-        container.BindShared<SDL::SDLManager>();
-        container.BindShared<RenderManager>(
-                [&] { return RenderManager{ container.Inject<Screen>(), container.Inject<SDL::SDLManager>() }; });
-        container.BindShared<InputManager>([&] { return InputManager{ container.Inject<SDL::SDLManager>() }; });
-        container.BindShared<Cycle>(
-                [&]
-                {
-                    return Cycle{ container.Inject<Program>(),
-                                  container.Inject<Timer>(),
-                                  container.Inject<InputManager>(),
-                                  container.Inject<RenderManager>() };
-                });
-        container.BindShared<Timeline>(
-                [&]
-                {
-                    return Timeline{ container.Inject<Timer>(),  container.Inject<Program>(),
-                                     container.Inject<Cycle>(),  container.Inject<SoundManager>(),
-                                     container.Inject<Screen>(), project };
-                });
-        /* TODO replace manual functor resolution with in-place factories. Examples follow:
-           container.BindUniqueFromFactory<Cycle, Cycle, Program, Timer, InputManager, RenderManager>();
-           container.BindSharingFromFactory<Timeline, Timeline, Timer, Cycle, SoundManager, Screen>();
-           */
-
-        // Self injection (TO DO separate concerns)
-        program = &container.Inject<Program>();
-        timer = &container.Inject<Timer>();
-        sound = &container.Inject<SoundManager>();
-        timeline = &container.Inject<Timeline>();
-    }
-
-    Demo::Demo(std::string project) : project{ project }, container{} {}
-
-    void Demo::Run()
-    {
-        seconds previous_time{};
-
-        Init();
-        sound->Play();
-        timeline->Start();
-
-        while (program->Running())
-        {
-            sound->Update();
-            timeline->Update();
-
-            if (const seconds current_time{ timer->GetTime() }; current_time > previous_time)
-            {
-                std::cout //
-                        << "time [" << current_time << "/" << timer->get_total_time() //
-                        << "],\t framerate: [" << timer->get_frames_since_mark() //
-                        << "], fps,\t delta: [" << timer->GetDeltaTime() << "]\n";
-                timer->set_mark();
-                previous_time = current_time;
-            }
-        }
-
-        sound->Stop();
-        timeline->Stop();
-        Finalize();
     }
 }

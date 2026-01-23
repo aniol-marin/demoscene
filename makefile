@@ -290,6 +290,7 @@ full-wipe:
 	if ! [ -f $(CACHE_FILE) ]; then \
 		make $(CACHE_FILE) CMAKE_PRESET=builder; \
 	fi
+	make .clean
 	ctest \
 		-DCTEST_SOURCE_DIRECTORY=$(call current_folder) \
 		-DCTEST_BINARY_DIRECTORY=$(BUILD_PATH) \

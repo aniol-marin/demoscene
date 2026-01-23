@@ -1,10 +1,8 @@
-add_executable_target(sandbox)
-
-target_link_libraries(sandbox PUBLIC
-	engine
-	stars
-)
-
-target_sources(sandbox PUBLIC
+add_mained(sandbox
+	IMPLEMENTATIONS
 	main.cpp
+	DEPENDENCIES
+	stars
+	engine
 )
+

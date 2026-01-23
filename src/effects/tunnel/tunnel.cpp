@@ -10,6 +10,8 @@ module tunnel;
 
 namespace MoleDemo
 {
+    using namespace mole_def;
+
     Tunel::Tunel(Timer* timer, Screen* screen) : du{}, dv{}, speedU{ 128 }, speedV{ 32 }, Effect{ timer, screen } {}
 
     /*
@@ -112,7 +114,6 @@ namespace MoleDemo
         {
             for (point1D x{}; x < screen->w; ++x)
             {
-
                 Point2D mapping{ uv[screen->GetIndex({ x, y })] };
                 point1D u{ mapping.x + du };
                 point1D v{ mapping.y + dv };

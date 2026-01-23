@@ -1,6 +1,6 @@
-add_module(solid
+add_module(wheel
 	IMPLEMENTATIONS
-	solid.cpp
+	wheel.cpp
 	DEPENDENCIES
 	effect
 )

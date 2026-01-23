@@ -1,43 +1,14 @@
-export module gradient;
+module;
 
-import std;
-import effect;
-import definitions;
-import timer;
+#include <cstdlib>
 
-namespace MoleDemo
-{
-    export class Gradient;
-}
-
-class MoleDemo::Gradient
-  : public Texturable
-  , public Effect
-{
-    Color NE, NW, SW, SE;
-
-public:
-    Gradient();
-    Gradient(Timer* timer, Screen* screen);
-    ~Gradient();
-
-    void SetColors(Color NE, Color NW, Color SW, Color SE);
-
-    void Load() override;
-    void Unload() override;
-    void Update(permille intensity, milliseconds delta) override;
-    void Cache(StencilBuffer& mask) override;
-    rgbaColor GetMappedUV(CoordinateUV uv) override;
-};
+module gradient;
 
 namespace MoleDemo
 {
-
-    Gradient::Gradient() : Gradient{ nullptr, &textureSize } {}
+    using namespace mole_def;
 
     Gradient::Gradient(Timer* timer, Screen* screen) : Effect{ timer, screen } {}
-
-    Gradient::~Gradient() {}
 
     void Gradient::Load()
     {
