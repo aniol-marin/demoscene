@@ -1,5 +1,4 @@
 import demo;
-import definitions;
 
 int main()
 {

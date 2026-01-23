@@ -1,48 +1,14 @@
-export module chess;
-
-import std;
-import effect;
-import timer;
-import definitions;
+module chess;
 
 namespace MoleDemo
 {
-    export class ChessBoard;
-}
-
-class MoleDemo::ChessBoard
-  : public Texturable
-  , public Effect
-{
-    Color A, B;
-    bunch repetitions;
-
-public:
-    ChessBoard();
-    ChessBoard(Timer* timer, Screen* screen);
-    ~ChessBoard();
-
-    void Set(Color A, Color B, bunch repetitions);
-
-    void Load() override;
-    void Unload() override;
-    void Update(permille intensity, milliseconds delta) override;
-    void Cache(StencilBuffer& mask) override;
-    rgbaColor GetMappedUV(CoordinateUV uv) override;
-};
-
-namespace MoleDemo
-{
-
-    ChessBoard::ChessBoard() : ChessBoard{ nullptr, &textureSize } {}
+    using namespace mole_def;
 
     ChessBoard::ChessBoard(Timer* timer, Screen* screen) : Effect{ timer, screen } {}
 
-    ChessBoard::~ChessBoard() {}
-
     void ChessBoard::Load()
     {
-        point1D period{ screen->w / repetitions };
+        point1D period{ screen->w >= repetitions ? screen->w / repetitions : 1 };
         Color right;
         for (point1D y = 0; y < screen->h; ++y)
         {

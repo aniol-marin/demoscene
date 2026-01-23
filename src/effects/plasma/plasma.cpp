@@ -1,46 +1,9 @@
-module;
-
-#include <cstdint>
-
-export module plasma;
-
-import std;
-import effect;
-import definitions;
-import timer;
+module plasma;
 
 namespace MoleDemo
 {
-    export class Plasma;
-}
+    using namespace mole_def;
 
-class MoleDemo::Plasma
-  : public Customizable
-  , public Effect
-{
-    long long accumulatedTime{};
-    std::vector<channel> plasma1;
-    std::vector<channel> plasma2;
-    int Windowx1, Windowy1, Windowx2, Windowy2;
-    long src1, src2;
-    Color palette[256];
-
-    void buildPalette(std::uint16_t time);
-
-public:
-    Plasma(Timer* timer, Screen* screen);
-    ~Plasma();
-
-    void Load() override;
-    void Unload() override;
-    void Update(permille intensity, milliseconds delta) override;
-    void Cache(StencilBuffer& mask) override;
-    constexpr Id TextureLimit() const override { return 2; }
-    void AssignTexture(std::unique_ptr<Texturable> texture, Id id) override;
-};
-
-namespace MoleDemo
-{
     Plasma::Plasma(Timer* timer, Screen* screen) : Effect{ timer, screen } {}
 
     Plasma::~Plasma() {}
