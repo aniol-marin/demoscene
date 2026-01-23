@@ -1,14 +1,10 @@
-set(MODULE_NAME imgui_wrapper)
-add_module_target(${MODULE_NAME})
-
 manage_dependency_imgui()
 
-target_link_libraries(${MODULE_NAME} PUBLIC
+add_module(imgui_wrapper
+	IMPLEMENTATIONS
+	imgui.cpp
+	DEPENDENCIES
 	imgui
 	glfw_wrapper
-)
-
-target_sources(${MODULE_NAME} PRIVATE
-	imgui.cpp
 )
 

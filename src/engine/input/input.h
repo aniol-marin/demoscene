@@ -1,5 +1,5 @@
-#ifndef MOLE_INPUT
-#define MOLE_INPUT
+#ifndef MOLE_INPUT_H
+#define MOLE_INPUT_H
 
 #include "definitions.h"
 #include "sdl_wrapper.h"
@@ -25,4 +25,4 @@ public:
     ProgramStatus PollEvents();
 };
 
-#endif //! MOLE_INPUT
+#endif //! MOLE_INPUT_H

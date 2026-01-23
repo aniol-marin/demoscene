@@ -1,4 +1,3 @@
-set(EXECUTABLE_NAME demoscene)
 add_subdirectory(utils)
 
 if(NOT MoleDemo_DisableAllButExperimental)
@@ -6,16 +5,14 @@ if(NOT MoleDemo_DisableAllButExperimental)
 	add_subdirectory(effects)
 	add_subdirectory(engine)
 	add_subdirectory(demo)
-	add_executable_target(${EXECUTABLE_NAME})
 
-	target_sources(${EXECUTABLE_NAME} PRIVATE
+	set(EXECUTABLE_NAME demoscene)
+	add_mained(${EXECUTABLE_NAME}
+		IMPLEMENTATIONS
 		main.cpp
-	)
-
-	target_link_libraries(${EXECUTABLE_NAME} PUBLIC
+		DEPENDENCIES
 		demo
 	)
-
 	add_custom_command(TARGET ${EXECUTABLE_NAME} POST_BUILD
 		COMMAND ${CMAKE_COMMAND} -E copy_directory
 		${CMAKE_SOURCE_DIR}/resources
@@ -119,7 +116,7 @@ else()
 	message(WARNING "All non-experimental targets disabled")
 endif()
 
-if(NOT MoleDemo_DisableAllButExperimental AND MoleDemo_EnableEditor)
+if(MoleDemo_EnableEditor AND NOT MoleDemo_DisableAllButExperimental)
 	message(NOTICE "enabling editor")
 	add_subdirectory(editor)
 else()

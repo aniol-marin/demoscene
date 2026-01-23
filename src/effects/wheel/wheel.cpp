@@ -1,44 +1,15 @@
-export module wheel;
+#include "wheel.h"
 
-import std;
-import effect;
-import definitions;
-import timer;
+#include <cmath>
 
 namespace MoleDemo
 {
-    export class Wheel;
-}
+    using namespace mole_def;
 
-class MoleDemo::Wheel : public Effect
-{
-    Color color;
-    Color base;
-    Color top;
-    rgbaColor rgbColor;
-    double rotation;
-    void SetColor();
-
-public:
-    Wheel(Timer* timer, Screen* screen);
-    ~Wheel();
-
-    void Load() override;
-    void Unload() override;
-    void Update(permille intensity, milliseconds delta) override;
-    void Cache(StencilBuffer& mask) override;
-    rgbaColor GetPixel(Point2D p) override;
-    rgbaColor GetPixel(index_t index) override;
-};
-
-namespace MoleDemo
-{
     Wheel::Wheel(Timer* timer, Screen* screen) :
       color{ black }, base{ halfValue, halfValue, halfValue }, top{ white }, Effect{ timer, screen }
     {
     }
-
-    Wheel::~Wheel() {}
 
     void Wheel::Load()
     {

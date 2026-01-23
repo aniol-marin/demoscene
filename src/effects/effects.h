@@ -1,17 +1,15 @@
-#ifndef MOLE_SOUND
-#define MOLE_SOUND
+#ifndef MOLE_EFFECTS_H
+#define MOLE_EFFECTS_H
 
 #include "Effect.h"
+#include "chessboard.h"
+#include "fire.h"
+#include "gradient.h"
+#include "noise.h"
+#include "plasma.h"
 #include "solid.h"
 #include "stars.h"
-/*
-export import gradient;
-export import wheel;
-export import chess;
-export import plasma;
-export import noise;
-export import tunel;
-export import fire;
- */
+#include "tunnel.h"
+#include "wheel.h"
 
 #endif

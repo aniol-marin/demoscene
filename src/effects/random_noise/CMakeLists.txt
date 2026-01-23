@@ -1,6 +1,6 @@
-add_module(solid
+add_module(noise
 	IMPLEMENTATIONS
-	solid.cpp
+	noise.cpp
 	DEPENDENCIES
 	effect
 )

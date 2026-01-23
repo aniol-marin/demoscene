@@ -1,10 +1,6 @@
-module;
-
 #include <cstdint>
 
-export module definitions:type_aliases;
-
-export namespace mole_def
+namespace mole_def
 {
     /* TO DO
     class id_t
