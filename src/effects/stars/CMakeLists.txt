@@ -1,11 +1,7 @@
-set(MODULE_NAME stars)
-add_module_target(stars)
-target_sources(${MODULE_NAME} PRIVATE
-	Stars.cpp
-)
-target_link_libraries(${MODULE_NAME} PUBLIC
+add_module(stars
+	IMPLEMENTATIONS
+	stars.cpp
+	DEPENDENCIES
 	effect
-	engine_definitions
-	timer
 )
 

@@ -9,32 +9,40 @@ using namespace mole_def;
 
 namespace MoleDemo
 {
+    void InstallBindings(Container& container, std::string& project);
+
     class Demo
     {
-        Screen screen{ 600, 300 };
-        const std::string project{};
-        std::string source{};
         Container container;
-        std::vector<Initializable*> initializables;
-        std::vector<Loadable*> loadables;
-        RenderManager* render;
-        SoundManager* sound;
-        Timeline* timeline;
-        Timer* timer;
-        Program* program;
+        std::vector<Initializable*> initializables{};
+        std::vector<Loadable*> loadables{};
 
-        void LoadData(std::string source);
-        void LoadTimeline(std::string source);
-        void Load(std::string source);
-        void Unload();
-        void Init();
+        void Init(std::string& project);
         void Finalize();
-        void InstallBindings();
 
     public:
         Demo(std::string project);
         void Run();
     };
-}
 
+    class application
+    {
+        Screen& screen;
+        RenderManager& render;
+        SoundManager& sound;
+        Timeline& timeline;
+        Timer& timer;
+        Program& program;
+
+    public:
+        explicit application(Screen& screen,
+                             RenderManager& render,
+                             SoundManager& sound,
+                             Timeline& timeline,
+                             Timer& timer,
+                             Program& program);
+
+        void run();
+    };
+}
 #endif

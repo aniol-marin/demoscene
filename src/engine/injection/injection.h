@@ -63,7 +63,7 @@ namespace MoleDemo
         std::map<id_t, std::unique_ptr<Factory>> factories{};
 
     public:
-        Container() = default;
+        constexpr Container() = default;
         ~Container() = default;
         Container(const Container&) = delete;
         Container(Container&&) = delete;

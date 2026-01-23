@@ -1,7 +1,7 @@
-set(MODULE_NAME cycle)
-add_module_target(${MODULE_NAME})
-
-target_link_libraries(${MODULE_NAME} PUBLIC
+add_module(cycle
+	IMPLEMENTATIONS
+	cycle.cpp
+	DEPENDENCIES
 	effect
 	engine_definitions
 	input
@@ -9,9 +9,5 @@ target_link_libraries(${MODULE_NAME} PUBLIC
 	render
 	renderables
 	sdl_wrapper
-)
-
-target_sources(${MODULE_NAME} PRIVATE 
-	cycle.cpp
 )
 

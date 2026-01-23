@@ -1,6 +1,6 @@
-add_module(solid
+add_module(plasma
 	IMPLEMENTATIONS
-	solid.cpp
+	plasma.cpp
 	DEPENDENCIES
 	effect
 )
