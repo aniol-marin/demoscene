@@ -3,21 +3,9 @@
 #include <cstdlib>
 #include <functional>
 
-/*
-import serialization;
-
-struct mole::pugi_wrapper::node<MoleDemo::Solid>;
- */
-
 namespace MoleDemo
 {
-    /*
-    Solid::Solid()
-        : Texturable	(		)
-        , Effect		( NULL, NULL )
-    {
-    }
-     */
+    using namespace mole_def;
 
     Solid::Solid(Timer* timer, Screen* screen) : Texturable(), Effect(timer, screen) {}
 

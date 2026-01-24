@@ -5,8 +5,9 @@
 | (_| |  __/ | | | | | (_) \__ \ (_|  __/ | | |  __/
  \__,_|\___|_| |_| |_|\___/|___/\___\___|_| |_|\___|
 ```
+                                                    
 
-a tiny audiovisual experience with an overkilled tooling environment.
+A tiny audiovisual experience with an overkilled tooling environment.
 
 See current development status at the [project CDash Page](https://my.cdash.org/overview.php?project=mole_demo)
 
@@ -27,9 +28,10 @@ In case something unexpected happens you should get a clear error message. In ca
 
 This version of the project has been tested in the following platforms:
 
-- Debian GNU/Linux 12.0+
-- Trisquel GNU/Linux-libre 11.0+
-- Microsoft Windows 10+
+- Debian GNU/Linux 14.0
+- Trisquel GNU/Linux-libre 11.0
+- Gentoo Linux
+- Microsoft Windows 11
 
 In order to compile it from source extra packages may be needed. At the time of writing some of them are not available in the usual channels of distribution and may need to be compiled from source including manual resolution of their dependencies.
 
@@ -49,6 +51,22 @@ compilers:
 Other toolchains may be possible as long as they support compilation of ISO c++.
 Feel free to send your own CTest reports in order to expand the verified toolchain list.
 Alternative versions of the demoscene exist in the port branches, defined by c++ standard (CMake and build system requirements are modified as a consequence). If you are unable to compile this specific branch, please try with an older one.
+
+## Dependencies
+
+Besides the required toolchain, there are a few known indirect dependencies that may be needed in order to be able to compile and execute the demo:
+- libxext-dev (required from SDL2)
+
+Development targets (i.e. Mole Editor) are meant to be internal and do not manage their dependencies through CMake. If not available in the system, the following executables and libraries may need to be manually resolved:
+- curl (needed from GLAD)
+- python 3 (needed from GLAD)
+- pip (needed from GLAD)
+- Jinja2 (needed from GLAD)
+- libasound2-dev (needed from GLFW)
+- libwayland-dev (needed from GLFW)
+- pkg-config (needed from GLFW)
+- libxkbcommon-dev (needed from GLFW)
+- mesa-common-dev (needed from GLFW)
 
 ## Roadmap
 

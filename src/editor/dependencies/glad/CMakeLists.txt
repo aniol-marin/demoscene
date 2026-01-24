@@ -1,13 +1,9 @@
 manage_dependency_glad()
 
-set(MODULE_NAME glad_wrapper)
-add_module_target(${MODULE_NAME})
-
-target_sources(${MODULE_NAME} PUBLIC
+add_module(glad_wrapper
+	IMPLEMENTATIONS
 	glad.cpp
-)
-
-target_link_libraries(glad_wrapper PUBLIC
+	DEPENDENCIES
 	glfw_wrapper
 	engine_definitions
 	glad

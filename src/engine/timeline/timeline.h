@@ -12,6 +12,7 @@
 #include "timer.h"
 
 #include <algorithm>
+#include <functional>
 #include <memory>
 #include <queue>
 #include <stdexcept>

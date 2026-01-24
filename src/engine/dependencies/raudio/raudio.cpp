@@ -52,8 +52,8 @@ namespace raudio
     {
         if (initialized)
         {
-            std::cerr << "already initialized\n";
-            throw std::exception();
+            std::cerr << __FILE__  "already initialized\n";
+	    return;
         }
 
         InitAudioDevice();

@@ -1,3 +1,0 @@
-/* no implementation
-module effects;
- */

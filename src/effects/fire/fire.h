@@ -1,5 +1,5 @@
-#ifndef MOLE_SOLID_H
-#define MOLE_SOLID_H
+#ifndef MOLE_FIRE_H
+#define MOLE_FIRE_H
 
 #include <vector>
 #include "Effect.h"

@@ -1,9 +1,9 @@
-#ifndef MOLE_SOLID_H
-#define MOLE_SOLID_H
+#ifndef MOLE_TUNNEL_H
+#define MOLE_TUNNEL_H
 
 #include <vector>
 #include "Effect.h"
-#include "definitions.h"
+
 using namespace mole_def;
 
 namespace MoleDemo
@@ -34,7 +34,7 @@ namespace MoleDemo
         void Cache(StencilBuffer& mask);
         Id TextureLimit() const { return 1; }
         void AssignTexture(Texturable* texture, Id id);
-	rgbaColor GetMappedUV(CoordinateUV uv);
+        rgbaColor GetMappedUV(CoordinateUV uv);
     };
 }
 #endif

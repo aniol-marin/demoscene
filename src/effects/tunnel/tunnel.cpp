@@ -2,13 +2,14 @@
 
 #include <cmath>
 #include <cstdlib>
+#include <iostream>
 #include <memory>
 #include <vector>
-#include <iostream>
 
 namespace MoleDemo
 {
     using namespace mole_def;
+
     Tunel::Tunel(Timer* timer, Screen* screen) : du(), dv(), speedU(128), speedV(32), Effect(timer, screen) {}
 
     /*
@@ -112,16 +113,15 @@ namespace MoleDemo
         {
             for (point1D x; x < get_screen()->w; ++x)
             {
-
                 Point2D mapping(uv[get_screen()->GetIndex(Point2D(x, y))]);
                 point1D u(mapping.x + du);
                 point1D v(mapping.y + dv);
-		std::cerr << "deactivated\n";
-		exit(1);
-		/*
-                Color base(texture->GetMappedUV(static_cast<offset1D>(u), static_cast<offset1D>(v)));
-                PutPixel(Offset2D(x, y), base.rgba());
-		*/
+                std::cerr << "deactivated\n";
+                exit(1);
+                /*
+        Color base(texture->GetMappedUV(static_cast<offset1D>(u), static_cast<offset1D>(v)));
+        PutPixel(Offset2D(x, y), base.rgba());
+                */
             }
         }
     }

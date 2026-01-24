@@ -7,8 +7,9 @@
 
 namespace MoleDemo
 {
-    Fire::Fire(Timer* timer, Screen* screen) : Effect(timer, screen) {}
+    using namespace mole_def;
 
+    Fire::Fire(Timer* timer, Screen* screen) : Effect(timer, screen) {}
     Fire::~Fire() {}
 
     void Fire::Load()
@@ -67,7 +68,6 @@ namespace MoleDemo
             index_t paletteStart(std::rand() % palette.size());
             for (int i = start; i < end; ++i)
             {
-
                 index_t i1(get_screen()->GetIndex(Point2D((point1D) i, (point1D) (get_screen()->h + 1))));
                 index_t i2(get_screen()->GetIndex(Point2D((point1D) i, (point1D) (get_screen()->h + 2))));
                 index_t i3(get_screen()->GetIndex(Point2D((point1D) i, (point1D) (get_screen()->h + 3))));
