@@ -291,7 +291,7 @@ full-wipe:
 		make $(CACHE_FILE) CMAKE_PRESET=builder; \
 	fi
 	make .clean
-	ctest \
+	-ctest \
 		-DCTEST_SOURCE_DIRECTORY=$(call current_folder) \
 		-DCTEST_BINARY_DIRECTORY=$(BUILD_PATH) \
 		-DCTEST_CMAKE_GENERATOR=$(GENERATOR_NAME) \
