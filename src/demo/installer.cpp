@@ -1,6 +1,4 @@
-#include <iostream>
 #include <string>
-#include <typeinfo>
 #include "demo.h"
 #include "injection.h"
 
@@ -64,6 +62,16 @@ namespace MoleDemo
                                                project));
     }
 
+    void* instantiate_application()
+    {
+        return static_cast<void*>(new application(g_container->Inject<Screen>(),
+                                                  g_container->Inject<RenderManager>(),
+                                                  g_container->Inject<SoundManager>(),
+                                                  g_container->Inject<Timeline>(),
+                                                  g_container->Inject<Timer>(),
+                                                  g_container->Inject<Program>()));
+    }
+
     void InstallBindings(Container& container, std::string& project)
     {
         g_container = &container;
@@ -78,6 +86,7 @@ namespace MoleDemo
         container.BindShared<SoundManager>(instantiate_sound_manager);
         container.BindShared<Cycle>(instantiate_cycle);
         container.BindShared<Timeline>(instantiate_timeline);
+        container.BindShared<application>(instantiate_application);
 
         /* TODO replace manual functor resolution with in-place factories. Examples follow:
            container.BindUniqueFromFactory<Cycle, Cycle, Program, Timer, InputManager, RenderManager>();
