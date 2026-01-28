@@ -1,7 +1,7 @@
-
 #include "sdl_wrapper.h"
 
 #include <exception>
+#include "SDL3/SDL.h"
 
 using namespace mole_def;
 
@@ -14,12 +14,7 @@ namespace SDL
         if (SDL_InitSubSystem(SDL_INIT_VIDEO) >= 0)
         {
 
-            window = SDL_CreateWindow("Mole Demo",
-                                      SDL_WINDOWPOS_UNDEFINED,
-                                      SDL_WINDOWPOS_UNDEFINED,
-                                      screen.w,
-                                      screen.h,
-                                      SDL_WINDOW_SHOWN);
+            window = SDL_CreateWindow("Mole Demo", screen.w, screen.h, SDL_WINDOW_KEYBOARD_GRABBED);
             surface = SDL_GetWindowSurface(window);
             initialized = surface != nullptr;
         }
@@ -45,17 +40,14 @@ namespace SDL
          */
         ProgramStatus status{ ProgramStatus::RUNNING };
 
-        while (SDL_PollEvent(&events) != 0)
+        while (SDL_PollEvent(&events))
         {
-            if (events.type == SDL_KEYDOWN)
+            if (events.type == SDL_EVENT_KEY_DOWN && events.key.scancode == SDL_SCANCODE_ESCAPE)
             {
-                if (events.key.keysym.scancode == SDL_SCANCODE_ESCAPE)
-                {
-                    status = ProgramStatus::TERMINATE_OK;
-                }
+                status = ProgramStatus::TERMINATE_OK;
             }
             // User requests quit
-            if (events.type == SDL_QUIT)
+            else if (events.type == SDL_EVENT_QUIT)
             {
                 status = ProgramStatus::TERMINATE_OK;
             }
@@ -112,8 +104,8 @@ namespace SDL
             throw std::exception{};
         }
 
-        return *reinterpret_cast<uint32_t*>((uint8_t*) surface->pixels + y * surface->pitch +
-                                            x * surface->format->BytesPerPixel);
+        return *reinterpret_cast<std::uint32_t*>((std::uint8_t*) surface->pixels + y * surface->pitch +
+                                                 x * SDL_BYTESPERPIXEL(surface->format));
     }
 
     void SDLManager::PutPixel(const offset x, const offset y, const pixel rgba)
