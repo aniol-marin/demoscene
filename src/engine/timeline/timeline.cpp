@@ -155,11 +155,11 @@ namespace MoleDemo
                 // TO DO really would need some refactor...
                 Renderable* renderable{ *unloaded };
                 Loadable* loadable{ dynamic_cast<Loadable*>(renderable) };
-		if(!loadable)
-		{
-			std::cerr << "## bad loadable cast!!\n";
-			continue;
-		}
+                if (!loadable)
+                {
+                    std::cerr << "## bad loadable cast!!\n";
+                    continue;
+                }
                 loadable->Load({});
             }
         }
@@ -347,7 +347,7 @@ namespace MoleDemo
         // Layers
         Layer* stars{ CreateLayer(BlendMode::AlphaBlend, CreateEffect<Stars>()) };
         Layer* solids{ CreateLayer(BlendMode::AlphaBlend, CreateEffect<Solid>()) };
-	static_cast<Solid*>(solids->effect)->SetColor(0xAABBFFFF);
+        static_cast<Solid*>(solids->effect)->SetColor(0xAABBFFFF);
         Layer* plasma{ CreateLayer(BlendMode::Override, CreateEffect<Plasma>()) };
         Layer* fire{ CreateLayer(BlendMode::Override, CreateEffect<Fire>()) };
         Layer* black{ CreateLayer(BlendMode::Override, solid1) };
