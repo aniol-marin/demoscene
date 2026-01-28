@@ -242,7 +242,9 @@ previous-status: $(STATUS_FILE)
 # Applies clang-format to all .h and cpp source files
 # [NOTE] aplied to src/ only, excludes test/ and vendored code
 format:
-	find src/ -type f | grep -e '.cpp' -e '.h' | xargs -L1 clang-format -i
+	make .call_log MESSAGE="formatting all tracked .cpp and .h sources in src"
+	git ls-files 'src/*.cpp' | xargs -L1 clang-format -i
+	git ls-files 'src/*.h' | xargs --no-run-if-empty -L1 clang-format -i
 
 # Cleans all CMake build artifacts for the current build tree.
 clean:
@@ -291,7 +293,7 @@ full-wipe:
 		make $(CACHE_FILE) CMAKE_PRESET=builder; \
 	fi
 	make .clean
-	ctest \
+	-ctest \
 		-DCTEST_SOURCE_DIRECTORY=$(call current_folder) \
 		-DCTEST_BINARY_DIRECTORY=$(BUILD_PATH) \
 		-DCTEST_CMAKE_GENERATOR=$(GENERATOR_NAME) \

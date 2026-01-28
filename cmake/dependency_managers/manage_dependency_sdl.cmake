@@ -1,20 +1,23 @@
 function(manage_dependency_sdl)
 
 	if(NOT MoleDemo_ForceFetchedDependencies)
-		find_package(SDL2 QUIET)
+		find_package(SDL3 QUIET)
 	endif()
 
-	if(NOT SDL2_FOUND)
+	if(NOT SDL3_FOUND)
 	FetchContent_Declare(
-		SDL2
+		SDL3
 		EXCLUDE_FROM_ALL
 		GIT_REPOSITORY https://github.com/libsdl-org/SDL.git
-		GIT_TAG e11183ea6caa3ae4895f4bc54cad2bbb0e365417 # 2.32.2
+		GIT_TAG a962f40bbba175e9716557a25d5d7965f134a3d3 # 3.4.0
 		#[[ incompatible with custom toggle
-		FIND_PACKAGE_ARGS NAMES SDL2
+		FIND_PACKAGE_ARGS NAMES SDL3
 		]]#
 	)
-	FetchContent_MakeAvailable(SDL2)
+	set(SDL_SHARED OFF)
+	set(SDL_STATIC ON)
+	set(SDL_X11_XTEST OFF)
+	FetchContent_MakeAvailable(SDL3)
 
 	mark_as_advanced(FORCE
 		ARTS_CONFIG
