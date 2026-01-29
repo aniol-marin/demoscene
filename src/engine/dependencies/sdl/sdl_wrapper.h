@@ -3,7 +3,8 @@
 
 #include "definitions.h"
 
-#include "SDL2/SDL.h"
+#include <cstdint>
+#include "SDL3/SDL.h"
 
 namespace SDL
 {

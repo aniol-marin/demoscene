@@ -12,7 +12,16 @@ function(manage_dependency_raudio)
 			GIT_TAG 711c86eae17db9a94af575f7a5b496244b48b22d # master
 			SOURCE_SUBDIR projects/CMake
 		)
+		set(BUILD_RAUDIO_EXAMPLES OFF)
+		set(SUPPORT_FILEFORMAT_WAV OFF)
+		set(SUPPORT_FILEFORMAT_OGG OFF)
+		set(SUPPORT_FILEFORMAT_MP3 ON)
+		set(SUPPORT_FILEFORMAT_QOA OFF)
+		set(SUPPORT_FILEFORMAT_FLAC OFF)
+		set(SUPPORT_FILEFORMAT_XM OFF)
+		set(SUPPORT_FILEFORMAT_MOD OFF)
 		add_compile_options( -fPIE)
+		add_compile_definitions(TRACELOG="TRACELOG( ...)")
 		FetchContent_MakeAvailable(raudio)
 
 		mark_as_advanced(FORCE
