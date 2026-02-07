@@ -70,9 +70,11 @@ SCENARIO("Timeline")
 					MoleDemo::RenderManager render_manager { screen, sdl_manager };
 					MoleDemo::Cycle cycle { program, timer, input_manager, render_manager };
 					MoleDemo::SoundManager sound_manager { };
+					mole_def::PixelBuffer buffer {};
 
 					MoleDemo::Timeline _ {
 						timer,
+						buffer,
 						program,
 						cycle,
 						sound_manager,
@@ -92,9 +94,11 @@ SCENARIO("Timeline")
 			MoleDemo::RenderManager render_manager { screen, sdl_manager };
 			MoleDemo::Cycle cycle { program, timer, input_manager, render_manager };
 			MoleDemo::SoundManager sound_manager { };
+			mole_def::PixelBuffer buffer {};
 
 			MoleDemo::Timeline timeline {
 				timer,
+				buffer,
 				program,
 				cycle,
 				sound_manager,
