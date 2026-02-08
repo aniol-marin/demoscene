@@ -4,7 +4,7 @@ add_module(sdl_wrapper
 	IMPLEMENTATIONS
 	sdl.cpp
 	DEPENDENCIES
-	SDL2::SDL2
+	SDL3::SDL3-static
 	engine_definitions
 )
 
