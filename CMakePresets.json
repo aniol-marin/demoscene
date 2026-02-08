@@ -38,6 +38,7 @@
 				"CMAKE_LIBRARY_OUTPUT_DIRECTORY": "${sourceDir}/lib",
 				"FETCHCONTENT_BASE_DIR": "${sourceDir}/external",
 				"CMAKE_EXPORT_COMPILE_COMMANDS": true,
+				"CMAKE_COMPILE_WARNING_AS_ERROR": true,
 				"MoleDemo_ForceFetchedDependencies": false,
 				"MoleDemo_EnableEditor": true,
 				"MoleDemo_EnableTesting": true
@@ -53,7 +54,8 @@
 			"cacheVariables": {
 				"CMAKE_BUILD_TYPE": "Release",
 				"CMAKE_RUNTIME_OUTPUT_DIRECTORY": "${sourceDir}",
-				"MoleDemo_ForceFetchedDependencies": true,
+				"FETCHCONTENT_BASE_DIR": "${sourceDir}/external",
+				"MoleDemo_ForceFetchedDependencies": false,
 				"MoleDemo_EnableEditor": true,
 				"MoleDemo_EnableTesting": true,
 				"MoleDemo_Testing_EnableCoverage": true

@@ -9,7 +9,7 @@ Expected experimental features:
 - [IMPORT STD] introduced in 3.30, last breaking change: 4.0.3
 - [EXPORT PACKAGE DEPENDENCIES] introduced in 3.29, last breaking change: 4.1.0-rc4
 ]]#
-cmake_minimum_required(VERSION 4.1.0..4.2.2)
+cmake_minimum_required(VERSION 4.1.0..4.2.3)
 
 # Pre-project experimental requirements
 set(CMAKE_EXPERIMENTAL_CXX_IMPORT_STD "d0edc3af-4c50-42ea-a356-e2862fe7a444")
@@ -20,7 +20,6 @@ set(CMAKE_CXX_MODULE_STD ON)
 set(CMAKE_CXX_STANDARD_REQUIRED ON)
 set(CMAKE_CXX_SCAN_FOR_MODULES ON)
 set(CMAKE_CXX_EXTENSION OFF)
-set(CMAKE_COMPILE_WARNING_AS_ERROR OFF)
 
 # Project definition
 project(MoleDemoScene2025
