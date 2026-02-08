@@ -1,7 +1,8 @@
 #include "sdl_wrapper.h"
 
-#include <exception>
 #include "SDL3/SDL.h"
+#include <cstdint>
+#include <exception>
 
 using namespace mole_def;
 

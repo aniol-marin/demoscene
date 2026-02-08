@@ -257,6 +257,19 @@ clean:
 		make .call_fail MESSAGE="safe word not provided, aborting"; \
 	fi
 
+# Performs a fresh CMake configuration
+refresh:
+	make .call_warn MESSAGE="are you sure you want to full refresh cmake config from $(BUILD_PATH)? [yes]"
+	echo -n ">> " && \
+	read safe; \
+	if [ "$${safe}" = yes ]; then \
+		make .call_warn MESSAGE="refreshing build info in $(BUILD_PATH)"; \
+		make .regenerate-cache CMAKE_EXTRA_FLAGS=--fresh; \
+	else \
+		make .call_fail MESSAGE="safe word not provided, aborting"; \
+	fi
+
+
 # Removes the current CMake build tree.
 wipe:
 	make .call_warn MESSAGE="are you sure you want to wipe all artifacts from $(BUILD_PATH)? [yes]"
@@ -359,6 +372,10 @@ $(RUNTIME_PATH)/$(EDITOR_BINARY_NAME):
 		| tr -d : | awk '{ print $$1; }'
 
 $(CACHE_FILE):
+	make .regenerate-cache
+
+.PHONY: .regenerate-cache
+.regenerate-cache:
 	make .call_log MESSAGE="starting custom configuration of the project in $(BUILD_PATH)/CMakeCache.txt"
 	mkdir -p $(BUILD_PATH)
 	cmake \
@@ -372,7 +389,8 @@ $(CACHE_FILE):
 		-DCMAKE_ARCHIVE_OUTPUT_DIRECTORY:PATH=$(LIBRARY_PATH) \
 		-DCMAKE_LIBRARY_OUTPUT_DIRECTORY:PATH=$(RUNTIME_PATH) \
 		--preset=$(CMAKE_PRESET) \
-		--log-level=$(CMAKE_LOG_LEVEL)
+		--log-level=$(CMAKE_LOG_LEVEL) \
+		$(CMAKE_EXTRA_FLAGS)
 
 .regenerate-status:
 	make generate
