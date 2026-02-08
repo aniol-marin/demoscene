@@ -1,7 +1,8 @@
 module;
 
-#include <exception>
 #include "SDL3/SDL.h"
+#include <cstdint>
+#include <exception>
 
 module sdl_wrapper;
 
