@@ -7,13 +7,12 @@ Expected features:
 Expected experimental features:
 -
 ]]#
-cmake_minimum_required(VERSION 3.13..4.2.2)
+cmake_minimum_required(VERSION 3.13..4.2.3)
 
 # Pre-project definition compilation requirements
 set(CMAKE_CXX_STANDARD 17)
 set(CMAKE_CXX_STANDARD_REQUIRED ON)
 set(CMAKE_CXX_EXTENSION OFF)
-set(CMAKE_COMPILE_WARNING_AS_ERROR OFF)
 
 # Project definition
 project(MoleDemoScene2025
