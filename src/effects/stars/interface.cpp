@@ -30,6 +30,10 @@ public:
     void Cache(StencilBuffer& mask) override;
 };
 
+/* TO DO check future gcc support
+module : private;
+ */
+
 class MoleDemo::Star
 {
     const Screen& screen;
