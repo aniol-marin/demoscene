@@ -12,7 +12,9 @@
 
 # Configurable fields
 BUILD_TYPE := Debug
-CMAKE_PATH := cmake
+CMAKE_PATH := /home/bru/.cmake/v3.30.0/bin/
+CMAKE_BIN := $(CMAKE_PATH)/cmake
+CCMAKE_BIN := $(CMAKE_PATH)/ccmake
 GENERATOR_NAME := Ninja
 GENERATOR_PATH := ninja
 CMAKE_LOG_LEVEL := NOTICE
@@ -51,7 +53,7 @@ COVERAGE_PATH = $(shell which $(COVERAGE_BIN))
 # [NOTE] in an uninitialized CMake project, uses the Builder preset
 main:
 	make .call_log MESSAGE="building and running final demo" --no-print-directory
-	$(CMAKE_PATH) \
+	$(CMAKE_BIN) \
 		-S$(CMAKE_ROOT_PATH) \
 		-Bbuild-artifacts \
 		-G$(GENERATOR_NAME) \
@@ -61,7 +63,7 @@ main:
 		-DCMAKE_RUNTIME_OUTPUT_DIRECTORY:PATH=$(call current_folder) \
 		--preset=user \
 		--log-level=ERROR
-	cmake --build build-artifacts -t $(BINARY_NAME)
+	$(CMAKE_BIN) --build build-artifacts -t $(BINARY_NAME)
 	./$(BINARY_NAME)
 
 # Clears screen (convenience wrapper for recipe queues)
@@ -162,7 +164,7 @@ check-toolchain:
 	$(CXX_COMPILER_PATH) --version
 	echo "------------------------------------------"
 	echo "cmake:"
-	$(CMAKE_PATH) --version
+	$(CMAKE_BIN) --version
 	echo "------------------------------------------"
 	echo "generator:"
 	$(GENERATOR_PATH) --version
@@ -171,7 +173,7 @@ check-toolchain:
 
 # Launches cross-compilation pipeline
 cross-compile:
-	cmake --toolchain=./ctest/cross_compiled_windows_from_linux.cmake
+	$(CMAKE_BIN) --toolchain=./ctest/cross_compiled_windows_from_linux.cmake
 
 # Initializes a fresh Trisquel 11 environment with project dependencies
 # - glad generation (curl, python)
@@ -198,7 +200,7 @@ generate:
 	if ! [ -f $(CACHE_FILE) ]; then \
 		make $(CACHE_FILE) CMAKE_PRESET=developer; \
 	fi
-	$(CMAKE_PATH) \
+	$(CMAKE_BIN) \
 		-S$(CMAKE_ROOT_PATH) \
 		-B$(BUILD_PATH) \
 		--log-level=$(CMAKE_LOG_LEVEL)
@@ -212,14 +214,14 @@ configure:
 		make $(CACHE_FILE) CMAKE_PRESET=maintainer; \
 	fi
 	make .call_log MESSAGE="configuring project";
-	ccmake $(BUILD_PATH);
+	$(CCMAKE_BIN) $(BUILD_PATH);
 
 # Launches all tracked test targets through CMake
 # [NOTE] in an uninitialized CMake project, uses the Developer preset
 .PHONY: test
 test: generate
 	make .call_log MESSAGE="testing all CMake test targets"
-	$(CMAKE_PATH) --build $(BUILD_PATH) --target test
+	$(CMAKE_BIN) --build $(BUILD_PATH) --target test
 
 # Prints a list of all the project-specific CMake targets
 .PHONY:help-available-targets
@@ -332,17 +334,17 @@ full-wipe:
 .PHONY: .build-
 .build-%: $(CACHE_FILE)
 	make .call_log MESSAGE="building dot-separated targets: $(call listify,$(subst build-,,$@))"
-	$(CMAKE_PATH) --build $(BUILD_PATH) --target $(call listify,$(subst .build-,,$@)) $(REDIRECT)
+	$(CMAKE_BIN) --build $(BUILD_PATH) --target $(call listify,$(subst .build-,,$@)) $(REDIRECT)
 
 .PHONY: test-
 test-%:
 	make .call_log MESSAGE="testing $(@)"
-	$(CMAKE_PATH) --build $(BUILD_PATH) --target $(@)
+	$(CMAKE_BIN) --build $(BUILD_PATH) --target $(@)
 	$(TESTS_RUNTIME_PATH)/$(@)
 
 .clean:
 	make .call_log MESSAGE="cleaning build artifacts in $(BUILD_PATH)";
-	$(CMAKE_PATH) --build $(BUILD_PATH) --target clean;
+	$(CMAKE_BIN) --build $(BUILD_PATH) --target clean;
 
 .final: $(RUNTIME_PATH)/$(BINARY_NAME) ;
 
@@ -357,7 +359,7 @@ $(RUNTIME_PATH)/$(EDITOR_BINARY_NAME):
 .build_editor: generate .build-$(EDITOR_BINARY_NAME) ;
 
 .help:
-	cmake --build $(BUILD_PATH) -t help | grep phony \
+	$(CMAKE_BIN) --build $(BUILD_PATH) -t help | grep phony \
 		| grep -v \
 		-e all -e cache -e codegen -e  _deps -e install -e "/" \
 		-e lib -e Nightly -e Experimental -e Continuous -e uninstall \
@@ -378,7 +380,7 @@ $(CACHE_FILE):
 .regenerate-cache:
 	make .call_log MESSAGE="starting custom configuration of the project in $(BUILD_PATH)/CMakeCache.txt"
 	mkdir -p $(BUILD_PATH)
-	cmake \
+	$(CMAKE_BIN) \
 		-S$(CMAKE_ROOT_PATH) \
 		-B$(BUILD_PATH) \
 		-G$(GENERATOR_NAME) \
