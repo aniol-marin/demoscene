@@ -7,7 +7,7 @@ Expected features:
 Expected experimental features:
 -
 ]]#
-cmake_minimum_required(VERSION 3.13..4.2.3)
+cmake_minimum_required(VERSION 3.13.0..4.3.1)
 
 # Pre-project definition compilation requirements
 set(CMAKE_CXX_STANDARD 98)
@@ -22,12 +22,6 @@ project(MoleDemoScene2025
 )
 enable_testing()
 include(CTest)
-# TO DO add CPack definition
-#include(InstallRequiredSystemLibraries)
-#set(CPACK_RESOURCE_FILE_LICENSE "./LICENSE")
-#set(CPACK_VERSION_MAJOR 0)
-#set(CPACK_VERSION_MINOR 2)
-#include(CPack)
 
 # Early check for project requirements
 #[[ Compiler feature requirements and compiler adoption
