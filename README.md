@@ -29,7 +29,7 @@ In case something unexpected happens you should get a clear error message. In ca
 This version of the project has been tested in the following platforms:
 
 - Debian GNU/Linux 14.0
-- Trisquel GNU/Linux-libre 11.0
+- Trisquel GNU/Linux-libre 12.0
 - Gentoo Linux
 - Microsoft Windows 11
 
@@ -37,9 +37,9 @@ In order to compile it from source extra packages may be needed. At the time of 
 
 ## Verified toolchains
 
-- CMake 4.2.1+
-- Ninja Build 1.11.2 +
-- GCC 15.2+
+- CMake 4.3.2+
+- Ninja Build 1.13.2 +
+- GCC 17.0+
 
 Other toolchains may be possible as long as they support compilation of c++23 and modules, including "import std".
 Feel free to send your own CTest reports in order to expand the verified toolchain list.
@@ -48,7 +48,7 @@ Alternative versions of the demoscene exist in the port branches, defined by c++
 ## Dependencies
 
 Besides the required toolchain, there are a few known indirect dependencies that may be needed in order to be able to compile and execute the demo:
-- libxext-dev (required from SDL2)
+- libxext-dev (required from SDL)
 
 Development targets (i.e. Mole Editor) are meant to be internal and do not manage their dependencies through CMake. If not available in the system, the following executables and libraries may need to be manually resolved:
 - curl (needed from GLAD)
