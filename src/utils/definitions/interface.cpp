@@ -106,21 +106,16 @@ export namespace mole_def
         ~Point2D() = default;
         Point2D(const Point2D&) = default;
         Point2D(Point2D&&) = default;
-        Point2D(point1D x, point1D y) : x{ x }, y{ y } {}
+        Point2D(point1D x, point1D y);
 
-        const Point2D& operator=(const Point2D& other)
-        {
-            x = other.x;
-            y = other.y;
-            return *this;
-        }
+        const Point2D& operator=(const Point2D& other);
     };
 
     struct Offset2D
     {
         const offset1D x, y;
-        Offset2D() : x{}, y{} {}
-        Offset2D(offset1D x, offset1D y) : x{ x }, y{ y } {}
+        Offset2D() = default;
+        Offset2D(offset1D x, offset1D y);
         ~Offset2D() {}
     };
 
