@@ -12,15 +12,15 @@
 
 # Configurable fields
 BUILD_TYPE := Debug
-CMAKE_PATH := /home/bru/.cmake/v3.30.0/bin/
+CMAKE_PATH := ~/.cmake/v3.14.0/bin
 CMAKE_BIN := $(CMAKE_PATH)/cmake
 CCMAKE_BIN := $(CMAKE_PATH)/ccmake
 GENERATOR_NAME := Ninja
 GENERATOR_PATH := /usr/bin/ninja
 CMAKE_LOG_LEVEL := NOTICE
 CMAKE_PRESET := default
-CXX_COMPILER_PATH := /usr/local/bin/g++
-C_COMPILER_PATH := /usr/local/bin/gcc
+CXX_PATH := /usr/bin/g++
+C_PATH := /usr/bin/gcc
 MEMCHECK_BIN := valgrind
 COVERAGE_BIN := /usr/bin/gcov
 USER = $(shell uname -n)
@@ -30,7 +30,7 @@ BINARY_NAME := demoscene
 EDITOR_BINARY_NAME := editor
 listify = $(subst ., ,$(1))
 current_folder = $(shell echo $$PWD)
-RUNTIME = export LD_LIBRARY_PATH=/usr/local/lib64/:LD_LIBRARY_PATH;
+RUNTIME = export LD_LIBRARY_PATH=/usr/local/lib64/;
 CMAKE_ROOT_PATH := $(call current_folder)
 BUILD_PATH := $(call current_folder)/build/$(BUILD_TYPE)
 RUNTIME_PATH := $(call current_folder)/bin
@@ -58,8 +58,8 @@ main:
 		-Bbuild-artifacts \
 		-G$(GENERATOR_NAME) \
 		-DCMAKE_MAKE_PROGRAM=$(GENERATOR_PATH)\
-		-DCMAKE_CXX_COMPILER=$(CXX_COMPILER_PATH) \
-		-DCMAKE_C_COMPILER=$(C_COMPILER_PATH) \
+		-DCMAKE_CXX_COMPILER=$(CXX_PATH) \
+		-DCMAKE_C_COMPILER=$(C_PATH) \
 		-DCMAKE_RUNTIME_OUTPUT_DIRECTORY:PATH=$(call current_folder) \
 		--preset=user
 	$(CMAKE_BIN) --build build-artifacts -t $(BINARY_NAME)
@@ -77,15 +77,31 @@ run: .final
 
 # Runs all the executables at once
 run-all:
-	make .call_log MESSAGE="attemptting to build all targets"
+	make .call_log MESSAGE="attempting to build all executable targets"
 	-make .build-all
-	make .call_log MESSAGE="running all targets"
+	make .call_log MESSAGE="running all available targets"
 	find $(RUNTIME_PATH) -type f -executable -print -exec {} \;
 
 # Builds the main project target
 .PHONY: build
-build: build.-$(BINARY_NAME)
+build:
+	make .call_log MESSAGE="attempting to build main target"
+	make .build-$(BINARY_NAME)
 	make .call_log MESSAGE="main build done"
+
+# Builds the editor target (if available)
+.PHONY: build-editor
+build-editor:
+	make .call_log MESSAGE="attempting to build editor target"
+	make .build-$(EDITOR_BINARY_NAME)
+	make .call_log MESSAGE="editor build done"
+
+# Builds all the project targets
+.PHONY: build-all
+build-all:
+	make .call_log MESSAGE="attempting to build all targets"
+	make .build-all
+	make .call_log MESSAGE="all builds done"
 
 # Launches the editor
 # [NOTE] it will try to build it if not available, regardless of configuration
@@ -125,13 +141,13 @@ pack:
 # Launches custom CTest pipeline targeting Experimental dashboard
 # [NOTE] in an uninitialized CMake project, uses the Builder preset
 report-experimental:
-	make .call_log MESSAGE="reporting to Experimental CDash board"
+	make .call_log MESSAGE="reporting to Experimental CDash board as $(USER)"
 	make .report BUILD_PATH=$(call current_folder)/build-experimental DASHBOARD=Experimental
 
 # Launches custom CTest pipeline targeting Continuous dashboard
 # [NOTE] in an uninitialized CMake project, uses the Builder preset
 report-continuous:
-	make .call_log MESSAGE="reporting to Continuous CDash board"
+	make .call_log MESSAGE="reporting to Continuous CDash board as $(USER)"
 	make .report BUILD_PATH=$(call current_folder)/build-continuous DASHBOARD=Continuous
 
 # Launches custom CTest pipeline targeting Experimental dashboard and templated group
@@ -160,7 +176,7 @@ check-coverage:
 check-toolchain:
 	echo "------------------------------------------"
 	echo "c++ compiler:"
-	$(CXX_COMPILER_PATH) --version
+	$(CXX_PATH) --version
 	echo "------------------------------------------"
 	echo "cmake:"
 	$(CMAKE_BIN) --version
@@ -191,6 +207,21 @@ initialize-trisquel-11:
 	curl -L https://bootstrap.pypa.io/get-pip.py -o $(TEMP_PATH)/get-pip.py -z $(TEMP_PATH)/get-pip.py
 	python3 $(TEMP_PATH)/get-pip.py
 	python3 -m pip install Jinja2
+
+# Initializes a fresh Trisquel 12 environment with project dependencies
+# - glad generation (curl, python, jinja2)
+# - glfw generation (alsa sound 2, wayland scanner, pkg-config, xkb, opengl)
+# - sdl generation (ext, only when opengl is added?)
+initialize-trisquel-12:
+	sudo apt install \
+		git-lfs \
+		python3 python3-jinja2 \
+		libasound2-dev libwayland-dev pkg-config libxkbcommon-dev mesa-common-dev \
+		libxext-dev
+	git lfs install;
+	git lfs fetch --all origin;
+	git lfs update;
+	git lfs checkout resources;
 
 # Regenerates the CMake project
 # [NOTE] in an uninitialized CMake project, uses the Developer preset
@@ -299,7 +330,7 @@ full-wipe:
 ################# Private recipes and implementation details ##################
 ###############################################################################
 # NOTE implementation-detail recipes in this internal file
-# are undocumented by choice
+# are undocumented by choice. Do not use them directly.
 
 .report:
 	if ! [ -f $(CACHE_FILE) ]; then \
@@ -383,8 +414,8 @@ $(CACHE_FILE):
 		-B$(BUILD_PATH) \
 		-G$(GENERATOR_NAME) \
 		-DCMAKE_MAKE_PROGRAM=$(GENERATOR_PATH)\
-		-DCMAKE_CXX_COMPILER=$(CXX_COMPILER_PATH) \
-		-DCMAKE_C_COMPILER=$(C_COMPILER_PATH) \
+		-DCMAKE_CXX_COMPILER=$(CXX_PATH) \
+		-DCMAKE_C_COMPILER=$(C_PATH) \
 		-DCMAKE_RUNTIME_OUTPUT_DIRECTORY:PATH=$(RUNTIME_PATH) \
 		-DCMAKE_ARCHIVE_OUTPUT_DIRECTORY:PATH=$(LIBRARY_PATH) \
 		-DCMAKE_LIBRARY_OUTPUT_DIRECTORY:PATH=$(RUNTIME_PATH)
@@ -416,7 +447,7 @@ else
 	REDIRECT :=
 endif
 
-MESSAGE := no message
+MESSAGE := no_message
 .PHONY: .call_log
 .call_log:
 	$(call log, $(MESSAGE))
