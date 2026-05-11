@@ -4,11 +4,11 @@ Expected policies:
 - [CMP0076] introduced in 3.13
 Expected features:
 - [FILE SETS] introduced in 3.23
-- [CXX MODULES] introduced in 3.30
+- [CXX MODULES] introduced in 3.28
 Expected experimental features:
 -
 ]]#
-cmake_minimum_required(VERSION 3.30.0..4.3.1)
+cmake_minimum_required(VERSION 3.28.0..4.3.2)
 
 # Pre-project definition compilation requirements
 set(CMAKE_CXX_STANDARD 20)
