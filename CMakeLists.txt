@@ -3,6 +3,7 @@ Expected policies:
 - [CMP0154] introduced in 3.28
 - [CMP0076] introduced in 3.13
 Expected features:
+- [FetchContent SOURCE_SUBDIR] introduced in 3.18
 - [FILE SETS] introduced in 3.23
 - [CXX MODULES] introduced in 3.30
 - set(CACHE{name} ...) syntax, introduced in 4.2
