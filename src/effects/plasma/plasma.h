@@ -20,7 +20,7 @@ namespace MoleDemo
         long src1, src2;
         Color palette[256];
 
-        void buildPalette(std::uint16_t time);
+        void buildPalette(unsigned short time);
 
     public:
         Plasma(Timer* timer, Screen* screen);

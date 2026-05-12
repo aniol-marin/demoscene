@@ -7,7 +7,7 @@ Expected features:
 Expected experimental features:
 -
 ]]#
-cmake_minimum_required(VERSION 3.13.0..4.3.1)
+cmake_minimum_required(VERSION 3.13.0..4.3.2)
 
 # Pre-project definition compilation requirements
 set(CMAKE_CXX_STANDARD 98)

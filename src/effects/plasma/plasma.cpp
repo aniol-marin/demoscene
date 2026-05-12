@@ -1,8 +1,6 @@
 #include "plasma.h"
 
 #include <cmath>
-#include <cstdint>
-#include <memory>
 
 namespace MoleDemo
 {
@@ -57,9 +55,9 @@ namespace MoleDemo
     void Plasma::Cache(StencilBuffer& mask)
     {
         int indexColor;
-        for (std::uint16_t y = 0; y < get_screen()->h; y++)
+        for (unsigned short y = 0; y < get_screen()->h; y++)
         {
-            for (std::uint16_t x = 0; x < get_screen()->w; x++)
+            for (unsigned short x = 0; x < get_screen()->w; x++)
             {
 
                 indexColor = (plasma1[src1 % plasma1.size()] + plasma2[src2 % plasma2.size()]) % 256;
@@ -74,7 +72,7 @@ namespace MoleDemo
         }
     }
 
-    void Plasma::buildPalette(std::uint16_t time)
+    void Plasma::buildPalette(unsigned short time)
     {
         for (int i = 0; i < 256; i++)
         {
