@@ -1,13 +1,12 @@
 #[[ CMake requirements	
 Expected policies:
-- [CMP0154] introduced in 3.28
 - [CMP0076] introduced in 3.13
 Expected features:
--
+- [FetchContent SOURCE_SUBDIR] introduced in 3.18
 Expected experimental features:
 -
 ]]#
-cmake_minimum_required(VERSION 3.13.0..4.3.2)
+cmake_minimum_required(VERSION 3.18.0..4.3.2)
 
 # Pre-project definition compilation requirements
 set(CMAKE_CXX_STANDARD 11)
