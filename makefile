@@ -12,7 +12,7 @@
 
 # Configurable fields
 BUILD_TYPE := Debug
-CMAKE_PATH := ~/.cmake/v3.14.0/bin
+CMAKE_PATH := ~/.cmake/v3.18.0/bin
 CMAKE_BIN := $(CMAKE_PATH)/cmake
 CCMAKE_BIN := $(CMAKE_PATH)/ccmake
 GENERATOR_NAME := Ninja
