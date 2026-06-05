@@ -21,7 +21,7 @@ namespace MoleDemo
         virtual std::any GetAnyToInstance(id_capacity id = 0) = 0;
     };
 
-    template<typename I, typename T, typename... TArguments>
+    template<typename I, typename T>
         requires std::convertible_to<T, I>
     class UniqueFactory : public Factory
     {
@@ -74,7 +74,7 @@ namespace MoleDemo
         template<typename T>
         void BindUnique()
         {
-            BindUnique<T, T>();
+            BindUnique<T, T>([] { return T{}; });
         }
 
         template<typename T>
@@ -88,7 +88,8 @@ namespace MoleDemo
         void BindUnique()
         {
             id_t id{ typeid(TInterface).hash_code() };
-            factories[id] = { std::make_unique<UniqueFactory<TInterface, TConcrete>>() };
+            factories[id] = { std::make_unique<UniqueFactory<TInterface, TConcrete>>(
+                    [this] { return TConcrete{ Inject<TArguments>()... }; }) };
         }
 
         template<typename TInterface, typename TConcrete, typename... TArguments>
@@ -102,7 +103,7 @@ namespace MoleDemo
         template<typename T>
         void BindShared()
         {
-            BindShared<T, T>();
+            BindShared<T, T>([] { return T{}; });
         }
 
         template<typename T>
@@ -116,7 +117,8 @@ namespace MoleDemo
         void BindShared()
         {
             id_t id{ typeid(TInterface).hash_code() };
-            factories[id] = { std::make_unique<SharingFactory<TInterface, TConcrete>>() };
+            factories[id] = { std::make_unique<SharingFactory<TInterface, TConcrete>>(
+                    [this] { return TConcrete{ Inject<TArguments>()... }; }) };
         }
 
         template<typename TInterface, typename TConcrete, typename... TArguments>

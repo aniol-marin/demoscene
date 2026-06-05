@@ -92,19 +92,13 @@ namespace MoleDemo
         return current >= time.start;
     }
 
-    Timeline::Timeline(Timer& timer,
-                       Program& program,
-                       Cycle& cycle,
-                       SoundManager& sound,
-                       Screen& screen,
-                       std::string_view project) :
+    Timeline::Timeline(Timer& timer, Program& program, Cycle& cycle, SoundManager& sound, Screen& screen) :
       currentEvent{ nullptr },
       timer{ timer },
       program{ program },
       cycle{ cycle },
       sound{ sound },
       screen{ screen },
-      project{ project },
       renderables{}
     {
     }
