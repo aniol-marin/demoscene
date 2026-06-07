@@ -16,8 +16,13 @@ function(manage_dependency_sdl)
 		)
 		set(SDL_SHARED OFF)
 		set(SDL_STATIC ON)
+		set(SDL_EXAMPLES OFF)
+		set(SDL_TEST_LIBRARY OFF)
 		set(SDL_X11_XTEST OFF)
 		FetchContent_MakeAvailable(SDL3)
+
+		target_compile_options(SDL3-static PRIVATE "-w")
+		target_link_options(SDL3-static PRIVATE "-w")
 
 		mark_as_advanced(FORCE
 			ARTS_CONFIG
