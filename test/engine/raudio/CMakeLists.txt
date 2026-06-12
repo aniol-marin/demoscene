@@ -1,3 +1,5 @@
+project(mole_raudio LANGUAGES C)
+
 set(TEST_TARGET test-audio)
 
 add_test_target(${TEST_TARGET})

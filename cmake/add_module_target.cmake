@@ -5,7 +5,7 @@ function(add_module NAME)
 	cmake_parse_arguments(
 		PARSE_ARGV 1 # discouraged alternative, prefer ${ARGN} at the end
 		"A"
-		"HEADER_ONLY"
+		"HEADER_ONLY;LEGACY"
 		"INTERFACE"
 		"INTERFACES;HEADERS;IMPLEMENTATIONS;DEPENDENCIES"
 		#[[ preferred alternative, although less explicit than PARSE_ARGV in this case
@@ -35,6 +35,9 @@ function(add_module NAME)
 
 	add_library(${NAME})
 	target_compile_features(${NAME} PUBLIC cxx_std_20)
+	if(NOT A_LEGACY)
+		target_compile_options(${NAME} PRIVATE -freflection)
+	endif()
 	target_sources(${NAME}
 		PRIVATE ${A_IMPLEMENTATIONS}
 

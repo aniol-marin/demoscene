@@ -65,6 +65,28 @@ namespace MoleDemo
     {
         std::map<id_t, std::unique_ptr<Factory>> factories{};
 
+        template<typename TUser, typename TBinding>
+        void AssertBinding()
+        {
+            [[unlikely]] if (!factories.count(typeid(TBinding).hash_code()))
+            {
+                    std::stringstream ss{}; //
+                    ss << "ERROR: "
+                       << "Tried to use inexisting binding of type"
+		       /*
+		       << std::string{ std::meta::identifier_of(^^TBinding) } //
+		       */
+		       << std::string{ typeid(TBinding).name() } //
+                       << " while binding requested type " //
+		       /*
+		       << std::string{ std::meta::identifier_of(^^TUser) } //
+		       */
+		       << std::string{ typeid(TUser).name() } //
+		    ;
+                    throw std::runtime_error{ ss.str() };
+            }
+        }
+
     public:
         constexpr Container() = default;
         ~Container() = default;
@@ -87,9 +109,9 @@ namespace MoleDemo
             requires std::convertible_to<TConcrete, TInterface>
         void BindUnique()
         {
-            id_t id{ typeid(TInterface).hash_code() };
-            factories[id] = { std::make_unique<UniqueFactory<TInterface, TConcrete>>(
-                    [this] { return TConcrete{ Inject<TArguments>()... }; }) };
+            (AssertBinding<TInterface, TArguments>(), ...);
+
+            BindUnique<TInterface, TConcrete>([this] { return TConcrete{ Inject<TArguments>()... }; });
         }
 
         template<typename TInterface, typename TConcrete, typename... TArguments>
@@ -116,12 +138,12 @@ namespace MoleDemo
             requires std::convertible_to<TConcrete, TInterface>
         void BindShared()
         {
-            id_t id{ typeid(TInterface).hash_code() };
-            factories[id] = { std::make_unique<SharingFactory<TInterface, TConcrete>>(
-                    [this] { return TConcrete{ Inject<TArguments>()... }; }) };
+            (AssertBinding<TInterface, TArguments>(), ...);
+
+            BindShared<TInterface, TConcrete>([this] { return TConcrete{ Inject<TArguments>()... }; });
         }
 
-        template<typename TInterface, typename TConcrete, typename... TArguments>
+        template<typename TInterface, typename TConcrete>
             requires std::convertible_to<TConcrete, TInterface>
         void BindShared(std::function<TConcrete()>&& functor)
         {
