@@ -31,7 +31,7 @@ namespace SDL
         if (initialized)
         {
             SDL_DestroyWindow(window);
-            SDL_Quit(); // assumes video is the last
+            SDL_Quit();
         }
 
         initialized = false;
@@ -40,8 +40,7 @@ namespace SDL
     ProgramStatus SDLManager::PollSDLEvents()
     {
         SDL_Event events{};
-        /*
-         */
+
         ProgramStatus status{ ProgramStatus::RUNNING };
 
         while (SDL_PollEvent(&events))
@@ -64,7 +63,7 @@ namespace SDL
     {
         if (!initialized)
         {
-            throw std::exception{};
+            mole::raise_dev("trying to lock uninitialized SDL surface");
         }
 
         SDL_LockSurface(surface);
