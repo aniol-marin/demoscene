@@ -13,7 +13,7 @@ namespace SDL
 {
     bool SDLManager::Init(const Screen& screen)
     {
-        g_screen = screen;
+        m_screen = screen;
 
         if (SDL_InitSubSystem(SDL_INIT_VIDEO) >= 0)
         {
@@ -103,7 +103,7 @@ namespace SDL
         {
             throw std::exception{};
         }
-        if (g_screen.w <= x || g_screen.h <= y)
+        if (m_screen.w <= x || m_screen.h <= y)
         {
             throw std::exception{};
         }
@@ -118,7 +118,7 @@ namespace SDL
         {
             throw std::exception{};
         }
-        if (g_screen.w <= x || g_screen.h <= y)
+        if (m_screen.w <= x || m_screen.h <= y)
         {
             throw std::exception{};
         }

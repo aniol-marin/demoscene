@@ -1,11 +1,10 @@
-module;
-
-#include "SDL3/SDL.h"
-
 export module sdl_wrapper;
 
 import std;
 import definitions;
+
+extern "C" struct SDL_Window;
+extern "C" struct SDL_Surface;
 
 namespace SDL
 {
@@ -18,13 +17,12 @@ namespace SDL
         using pixel = std::uint32_t;
         using offset = std::uint_fast16_t;
 
-        Screen g_screen{ 0, 0 };
         bool initialized{ false };
         bool locked{ false };
 
         SDLManager() = default;
         SDLManager(const SDLManager&) = delete ("a single instance is allowed, move it instead");
-        SDLManager(SDLManager&&) = default;
+        SDLManager(SDLManager&&) noexcept = default;
         ~SDLManager() = default;
 
         bool Init(const Screen& screen);
@@ -38,6 +36,9 @@ namespace SDL
         void PutPixel(offset x, offset y, const pixel rgba);
 
     private:
+
+	Screen m_screen{0,0};
+
         pixel& getPixel(offset x, offset y);
     };
 }

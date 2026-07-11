@@ -67,7 +67,7 @@ namespace MoleDemo
 
     void MoleDemo::RenderManager::Init()
     {
-        sdl.Init({ m_screen.w, m_screen.h });
+        sdl.Init(m_screen);
         buffer.assign(size_t{ m_screen.GetPixelCount() }, black);
     }
 
