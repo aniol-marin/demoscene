@@ -13,7 +13,7 @@ Expected experimental features:
 Excluded releases
 - 
 ]]#
-cmake_minimum_required(VERSION 4.4.0-rc3..4.4.0)
+cmake_minimum_required(VERSION 4.4.0-rc3..4.4.2)
 
 # Pre-project experimental requirements
 set(CMAKE_EXPERIMENTAL_CXX_IMPORT_STD "f35a9ac6-8463-4d38-8eec-5d6008153e7d")
