@@ -24,7 +24,7 @@ namespace raudio
 
         void Init();
         void Finalize();
-        void Load(std::string_view source);
+        void Load(std::filesystem::path source);
         void Unload();
 
         void Play();

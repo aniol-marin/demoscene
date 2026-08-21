@@ -1,5 +1,4 @@
 #include<catch2/catch_test_macros.hpp>
-#include <filesystem>
 
 import std;
 import raudio_wrapper;
@@ -51,32 +50,21 @@ SCENARIO("Manager behavior")
 		{
 			raudio::AudioManager m {};
 			std::filesystem::path path {std::filesystem::absolute(std::filesystem::current_path())/ "resources/molelofi.mp3"};
-			std::string_view file{ path.string() };
 
 			THEN("it should load correctly")
 			{
 				REQUIRE_NOTHROW( std::invoke([&]()
 				{
-					if(!std::filesystem::is_regular_file(path))
-					{
-						std::cerr << "invalid file: " << file << std::endl;
-						return;
-					}
 					raudio::AudioManager m {};
 					m.Init();
-					m.Load(file);
+					m.Load(path);
 					m.Finalize();
 				}));
 				REQUIRE_NOTHROW( std::invoke([&]()
 				{
-					if(!std::filesystem::is_regular_file(path))
-					{
-						std::cerr << "invalid file: " << file << std::endl;
-						return;
-					}
 					raudio::AudioManager m {};
 					m.Init();
-					m.Load(file);
+					m.Load(path);
 					m.Unload();
 					m.Finalize();
 				}));
