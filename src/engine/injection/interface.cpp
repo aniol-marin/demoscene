@@ -70,20 +70,20 @@ namespace MoleDemo
         {
             [[unlikely]] if (!factories.count(typeid(TBinding).hash_code()))
             {
-                    std::stringstream ss{}; //
-                    ss << "ERROR: "
-                       << "Tried to use inexisting binding of type"
-		       /*
-		       << std::string{ std::meta::identifier_of(^^TBinding) } //
-		       */
-		       << std::string{ typeid(TBinding).name() } //
-                       << " while binding requested type " //
-		       /*
-		       << std::string{ std::meta::identifier_of(^^TUser) } //
-		       */
-		       << std::string{ typeid(TUser).name() } //
-		    ;
-                    throw std::runtime_error{ ss.str() };
+                std::stringstream ss{}; //
+                ss << "ERROR: "
+                   << "Tried to use inexisting binding of type"
+                   /*
+                   << std::string{ std::meta::identifier_of(^^TBinding) } //
+                   */
+                   << std::string{ typeid(TBinding).name() } //
+                   << " while binding requested type " //
+                   /*
+                   << std::string{ std::meta::identifier_of(^^TUser) } //
+                   */
+                   << std::string{ typeid(TUser).name() } //
+                ;
+                throw std::runtime_error{ ss.str() };
             }
         }
 

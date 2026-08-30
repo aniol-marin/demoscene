@@ -24,7 +24,7 @@ namespace mole::pugi_wrapper
 
         if (!result)
         {
-            throw std::runtime_error{ std::string{ "invalid xml file path: " } + path.string() };
+            throw std::runtime_error{ std::string{ "invalid xml file path: " } + path.display_string() };
         }
 
         hidden_parse_trees[this] = std::move(document);

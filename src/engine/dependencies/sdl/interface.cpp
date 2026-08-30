@@ -36,8 +36,7 @@ namespace SDL
         void PutPixel(offset x, offset y, const pixel rgba);
 
     private:
-
-	Screen m_screen{0,0};
+        Screen m_screen{ 0, 0 };
 
         pixel& getPixel(offset x, offset y);
     };
