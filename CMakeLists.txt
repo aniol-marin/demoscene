@@ -8,19 +8,18 @@ Expected features:
 - [CXX MODULES] introduced in 3.30
 - set(CACHE{name} ...) syntax, introduced in 4.2
 Expected experimental features:
-- [IMPORT STD] introduced in 3.30, last breaking change: 4.4.0-rc3
+- [IMPORT STD] introduced in 3.30, last breaking change: 4.4.20260801
 - [EXPORT PACKAGE DEPENDENCIES] introduced in 3.29, last breaking change: 3.29
-Excluded releases
+Excluded releases:
 - 
 ]]#
-cmake_minimum_required(VERSION 4.4.0-rc3..4.4.2)
+cmake_minimum_required(VERSION 4.4.0-rc3..4.4.20260801)
 
 # Pre-project experimental requirements
-set(CMAKE_EXPERIMENTAL_CXX_IMPORT_STD "f35a9ac6-8463-4d38-8eec-5d6008153e7d")
+set(CMAKE_EXPERIMENTAL_CXX_IMPORT_STD "25d6f6aa-be65-4692-b44e-87b23e96d4e1")
 set(CMAKE_EXPERIMENTAL_EXPORT_PACKAGE_DEPENDENCIES "1942b4fa-b2c5-4546-9385-83f254070067")
 # Pre-project definition compilation requirements
 set(CMAKE_CXX_STANDARD 26)
-set(CMAKE_CXX_MODULE_STD ON)
 set(CMAKE_CXX_STANDARD_REQUIRED ON)
 set(CMAKE_CXX_SCAN_FOR_MODULES ON)
 set(CMAKE_CXX_EXTENSION OFF)
