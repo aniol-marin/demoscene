@@ -253,7 +253,7 @@ configure:
 .PHONY: test
 test: generate
 	make .call_log MESSAGE="testing all CMake test targets"
-	$(CMAKE_BIN) --build $(BUILD_PATH) --target test
+	$(CMAKE_BIN) --build $(BUILD_PATH) --target tests test $(ARGS)
 
 # Prints a list of all the project-specific CMake targets
 .PHONY:help-available-targets

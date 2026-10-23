@@ -13,19 +13,20 @@ Expected experimental features:
 Excluded releases:
 - 
 ]]#
-cmake_minimum_required(VERSION 4.4.20260804..4.5.0)
+cmake_minimum_required(VERSION 4.5.0..4.5.0)
 
 # Pre-project experimental requirements
 set(CMAKE_EXPERIMENTAL_EXPORT_PACKAGE_DEPENDENCIES "1942b4fa-b2c5-4546-9385-83f254070067")
 # Pre-project definition compilation requirements
 set(CMAKE_CXX_STANDARD 26)
+set(CMAKE_CXX_EXTENSIONS OFF)
 set(CMAKE_CXX_STANDARD_REQUIRED ON)
 set(CMAKE_CXX_SCAN_FOR_MODULES ON)
-set(CMAKE_CXX_EXTENSIONS OFF)
+set(CMAKE_CXX_MODULE_STD ON)
 add_compile_options($<$<COMPILE_LANGUAGE:CXX>:-freflection>)
 
 # Project definition
-project(MoleDemoScene2025
+project(MoleDemoScene
 	VERSION 0.0.0
 	DESCRIPTION "A CPU based rendering creation"
 	LANGUAGES CXX
@@ -39,7 +40,7 @@ include(CTest)
 	- g++: 14.1
 	- clang++: 17.0
 	- MSVC: 19.34
-- [c++26 current draft support]
+- [c++26 reflection support]
 	- g++: 16.1
 	- clang++: trunk (partial since 17.0)
 	- MSVC: unsupported

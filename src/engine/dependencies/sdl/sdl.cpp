@@ -13,6 +13,7 @@ namespace SDL
 {
     bool SDLManager::Init(const Screen& screen)
     {
+	/*
         m_screen = screen;
 
         if (SDL_InitSubSystem(SDL_INIT_VIDEO) >= 0)
@@ -22,12 +23,14 @@ namespace SDL
             surface = SDL_GetWindowSurface(window);
             initialized = surface != nullptr;
         }
+*/
 
         return initialized;
     }
 
     void SDLManager::Finalize()
     {
+	    /*
         if (initialized)
         {
             SDL_DestroyWindow(window);
@@ -35,6 +38,7 @@ namespace SDL
         }
 
         initialized = false;
+	*/
     }
 
     ProgramStatus SDLManager::PollSDLEvents()
@@ -42,6 +46,7 @@ namespace SDL
         SDL_Event events{};
 
         ProgramStatus status{ ProgramStatus::RUNNING };
+	/*
 
         while (SDL_PollEvent(&events))
         {
@@ -55,12 +60,14 @@ namespace SDL
                 status = ProgramStatus::TERMINATE_OK;
             }
         }
+	*/
 
         return status;
     }
 
     void SDLManager::LockSurface()
     {
+	    /*
         if (!initialized)
         {
             mole::raise_dev("trying to lock uninitialized SDL surface");
@@ -68,10 +75,12 @@ namespace SDL
 
         SDL_LockSurface(surface);
         locked = true;
+	*/
     }
 
     void SDLManager::UnlockSurface()
     {
+/*
         if (!initialized)
         {
             throw std::exception{};
@@ -79,10 +88,12 @@ namespace SDL
 
         SDL_UnlockSurface(surface);
         locked = false;
+	*/
     }
 
     void SDLManager::UpdateSurface()
     {
+/*
         if (!initialized)
         {
             throw std::exception{};
@@ -94,10 +105,14 @@ namespace SDL
         }
 
         SDL_UpdateWindowSurface(window);
+	*/
     }
 
     SDLManager::pixel& SDLManager::getPixel(offset x, offset y)
     {
+	    static SDLManager::pixel p;
+		    return p;
+/*
         if (!initialized)
         {
             throw std::exception{};
@@ -109,10 +124,12 @@ namespace SDL
 
         return *reinterpret_cast<std::uint32_t*>((std::uint8_t*) surface->pixels + y * surface->pitch +
                                                  x * SDL_BYTESPERPIXEL(surface->format));
+						 */
     }
 
     void SDLManager::PutPixel(const offset x, const offset y, const pixel rgba)
     {
+/*
         if (!initialized)
         {
             throw std::exception{};
@@ -124,5 +141,6 @@ namespace SDL
 
         pixel& pixel = getPixel(x, y);
         pixel = rgba;
+	*/
     }
 }

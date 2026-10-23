@@ -1,13 +1,20 @@
 module demo;
 
+/*
 import engine;
+*/
+import injection;
+import std;
 
 namespace MoleDemo
 {
+/*
     using namespace mole_def;
+*/
 
     void InstallBindings(Container& container, std::string& project)
     {
+	/*
         container.BindShared<Timer>();
         container.BindShared<SoundManager>();
         container.BindShared<Screen>([] { return Screen{ 600, 300 }; }); // TO DO get from config
@@ -18,5 +25,6 @@ namespace MoleDemo
         container.BindShared<Cycle, Cycle, Program, Timer, InputManager, RenderManager>();
         container.BindShared<Timeline, Timeline, Timer, Program, Cycle, SoundManager, Screen>();
         container.BindUnique<application, application, Screen, RenderManager, SoundManager, Timeline, Timer, Program>();
+	*/
     }
 }

@@ -7,8 +7,9 @@ add_module(engine
 	injection
 	input
 	program
-	render
 	renderables
+	render
+	cycle
 	sound
 	timeline
 	timer
