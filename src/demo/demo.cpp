@@ -1,18 +1,10 @@
-module;
-
-#include<string>
-
 module demo;
 
-/*
 import engine;
-*/
 
 namespace MoleDemo
 {
-/*
     using namespace mole_def;
-*/
 
     Demo::Demo(std::string project)
     {
@@ -24,16 +16,13 @@ namespace MoleDemo
         std::string project{}; // TO DO get values from constructor maybe
         Init(project);
 
-	/*
         container.Inject<application>().run();
-	 */
 
         Finalize();
     }
 
     void Demo::Init(std::string& project)
     {
-	/*
         InstallBindings(container, project);
 
         // TO DO automatic interface detection
@@ -51,12 +40,10 @@ namespace MoleDemo
         {
             item->Load(project);
         }
-	*/
     }
 
     void Demo::Finalize()
     {
-	/*
         for (Loadable* item: loadables)
         {
             item->Unload();
@@ -65,6 +52,5 @@ namespace MoleDemo
         {
             item->Finalize();
         }
-	*/
     }
 }

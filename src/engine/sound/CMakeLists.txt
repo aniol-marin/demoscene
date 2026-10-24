@@ -3,8 +3,6 @@ add_module(sound
 	sound.cpp
 	DEPENDENCIES
 	engine_definitions
-	#[[
 	raudio_wrapper
-	]]#
 )
 
