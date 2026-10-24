@@ -21,6 +21,8 @@ function(add_test_target TARGET_NAME)
 		test.cpp
 	)
 
+	add_dependencies(tests ${TEST_TARGET})
+
 	add_test(NAME ${TEST_TARGET} COMMAND $<TARGET_FILE:${TEST_TARGET}>)
 
 endfunction()

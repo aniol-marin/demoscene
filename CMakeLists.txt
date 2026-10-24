@@ -6,29 +6,28 @@ Expected features:
 - [FetchContent SOURCE_SUBDIR] introduced in 3.18
 - [FILE SETS] introduced in 3.23
 - [CXX MODULES] introduced in 3.30
+- [IMPORT STD] experimental gate dropped in 4.5.0
 Expected experimental features:
-- [IMPORT STD] introduced in 3.30, last breaking change: 4.3.0-rc2
-- [EXPORT PACKAGE DEPENDENCIES] introduced in 3.29, last breaking change: 4.1.0-rc4
-Excluded releases
-- 4.3.0: affected by issues resolved and explained in commit c68b587
+- [EXPORT PACKAGE DEPENDENCIES] introduced in 3.29, last breaking change: 3.29
+Excluded releases:
+- 
 ]]#
-cmake_minimum_required(VERSION 4.3.1..4.3.2)
+cmake_minimum_required(VERSION 4.5.0..4.5.0)
 
 # Pre-project experimental requirements
-set(CMAKE_EXPERIMENTAL_CXX_IMPORT_STD "451f2fe2-a8a2-47c3-bc32-94786d8fc91b")
 set(CMAKE_EXPERIMENTAL_EXPORT_PACKAGE_DEPENDENCIES "1942b4fa-b2c5-4546-9385-83f254070067")
 # Pre-project definition compilation requirements
 set(CMAKE_CXX_STANDARD 23)
-set(CMAKE_CXX_MODULE_STD ON)
+set(CMAKE_CXX_EXTENSIONS OFF)
 set(CMAKE_CXX_STANDARD_REQUIRED ON)
 set(CMAKE_CXX_SCAN_FOR_MODULES ON)
-set(CMAKE_CXX_EXTENSION OFF)
+set(CMAKE_CXX_MODULE_STD ON)
 
 # Project definition
-project(MoleDemoScene2025
+project(MoleDemoScene
 	VERSION 0.0.0
 	DESCRIPTION "A CPU based rendering creation"
-	LANGUAGES CXX C
+	LANGUAGES CXX
 )
 enable_testing()
 include(CTest)
@@ -39,7 +38,7 @@ include(CTest)
 	- g++: 14.1
 	- clang++: 17.0
 	- MSVC: 19.34
-- [c++23 current draft support]
+- [c++23 support]
 	- g++: 11.1
 	- clang++: 13.0
 	- MSVC: 19.44

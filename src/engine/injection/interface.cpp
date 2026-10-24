@@ -21,7 +21,7 @@ namespace MoleDemo
         virtual std::any GetAnyToInstance(id_capacity id = 0) = 0;
     };
 
-    template<typename I, typename T, typename... TArguments>
+    template<typename I, typename T>
         requires std::convertible_to<T, I>
     class UniqueFactory : public Factory
     {
@@ -65,6 +65,28 @@ namespace MoleDemo
     {
         std::map<id_t, std::unique_ptr<Factory>> factories{};
 
+        template<typename TUser, typename TBinding>
+        void AssertBinding()
+        {
+            [[unlikely]] if (!factories.count(typeid(TBinding).hash_code()))
+            {
+                std::stringstream ss{}; //
+                ss << "ERROR: "
+                   << "Tried to use inexisting binding of type"
+                   /*
+                   << std::string{ std::meta::identifier_of(^^TBinding) } //
+                   */
+                   << std::string{ typeid(TBinding).name() } //
+                   << " while binding requested type " //
+                   /*
+                   << std::string{ std::meta::identifier_of(^^TUser) } //
+                   */
+                   << std::string{ typeid(TUser).name() } //
+                ;
+                throw std::runtime_error{ ss.str() };
+            }
+        }
+
     public:
         constexpr Container() = default;
         ~Container() = default;
@@ -74,7 +96,7 @@ namespace MoleDemo
         template<typename T>
         void BindUnique()
         {
-            BindUnique<T, T>();
+            BindUnique<T, T>([] { return T{}; });
         }
 
         template<typename T>
@@ -87,8 +109,9 @@ namespace MoleDemo
             requires std::convertible_to<TConcrete, TInterface>
         void BindUnique()
         {
-            id_t id{ typeid(TInterface).hash_code() };
-            factories[id] = { std::make_unique<UniqueFactory<TInterface, TConcrete>>() };
+            (AssertBinding<TInterface, TArguments>(), ...);
+
+            BindUnique<TInterface, TConcrete>([this] { return TConcrete{ Inject<TArguments>()... }; });
         }
 
         template<typename TInterface, typename TConcrete, typename... TArguments>
@@ -102,7 +125,7 @@ namespace MoleDemo
         template<typename T>
         void BindShared()
         {
-            BindShared<T, T>();
+            BindShared<T, T>([] { return T{}; });
         }
 
         template<typename T>
@@ -115,11 +138,12 @@ namespace MoleDemo
             requires std::convertible_to<TConcrete, TInterface>
         void BindShared()
         {
-            id_t id{ typeid(TInterface).hash_code() };
-            factories[id] = { std::make_unique<SharingFactory<TInterface, TConcrete>>() };
+            (AssertBinding<TInterface, TArguments>(), ...);
+
+            BindShared<TInterface, TConcrete>([this] { return TConcrete{ Inject<TArguments>()... }; });
         }
 
-        template<typename TInterface, typename TConcrete, typename... TArguments>
+        template<typename TInterface, typename TConcrete>
             requires std::convertible_to<TConcrete, TInterface>
         void BindShared(std::function<TConcrete()>&& functor)
         {

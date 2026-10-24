@@ -1,6 +1,7 @@
 export module definitions;
 
 export import :type_aliases;
+export import :exceptions;
 
 import std;
 
