@@ -2,6 +2,7 @@ module;
 
 #include <cstdlib>
 #include <typeinfo>
+#include <vector>
 
 module stars;
 

@@ -12,11 +12,11 @@
 
 # Configurable fields
 BUILD_TYPE := Debug
-CMAKE_PATH := /home/bru/.cmake/v3.28.0/bin
+CMAKE_PATH := ~/.cmake/v3.28.0/bin
 CMAKE_BIN := $(CMAKE_PATH)/cmake
 CCMAKE_BIN := $(CMAKE_PATH)/ccmake
 GENERATOR_NAME := Ninja
-GENERATOR_PATH := ninja
+GENERATOR_PATH := /usr/bin/ninja
 CMAKE_LOG_LEVEL := NOTICE
 CMAKE_PRESET := default
 CXX_PATH := g++
@@ -252,7 +252,7 @@ configure:
 .PHONY: test
 test: generate
 	make .call_log MESSAGE="testing all CMake test targets"
-	$(CMAKE_BIN) --build $(BUILD_PATH) --target test
+	$(CMAKE_BIN) --build $(BUILD_PATH) --target tests test $(ARGS)
 
 # Prints a list of all the project-specific CMake targets
 .PHONY:help-available-targets
@@ -365,7 +365,7 @@ full-wipe:
 .PHONY: .build-
 .build-%: $(CACHE_FILE)
 	make .call_log MESSAGE="building dot-separated targets: $(call listify,$(subst build-,,$@))"
-	$(CMAKE_BIN) --build $(BUILD_PATH) --target $(call listify,$(subst .build-,,$@)) $(REDIRECT)
+	$(CMAKE_BIN) --build $(BUILD_PATH) --target $(call listify,$(subst .build-,,$@)) $(ARGS) $(REDIRECT)
 
 .PHONY: test-
 test-%:
@@ -394,6 +394,7 @@ $(RUNTIME_PATH)/$(EDITOR_BINARY_NAME):
 		| grep -v \
 		-e all -e cache -e codegen -e  _deps -e install -e "/" \
 		-e lib -e Nightly -e Experimental -e Continuous -e uninstall \
+		-e @\
 		-e Catch \
 		-e SDL2 -e sdl_headers_copy \
 		-e pugixml[^_]  \
@@ -444,6 +445,7 @@ $(STATUS_FILE):
 	mv $(STATUS_FILE)_temp $(STATUS_FILE)
 
 $(VERBOSE).SILENT: ;
+MAKEFLAGS += --no-print-directory
 
 ifdef (FULLY_SILENT)
 	REDIRECT := &> /dev/null

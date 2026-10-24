@@ -5,37 +5,40 @@ Expected policies:
 Expected features:
 - [FetchContent SOURCE_SUBDIR] introduced in 3.18
 - [FILE SETS] introduced in 3.23
-- [CXX MODULES] introduced in 3.28
+- [CXX MODULES] introduced in 3.30
 Expected experimental features:
 -
+Excluded releases:
+- 
 ]]#
 cmake_minimum_required(VERSION 3.28.0..4.3.2)
 
 # Pre-project definition compilation requirements
 set(CMAKE_CXX_STANDARD 20)
 set(CMAKE_CXX_STANDARD_REQUIRED ON)
+set(CMAKE_CXX_EXTENSIONS OFF)
 set(CMAKE_CXX_SCAN_FOR_MODULES ON)
-set(CMAKE_CXX_EXTENSION OFF)
+set(CMAKE_CXX_MODULE_STD ON)
 
 # Project definition
-project(MoleDemoScene2025
+project(MoleDemoScene
 	VERSION 0.0.0
 	DESCRIPTION "A CPU based rendering creation"
-	LANGUAGES CXX C
+	LANGUAGES CXX
 )
 enable_testing()
 include(CTest)
 
 # Early check for project requirements
 #[[ Compiler feature requirements and compiler adoption
+- [c++20 support]
+	- g++: 8.1
+	- clang++: 10.0
+	- MSVC: 19.30
 - [CPP Modules Scanning]
 	- g++: 14.1
 	- clang++: 17.0
 	- MSVC: 19.34
-- [c++20 support]
-	- g++: 8.
-	- clang++: 10.0
-	- MSVC: 19.30
 ]]#
 set(GCC_EXPECTED_VERSION 14.1)
 set(CLANG_EXPECTED_VERSION 17.0)

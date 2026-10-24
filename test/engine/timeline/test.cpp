@@ -77,8 +77,7 @@ SCENARIO("Timeline")
 						program,
 						cycle,
 						sound_manager,
-						screen,
-						"test project"
+						screen
 					};
 				}));
 			}
@@ -99,8 +98,7 @@ SCENARIO("Timeline")
 				program,
 				cycle,
 				sound_manager,
-				screen,
-				"test project"
+				screen
 			};
 
 			THEN("it should work as an Initializable")

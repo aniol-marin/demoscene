@@ -10,14 +10,16 @@ function(manage_dependency_sdl)
 			EXCLUDE_FROM_ALL
 			GIT_REPOSITORY https://github.com/libsdl-org/SDL.git
 			GIT_TAG a962f40bbba175e9716557a25d5d7965f134a3d3 # 3.4.0
-			#[[ incompatible with custom toggle
-			FIND_PACKAGE_ARGS NAMES SDL3
-			]]#
 		)
 		set(SDL_SHARED OFF)
 		set(SDL_STATIC ON)
+		set(SDL_EXAMPLES OFF)
+		set(SDL_TEST_LIBRARY OFF)
 		set(SDL_X11_XTEST OFF)
 		FetchContent_MakeAvailable(SDL3)
+
+		target_compile_options(SDL3-static PRIVATE "-w")
+		target_link_options(SDL3-static PRIVATE "-w")
 
 		mark_as_advanced(FORCE
 			ARTS_CONFIG

@@ -1,6 +1,8 @@
 module;
 
+#include <filesystem>
 #include <string_view>
+
 #include "raudio.h"
 
 export module raudio_wrapper;
@@ -17,14 +19,14 @@ namespace raudio
     using namespace mole_def;
     struct AudioManager
     {
-        AudioManager();
+        AudioManager() = default;
         AudioManager(const AudioManager&) = delete;
         AudioManager(AudioManager&&) = default;
         ~AudioManager();
 
         void Init();
         void Finalize();
-        void Load(std::string_view source);
+        void Load(std::filesystem::path source);
         void Unload();
 
         void Play();
