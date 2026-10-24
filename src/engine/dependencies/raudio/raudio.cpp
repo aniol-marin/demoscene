@@ -1,11 +1,13 @@
+#include "raudio.h"
 
+#include <filesystem>
 #include <iostream>
 #include "raudio_wrapper.h"
 
 namespace raudio
 {
     using namespace mole_def;
-    AudioManager::AudioManager() {}
+
     permille intensity{};
 
     AudioManager::~AudioManager()
@@ -74,7 +76,7 @@ namespace raudio
         initialized = false;
     }
 
-    void AudioManager::Load(std::string_view source)
+    void AudioManager::Load(std::filesystem::path source)
     {
         if (!initialized)
         {
@@ -86,9 +88,13 @@ namespace raudio
             std::cerr << "attempt at double load\n";
             throw std::exception{};
         }
+        if (!std::filesystem::is_regular_file(source))
+        {
+            std::cerr << "attempted to load an invalid file: [" << source << "]\n";
+            throw std::exception{};
+        }
 
-        std::string s{ source };
-        music = LoadMusicStream(s.c_str());
+        music = LoadMusicStream(source.string().c_str());
         AttachAudioStreamProcessor(music.stream, SampleIntensity);
 
         loaded = true;

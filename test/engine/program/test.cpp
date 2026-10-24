@@ -1,7 +1,12 @@
 #include <catch2/catch_test_macros.hpp>
 
 #include <functional>
-#include "engine.h"
+#include <type_traits>
+
+#include "definitions.h"
+#include "program.h"
+
+using namespace mole_def;
 
 SCENARIO("Program")
 {

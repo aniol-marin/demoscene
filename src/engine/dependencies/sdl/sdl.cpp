@@ -3,6 +3,7 @@
 #include "SDL3/SDL.h"
 #include <cstdint>
 #include <exception>
+#include "definitions.h"
 
 using namespace mole_def;
 
@@ -10,11 +11,10 @@ namespace SDL
 {
     bool SDLManager::Init(const Screen& screen)
     {
-        g_screen = screen;
+        m_screen = screen;
 
-        if (SDL_InitSubSystem(SDL_INIT_VIDEO) >= 0)
+        if (SDL_InitSubSystem(SDL_INIT_VIDEO))
         {
-
             window = SDL_CreateWindow("Mole Demo", screen.w, screen.h, SDL_WINDOW_KEYBOARD_GRABBED);
             surface = SDL_GetWindowSurface(window);
             initialized = surface != nullptr;
@@ -28,7 +28,7 @@ namespace SDL
         if (initialized)
         {
             SDL_DestroyWindow(window);
-            SDL_Quit(); // assumes video is the last
+            SDL_Quit();
         }
 
         initialized = false;
@@ -37,8 +37,7 @@ namespace SDL
     ProgramStatus SDLManager::PollSDLEvents()
     {
         SDL_Event events{};
-        /*
-         */
+
         ProgramStatus status{ ProgramStatus::RUNNING };
 
         while (SDL_PollEvent(&events))
@@ -61,7 +60,7 @@ namespace SDL
     {
         if (!initialized)
         {
-            throw std::exception{};
+            mole::raise_dev("trying to lock uninitialized SDL surface");
         }
 
         SDL_LockSurface(surface);
@@ -100,7 +99,7 @@ namespace SDL
         {
             throw std::exception{};
         }
-        if (g_screen.w <= x || g_screen.h <= y)
+        if (m_screen.w <= x || m_screen.h <= y)
         {
             throw std::exception{};
         }
@@ -115,7 +114,7 @@ namespace SDL
         {
             throw std::exception{};
         }
-        if (g_screen.w <= x || g_screen.h <= y)
+        if (m_screen.w <= x || m_screen.h <= y)
         {
             throw std::exception{};
         }

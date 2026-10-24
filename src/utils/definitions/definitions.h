@@ -4,6 +4,7 @@
 #include <cstdint>
 #include <functional>
 #include <memory>
+#include <string>
 #include <string_view>
 #include <vector>
 
@@ -233,6 +234,24 @@ namespace mole_def
         virtual constexpr Id TextureLimit() const = 0;
         virtual void AssignTexture(std::unique_ptr<Texturable> texture, Id id = 0) = 0;
     };
+}
+
+namespace mole
+{
+    struct panic : public std::exception
+    {
+        panic() = delete;
+        panic(std::string_view message) : m_message{ message } {}
+
+        const char* what();
+
+    private:
+        const std::string m_message;
+    };
+
+    void raise_dev(std::string_view message = { "undefined development error" });
+
+    void raise_fatal(std::string_view message = { "undefined fatal error" });
 }
 
 #endif // !MOLE_DEFINITIONS_H

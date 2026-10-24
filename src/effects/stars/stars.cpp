@@ -2,6 +2,7 @@
 
 #include <cstdlib>
 #include <typeinfo>
+#include <vector>
 
 namespace MoleDemo
 {

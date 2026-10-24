@@ -78,7 +78,6 @@ namespace MoleDemo
         Renderables renderables;
         Events events;
         Event* currentEvent;
-        std::string_view project;
         bool initialized{ false };
         bool loaded{ false };
         bool started{ false };
@@ -111,12 +110,7 @@ namespace MoleDemo
         void Unload() override; // TO DO simplify
     public:
         Timeline() = delete;
-        Timeline(Timer& timer,
-                 Program& program,
-                 Cycle& cycle,
-                 SoundManager& sound,
-                 Screen& screen,
-                 std::string_view project);
+        Timeline(Timer& timer, Program& program, Cycle& cycle, SoundManager& sound, Screen& screen);
         Timeline(const Timeline&) = delete;
         Timeline(Timeline&&) = default;
         ~Timeline() = default;

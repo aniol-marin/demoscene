@@ -5,19 +5,21 @@ Expected features:
 - [FetchContent SOURCE_SUBDIR] introduced in 3.18
 Expected experimental features:
 -
+Excluded releases:
+- 
 ]]#
 cmake_minimum_required(VERSION 3.18.0..4.3.2)
 
 # Pre-project definition compilation requirements
 set(CMAKE_CXX_STANDARD 17)
 set(CMAKE_CXX_STANDARD_REQUIRED ON)
-set(CMAKE_CXX_EXTENSION OFF)
+set(CMAKE_CXX_EXTENSIONS OFF)
 
 # Project definition
-project(MoleDemoScene2025
+project(MoleDemoScene
 	VERSION 0.0.0
 	DESCRIPTION "A CPU based rendering creation"
-	LANGUAGES CXX C
+	LANGUAGES CXX
 )
 enable_testing()
 include(CTest)

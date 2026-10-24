@@ -1,5 +1,9 @@
 #include "pugi.h"
 
+#include <string_view>
+#include <vector>
+#include <string>
+
 namespace mole::pugi_wrapper
 {
     generic_node::generic_node(id_t a_id, const tree& a_tree) : id{ a_id }, m_tree{ a_tree } {}
