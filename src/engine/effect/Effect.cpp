@@ -8,10 +8,7 @@ namespace MoleDemo
 {
     using namespace mole_def;
 
-    Effect::Effect(Timer* timer, Screen* screen) 
-	: buffer{}
-	, timer{ timer }
-	, screen{ screen }
+    Effect::Effect(Timer* timer, Screen* screen) : buffer{}, timer{ timer }, screen{ screen }
     {
         ReserveBuffer();
     }
