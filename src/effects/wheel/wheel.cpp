@@ -5,7 +5,7 @@ namespace MoleDemo
     using namespace mole_def;
 
     Wheel::Wheel(Timer* timer, Screen* screen) :
-      color{ black }, base{ halfValue, halfValue, halfValue }, top{ white }, Effect{ timer, screen }
+      Effect{ timer, screen }, color{ black }, base{ halfValue, halfValue, halfValue }, top{ white }
     {
     }
 

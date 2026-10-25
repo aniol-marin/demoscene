@@ -16,8 +16,8 @@ class MoleDemo::Effect
     PixelBuffer buffer;
 
 protected:
-    Timer* const timer;
-    Screen* const screen;
+    Timer* const timer{};
+    Screen* const screen{};
 
     Effect(Timer* timer, Screen* screen);
 

@@ -28,7 +28,7 @@ namespace raudio
         float* intensities{ static_cast<float*>(buffer) };
 
         float accumulated{};
-        for (int i = 0; i < frames; ++i)
+        for (unsigned int i = 0; i < frames; ++i)
         {
             accumulated += std::abs(intensities[i * 2 + 0]);
             accumulated += std::abs(intensities[i * 2 + 1]);
@@ -42,7 +42,7 @@ namespace raudio
         }
 
         float max{ current };
-        for (int i = 0; i < average.size(); ++i)
+        for (size_t i = 0; i < average.size(); ++i)
         {
             max = max < average.front() ? average.front() : max;
             average.push(average.front());

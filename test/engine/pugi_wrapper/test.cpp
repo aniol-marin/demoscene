@@ -155,7 +155,7 @@ SCENARIO("Parsing with Pugi XML Library")
 				{
 					tree test{path};
 					node node{test.get_root_node("test")};
-					int v { node.get_number("number") };
+					[[maybe_unused]] int v { node.get_number("number") };
 				}));
 
 				REQUIRE_NOTHROW(std::invoke([&]

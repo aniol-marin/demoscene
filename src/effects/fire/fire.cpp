@@ -61,8 +61,7 @@ namespace MoleDemo
             point1D start{ std::rand() % screen->w };
             point1D end{ std::min(start + (point1D) (std::rand() % (1 + intensity / 32)), screen->w - 3) };
             rgbaColor random{};
-            index_t paletteStart{ std::rand() % palette.size() };
-            for (int i = start; i < end; ++i)
+            for (point1D i = start; i < end; ++i)
             {
                 index_t i1{ screen->GetIndex(Point2D{ (point1D) i, (point1D) (screen->h + 1) }) };
                 index_t i2{ screen->GetIndex(Point2D{ (point1D) i, (point1D) (screen->h + 2) }) };
