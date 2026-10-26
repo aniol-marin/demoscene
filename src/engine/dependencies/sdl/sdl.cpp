@@ -15,7 +15,7 @@ namespace SDL
     {
         m_screen = screen;
 
-        if (SDL_InitSubSystem(SDL_INIT_VIDEO) >= 0)
+        if (SDL_InitSubSystem(SDL_INIT_VIDEO))
         {
             window = SDL_CreateWindow("Mole Demo", screen.w, screen.h, SDL_WINDOW_KEYBOARD_GRABBED);
             surface = SDL_GetWindowSurface(window);

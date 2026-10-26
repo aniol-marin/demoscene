@@ -4,7 +4,7 @@ namespace MoleDemo
 {
     using namespace mole_def;
 
-    Tunel::Tunel(Timer* timer, Screen* screen) : du{}, dv{}, speedU{ 128 }, speedV{ 32 }, Effect{ timer, screen } {}
+    Tunel::Tunel(Timer* timer, Screen* screen) : Effect{ timer, screen }, du{}, dv{}, speedU{ 128 }, speedV{ 32 } {}
 
     /*
      * position of the centre of the hole along the X axis

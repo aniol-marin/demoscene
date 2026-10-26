@@ -51,6 +51,7 @@ namespace MoleDemo
         Renderables renderables;
         TransitionHandle transition;
         milliseconds timeSinceStart;
+
         void UpdateLayers(permille i, permille d);
         void UpdateTransition(permille i, permille d);
     };

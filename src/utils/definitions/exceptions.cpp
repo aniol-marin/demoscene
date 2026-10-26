@@ -6,7 +6,7 @@ export namespace mole
 {
     struct panic : public std::exception
     {
-        panic() = delete ("panicking without a reason is not allowed");
+        panic() = delete;
         panic(std::string_view message) : m_message{ message } {}
 
         const char* what() { return m_message.c_str(); }

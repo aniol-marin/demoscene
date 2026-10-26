@@ -49,7 +49,7 @@ namespace MoleDemo
     }
 
     MoleDemo::RenderManager::RenderManager(Screen& screen, SDL::SDLManager& sdl) :
-      m_screen{ screen }, sdl{ sdl }, queue{ new RenderQueue() }
+      m_screen{ screen }, queue{ new RenderQueue() }, sdl{ sdl }
     {
     }
     void MoleDemo::RenderManager::Lock()

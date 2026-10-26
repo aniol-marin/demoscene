@@ -30,7 +30,6 @@ namespace MoleDemo
                 index_t down{ (vertical + 1) % period };
 
                 permille offsetVertical{ (permille) (x % period) };
-                permille offsetHorizontal{ (permille) (y % period) };
 
                 Color base{ A.lerp(B, noise[sampler.GetIndex({ horizontal, vertical })]) };
                 Color Right{ A.lerp(B, noise[sampler.GetIndex({ right, vertical })]) };

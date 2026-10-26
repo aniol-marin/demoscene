@@ -22,6 +22,7 @@ export namespace mole_def
         constexpr auto v() const { return value; }
     };
      */
+    using size_t = std::size_t;
     using Id = std::uint_fast8_t;
     using bunch = std::uint_fast8_t;
     using seconds = std::uint_fast16_t;
