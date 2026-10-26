@@ -97,7 +97,7 @@ namespace raudio
             throw std::exception{};
         }
 
-        music = LoadMusicStream(source.display_string().c_str());
+        music = LoadMusicStream(source.string().c_str());
         AttachAudioStreamProcessor(music.stream, SampleIntensity);
 
         loaded = true;
