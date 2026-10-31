@@ -1,3 +1,7 @@
+module;
+
+#include <cstdint>
+
 module effect;
 
 import definitions;
@@ -7,7 +11,7 @@ namespace MoleDemo
 {
     using namespace mole_def;
 
-    Effect::Effect(Timer* timer, Screen* screen) : timer{ timer }, screen{ screen }, buffer{}
+    Effect::Effect(Timer* timer, Screen* screen) : buffer{}, timer{ timer }, screen{ screen }
     {
         ReserveBuffer();
     }

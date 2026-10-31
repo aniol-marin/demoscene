@@ -18,7 +18,7 @@ namespace MoleDemo
 
 class MoleDemo::Stars : public Effect
 {
-    const int maxStars = 100;
+    const size_t maxStars = 100;
     const int newStarsPerFrame = 2;
     const speed maxSpeed = 100;
     std::vector<Star> stars;

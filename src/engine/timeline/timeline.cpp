@@ -15,25 +15,26 @@ namespace MoleDemo
     using namespace mole_def;
 
     Event::Event(Timestamp time, Renderables renderables) :
-      timeSinceStart{ 0 },
       time{ time },
-      renderables{ renderables },
       background{},
       foreground{},
       isDone{ [] { return true; } },
       instantaneous{ true },
-      transition{}
+      renderables{ renderables },
+      transition{},
+      timeSinceStart{ 0 }
     {
     }
+
     Event::Event(Timestamp time, Renderable* background, Renderable* foreground, TransitionType transitionType) :
-      timeSinceStart{ 0 },
       time{ time },
-      renderables{ background, foreground },
       background{ background },
       foreground{ foreground },
-      instantaneous{ false },
       isDone{ [&] { return timeSinceStart > this->time.duration; } },
-      transition{}
+      instantaneous{ false },
+      renderables{ background, foreground },
+      transition{},
+      timeSinceStart{ 0 }
     {
         switch (transitionType)
         {
@@ -100,13 +101,13 @@ namespace MoleDemo
     }
 
     Timeline::Timeline(Timer& timer, Program& program, Cycle& cycle, SoundManager& sound, Screen& screen) :
-      currentEvent{ nullptr },
+      sound{ sound },
+      screen{ screen },
       timer{ timer },
       program{ program },
       cycle{ cycle },
-      sound{ sound },
-      screen{ screen },
-      renderables{}
+      renderables{},
+      currentEvent{ nullptr }
     {
     }
 

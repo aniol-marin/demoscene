@@ -36,7 +36,6 @@ namespace mole::ui
         ImGui::NewFrame();
 
         // demo
-        static float f = 0.0f;
         static int timeout = 2;
 
         ImGui::Begin("Mole Demoscene Editor [MOCK]");

@@ -39,7 +39,6 @@ namespace mole::graphics
     static std::vector<callback> MouseButtonCallbacks_v;
     static std::map<char, std::vector<callback>> MouseButtonCallbacks;
     static std::map<int, std::vector<callback>> MouseCursorPosCallbacks;
-    static Vector2 delta;
 
     struct WindowContext
     {

@@ -224,6 +224,19 @@ initialize-trisquel-12:
 	git lfs update;
 	git lfs checkout resources;
 
+# Initializes a fresh Debian 14 (TESTING) environment with project dependencies
+initialize-debian-14:
+	sudo apt install \
+		python3-jinja2 \
+		libwayland-dev \
+		libx11-dev \
+		libxi-dev \
+		libxinerama-dev \
+		libxrandr-dev \
+		libxss-dev \
+		mesa-common-dev \
+		pkg-config
+
 # Regenerates the CMake project
 # [NOTE] in an uninitialized CMake project, uses the Developer preset
 generate:

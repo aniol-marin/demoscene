@@ -39,7 +39,7 @@ namespace MoleDemo
         void Draw(std::function<void(Point2D pixel, rgbaColor color)> putPixel);
     };
 
-    Star::Star(const Screen& screen, const speed& maxSpeed) : maxSpeed{ maxSpeed }, screen{ screen }
+    Star::Star(const Screen& screen, const speed& maxSpeed) : screen{ screen }, maxSpeed{ maxSpeed }
     {
         Reset();
     }
