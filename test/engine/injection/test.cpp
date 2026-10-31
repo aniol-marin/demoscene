@@ -1,7 +1,7 @@
 #include<catch2/catch_test_macros.hpp>
 
 #include <functional>
-#include "engine.h"
+#include "injection.h"
 
 struct test_class
 {
@@ -43,72 +43,72 @@ TEST_CASE("Container itself behaves as expected", "[Injection]")
 TEST_CASE("Container supports unique instances", "[Injection]")
 {
 	MoleDemo::Container c {};
-	const auto int_functor { []{ return int{}; } };
-	const auto test_functor { []{ return test_class{}; } };
-	const auto test_derived_functor { []{ return test_derived_class{}; } };
+	const auto int_functor { [](){ return int{}; } };
+	const auto test_functor { [](){ return test_class{}; } };
+	const auto test_derived_functor { [](){ return test_derived_class{}; } };
 	/*
 	auto value = GENERATE(1, 2, 3);
 	*/
 
 	SECTION("binds unique instances")
 	{
-		REQUIRE_NOTHROW( std::invoke( [&]{ c.BindUnique<int>(); }));
-		REQUIRE_NOTHROW( std::invoke( [&]{ c.BindUnique<test_class>(); }));
-		REQUIRE_NOTHROW( std::invoke( [&]{ c.BindUnique<test_derived_class>(); }));
+		REQUIRE_NOTHROW( [&](){ c.BindUnique<int>(); }());
+		REQUIRE_NOTHROW( [&](){ c.BindUnique<test_class>(); })();
+		REQUIRE_NOTHROW( [&](){ c.BindUnique<test_derived_class>(); })();
 
-		REQUIRE_NOTHROW( std::invoke( [&]{ c.BindUnique<int, int>(); }));
-		REQUIRE_NOTHROW( std::invoke( [&]{ c.BindUnique<test_class, test_class>(); }));
-		REQUIRE_NOTHROW( std::invoke( [&]{ c.BindUnique<test_class, test_derived_class>(); }));
+		REQUIRE_NOTHROW( [&](){ c.BindUnique<int, int>(); })();
+		REQUIRE_NOTHROW( [&](){ c.BindUnique<test_class, test_class>(); })();
+		REQUIRE_NOTHROW( [&](){ c.BindUnique<test_class, test_derived_class>(); })();
 
-		REQUIRE_NOTHROW( std::invoke( [&]{ c.BindUnique<int, int>( []{ return int{}; } ); }));
-		REQUIRE_NOTHROW( std::invoke( [&]{ c.BindUnique<test_class, test_class>( []{ return test_class{}; } ); }));
-		REQUIRE_NOTHROW( std::invoke( [&]{ c.BindUnique<test_class, test_derived_class>( []{ return test_derived_class{}; } ); }));
+		REQUIRE_NOTHROW( [&](){ c.BindUnique<int, int>( [](){ return int{}; } ); })();
+		REQUIRE_NOTHROW( [&](){ c.BindUnique<test_class, test_class>( [](){ return test_class{}; } ); })();
+		REQUIRE_NOTHROW( [&](){ c.BindUnique<test_class, test_derived_class>( [](){ return new test_derived_class{}; } ); })();
 
-		REQUIRE_NOTHROW( std::invoke( [&]{ c.BindUnique<int, int>( int_functor ); }));
-		REQUIRE_NOTHROW( std::invoke( [&]{ c.BindUnique<test_class, test_class>( test_functor ); }));
-		REQUIRE_NOTHROW( std::invoke( [&]{ c.BindUnique<test_class, test_derived_class>( test_derived_functor ); }));
+		REQUIRE_NOTHROW( [&](){ c.BindUnique<int, int>( int_functor ); })();
+		REQUIRE_NOTHROW( [&](){ c.BindUnique<test_class, test_class>( test_functor ); })();
+		REQUIRE_NOTHROW( [&](){ c.BindUnique<test_class, test_derived_class>( test_derived_functor ); })();
 	}
 
 	SECTION("Injects binded unique instances")
 	{
-		REQUIRE_NOTHROW( std::invoke([&]
+		REQUIRE_NOTHROW( [&]()
 		{
 			c.BindUnique<int>();
 			int& _ { c.Inject<int>() };
-		}));
+		}());
 
-		 REQUIRE( std::invoke([&]
+		 REQUIRE( [&]()
 		 {
 			const int value { 2 };
-			c.BindUnique<int>([]{ return value; });
+			c.BindUnique<int>([](){ return new value; });
 			int& instance { c.Inject<int>() };
 			return instance == value;
-		 }));
+		 }());
 
-		 REQUIRE( std::invoke([&]
+		 REQUIRE( [&]()
 		 {
 			const int value { 5 };
-			c.BindUnique<int>([]{ return value; });
+			c.BindUnique<int>([](){ return new value; });
 			int& a { c.Inject<int>() };
 			int& b { c.Inject<int>() };
 			++a;
 			return a != b;
-		 }));
+		 }());
 
-		 REQUIRE( std::invoke([&]
+		 REQUIRE( [&]()
 		 {
 			const int value { 5 };
-			c.BindUnique<int>([]{ return value; });
+			c.BindUnique<int>([value](){ return new int{value}; });
 			int& a { c.Inject<int>() };
 			int& b { c.Inject<int>() };
 			++a;
-			return a == 6 && b == 5;
-		 }));
+			return a == (value + 1) && b == value;
+		 }());
 	}
 
 	SECTION("Supports polymorphism")
 	{
-		REQUIRE( std::invoke([&]
+		REQUIRE( [&]()
 		{
 			c.BindUnique<test_class, test_class>();
 
@@ -116,9 +116,9 @@ TEST_CASE("Container supports unique instances", "[Injection]")
 			test_class b { };
 
 			return a.transform() == b.transform();
-		}));
+		}());
 
-		REQUIRE( std::invoke([&]
+		REQUIRE( [&]()
 		{
 			c.BindUnique<test_derived_class>();
 
@@ -126,17 +126,17 @@ TEST_CASE("Container supports unique instances", "[Injection]")
 			test_derived_class b { };
 
 			return a.transform() == b.transform();
-		}));
+		}());
 
-		REQUIRE( std::invoke([&]
+		REQUIRE( [&]()
 		{
 			c.BindUnique<test_class, test_derived_class>();
 			test_class& a { c.Inject<test_class>() };
 			test_derived_class b { };
 			return a.transform() == b.transform();
-		}));
+		}());
 
-		REQUIRE( std::invoke([&]
+		REQUIRE( [&]()
 		{
 			c.BindUnique<test_class, test_derived_class>();
 			c.BindUnique<test_derived_class>();
@@ -145,71 +145,71 @@ TEST_CASE("Container supports unique instances", "[Injection]")
 			test_class& b { c.Inject<test_derived_class>() };
 
 			return a.transform() == b.transform();
-		}));
+		}());
 	}
 }
 
 TEST_CASE("Container supports shared instances", "[Injection]")
 {
 	MoleDemo::Container c {};
-	const auto int_functor { []{ return int{}; } };
-	const auto test_functor { []{ return test_class{}; } };
-	const auto test_derived_functor { []{ return test_derived_class{}; } };
+	const auto int_functor { [](){ return new int{}; } };
+	const auto test_functor { [](){ return new test_class{}; } };
+	const auto test_derived_functor { [](){ return new test_derived_class{}; } };
 
 	SECTION("binds shared instances")
 	{
-		REQUIRE_NOTHROW( std::invoke( [&]{ c.BindShared<int>(); }));
-		REQUIRE_NOTHROW( std::invoke( [&]{ c.BindShared<test_class>(); }));
-		REQUIRE_NOTHROW( std::invoke( [&]{ c.BindShared<test_derived_class>(); }));
+		REQUIRE_NOTHROW( [&](){ c.BindShared<int>(); }());
+		REQUIRE_NOTHROW( [&](){ c.BindShared<test_class>(); }());
+		REQUIRE_NOTHROW( [&](){ c.BindShared<test_derived_class>(); }());
 
-		REQUIRE_NOTHROW( std::invoke( [&]{ c.BindShared<int, int>(); }));
-		REQUIRE_NOTHROW( std::invoke( [&]{ c.BindShared<test_class, test_class>(); }));
-		REQUIRE_NOTHROW( std::invoke( [&]{ c.BindShared<test_class, test_derived_class>(); }));
+		REQUIRE_NOTHROW( [&](){ c.BindShared<int, int>(); }());
+		REQUIRE_NOTHROW( [&](){ c.BindShared<test_class, test_class>(); }());
+		REQUIRE_NOTHROW( [&](){ c.BindShared<test_class, test_derived_class>(); }());
 
-		REQUIRE_NOTHROW( std::invoke( [&]{ c.BindShared<int, int>( []{ return int{}; } ); }));
-		REQUIRE_NOTHROW( std::invoke( [&]{ c.BindShared<test_class, test_class>( []{ return test_class{}; } ); }));
-		REQUIRE_NOTHROW( std::invoke( [&]{ c.BindShared<test_class, test_derived_class>( []{ return test_derived_class{}; } ); }));
+		REQUIRE_NOTHROW( [&](){ c.BindShared<int, int>( [](){ return new int{}; } ); }());
+		REQUIRE_NOTHROW( [&](){ c.BindShared<test_class, test_class>( [](){ return new test_class{}; } ); }());
+		REQUIRE_NOTHROW( [&](){ c.BindShared<test_class, test_derived_class>( [](){ return new test_derived_class{}; } ); }());
 
-		REQUIRE_NOTHROW( std::invoke( [&]{ c.BindShared<int, int>( int_functor ); }));
-		REQUIRE_NOTHROW( std::invoke( [&]{ c.BindShared<test_class, test_class>( test_functor ); }));
-		REQUIRE_NOTHROW( std::invoke( [&]{ c.BindShared<test_class, test_derived_class>( test_derived_functor ); }));
+		REQUIRE_NOTHROW( [&](){ c.BindShared<int, int>( int_functor ); }());
+		REQUIRE_NOTHROW( [&](){ c.BindShared<test_class, test_class>( test_functor ); }());
+		REQUIRE_NOTHROW( [&](){ c.BindShared<test_class, test_derived_class>( test_derived_functor ); }());
 	}
 
 	SECTION("Injects binded shared instances")
 	{
-		REQUIRE_NOTHROW( std::invoke([&]
+		REQUIRE_NOTHROW( [&]()
 		{
 			c.BindShared<int>();
 			int& _ { c.Inject<int>() };
-		}));
+		}());
 
-		 REQUIRE( std::invoke([&]
+		 REQUIRE( [&]()
 		 {
 			const int value { 2 };
-			c.BindShared<int>([]{ return value; });
+			c.BindShared<int>([](){ return new value; });
 			int& instance { c.Inject<int>() };
 			return instance = value;
-		 }));
+		 }());
 
-		 REQUIRE( std::invoke([&]
+		 REQUIRE( [&]()
 		 {
 			const int value { 5 };
-			c.BindShared<int>([]{ return value; });
+			c.BindShared<int>([](){ return new value; });
 			int& a { c.Inject<int>() };
 			int& b { c.Inject<int>() };
 			++a;
 			return a == b;
-		 }));
+		 }());
 
-		 REQUIRE( std::invoke([&]
+		 REQUIRE( [&]()
 		 {
 			const int value { 5 };
-			c.BindShared<int>([]{ return value; });
+			c.BindShared<int>([](){ return new value; });
 				int& a { c.Inject<int>() };
 				int& b { c.Inject<int>() };
 				++a;
 				return a == 6 && b == a;
-		 }));
+		 }());
 	}
 }
 

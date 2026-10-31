@@ -12,31 +12,32 @@ namespace MoleDemo
     using namespace mole_def;
 
     Event::Event(Timestamp time, Renderables renderables) :
-      timeSinceStart{ 0 },
       time{ time },
-      renderables{ renderables },
       background{},
       foreground{},
       isDone{ [] { return true; } },
       instantaneous{ true },
-      transition{}
+      renderables{ renderables },
+      transition{},
+      timeSinceStart{ 0 }
     {
     }
+
     Event::Event(Timestamp time, Renderable* background, Renderable* foreground, TransitionType transitionType) :
-      timeSinceStart{ 0 },
       time{ time },
-      renderables{ background, foreground },
       background{ background },
       foreground{ foreground },
-      instantaneous{ false },
       isDone{ [&] { return timeSinceStart > this->time.duration; } },
-      transition{}
+      instantaneous{ false },
+      renderables{ background, foreground },
+      transition{},
+      timeSinceStart{ 0 }
     {
         switch (transitionType)
         {
             case TransitionType::Fade:
             {
-                transition = std::unique_ptr<Fade>(new Fade{ time });
+                transition = std::make_unique<Fade>(time);
                 transition->Bind(background, foreground);
                 break;
             }
@@ -96,20 +97,14 @@ namespace MoleDemo
         return current >= time.start;
     }
 
-    Timeline::Timeline(Timer& timer,
-                       Program& program,
-                       Cycle& cycle,
-                       SoundManager& sound,
-                       Screen& screen,
-                       const std::string& project) :
-      currentEvent{ nullptr },
+    Timeline::Timeline(Timer& timer, Program& program, Cycle& cycle, SoundManager& sound, Screen& screen) :
+      sound{ sound },
+      screen{ screen },
       timer{ timer },
       program{ program },
       cycle{ cycle },
-      sound{ sound },
-      screen{ screen },
-      project{ project },
-      renderables{}
+      renderables{},
+      currentEvent{ nullptr }
     {
     }
 
@@ -197,7 +192,7 @@ namespace MoleDemo
 
     Layer* Timeline::CreateLayer(BlendMode mode, Effect* effect)
     {
-        std::unique_ptr<Layer> p_layer{ new Layer{ mode, effect } };
+        std::unique_ptr<Layer> p_layer{ std::make_unique<Layer>(mode, effect) };
         Layer* layer{ p_layer.get() };
         availableLayers.push_back(std::move(p_layer));
         return layer;
@@ -229,7 +224,7 @@ namespace MoleDemo
        }
 */
 
-    void Timeline::Load(const std::string& content)
+    void Timeline::Load(std::string const& content)
     {
         if (!initialized)
         {
@@ -284,7 +279,7 @@ namespace MoleDemo
         started = false;
     }
 
-    void Timeline::LoadInternal(const std::string& content)
+    void Timeline::LoadInternal(std::string const& content)
     {
         // TODO argument forwarding on CreateEffect template
 

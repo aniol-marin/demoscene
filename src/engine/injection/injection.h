@@ -26,7 +26,7 @@ namespace MoleDemo
         const std::function<T*()> functor;
 
     public:
-        UniqueFactory() : UniqueFactory{ [] { return T{}; } } {}
+        UniqueFactory() : UniqueFactory{ [] { return new T{}; } } {}
         UniqueFactory(std::function<T*()>&& instancer) : functor{ std::move(instancer) } {}
         ~UniqueFactory() override = default;
 

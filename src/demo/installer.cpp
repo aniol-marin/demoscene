@@ -30,7 +30,7 @@ namespace MoleDemo
                 {
                     return new Timeline{ container.Inject<Timer>(),  container.Inject<Program>(),
                                      container.Inject<Cycle>(),  container.Inject<SoundManager>(),
-                                     container.Inject<Screen>(), project };
+                                     container.Inject<Screen>() };
                 });
         container.BindUnique<application>(
                 [&]
@@ -39,10 +39,5 @@ namespace MoleDemo
                                         container.Inject<SoundManager>(), container.Inject<Timeline>(),
                                         container.Inject<Timer>(),        container.Inject<Program>() };
                 });
-
-        /* TODO replace manual functor resolution with in-place factories. Examples follow:
-           container.BindUniqueFromFactory<Cycle, Cycle, Program, Timer, InputManager, RenderManager>();
-           container.BindSharingFromFactory<Timeline, Timeline, Timer, Cycle, SoundManager, Screen>();
-           */
     }
 }

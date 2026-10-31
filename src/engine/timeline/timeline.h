@@ -15,7 +15,6 @@
 #include <functional>
 #include <memory>
 #include <queue>
-#include <stdexcept>
 #include <string>
 #include <vector>
 
@@ -61,6 +60,7 @@ namespace MoleDemo
         Renderables renderables;
         TransitionHandle transition;
         milliseconds timeSinceStart;
+
         void UpdateLayers(permille i, permille d);
         void UpdateTransition(permille i, permille d);
     };
@@ -79,7 +79,6 @@ namespace MoleDemo
         Renderables renderables;
         Events events;
         Event* currentEvent;
-        const std::string& project;
         bool initialized{ false };
         bool loaded{ false };
         bool started{ false };
@@ -90,7 +89,7 @@ namespace MoleDemo
         template<typename T>
         T* CreateEffect() // TO DO encapsulate
         {
-            std::unique_ptr<T> p_effect{ new T{ &timer, &screen } };
+            std::unique_ptr<T> p_effect{ std::make_unique<T>(&timer, &screen) };
             T* effect{ p_effect.get() };
             availableEffects.push_back(std::move(p_effect));
             return effect;
@@ -104,20 +103,15 @@ namespace MoleDemo
                                            Renderable* foreground,
                                            TransitionType transition);
 
-        void LoadInternal(const std::string& content); // TO DO simplify
+        void LoadInternal(std::string const& content); // TO DO simplify
     public: // TO DO refactor
         void Init() override; // TO DO simplify
         void Finalize() override; // TO DO simplify
-        void Load(const std::string& content) override;
+        void Load(std::string const& content) override;
         void Unload() override; // TO DO simplify
     public:
         Timeline() = delete;
-        Timeline(Timer& timer,
-                 Program& program,
-                 Cycle& cycle,
-                 SoundManager& sound,
-                 Screen& screen,
-                 const std::string& project);
+        Timeline(Timer& timer, Program& program, Cycle& cycle, SoundManager& sound, Screen& screen);
         Timeline(const Timeline&) = delete;
         Timeline(Timeline&&) = default;
         ~Timeline() = default;

@@ -65,4 +65,5 @@ ctest_submit(
 )
 
 message(NOTICE "finished submitting ${DASHBOARD} report")
+message(NOTICE "visit dashboard at: https://my.cdash.org/index.php?project=${CTEST_PROJECT_NAME}")
 

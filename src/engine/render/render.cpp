@@ -45,7 +45,7 @@ namespace MoleDemo
     }
 
     MoleDemo::RenderManager::RenderManager(Screen& screen, SDL::SDLManager& sdl) :
-      m_screen{ screen }, sdl{ sdl }, queue{ new RenderQueue() }
+      m_screen{ screen }, queue{ new RenderQueue() }, sdl{ sdl }
     {
     }
     void MoleDemo::RenderManager::Lock()
@@ -63,7 +63,7 @@ namespace MoleDemo
 
     void MoleDemo::RenderManager::Init()
     {
-        sdl.Init({ m_screen.w, m_screen.h });
+        sdl.Init(m_screen);
         buffer.assign(size_t{ m_screen.GetPixelCount() }, black);
     }
 

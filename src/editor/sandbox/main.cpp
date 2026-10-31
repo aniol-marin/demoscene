@@ -71,19 +71,19 @@ void
 InstallBindings(Container& container)
 {
     container.BindShared<Timer>();
-    container.BindShared<Screen>([] { return Screen{ 640, 480 }; });
+    container.BindShared<Screen>([] { return new Screen{ 640, 480 }; });
     container.BindShared<SDL::SDLManager>();
     container.BindShared<RenderManager>( //
-            [&] //
+            [&]() //
             { //
-                return RenderManager{ container.Inject<Screen>(), container.Inject<SDL::SDLManager>() }; //
+                return new RenderManager{ container.Inject<Screen>(), container.Inject<SDL::SDLManager>() }; //
             });
-    container.BindShared<InputManager>([&] { return InputManager{ container.Inject<SDL::SDLManager>() }; });
-    container.BindShared<Program>([&] { return Program{ container.Inject<Screen>() }; });
+    container.BindShared<InputManager>([&]() { return new InputManager{ container.Inject<SDL::SDLManager>() }; });
+    container.BindShared<Program>([&]() { return new Program{ container.Inject<Screen>() }; });
     container.BindShared<Cycle>( //
-            [&] //
+            [&]() //
             {
-                return Cycle{ container.Inject<Program>(),
+                return new Cycle{ container.Inject<Program>(),
                               container.Inject<Timer>(),
                               container.Inject<InputManager>(),
                               container.Inject<RenderManager>() };
