@@ -17,7 +17,7 @@ if(MoleDemo_EnableTesting AND NOT MoleDemo_DisableAllButExperimental)
 			-DCTEST_BINARY_DIRECTORY=${CMAKE_BINARY_DIR}
 			-DCTEST_CMAKE_GENERATOR=${CMAKE_GENERATOR}
 			-DUSER=${CMAKE_CXX_COMPILER_ID}${CMAKE_CXX_COMPILER_VERSION}
-			-S ${CMAKE_SOURCE_DIR}/ctest/full-report.cmake
+			-S ${CMAKE_SOURCE_DIR}/etc/ctest/full-report.cmake
 	)
 
 else()

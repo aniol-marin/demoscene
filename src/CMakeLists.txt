@@ -19,6 +19,12 @@ if(NOT MoleDemo_DisableAllButExperimental)
 		$<TARGET_FILE_DIR:${EXECUTABLE_NAME}>/resources
 	)
 
+	add_custom_target(run_demoscene
+		DEPENDS demoscene
+		WORKING_DIRECTORY $<TARGET_FILE_DIR:demoscene>
+		COMMAND $<TARGET_FILE:demoscene>
+	)
+
 	#[=[ we go to the 3 steps indirection because of user dependencies ]=]#
 	#[[ 1/3 - "install command for files"
 	install(
