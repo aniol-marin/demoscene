@@ -15,12 +15,11 @@ See current development status at the [project CDash Page](https://my.cdash.org/
 
 The software is designed to simply compile and run in as many environments as possible, as long as the minimum development requirements are met. Binary distribution is not available at the moment, but its support would be much wider since most of the dependencies are meant to be self contained.
 
-In order to launch the project, several options are offered:
+In order to build and launch the project, you will need to successfuly generate it with CMake first.
+Several CMake workflows are valid For example, the simplest one uses a custom target:
 
-- .bat file for Windows platforms: just run the script and wait.
-- .sh file for Linux platforms: just run the script and wait.
-- make file for Linux platforms: just run "make" from the root and wait.
-- manual compilation: freely tweak the project at your own will.
+$ cmake -S . -B build -G Ninja
+$ cmake --build build -t run_demoscene
 
 In case something unexpected happens you should get a clear error message. In case the project can be partially compiled a full report of success status will be generated. Please contact the developer with the detail in order to improve support.
 

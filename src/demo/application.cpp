@@ -1,5 +1,6 @@
 module;
 
+#include <format>
 #include <iostream>
 
 module demo;
@@ -35,7 +36,7 @@ namespace MoleDemo
 
             if (const seconds current_time{ timer.GetTime() }; current_time > previous_time)
             {
-		    std::println("time [{}/{}], framerate [{:>3} fps], delta: [{}]\n"
+		    std::cout << std::format("time [{}/{}], framerate [{:>3} fps], delta: [{}]\n"
 				    ,current_time
 				    ,timer.get_total_time()
 				    ,timer.get_frames_since_mark()
