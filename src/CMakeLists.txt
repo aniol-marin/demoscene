@@ -15,8 +15,14 @@ if(NOT MoleDemo_DisableAllButExperimental)
 	)
 	add_custom_command(TARGET ${EXECUTABLE_NAME} POST_BUILD
 		COMMAND ${CMAKE_COMMAND} -E copy_directory
-		${CMAKE_SOURCE_DIR}/resources
+		${CMAKE_SOURCE_DIR}/etc/resources
 		$<TARGET_FILE_DIR:${EXECUTABLE_NAME}>/resources
+	)
+
+	add_custom_target(run_demoscene
+		DEPENDS demoscene
+		WORKING_DIRECTORY $<TARGET_FILE_DIR:demoscene>
+		COMMAND $<TARGET_FILE:demoscene>
 	)
 
 	#[=[ we go to the 3 steps indirection because of user dependencies ]=]#

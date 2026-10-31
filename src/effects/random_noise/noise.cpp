@@ -1,5 +1,6 @@
 #include "noise.h"
 
+#include <algorithm>
 #include <cmath>
 #include <cstdlib>
 
@@ -21,7 +22,7 @@ namespace MoleDemo
             noise[i] = std::rand() % permilleFactor;
         }
 
-        point1D period{ std::max(screen->w / repetitions, static_cast<point1D>(1)) };
+        point1D period{ std::max(static_cast<point1D>(screen->w / repetitions), static_cast<point1D>(1)) };
         for (point1D y = 0; y < screen->h; ++y)
         {
             for (point1D x = 0; x < screen->w; ++x)
@@ -33,7 +34,6 @@ namespace MoleDemo
                 index_t down{ (vertical + 1) % period };
 
                 permille offsetVertical{ (permille) (x % period) };
-                permille offsetHorizontal{ (permille) (y % period) };
 
                 Color base{ A.lerp(B, noise[sampler.GetIndex({ horizontal, vertical })]) };
                 Color Right{ A.lerp(B, noise[sampler.GetIndex({ right, vertical })]) };

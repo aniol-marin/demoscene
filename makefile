@@ -12,7 +12,7 @@
 
 # Configurable fields
 BUILD_TYPE := Debug
-CMAKE_PATH := ~/.cmake/v3.18.0/bin
+CMAKE_PATH := /usr/local/bin/
 CMAKE_BIN := $(CMAKE_PATH)/cmake
 CCMAKE_BIN := $(CMAKE_PATH)/ccmake
 GENERATOR_NAME := Ninja
@@ -27,6 +27,7 @@ USER = $(shell uname -n)
 
 # Internal definitions
 BINARY_NAME := demoscene
+RUN_TARGET := run_demoscene
 EDITOR_BINARY_NAME := editor
 listify = $(subst ., ,$(1))
 current_folder = $(shell echo $$PWD)
@@ -62,8 +63,7 @@ main:
 		-DCMAKE_C_COMPILER=$(C_PATH) \
 		-DCMAKE_RUNTIME_OUTPUT_DIRECTORY:PATH=$(call current_folder) \
 		--preset=user
-	$(CMAKE_BIN) --build build-artifacts -t $(BINARY_NAME)
-	./$(BINARY_NAME)
+	$(CMAKE_BIN) --build build-artifacts -t $(RUN_TARGET)
 
 # Clears screen (convenience wrapper for recipe queues)
 clear:
@@ -71,9 +71,9 @@ clear:
 
 # Runs the final demo
 # [NOTE] in an uninitialized CMake project, uses the Builder preset
-run: .final
+run:
 	make .call_log MESSAGE="running final project"
-	$(RUNTIME) $(RUNTIME_PATH)/$(BINARY_NAME)
+	$(RUNTIME) $(CMAKE_BIN) --build $(BUILD_PATH) -t $(RUN_TARGET)
 
 # Runs all the executables at once
 run-all:
@@ -141,24 +141,8 @@ pack:
 # Launches custom CTest pipeline targeting Experimental dashboard
 # [NOTE] in an uninitialized CMake project, uses the Builder preset
 report-experimental:
-	make .call_log MESSAGE="reporting to Experimental CDash board as $(USER)"
-	make .report BUILD_PATH=$(call current_folder)/build-experimental DASHBOARD=Experimental
-
-# Launches custom CTest pipeline targeting Continuous dashboard
-# [NOTE] in an uninitialized CMake project, uses the Builder preset
-report-continuous:
-	make .call_log MESSAGE="reporting to Continuous CDash board as $(USER)"
-	make .report BUILD_PATH=$(call current_folder)/build-continuous DASHBOARD=Continuous
-
-# Launches custom CTest pipeline targeting Experimental dashboard and templated group
-# [NOTE] in an uninitialized CMake project, uses the Builder preset
-.PHONY: report-experimental-cpp
-report-experimental-cpp%:
-	make .call_log MESSAGE="reporting to Experimental CDash board, target group: cpp$*"
-	make .report \
-		BUILD_PATH=$(call current_folder)/build-experimental \
-		DASHBOARD=Experimental \
-		CTEST_GROUP=--group=cpp$*
+	make .call_log MESSAGE="reporting to Experimental CDash board"
+	cmake --build $(BUILD_PATH) -t report_experimental
 
 # Launches all tracked test targets through CTest
 # [NOTE] in an uninitialized CMake project, uses the Maintainer preset
@@ -222,6 +206,19 @@ initialize-trisquel-12:
 	git lfs fetch --all origin;
 	git lfs update;
 	git lfs checkout resources;
+
+# Initializes a fresh Debian 14 (TESTING) environment with project dependencies
+initialize-debian-14:
+	sudo apt install \
+		python3-jinja2 \
+		libwayland-dev \
+		libx11-dev \
+		libxi-dev \
+		libxinerama-dev \
+		libxrandr-dev \
+		libxss-dev \
+		mesa-common-dev \
+		pkg-config
 
 # Regenerates the CMake project
 # [NOTE] in an uninitialized CMake project, uses the Developer preset
@@ -331,22 +328,6 @@ full-wipe:
 ###############################################################################
 # NOTE implementation-detail recipes in this internal file
 # are undocumented by choice. Do not use them directly.
-
-.report:
-	if ! [ -f $(CACHE_FILE) ]; then \
-		make $(CACHE_FILE) CMAKE_PRESET=builder; \
-	fi
-	make .clean
-	-ctest \
-		-DCTEST_SOURCE_DIRECTORY=$(call current_folder) \
-		-DCTEST_BINARY_DIRECTORY=$(BUILD_PATH) \
-		-DCTEST_CMAKE_GENERATOR=$(GENERATOR_NAME) \
-		-DCTEST_MEMORYCHECK_COMMAND=$(MEMCHECK_PATH) \
-		-DCTEST_COVERAGE_COMMAND=$(COVERAGE_PATH) \
-		-DDASHBOARD=$(DASHBOARD) \
-		-DUSER=$(USER) \
-		$(CTEST_GROUP) \
-		-S ctest/full-report.cmake
 
 .run-%: $(CACHE_FILE)
 	make .call_log MESSAGE="running target: $(subst run-,,$@)"

@@ -8,7 +8,7 @@ Expected experimental features:
 Excluded releases:
 - 
 ]]#
-cmake_minimum_required(VERSION 3.18.0..4.3.2)
+cmake_minimum_required(VERSION 3.18.0..4.5.0)
 
 # Pre-project definition compilation requirements
 set(CMAKE_CXX_STANDARD 17)
@@ -62,8 +62,8 @@ else()
 endif()
 
 # Load project build scripts
-add_subdirectory(cmake)
-list(APPEND CMAKE_MODULE_PATH "${CMAKE_CURRENT_SOURCE_DIR}/cmake/modules/")
+add_subdirectory(etc/cmake)
+list(APPEND CMAKE_MODULE_PATH "${CMAKE_CURRENT_SOURCE_DIR}/etc/cmake/modules/")
 
 # Project generation info
 add_subdirectory(src)
