@@ -1,7 +1,7 @@
 #include <catch2/catch_test_macros.hpp>
 
 #include <functional>
-#include "engine.h"
+#include "timeline.h"
 
 SCENARIO("Timeline")
 {
@@ -67,8 +67,7 @@ SCENARIO("Timeline")
 						program,
 						cycle,
 						sound_manager,
-						screen,
-						"test project"
+						screen
 					};
 				}));
 			}
@@ -89,8 +88,7 @@ SCENARIO("Timeline")
 				program,
 				cycle,
 				sound_manager,
-				screen,
-				"test project"
+				screen
 			};
 
 			THEN("it should work as an Initializable")

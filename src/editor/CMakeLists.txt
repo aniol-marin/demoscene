@@ -6,10 +6,10 @@ add_subdirectory(dependencies)
 	Move sandbox out of editor folder
 	in order to decouple engine depencencies
 	from editor ones.
-]]#
 if(NOT DisableAllButExperimental)
 	add_subdirectory(sandbox)
 endif()
+]]#
 
 add_mained(editor
 	IMPLEMENTATIONS

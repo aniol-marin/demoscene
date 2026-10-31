@@ -2,10 +2,14 @@
 
 namespace mole::editor
 {
+	void redirect()
+	{
+	}
+
     Context::Context() : context{ { 640, 480 }, "MoleDemo Editor" }, render{ context }, ui{ context }
     {
         const char key = 0;
-        context.AddCallback(key, [this] { active = false; });
+        context.AddCallback(key, redirect);
     }
 
     [[nodiscard]] bool Context::is_active()

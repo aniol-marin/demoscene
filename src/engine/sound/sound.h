@@ -15,7 +15,7 @@ using namespace mole_def;
 
 namespace MoleDemo
 {
-    class SoundManager
+    class SoundManager final
       : public Initializable
       , public Loadable
     {
@@ -25,10 +25,10 @@ namespace MoleDemo
         SoundManager() {}
         ~SoundManager() {}
 
-        void Init();
-        void Finalize();
-        void Load(const std::string& file);
-        void Unload();
+        void Init() override;
+        void Finalize() override;
+        void Load(const std::string& file) override;
+        void Unload() override;
         void Play();
         void Stop();
         void Update();

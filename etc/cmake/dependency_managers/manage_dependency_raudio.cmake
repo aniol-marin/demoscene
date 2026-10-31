@@ -20,7 +20,6 @@ function(manage_dependency_raudio)
 		set(SUPPORT_FILEFORMAT_FLAC OFF)
 		set(SUPPORT_FILEFORMAT_XM OFF)
 		set(SUPPORT_FILEFORMAT_MOD OFF)
-		add_compile_options( -fPIE)
 		add_compile_definitions(TRACELOG="TRACELOG( ...)")
 		FetchContent_MakeAvailable(raudio)
 

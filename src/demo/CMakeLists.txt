@@ -1,10 +1,12 @@
 add_module(demo
 	IMPLEMENTATIONS
 	demo.cpp
-	application.cpp
 	installer.cpp
+	application.cpp
+	DEPENDENCIES
+	effects
 	DEPENDENCIES
 	engine
-	effects
+	injection
 )
 

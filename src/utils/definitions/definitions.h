@@ -235,4 +235,22 @@ namespace mole_def
     };
 }
 
+namespace mole
+{
+    struct panic : public std::exception
+    {
+        panic() = delete;
+        panic(const char* message) : m_message( message ) {}
+
+        const char* what();
+
+    private:
+        const std::string m_message;
+    };
+
+    void raise_dev(const char* message = "undefined development error");
+
+    void raise_fatal(const char* message = "undefined fatal error");
+}
+
 #endif // !MOLE_DEFINITIONS_H

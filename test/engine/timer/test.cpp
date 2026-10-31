@@ -4,7 +4,7 @@
 #include <iostream>
 #include <thread>
 
-#include "engine.h"
+#include "timer.h"
 
 SCENARIO("Timer")
 {

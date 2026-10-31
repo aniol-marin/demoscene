@@ -13,9 +13,9 @@ extern "C" {
 
 namespace mole::graphics
 {
-    using proc_address = decltype(glfwGetProcAddress);
-    using size_1D = std::uint_fast16_t;
-    using callback = std::function<void(void)>;
+    typedef GLFWglproc (proc_address)(const char*);
+    typedef unsigned short int size_1D;
+    typedef void (*callback)();
 
     struct Vector2
     {
@@ -32,7 +32,6 @@ namespace mole::graphics
     static std::vector<callback> MouseButtonCallbacks_v;
     static std::map<char, std::vector<callback>> MouseButtonCallbacks;
     static std::map<int, std::vector<callback>> MouseCursorPosCallbacks;
-    static Vector2 delta;
 
     struct WindowContext
     {
