@@ -22,6 +22,7 @@ protected:
     Timer* const timer{};
     Screen* const screen{};
 
+    Effect() = default;
     Effect(Timer* timer, Screen* screen);
 
     index_t GetPixelIndex(Point2D& point);
@@ -35,8 +36,9 @@ protected:
     void ClearBuffer(rgbaColor color, PixelBuffer& pixelBuffer);
 
 public:
-    Effect() = delete;
+
     virtual ~Effect() = default;
+
     virtual rgbaColor GetPixel(Point2D p);
     virtual rgbaColor GetPixel(index_t index);
     virtual void Cache(StencilBuffer& mask) = 0;

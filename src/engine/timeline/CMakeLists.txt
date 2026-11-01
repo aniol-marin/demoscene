@@ -8,7 +8,6 @@ add_module(timeline
 	effects
 	engine_definitions
 	program
-	raudio
 	render
 	renderables
 	serialization

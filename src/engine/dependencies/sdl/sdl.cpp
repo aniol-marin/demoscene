@@ -1,8 +1,12 @@
 module;
 
 #include "SDL3/SDL.h"
+/*
+#include "SDL_mixer.h"
+ */
 #include <cstdint>
 #include <exception>
+#include <filesystem>
 
 module sdl_wrapper;
 
@@ -12,7 +16,12 @@ using namespace mole_def;
 
 namespace SDL
 {
+    void SDLManager::Load(std::filesystem::path const& path)
+    {
+        // TO DO
+    }
     bool SDLManager::Init(const Screen& screen)
+
     {
         m_screen = screen;
 
@@ -22,6 +31,8 @@ namespace SDL
             surface = SDL_GetWindowSurface(window);
             initialized = surface != nullptr;
         }
+
+        initialized &= SDL_InitSubSystem(SDL_INIT_AUDIO);
 
         return initialized;
     }
