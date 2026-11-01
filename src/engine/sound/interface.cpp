@@ -2,7 +2,7 @@ export module sound;
 
 import std;
 import definitions;
-import raudio_wrapper;
+import sdl_wrapper;
 
 namespace MoleDemo
 {
@@ -17,10 +17,11 @@ namespace MoleDemo
       : public Initializable
       , public Loadable
     {
-        raudio::AudioManager m{};
+        SDL::SDLManager& m;
 
     public:
-        SoundManager() = default;
+        SoundManager() = delete ("invariant dependencies must be provided at construction time");
+        SoundManager(SDL::SDLManager & m);
         SoundManager(const SoundManager&) = delete ("a single instance is allowed, move it instead");
         SoundManager(SoundManager&&) = default;
         ~SoundManager() = default;

@@ -1,18 +1,21 @@
 module sound;
 
 import std;
+import sdl_wrapper;
 
 using namespace mole_def;
 
 namespace MoleDemo
 {
+    SoundManager::SoundManager(SDL::SDLManager & m) : m{ m } {}
+
     void MoleDemo::SoundManager::Init()
     {
-        m.Init();
+        // TO DO
     }
     void MoleDemo::SoundManager::Finalize()
     {
-        m.Finalize();
+        // TO DO
     }
 
     void MoleDemo::SoundManager::Load(std::string_view file)
@@ -22,31 +25,31 @@ namespace MoleDemo
 
     void MoleDemo::SoundManager::Unload()
     {
-        m.Unload();
+        // TO DO
     }
 
     void MoleDemo::SoundManager::Play()
     {
-        m.Play();
+        // TO DO
     }
 
     void MoleDemo::SoundManager::Stop()
     {
-        m.Stop();
+        // TO DO
     }
 
     void MoleDemo::SoundManager::Update()
     {
-        m.Update();
+        // TO DO
     }
 
     permille MoleDemo::SoundManager::GetCurrentIntensity()
     {
-        return m.GetIntensity();
+        return {};
     }
 
     seconds MoleDemo::SoundManager::GetMusicDuration()
     {
-        return m.GetDuration();
+        return {};
     }
 }

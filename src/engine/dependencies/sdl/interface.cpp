@@ -27,13 +27,15 @@ namespace SDL
 
         bool Init(const Screen& screen);
         void Finalize();
+
         ProgramStatus PollSDLEvents();
 
         void LockSurface();
         void UnlockSurface();
         void UpdateSurface();
-
         void PutPixel(offset x, offset y, const pixel rgba);
+
+	void Load(std::filesystem::path const& path);
 
     private:
         Screen m_screen{ 0, 0 };
