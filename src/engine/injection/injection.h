@@ -70,7 +70,7 @@ namespace MoleDemo
         template<typename TUser, typename TBinding>
         void AssertBinding()
         {
-            [[unlikely]] if (!factories.count(typeid(TBinding).hash_code()))
+            if (!factories.count(typeid(TBinding).hash_code()))
             {
                 std::stringstream ss{}; //
                 ss << "ERROR: "
