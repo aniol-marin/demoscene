@@ -42,11 +42,15 @@ include(CTest)
 	- MSVC: 19.34
 - [c++26 reflection support]
 	- g++: 16.1
-	- clang++: trunk (partial since 17.0)
-	- MSVC: unsupported
+	- clang++: experimental, not yet in trunk (as for release: 23.1)
+	- MSVC: unsupported, no announcements yet
+- [c++26 std::filesystem::path::display_string support]
+	- g++: 17.0
+	- clang++: unknown, not supported at least as of 22.1
+	- MSVC: unsupported, no announcements yet
 ]]#
-set(GCC_EXPECTED_VERSION 16.1)
-set(CLANG_EXPECTED_VERSION 17.0)
+set(GCC_EXPECTED_VERSION 17.0)
+set(CLANG_EXPECTED_VERSION 24.0)
 set(MSVC_EXPECTED_VERSION 19.34)
 if(${CMAKE_CXX_COMPILER_ID} STREQUAL "GNU" AND ${CMAKE_CXX_COMPILER_VERSION} VERSION_LESS ${GCC_EXPECTED_VERSION})
 	message(FATAL_ERROR "

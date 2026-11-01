@@ -27,10 +27,8 @@ In case something unexpected happens you should get a clear error message. In ca
 
 This version of the project has been recently tested in the following platforms:
 
-- Debian GNU/Linux 14.0
 - Trisquel GNU/Linux-libre 12.0
-- Gentoo Linux
-- Microsoft Windows 11
+- Debian GNU/Linux 14.0
 
 In order to compile it from source extra packages may be needed. At the time of writing some of them are not available in the usual channels of distribution and may need to be compiled from source including manual resolution of their dependencies.
 
