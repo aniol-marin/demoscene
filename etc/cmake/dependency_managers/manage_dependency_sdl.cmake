@@ -2,6 +2,17 @@ function(manage_dependency_sdl)
 
 	if(NOT MoleDemo_ForceFetchedDependencies)
 		find_package(SDL3 QUIET)
+		find_package(SDL_mixer QUIET)
+	endif()
+
+	if(NOT SDL_mixer_FOUND)
+		FetchContent_Declare(
+			SDL_mixer
+			EXCLUDE_FROM_ALL
+			GIT_REPOSITORY https://github.com/libsdl-org/SDL_mixer.git
+			GIT_TAG 72a81869b45e249e8e67102db4e98dd2441f05a1 # 3.2.4
+		)
+		FetchContent_MakeAvailable(SDL_mixer)
 	endif()
 
 	if(NOT SDL3_FOUND)
