@@ -1,15 +1,8 @@
 #ifndef MOLE_SOUND_H
 #define MOLE_SOUND_H
 
-#include <string>
-
 #include "definitions.h"
-#include "raudio_wrapper.h"
-
-namespace MoleDemo
-{
-    class SoundManager;
-}
+#include "sdl_wrapper.h"
 
 using namespace mole_def;
 
@@ -19,10 +12,11 @@ namespace MoleDemo
       : public Initializable
       , public Loadable
     {
-        raudio::AudioManager m{};
+        SDL::SDLManager& m;
 
     public:
-        SoundManager() = default;
+        SoundManager() = delete;
+        SoundManager(SDL::SDLManager& m);
         SoundManager(const SoundManager&) = delete;
         SoundManager(SoundManager&&) = default;
         ~SoundManager() = default;

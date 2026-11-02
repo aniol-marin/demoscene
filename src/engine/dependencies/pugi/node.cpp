@@ -1,8 +1,8 @@
 #include "pugi.h"
 
+#include <string>
 #include <string_view>
 #include <vector>
-#include <string>
 
 namespace mole::pugi_wrapper
 {

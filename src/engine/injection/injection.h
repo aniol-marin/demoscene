@@ -74,8 +74,7 @@ namespace MoleDemo
             {
                 std::stringstream ss{}; //
                 ss << "ERROR: "
-                   << "Tried to use inexisting binding of type"
-                   << std::string{ typeid(TBinding).name() } //
+                   << "Tried to use inexisting binding of type" << std::string{ typeid(TBinding).name() } //
                    << " while binding requested type " //
                    << std::string{ typeid(TUser).name() } //
                 ;

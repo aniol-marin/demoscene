@@ -60,7 +60,7 @@ SCENARIO("Timeline")
 					MoleDemo::InputManager input_manager { sdl_manager };
 					MoleDemo::RenderManager render_manager { screen, sdl_manager };
 					MoleDemo::Cycle cycle { program, timer, input_manager, render_manager };
-					MoleDemo::SoundManager sound_manager { };
+					MoleDemo::SoundManager sound_manager { sdl_manager };
 
 					MoleDemo::Timeline _ {
 						timer,
@@ -81,7 +81,7 @@ SCENARIO("Timeline")
 			MoleDemo::InputManager input_manager { sdl_manager };
 			MoleDemo::RenderManager render_manager { screen, sdl_manager };
 			MoleDemo::Cycle cycle { program, timer, input_manager, render_manager };
-			MoleDemo::SoundManager sound_manager { };
+			MoleDemo::SoundManager sound_manager { sdl_manager };
 
 			MoleDemo::Timeline timeline {
 				timer,
