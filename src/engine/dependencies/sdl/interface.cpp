@@ -5,6 +5,7 @@ import definitions;
 
 extern "C" struct SDL_Window;
 extern "C" struct SDL_Surface;
+extern "C" struct MIX_Mixer;
 
 namespace SDL
 {
@@ -13,6 +14,7 @@ namespace SDL
     {
         SDL_Window* window{};
         SDL_Surface* surface{};
+        MIX_Mixer* mixer{};
 
         using pixel = std::uint32_t;
         using offset = std::uint_fast16_t;

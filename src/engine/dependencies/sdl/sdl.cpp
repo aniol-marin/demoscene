@@ -28,7 +28,12 @@ namespace SDL
             initialized = surface != nullptr;
         }
 
+	initialized &= SDL_Init(SDL_INIT_AUDIO);
         initialized &= SDL_InitSubSystem(SDL_INIT_AUDIO);
+	initialized &= MIX_Init();
+
+	mixer = MIX_CreateMixerDevice(SDL_AUDIO_DEVICE_DEFAULT_PLAYBACK, NULL);
+	initialized &= mixer != nullptr;
 
         return initialized;
     }
