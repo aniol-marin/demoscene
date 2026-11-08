@@ -6,6 +6,8 @@ import definitions;
 extern "C" struct SDL_Window;
 extern "C" struct SDL_Surface;
 extern "C" struct MIX_Mixer;
+extern "C" struct MIX_Audio;
+extern "C" struct MIX_Track;
 
 namespace SDL
 {
@@ -15,6 +17,8 @@ namespace SDL
         SDL_Window* window{};
         SDL_Surface* surface{};
         MIX_Mixer* mixer{};
+        MIX_Audio* audio{};
+        MIX_Track* track{};
 
         using pixel = std::uint32_t;
         using offset = std::uint_fast16_t;
@@ -37,7 +41,8 @@ namespace SDL
         void UpdateSurface();
         void PutPixel(offset x, offset y, const pixel rgba);
 
-	void Load(std::filesystem::path const& path);
+        void Load(std::filesystem::path const& path);
+        void Play();
 
     private:
         Screen m_screen{ 0, 0 };

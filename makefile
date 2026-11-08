@@ -379,11 +379,11 @@ $(RUNTIME_PATH)/$(EDITOR_BINARY_NAME):
 		| grep -v \
 		-e all -e cache -e codegen -e  _deps -e install -e "/" \
 		-e lib -e Nightly -e Experimental -e Continuous -e uninstall \
+		-e report \
 		-e @\
 		-e Catch \
-		-e SDL2 -e sdl_headers_copy \
+		-e SDL -e sdl_headers_copy \
 		-e pugixml[^_]  \
-		-e raudio[^_]  \
 		-e glad[^_]  \
 		-e imgui[^_]  \
 		-e ^glfw[^_] -e update_mappings \

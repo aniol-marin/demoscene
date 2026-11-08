@@ -21,7 +21,7 @@ namespace MoleDemo
 
     public:
         SoundManager() = delete ("invariant dependencies must be provided at construction time");
-        SoundManager(SDL::SDLManager & m);
+        SoundManager(SDL::SDLManager& m);
         SoundManager(const SoundManager&) = delete ("a single instance is allowed, move it instead");
         SoundManager(SoundManager&&) = default;
         ~SoundManager() = default;

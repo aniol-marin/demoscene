@@ -14,10 +14,16 @@ namespace SDL
 {
     void SDLManager::Load(std::filesystem::path const& path)
     {
-        // TO DO
+        audio = MIX_LoadAudio(mixer, path.display_string().c_str(), false);
+        MIX_SetTrackAudio(track, audio);
     }
-    bool SDLManager::Init(const Screen& screen)
 
+    void SDLManager::Play()
+    {
+        MIX_PlayTrack(track, 0);
+    }
+
+    bool SDLManager::Init(const Screen& screen)
     {
         m_screen = screen;
 
@@ -28,12 +34,12 @@ namespace SDL
             initialized = surface != nullptr;
         }
 
-	initialized &= SDL_Init(SDL_INIT_AUDIO);
+        initialized &= SDL_Init(SDL_INIT_AUDIO);
         initialized &= SDL_InitSubSystem(SDL_INIT_AUDIO);
-	initialized &= MIX_Init();
+        initialized &= MIX_Init();
 
-	mixer = MIX_CreateMixerDevice(SDL_AUDIO_DEVICE_DEFAULT_PLAYBACK, NULL);
-	initialized &= mixer != nullptr;
+        mixer = MIX_CreateMixerDevice(SDL_AUDIO_DEVICE_DEFAULT_PLAYBACK, NULL);
+        initialized &= mixer != nullptr;
 
         return initialized;
     }
