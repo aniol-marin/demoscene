@@ -36,7 +36,6 @@ protected:
     void ClearBuffer(rgbaColor color, PixelBuffer& pixelBuffer);
 
 public:
-
     virtual ~Effect() = default;
 
     virtual rgbaColor GetPixel(Point2D p);

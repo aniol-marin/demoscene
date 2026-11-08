@@ -11,12 +11,13 @@ Expected experimental features:
 Excluded releases:
 - 
 ]]#
-cmake_minimum_required(VERSION 3.28.0..4.3.2)
+cmake_minimum_required(VERSION 3.28.0..4.5.0)
 
 # Pre-project definition compilation requirements
 set(CMAKE_CXX_STANDARD 20)
 set(CMAKE_CXX_STANDARD_REQUIRED ON)
 set(CMAKE_CXX_EXTENSIONS OFF)
+set(CMAKE_CXX_STANDARD_REQUIRED ON)
 set(CMAKE_CXX_SCAN_FOR_MODULES ON)
 
 # Project definition

@@ -1,9 +1,8 @@
 module;
 
 #include "SDL3/SDL.h"
-/*
-#include "SDL_mixer.h"
- */
+#include "SDL3_mixer/SDL_mixer.h"
+
 #include <cstdint>
 #include <exception>
 #include <filesystem>
@@ -18,10 +17,27 @@ namespace SDL
 {
     void SDLManager::Load(std::filesystem::path const& path)
     {
-        // TO DO
+        audio = MIX_LoadAudio(mixer, path.string().c_str(), false);
+        MIX_SetTrackAudio(track, audio);
     }
-    bool SDLManager::Init(const Screen& screen)
 
+    void SDLManager::Play()
+    {
+        MIX_PlayTrack(track, 0);
+    }
+
+    void SDLManager::Stop()
+    {
+        MIX_StopTrack(track, 0);
+    }
+
+    seconds SDLManager::GetMusicDuration()
+    {
+        return {};
+        return static_cast<seconds>(MIX_GetAudioDuration(audio));
+    }
+
+    bool SDLManager::Init(const Screen& screen)
     {
         m_screen = screen;
 
@@ -32,7 +48,12 @@ namespace SDL
             initialized = surface != nullptr;
         }
 
+        initialized &= SDL_Init(SDL_INIT_AUDIO);
         initialized &= SDL_InitSubSystem(SDL_INIT_AUDIO);
+        initialized &= MIX_Init();
+
+        mixer = MIX_CreateMixerDevice(SDL_AUDIO_DEVICE_DEFAULT_PLAYBACK, NULL);
+        initialized &= mixer != nullptr;
 
         return initialized;
     }
@@ -41,6 +62,7 @@ namespace SDL
     {
         if (initialized)
         {
+            MIX_Quit();
             SDL_DestroyWindow(window);
             SDL_Quit();
         }

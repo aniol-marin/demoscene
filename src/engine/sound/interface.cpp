@@ -24,7 +24,7 @@ namespace MoleDemo
 
     public:
         SoundManager() = delete;
-        SoundManager(SDL::SDLManager & m);
+        SoundManager(SDL::SDLManager& m);
         SoundManager(const SoundManager&) = delete;
         SoundManager(SoundManager&&) = default;
         ~SoundManager() = default;

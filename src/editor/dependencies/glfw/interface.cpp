@@ -32,7 +32,7 @@ namespace mole::graphics
     {
         const size_1D w, h;
     };
-    constexpr std::string name{ "test" };
+    constexpr std::string_view name{ "test" };
     constexpr auto width{ 480 };
     constexpr auto height{ 640 };
     static std::map<char, std::vector<callback>> callbacks;

@@ -119,8 +119,8 @@ export namespace mole_def
 
     struct Offset2D
     {
-        const offset1D x {};
-        const offset1D y {};
+        const offset1D x{};
+        const offset1D y{};
 
         Offset2D() = default;
         Offset2D(offset1D x, offset1D y);
