@@ -7,15 +7,15 @@ using namespace mole_def;
 
 namespace MoleDemo
 {
-    SoundManager::SoundManager(SDL::SDLManager & m) : m{ m } {}
+    SoundManager::SoundManager(SDL::SDLManager& m) : m{ m } {}
 
     void MoleDemo::SoundManager::Init()
     {
-        // TO DO
+        // nothing to do
     }
     void MoleDemo::SoundManager::Finalize()
     {
-        // TO DO
+        // nothing to do
     }
 
     void MoleDemo::SoundManager::Load(std::string_view file)
@@ -25,31 +25,32 @@ namespace MoleDemo
 
     void MoleDemo::SoundManager::Unload()
     {
-        // TO DO
+        // nothing to do
     }
 
     void MoleDemo::SoundManager::Play()
     {
-        // TO DO
+        m.Play();
     }
 
     void MoleDemo::SoundManager::Stop()
     {
-        // TO DO
+        m.Stop();
     }
 
     void MoleDemo::SoundManager::Update()
     {
-        // TO DO
+        // nothing to do
     }
 
     permille MoleDemo::SoundManager::GetCurrentIntensity()
     {
+        // TO DO
         return {};
     }
 
     seconds MoleDemo::SoundManager::GetMusicDuration()
     {
-        return {};
+        return m.GetMusicDuration();
     }
 }

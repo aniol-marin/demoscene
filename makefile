@@ -20,12 +20,12 @@ GENERATOR_PATH := ninja
 CMAKE_LOG_LEVEL := NOTICE
 CMAKE_PRESET := default
 COMPILERS_PATH := /usr/bin
-CXX_COMPILER := clang++
-C_COMPILER := clang
+CXX_COMPILER := g++
+C_COMPILER := gcc
 CXX_PATH := $(COMPILERS_PATH)/$(CXX_COMPILER)
 C_PATH := $(COMPILERS_PATH)/$(C_COMPILER)
 MEMCHECK_BIN := valgrind
-COVERAGE_BIN := gcov
+COVERAGE_BIN := $(COMPILERS_PATH)/gcov
 USER = $(shell uname -n)
 
 # Internal definitions
@@ -378,11 +378,11 @@ $(RUNTIME_PATH)/$(EDITOR_BINARY_NAME):
 		| grep -v \
 		-e all -e cache -e codegen -e  _deps -e install -e "/" \
 		-e lib -e Nightly -e Experimental -e Continuous -e uninstall \
+		-e report \
 		-e @\
 		-e Catch \
-		-e SDL2 -e sdl_headers_copy \
+		-e SDL -e sdl_headers_copy \
 		-e pugixml[^_]  \
-		-e raudio[^_]  \
 		-e glad[^_]  \
 		-e imgui[^_]  \
 		-e ^glfw[^_] -e update_mappings \
