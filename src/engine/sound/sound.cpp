@@ -25,7 +25,7 @@ namespace MoleDemo
 
     void MoleDemo::SoundManager::Unload()
     {
-        // TO DO
+        // nothing to do
     }
 
     void MoleDemo::SoundManager::Play()
@@ -35,21 +35,22 @@ namespace MoleDemo
 
     void MoleDemo::SoundManager::Stop()
     {
-        // TO DO
+        m.Stop();
     }
 
     void MoleDemo::SoundManager::Update()
     {
-        // TO DO
+        // nothing to do
     }
 
     permille MoleDemo::SoundManager::GetCurrentIntensity()
     {
+        // TO DO
         return {};
     }
 
     seconds MoleDemo::SoundManager::GetMusicDuration()
     {
-        return {};
+        return m.GetMusicDuration();
     }
 }

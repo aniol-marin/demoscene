@@ -43,6 +43,8 @@ namespace SDL
 
         void Load(std::filesystem::path const& path);
         void Play();
+        void Stop();
+        seconds GetMusicDuration();
 
     private:
         Screen m_screen{ 0, 0 };

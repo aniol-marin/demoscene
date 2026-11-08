@@ -23,6 +23,17 @@ namespace SDL
         MIX_PlayTrack(track, 0);
     }
 
+    void SDLManager::Stop()
+    {
+        MIX_StopTrack(track, 0);
+    }
+
+    seconds SDLManager::GetMusicDuration()
+    {
+        return {};
+        return static_cast<seconds>(MIX_GetAudioDuration(audio));
+    }
+
     bool SDLManager::Init(const Screen& screen)
     {
         m_screen = screen;
@@ -48,6 +59,7 @@ namespace SDL
     {
         if (initialized)
         {
+            MIX_Quit();
             SDL_DestroyWindow(window);
             SDL_Quit();
         }
