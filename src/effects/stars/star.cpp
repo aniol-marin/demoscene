@@ -1,8 +1,8 @@
 #include "stars.h"
 
-#include <functional>
-#include <cstdlib>
 #include <cstdint>
+#include <cstdlib>
+#include <functional>
 
 namespace MoleDemo
 {

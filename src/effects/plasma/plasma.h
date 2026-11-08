@@ -30,7 +30,7 @@ namespace MoleDemo
         void Unload() override;
         void Update(permille intensity, milliseconds delta) override;
         void Cache(StencilBuffer& mask) override;
-        constexpr Id TextureLimit() const override { return 2; }
+        Id TextureLimit() const override { return 2; }
         void AssignTexture(std::unique_ptr<Texturable> texture, Id id) override;
     };
 }

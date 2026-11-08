@@ -17,6 +17,7 @@ namespace MoleDemo
         Timer* const timer;
         Screen* const screen;
 
+        Effect() = default;
         Effect(Timer* timer, Screen* screen);
 
         index_t GetPixelIndex(Point2D& point);

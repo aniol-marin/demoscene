@@ -138,7 +138,6 @@ namespace mole_def
 
         Offset2D() = default;
         Offset2D(offset1D x, offset1D y);
-        ~Offset2D() {}
     };
 
     struct CoordinateUV
@@ -157,7 +156,7 @@ namespace mole_def
         channel m_a{};
 
     public:
-        Color() = default;
+        Color() : Color{ black } {};
         Color(const rgbaColor& color);
         Color(channel r, channel g, channel b, channel a = saturated);
         ~Color() = default;
@@ -190,10 +189,10 @@ namespace mole_def
     };
 
     /*
-    constexpr Screen defaultScreen{ 640, 480 };
-    constexpr Screen textureSize{ 512, 512 };
-    constexpr Screen superSampler{ 2048, 2048 };
-     */
+       constexpr Screen defaultScreen{ 640, 480 };
+       constexpr Screen textureSize{ 512, 512 };
+       constexpr Screen superSampler{ 2048, 2048 };
+       */
 
     struct Initializable
     {

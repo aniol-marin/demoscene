@@ -19,10 +19,13 @@ GENERATOR_NAME := Ninja
 GENERATOR_PATH := /usr/bin/ninja
 CMAKE_LOG_LEVEL := NOTICE
 CMAKE_PRESET := default
-CXX_PATH := /usr/bin/g++
-C_PATH := /usr/bin/gcc
+COMPILERS_PATH := /usr/bin
+CXX_COMPILER := g++
+C_COMPILER := gcc
+CXX_PATH := $(COMPILERS_PATH)/$(CXX_COMPILER)
+C_PATH := $(COMPILERS_PATH)/$(C_COMPILER)
 MEMCHECK_BIN := valgrind
-COVERAGE_BIN := /usr/bin/gcov
+COVERAGE_BIN := $(COMPILERS_PATH)/gcov
 USER = $(shell uname -n)
 
 # Internal definitions
@@ -33,7 +36,7 @@ listify = $(subst ., ,$(1))
 current_folder = $(shell echo $$PWD)
 RUNTIME = export LD_LIBRARY_PATH=/usr/local/lib64/;
 CMAKE_ROOT_PATH := $(call current_folder)
-BUILD_PATH := $(call current_folder)/build/$(BUILD_TYPE)
+BUILD_PATH := $(call current_folder)/build/$(BUILD_TYPE)/$(C_COMPILER)
 RUNTIME_PATH := $(call current_folder)/bin
 LIBRARY_PATH := $(call current_folder)/lib
 EXTERNALS_PATH := $(call current_folder)/external
@@ -373,11 +376,11 @@ $(RUNTIME_PATH)/$(EDITOR_BINARY_NAME):
 		| grep -v \
 		-e all -e cache -e codegen -e  _deps -e install -e "/" \
 		-e lib -e Nightly -e Experimental -e Continuous -e uninstall \
+		-e report \
 		-e @\
 		-e Catch \
-		-e SDL2 -e sdl_headers_copy \
+		-e SDL -e sdl_headers_copy \
 		-e pugixml[^_]  \
-		-e raudio[^_]  \
 		-e glad[^_]  \
 		-e imgui[^_]  \
 		-e ^glfw[^_] -e update_mappings \

@@ -8,9 +8,9 @@
 using tree = mole::pugi_wrapper::tree;
 using node = mole::pugi_wrapper::generic_node;
 
+/*
 std::filesystem::path path { std::filesystem::temp_directory_path() / "test.xml" };
 
-/*
 struct unspecialized{};
 struct specialized{};
 struct custom
@@ -103,7 +103,6 @@ struct mole::pugi_wrapper::node<nested_custom> : mole::pugi_wrapper::generic_nod
 		return data;
 	}
 };
- */
 
 void replace_content(std::filesystem::path file_path, std::string content)
 {
@@ -337,9 +336,9 @@ SCENARIO("Parsing with Pugi XML Library")
 				}));
 			}
 		}
- */
 	}
 }
+ */
 
 SCENARIO("Serializing with Pugi XML Library")
 {

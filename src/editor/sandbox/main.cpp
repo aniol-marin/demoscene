@@ -8,11 +8,9 @@ using namespace MoleDemo;
 using namespace mole_def;
 using Container = MoleDemo::Container;
 
-void
-InstallBindings(Container& container);
+void InstallBindings(Container& container);
 
-int
-main(int argc, char** argv)
+int main(int argc, char** argv)
 {
     Container container;
     InstallBindings(container);
@@ -67,8 +65,7 @@ main(int argc, char** argv)
     return 0;
 }
 
-void
-InstallBindings(Container& container)
+void InstallBindings(Container& container)
 {
     container.BindShared<Timer>();
     container.BindShared<Screen>([] { return new Screen{ 640, 480 }; });
@@ -84,8 +81,8 @@ InstallBindings(Container& container)
             [&]() //
             {
                 return new Cycle{ container.Inject<Program>(),
-                              container.Inject<Timer>(),
-                              container.Inject<InputManager>(),
-                              container.Inject<RenderManager>() };
+                                  container.Inject<Timer>(),
+                                  container.Inject<InputManager>(),
+                                  container.Inject<RenderManager>() };
             });
 }
