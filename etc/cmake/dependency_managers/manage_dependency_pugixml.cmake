@@ -10,9 +10,6 @@ function(manage_dependency_pugixml)
 			EXCLUDE_FROM_ALL
 			GIT_REPOSITORY https://github.com/zeux/pugixml.git
 			GIT_TAG ee86beb30e4973f5feffe3ce63bfa4fbadf72f38 # v 1.15
-			#[[ disabled while forcing fetched dependencies is improved
-			FIND_PACKAGE_ARGS NAMES pugixml
-			]]#
 		)
 
 		FetchContent_MakeAvailable(pugixml)

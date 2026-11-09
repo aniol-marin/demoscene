@@ -12,7 +12,6 @@
 
 # Configurable fields
 BUILD_TYPE := Debug
-#CMAKE_PATH := /home/bru/.cmake/v4.4.0-rc3/bin/
 CMAKE_PATH := /usr/local/bin/
 CMAKE_BIN := $(CMAKE_PATH)/cmake
 CCMAKE_BIN := $(CMAKE_PATH)/ccmake
@@ -26,7 +25,7 @@ C_COMPILER := gcc
 CXX_PATH := $(COMPILERS_PATH)/$(CXX_COMPILER)
 C_PATH := $(COMPILERS_PATH)/$(C_COMPILER)
 MEMCHECK_BIN := valgrind
-COVERAGE_BIN := gcov
+COVERAGE_BIN := $(COMPILERS_PATH)/gcov
 USER = $(shell uname -n)
 
 # Internal definitions
