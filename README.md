@@ -9,7 +9,7 @@
 
 A tiny audiovisual experience with an overkilled tooling environment.
 
-See current development status at the [project CDash Page](https://my.cdash.org/overview.php?project=mole_demo)
+See current development status at the [project CDash Page](https://my.cdash.org/projects/2108)
 
 ## Usage
 
