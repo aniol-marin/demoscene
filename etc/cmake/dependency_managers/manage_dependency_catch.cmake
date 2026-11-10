@@ -1,6 +1,8 @@
 function(manage_dependency_catch)
 
-	find_package(Catch2 QUIET)
+	if(NOT MoleDemo_ForceFetchedDependencies)
+		find_package(Catch2 QUIET)
+	endif()
 	if(NOT Catch2_FOUND OR Catch2_VERSION_MAJOR LESS 3)
 		FetchContent_Declare(
 			Catch2
