@@ -9,8 +9,12 @@ function(add_test_target TARGET_NAME)
 		RUNTIME_OUTPUT_DIRECTORY ${CMAKE_RUNTIME_OUTPUT_DIRECTORY}/test
 	)
 	if(MoleDemo_Testing_EnableCoverage)
-		target_compile_options(${TEST_TARGET} PRIVATE -coverage)
-		target_link_options(${TEST_TARGET} PRIVATE -coverage)
+		if(MSVC)
+			target_compile_options(${TEST_TARGET} PRIVATE "/fsanitize-coverage")
+		else()
+			target_compile_options(${TEST_TARGET} PRIVATE -coverage)
+			target_link_options(${TEST_TARGET} PRIVATE -coverage)
+		endif()
 	endif()
 
 	target_link_libraries(${TEST_TARGET} PRIVATE
