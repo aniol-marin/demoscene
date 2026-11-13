@@ -42,10 +42,14 @@ include(CTest)
 	- g++: 11.1
 	- clang++: 13.0
 	- MSVC: 19.44
+- [import std toolchain support]
+	- g++: 15.1
+	- clang++: 18.0
+	- MSVC: 19.52
 ]]#
-set(GCC_EXPECTED_VERSION 14.1)
-set(CLANG_EXPECTED_VERSION 17.0)
-set(MSVC_EXPECTED_VERSION 19.34)
+set(GCC_EXPECTED_VERSION 15.1)
+set(CLANG_EXPECTED_VERSION 18.0)
+set(MSVC_EXPECTED_VERSION 19.52)
 if(${CMAKE_CXX_COMPILER_ID} STREQUAL "GNU" AND ${CMAKE_CXX_COMPILER_VERSION} VERSION_LESS ${GCC_EXPECTED_VERSION})
 	message(FATAL_ERROR "
 	incompatible compiler version.
