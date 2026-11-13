@@ -231,6 +231,10 @@ function(manage_dependency_sdl)
 		)
 	endif()
 	if(NOT SDL_mixer_FOUND)
+		set(BUILD_SHARED_LIBS OFF)
+		set(SDLMIXER_BUILD_SHARED_LIBS OFF)
+		set(SDLMIXER_EXAMPLES OFF)
+		set(SDLMIXER_TESTS OFF)
 		FetchContent_Declare(
 				SDL_mixer
 				EXCLUDE_FROM_ALL
