@@ -37,11 +37,13 @@ In order to compile it from source extra packages may be needed. At the time of 
 ## Verified toolchains
 
 - CMake 4.5.0
+  - genarator: Ninja
 - Ninja Build 1.13.2
 - GCC 17.0.0 20260816 (trunk)
 
 - CMake 4.5.0
-- Visual Studio 2026
+  - genarator: Visual Studio 18
+- Visual Studio 18.12 (2026)
 - MSVC 19.52
 
 Other toolchains may be possible as long as they support compilation of c++23 and modules, including "import std".

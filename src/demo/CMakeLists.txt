@@ -7,6 +7,5 @@ add_module(demo
 	effects
 	DEPENDENCIES
 	engine
-	injection
 )
 
