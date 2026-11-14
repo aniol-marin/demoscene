@@ -9,7 +9,7 @@
 
 A tiny audiovisual experience with an overkilled tooling environment.
 
-See current development status at the [project CDash Page](https://my.cdash.org/overview.php?project=mole_demo)
+See current development status at the [project CDash Page](https://my.cdash.org/projects/2108)
 
 ## Usage
 
@@ -29,8 +29,6 @@ This version of the project has been recently tested in the following platforms:
 
 - Trisquel GNU/Linux-libre 12.0
 - Debian GNU/Linux 14.0
-- Gentoo Linux
-- Microsoft Windows 11
 
 In order to compile it from source extra packages may be needed. At the time of writing some of them are not available in the usual channels of distribution and may need to be compiled from source including manual resolution of their dependencies.
 
@@ -42,10 +40,12 @@ metabuild system:
 build system generators:
 - Ninja Build 1.10.1+
 - GNU Make 4.3 +
+- Visual Studio 18
 
 compilers:
 - GCC 11.4.0+
 - Clang 14.0.0+
+- MSVC 19.52
 
 Other toolchains may be possible as long as they support compilation of c++17.
 Feel free to send your own CTest reports in order to expand the verified toolchain list.

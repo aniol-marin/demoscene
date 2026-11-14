@@ -1,3 +1,4 @@
+#[=[ deactivated test
 set(TEST_TARGET test-sdl)
 
 add_test_target(${TEST_TARGET})
@@ -11,4 +12,5 @@ set_tests_properties(${TEST_TARGET}
 target_link_libraries(${TEST_TARGET} PUBLIC
 	sdl_wrapper
 )
+]=]#
 

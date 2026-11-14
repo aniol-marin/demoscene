@@ -4,10 +4,10 @@
 #include <any>
 #include <cstdint>
 #include <exception>
+#include <sstream>
 #include <functional>
 #include <map>
 #include <memory>
-#include <sstream>
 #include <typeinfo>
 #include <vector>
 
@@ -72,13 +72,14 @@ namespace MoleDemo
         {
             if (!factories.count(typeid(TBinding).hash_code()))
             {
-                std::stringstream ss{}; //
-                ss << "ERROR: "
-                   << "Tried to use inexisting binding of type" << std::string{ typeid(TBinding).name() } //
-                   << " while binding requested type " //
-                   << std::string{ typeid(TUser).name() } //
-                ;
-                throw std::runtime_error{ ss.str() };
+                auto ss { std::stringstream{} };
+		ss << "ERROR: Tried to use inexisting binding of type "
+                        << typeid(TBinding).name()
+		<< "while binding requested type "
+		<<
+                        typeid(TUser).name()
+		;
+                throw std::runtime_error{ ss.str()};
             }
         }
 
