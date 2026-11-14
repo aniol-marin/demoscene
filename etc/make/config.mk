@@ -1,0 +1,16 @@
+# Configurable fields
+BUILD_TYPE := Debug
+CMAKE_PATH := /usr/local/bin/
+CMAKE_BIN := $(CMAKE_PATH)/cmake
+CCMAKE_BIN := $(CMAKE_PATH)/ccmake
+GENERATOR_NAME := Ninja
+GENERATOR_PATH := ninja
+CMAKE_LOG_LEVEL := NOTICE
+CMAKE_PRESET := default
+COMPILERS_PATH := /usr/local/bin
+CXX_COMPILER := g++
+C_COMPILER := gcc
+CXX_PATH := $(COMPILERS_PATH)/$(CXX_COMPILER)
+C_PATH := $(COMPILERS_PATH)/$(C_COMPILER)
+MEMCHECK_BIN := valgrind
+COVERAGE_BIN := $(COMPILERS_PATH)/gcov

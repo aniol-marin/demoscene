@@ -10,64 +10,16 @@
 # -----------------------------------------------------------------
 # -----------------------------------------------------------------
 
-# Configurable fields
-BUILD_TYPE := Debug
-CMAKE_PATH := /usr/local/bin/
-CMAKE_BIN := $(CMAKE_PATH)/cmake
-CCMAKE_BIN := $(CMAKE_PATH)/ccmake
-GENERATOR_NAME := Ninja
-GENERATOR_PATH := ninja
-CMAKE_LOG_LEVEL := NOTICE
-CMAKE_PRESET := default
-COMPILERS_PATH := /usr/local/bin
-CXX_COMPILER := g++
-C_COMPILER := gcc
-CXX_PATH := $(COMPILERS_PATH)/$(CXX_COMPILER)
-C_PATH := $(COMPILERS_PATH)/$(C_COMPILER)
-MEMCHECK_BIN := valgrind
-COVERAGE_BIN := $(COMPILERS_PATH)/gcov
-USER = $(shell uname -n)
+# Default action, simply mapped before includes
+all: main ;
 
-# Internal definitions
-BINARY_NAME := demoscene
-RUN_TARGET := run_demoscene
-EDITOR_BINARY_NAME := editor
-listify = $(subst ., ,$(1))
-current_folder = $(shell echo $$PWD)
-RUNTIME = export LD_LIBRARY_PATH=/usr/local/lib64/;
-CMAKE_ROOT_PATH := $(call current_folder)
-BUILD_PATH := $(call current_folder)/build/$(BUILD_TYPE)/$(C_COMPILER)
-RUNTIME_PATH := $(call current_folder)/bin
-LIBRARY_PATH := $(call current_folder)/lib
-EXTERNALS_PATH := $(call current_folder)/external
-EXPORT_PATH := $(call current_folder)/export
-TEMP_PATH := /tmp
-CACHE_FILE := $(BUILD_PATH)/CMakeCache.txt
-STATUS_PATH := /tmp/$(BUILD_PATH)
-STATUS_FILE := $(STATUS_PATH)/status_output
-TESTS_RUNTIME_PATH := $(RUNTIME_PATH)/test
-MEMCHECK_PATH = $(shell which $(MEMCHECK_BIN))
-COVERAGE_PATH = $(shell which $(COVERAGE_BIN))
+include etc/make/config.mk
+include etc/make/definitions.mk
+include etc/make/logging.mk
 
-###############################################################################
-################################### Public recipes ###########################################################
-###############################################################################
-
-# Default action: run demo for "final users"
-# [NOTE] in an uninitialized CMake project, uses the Builder preset
+# No default action
 main:
-	make .call_log MESSAGE="building and running final demo" --no-print-directory
-	$(CMAKE_BIN) \
-		-S$(CMAKE_ROOT_PATH) \
-		-Bbuild-artifacts \
-		-G$(GENERATOR_NAME) \
-		-DCMAKE_MAKE_PROGRAM=$(GENERATOR_PATH)\
-		-DCMAKE_CXX_COMPILER=$(CXX_PATH) \
-		-DCMAKE_C_COMPILER=$(C_PATH) \
-		-DCMAKE_RUNTIME_OUTPUT_DIRECTORY:PATH=$(call current_folder) \
-		--preset=user \
-		--log-level=ERROR
-	$(CMAKE_BIN) --build build-artifacts -t $(RUN_TARGET)
+	$(call fail, default make recipe is deactivated for this project)
 
 # Clears screen (convenience wrapper for recipe queues)
 clear:
@@ -75,43 +27,51 @@ clear:
 
 # Runs the final demo
 # [NOTE] in an uninitialized CMake project, uses the Builder preset
-run:
-	make .call_log MESSAGE="running final project"
+run: | $(CACHE_FILE)
+	$(call inform,running final project)
 	$(RUNTIME) $(CMAKE_BIN) --build $(BUILD_PATH) -t $(RUN_TARGET)
 
-# Runs all the executables at once
-run-all:
-	make .call_log MESSAGE="attempting to build all executable targets"
+# Runs all the buildable executables at once
+run-all: | $(CACHE_FILE)
+	$(call inform,attempting to build all executable targets)
 	-make .build-all
-	make .call_log MESSAGE="running all available targets"
-	find $(RUNTIME_PATH) -type f -executable -print -exec {} \;
+	$(call inform,running all built executable targets)
+	find $(RUNTIME_PATH) -type f -executable -not -name '*.so' -print -exec {} \;
 
 # Builds the main project target
 .PHONY: build
-build:
-	make .call_log MESSAGE="attempting to build main target"
+build: | $(CACHE_FILE)
+	$(call inform,attempting to build main target)
 	make .build-$(BINARY_NAME)
-	make .call_log MESSAGE="main build done"
+	$(call inform,main build target done)
 
 # Builds the editor target (if available)
 .PHONY: build-editor
 build-editor:
-	make .call_log MESSAGE="attempting to build editor target"
+	$(call inform,attempting to build editor target)
 	make .build-$(EDITOR_BINARY_NAME)
-	make .call_log MESSAGE="editor build done"
+	$(call inform,editor build target done)
+
+
+# Builds the editor target (if available)
+.PHONY: build-tests
+build-tests:
+	$(call inform,attempting to build test targets)
+	make .build-tests
+	$(call inform,tests build target done)
 
 # Builds all the project targets
 .PHONY: build-all
 build-all:
-	make .call_log MESSAGE="attempting to build all targets"
+	$(call inform,attempting to build all targets)
 	make .build-all
-	make .call_log MESSAGE="all builds done"
+	$(call inform,all build targets done)
 
 # Launches the editor
 # [NOTE] it will try to build it if not available, regardless of configuration
 # [NOTE] in an uninitialized CMake project, uses the Developer preset
 edit: .editor
-	make .call_log MESSAGE="launching editor"
+	$(call inform,launching editor)
 	$(RUNTIME) $(RUNTIME_PATH)/$(EDITOR_BINARY_NAME)
 
 # Attempts to launch gdb
@@ -145,19 +105,21 @@ pack:
 # Launches custom CTest pipeline targeting Experimental dashboard
 # [NOTE] in an uninitialized CMake project, uses the Builder preset
 report-experimental:
-	make .call_log MESSAGE="reporting to Experimental CDash board"
+	$(call inform,reporting to Experimental CDash board)
 	cmake --build $(BUILD_PATH) -t report_experimental
 
 # Launches all tracked test targets through CTest
 # [NOTE] in an uninitialized CMake project, uses the Maintainer preset
-check-test: generate
-	make .call_log MESSAGE="testing CTest tests"
-	cd $(BUILD_PATH); ctest -T Test
+FILTER ?= '.*'
+FILTER_OUT ?= ''
+.PHONY: test
+test: $(CACHE_FILE)
+	$(call inform,testing through CTest)
+	cd $(BUILD_PATH); ctest -T Test -R $(FILTER) -E $(FILTER_OUT)
 
 # Launches coverage analysis through CTest
-check-coverage:
-	-make check-test
-	make .call_log MESSAGE="testing CTest coverage"
+coverage:
+	$(call inform,checking previously gathered coverage info through CTest)
 	cd $(BUILD_PATH); ctest -T Coverage
 
 # Prints information of the current toolchain
@@ -226,11 +188,8 @@ initialize-debian-14:
 
 # Regenerates the CMake project
 # [NOTE] in an uninitialized CMake project, uses the Developer preset
-generate:
-	make .call_log MESSAGE="generating config $(BUILD_TYPE) in $(BUILD_PATH)"
-	if ! [ -f $(CACHE_FILE) ]; then \
-		make $(CACHE_FILE) CMAKE_PRESET=developer; \
-	fi
+generate: | $(CACHE_FILE)
+	$(call inform,regenerating CMake project)
 	$(CMAKE_BIN) \
 		-S$(CMAKE_ROOT_PATH) \
 		-B$(BUILD_PATH) \
@@ -240,19 +199,9 @@ generate:
 # Reconfigures the CMake project
 # [NOTE] in an uninitialized CMake project, uses the Maintainer preset
 # which allows to fine tune before generation
-configure:
-	if ! [ -f $(CACHE_FILE) ]; then \
-		make $(CACHE_FILE) CMAKE_PRESET=maintainer; \
-	fi
-	make .call_log MESSAGE="configuring project";
+configure: | $(CACHE_FILE)
+	$(call inform,configuring project)
 	$(CCMAKE_BIN) $(BUILD_PATH);
-
-# Launches all tracked test targets through CMake
-# [NOTE] in an uninitialized CMake project, uses the Developer preset
-.PHONY: test
-test: generate
-	make .call_log MESSAGE="testing all CMake test targets"
-	$(CMAKE_BIN) --build $(BUILD_PATH) --target tests test $(ARGS)
 
 # Prints a list of all the project-specific CMake targets
 .PHONY:help-available-targets
@@ -390,11 +339,11 @@ $(RUNTIME_PATH)/$(EDITOR_BINARY_NAME):
 		| tr -d : | awk '{ print $$1; }'
 
 $(CACHE_FILE):
-	make .regenerate-cache
+	make .regenerate-cache CMAKE_PRESET=developer
 
 .PHONY: .regenerate-cache
 .regenerate-cache:
-	make .call_log MESSAGE="starting custom configuration of the project in $(BUILD_PATH)/CMakeCache.txt"
+	$(call inform,configuring and generating the project in $(BUILD_PATH))
 	mkdir -p $(BUILD_PATH)
 	$(CMAKE_BIN) \
 		-S$(CMAKE_ROOT_PATH) \
@@ -437,6 +386,7 @@ else
 	REDIRECT :=
 endif
 
+# Old logging system, to be replaced by included one
 MESSAGE := no_message
 .PHONY: .call_log
 .call_log:
@@ -454,6 +404,7 @@ log =  $(info  $(shell echo -e '[INFO] \033[35m $(1) \033[m'))
 warn = $(info  $(shell echo -e '[WARN] \033[33m $(1) \033[m'))
 fail = $(error $(shell echo -e '[ERROR]\033[31m $(1) \033[m'))
 
+# Drain recipe
 %:
-	make .call_fail MESSAGE="Inexisting recipe: [ $@ ]"
+	$(call fail,Inexisting recipe: [ $@ ])
 
