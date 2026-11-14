@@ -2,7 +2,7 @@ import demo;
 
 int main()
 {
-    MoleDemo::Demo demo{ };
+    MoleDemo::Demo demo{};
 
     demo.Run();
 }
