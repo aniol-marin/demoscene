@@ -1,4 +1,4 @@
-cmake_minimum_required(VERSION 3.13)
+cmake_minimum_required(VERSION 4.5)
 
 set(ENV{CXXFLAGS} "-g")
 # Custom report settings, they can be skipped in favor of defaults

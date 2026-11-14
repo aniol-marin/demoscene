@@ -9,7 +9,7 @@
 
 A tiny audiovisual experience with an overkilled tooling environment.
 
-See current development status at the [project CDash Page](https://my.cdash.org/overview.php?project=mole_demo)
+See current development status at the [project CDash Page](https://my.cdash.org/projects/2108)
 
 ## Usage
 
@@ -29,18 +29,17 @@ This version of the project has been recently tested in the following platforms:
 
 - Trisquel GNU/Linux-libre 12.0
 - Debian GNU/Linux 14.0
-- Gentoo Linux
-- Microsoft Windows 11
 
 In order to compile it from source extra packages may be needed. At the time of writing some of them are not available in the usual channels of distribution and may need to be compiled from source including manual resolution of their dependencies.
 
 ## Verified toolchains
 
 - CMake 4.5.0
+  - genarator: Ninja
 - Ninja Build 1.13.2
-- GCC 17.0.0 20260816 (trunk)
+- GCC 16.2
 
-Other toolchains may be possible as long as they fully support compilation of the c++26 standard.
+Other toolchains may be possible as long as they support compilation of the used subset of the n5054 c++26 draft, including "import std".
 Feel free to send your own CTest reports in order to expand the verified toolchain list.
 Alternative versions of the demoscene exist in the port branches, defined by c++ standard (CMake and build system requirements are lowered as a consequence). If you are unable to compile this specific branch, please try with an older one.
 

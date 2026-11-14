@@ -1,28 +1,24 @@
 module demo;
 
 import engine;
+import std;
 
 namespace MoleDemo
 {
     using namespace mole_def;
 
-    Demo::Demo(std::string project)
-    {
-        // TO DO load values from config string
-    }
-
     void Demo::Run()
     {
-        std::string project{}; // TO DO get values from constructor maybe
-        Init(project);
+        Init();
 
         container.Inject<application>().run();
 
         Finalize();
     }
 
-    void Demo::Init(std::string& project)
+    void Demo::Init()
     {
+        std::string project{};
         InstallBindings(container, project);
 
         // TO DO automatic interface detection

@@ -20,11 +20,12 @@ namespace MoleDemo
         std::vector<Initializable*> initializables{};
         std::vector<Loadable*> loadables{};
 
-        void Init(std::string& project);
+        void Init();
         void Finalize();
 
     public:
-        Demo(std::string project);
+        Demo() = default;
+
         void Run();
     };
 
