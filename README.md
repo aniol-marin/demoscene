@@ -35,10 +35,11 @@ In order to compile it from source extra packages may be needed. At the time of 
 ## Verified toolchains
 
 - CMake 4.5.0
+  - genarator: Ninja
 - Ninja Build 1.13.2
 - GCC 17.0.0 20260816 (trunk)
 
-Other toolchains may be possible as long as they fully support compilation of the c++26 standard.
+Other toolchains may be possible as long as they support compilation of the used subset of the n5054 c++26 draft, including "import std".
 Feel free to send your own CTest reports in order to expand the verified toolchain list.
 Alternative versions of the demoscene exist in the port branches, defined by c++ standard (CMake and build system requirements are lowered as a consequence). If you are unable to compile this specific branch, please try with an older one.
 
