@@ -23,7 +23,9 @@ set(CMAKE_CXX_EXTENSIONS OFF)
 set(CMAKE_CXX_STANDARD_REQUIRED ON)
 set(CMAKE_CXX_SCAN_FOR_MODULES ON)
 set(CMAKE_CXX_MODULE_STD ON)
-add_compile_options($<$<COMPILE_LANGUAGE:CXX>:-freflection>)
+add_compile_options(
+	$<$<COMPILE_LANGUAGE:CXX>:-freflection$<$<CXX_COMPILER_ID:Clang>:-latest>>
+)
 
 # Project definition
 project(MoleDemoScene

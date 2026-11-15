@@ -48,12 +48,12 @@ namespace MoleDemo
         }
     }
 
-    auto OverrideBlend::Blend(const rgbaColor base, const rgbaColor next) override -> void
+    auto OverrideBlend::Blend(const rgbaColor base, const rgbaColor next) -> rgbaColor
     {
         return next;
     }
 
-    auto OverrideBlend::Blend(Color& base, Color& next) override -> void
+    auto OverrideBlend::Blend(Color& base, Color& next)  -> rgbaColor
     {
         return next.rgba();
     };
