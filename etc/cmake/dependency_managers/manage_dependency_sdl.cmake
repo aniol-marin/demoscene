@@ -2,7 +2,7 @@ function(manage_dependency_sdl)
 
 	if(NOT MoleDemo_ForceFetchedDependencies)
 		find_package(SDL3 QUIET)
-		find_package(SDL_mixer QUIET)
+		find_package(SDL3_mixer QUIET)
 	endif()
 
 	if(NOT SDL3_FOUND)
@@ -230,7 +230,8 @@ function(manage_dependency_sdl)
 			X_INCLUDEDIR
 		)
 	endif()
-	if(NOT SDL_mixer_FOUND)
+
+	if(NOT SDL3_mixer_FOUND)
 		set(BUILD_SHARED_LIBS OFF)
 		set(SDLMIXER_BUILD_SHARED_LIBS OFF)
 		set(SDLMIXER_EXAMPLES OFF)
@@ -241,7 +242,7 @@ function(manage_dependency_sdl)
 			GIT_REPOSITORY https://github.com/libsdl-org/SDL_mixer.git
 			GIT_TAG 72a81869b45e249e8e67102db4e98dd2441f05a1 # 3.2.4
 		)
-		FetchContent_MakeAvailable(SDL_mixer)
+		FetchContent_MakeAvailable(SDL3_mixer)
 		target_compile_options(SDL3_mixer-static PRIVATE -w)
 		mark_as_advanced(FORCE
 			OpusFile_COMPILE_OPTIONS
@@ -292,7 +293,8 @@ function(manage_dependency_sdl)
 			SDLMIXER_WAVPACK_SHARED
 			SDLMIXER_WERROR
 		)
+	else()
+		add_library(SDL3_mixer-static ALIAS SDL3_mixer::SDL3_mixer-static)
 	endif()
-
 
 endfunction()
