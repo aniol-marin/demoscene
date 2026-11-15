@@ -18,7 +18,7 @@ namespace MoleDemo
         // nothing to do
     }
 
-    void MoleDemo::SoundManager::Load(std::string_view file)
+    void MoleDemo::SoundManager::Load(std::string_view /* TO DO */)
     {
         m.Load("resources/molelofi.mp3");
     }

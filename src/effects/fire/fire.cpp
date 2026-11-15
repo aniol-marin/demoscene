@@ -28,7 +28,7 @@ namespace MoleDemo
         FilterPrevious(secondBuffer, firstBuffer, delta, intensity);
     }
 
-    void Fire::Cache(StencilBuffer& mask) {}
+    void Fire::Cache(StencilBuffer&) {}
 
     void Shade_Pal(std::vector<Color>& palette, int s, int e, int r1, int g1, int b1, int r2, int g2, int b2)
     {
@@ -75,7 +75,7 @@ namespace MoleDemo
         }
     }
 
-    void Fire::FilterPrevious(PixelBuffer& src, PixelBuffer& dest, milliseconds delta, permille intensity)
+    void Fire::FilterPrevious(PixelBuffer& src, PixelBuffer& dest, milliseconds, permille)
     {
         Color NW{};
         Color N{};

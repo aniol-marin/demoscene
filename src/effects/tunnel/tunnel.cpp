@@ -25,7 +25,7 @@ namespace MoleDemo
     /*
      * size of the hole
      */
-    float get_radius(float f)
+    float get_radius(float)
     {
         return 128;
     };
@@ -99,7 +99,7 @@ namespace MoleDemo
         dv = (dv + delta / speedV) % screen->h;
     }
 
-    void Tunel::Cache(StencilBuffer& mask)
+    void Tunel::Cache(StencilBuffer&)
     {
 
         for (point1D y{}; y < screen->h; ++y)
@@ -115,9 +115,9 @@ namespace MoleDemo
         }
     }
 
-    void Tunel::buildPalette(std::uint16_t time) {}
+    void Tunel::buildPalette(std::uint16_t) {}
 
-    void Tunel::AssignTexture(std::unique_ptr<Texturable> texture, Id id = 0)
+    void Tunel::AssignTexture(std::unique_ptr<Texturable> texture, Id)
     {
         this->texture = std::move(texture);
     }

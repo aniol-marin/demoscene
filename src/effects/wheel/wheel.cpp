@@ -23,7 +23,7 @@ namespace MoleDemo
         rgbColor = base.lerp(top, intensity).lerp(color, intensity).rgba();
     }
 
-    void Wheel::Cache(StencilBuffer& mask) {}
+    void Wheel::Cache(StencilBuffer&) {}
 
     void Wheel::SetColor()
     {
@@ -34,12 +34,12 @@ namespace MoleDemo
                        (channel) (halfValue * std::sin(PI + rad) / 2 + halfValue) };
     }
 
-    rgbaColor Wheel::GetPixel(Point2D p)
+    rgbaColor Wheel::GetPixel(Point2D)
     {
         return rgbColor;
     }
 
-    rgbaColor Wheel::GetPixel(index_t index)
+    rgbaColor Wheel::GetPixel(index_t)
     {
         return rgbColor;
     }

@@ -45,7 +45,7 @@ namespace MoleDemo
         src2 = Windowy2 * (int) (screen->w * 2) + Windowx2;
     }
 
-    void Plasma::Cache(StencilBuffer& mask)
+    void Plasma::Cache(StencilBuffer&)
     {
         int indexColor;
         for (std::uint16_t y = 0; y < screen->h; y++)
@@ -75,7 +75,7 @@ namespace MoleDemo
         }
     }
 
-    void Plasma::AssignTexture(std::unique_ptr<Texturable> texture, Id id = 0)
+    void Plasma::AssignTexture(std::unique_ptr<Texturable>, Id id = 0)
     {
         switch (id)
         {

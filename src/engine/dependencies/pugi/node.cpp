@@ -26,7 +26,7 @@ namespace mole::pugi_wrapper
         return m_tree.get_child(*this, child_name);
     }
 
-    std::vector<generic_node> generic_node::get_children(std::string_view name) const
+    std::vector<generic_node> generic_node::get_children(std::string_view) const
     {
         return m_tree.get_children(*this);
     }

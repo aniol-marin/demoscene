@@ -44,9 +44,9 @@ namespace MoleDemo
 
     void RandomNoise::Unload() {}
 
-    void RandomNoise::Update(permille intensity, milliseconds delta) {}
+    void RandomNoise::Update(permille, milliseconds) {}
 
-    void RandomNoise::Cache(StencilBuffer& mask) {}
+    void RandomNoise::Cache(StencilBuffer&) {}
 
     void RandomNoise::Set(Color a, Color b, bunch repetitions)
     {

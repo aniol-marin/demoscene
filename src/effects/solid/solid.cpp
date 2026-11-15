@@ -13,26 +13,26 @@ namespace MoleDemo
 
     void Solid::Unload() {}
 
-    void Solid::Update(permille intensity, milliseconds delta) {}
+    void Solid::Update(permille, milliseconds) {}
 
-    void Solid::Cache(StencilBuffer& mask) {}
+    void Solid::Cache(StencilBuffer&) {}
 
     void Solid::SetColor(Color color)
     {
         rgbColor = color.rgba();
     }
 
-    rgbaColor Solid::GetPixel(Point2D p)
+    rgbaColor Solid::GetPixel(Point2D)
     {
         return rgbColor;
     }
 
-    rgbaColor Solid::GetPixel(index_t index)
+    rgbaColor Solid::GetPixel(index_t)
     {
         return rgbColor;
     }
 
-    rgbaColor Solid::GetMappedUV(CoordinateUV uv)
+    rgbaColor Solid::GetMappedUV(CoordinateUV)
     {
         return rgbColor;
     }

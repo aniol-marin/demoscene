@@ -27,9 +27,9 @@ namespace MoleDemo
 
     void Gradient::Unload() {}
 
-    void Gradient::Update(permille intensity, milliseconds delta) {}
+    void Gradient::Update(permille, milliseconds) {}
 
-    void Gradient::Cache(StencilBuffer& mask) {}
+    void Gradient::Cache(StencilBuffer&) {}
 
     void Gradient::SetColors(Color NE, Color NW, Color SW, Color SE)
     {

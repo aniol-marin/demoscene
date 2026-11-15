@@ -37,7 +37,7 @@ namespace MoleDemo
         }
     }
 
-    void Stars::Cache(StencilBuffer& mask)
+    void Stars::Cache(StencilBuffer&)
     {
         ClearBuffer(transparent);
         for (Star& star: stars)
