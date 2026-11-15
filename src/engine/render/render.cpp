@@ -48,6 +48,16 @@ namespace MoleDemo
         }
     }
 
+    auto OverrideBlend::Blend(const rgbaColor base, const rgbaColor next) override -> void
+    {
+        return next;
+    }
+
+    auto OverrideBlend::Blend(Color& base, Color& next) override -> void
+    {
+        return next.rgba();
+    };
+
     MoleDemo::RenderManager::RenderManager(Screen& screen, SDL::SDLManager& sdl) :
       m_screen{ screen }, queue{ new RenderQueue() }, sdl{ sdl }
     {

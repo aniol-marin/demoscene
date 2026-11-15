@@ -46,8 +46,8 @@ namespace MoleDemo
     {
         OverrideBlend() : Blending{ BlendMode::Override } {}
         ~OverrideBlend() {}
-        rgbaColor Blend(const rgbaColor base, const rgbaColor next) override { return next; }
-        rgbaColor Blend(Color& base, Color& next) override { return next.rgba(); };
+        rgbaColor Blend(const rgbaColor base, const rgbaColor next) override;
+        rgbaColor Blend(Color& base, Color& next) override;
     };
 
     struct AlphaBlend : public Blending

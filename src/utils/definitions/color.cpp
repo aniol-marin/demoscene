@@ -12,22 +12,22 @@ namespace mole_def
 
     Color::Color(channel r, channel g, channel b, channel a) : m_r{ r }, m_g{ g }, m_b{ b }, m_a{ a } {}
 
-    const channel Color::r() const
+    channel Color::r() const
     {
         return m_r;
     }
 
-    const channel Color::g() const
+    channel Color::g() const
     {
         return m_g;
     }
 
-    const channel Color::b() const
+    channel Color::b() const
     {
         return m_b;
     }
 
-    const channel Color::a() const
+    channel Color::a() const
     {
         return m_a;
     }

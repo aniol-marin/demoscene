@@ -25,9 +25,9 @@ namespace MoleDemo
 
     void ChessBoard::Unload() {}
 
-    void ChessBoard::Update(permille intensity, milliseconds delta) {}
+    void ChessBoard::Update(permille, milliseconds) {}
 
-    void ChessBoard::Cache(StencilBuffer& mask) {}
+    void ChessBoard::Cache(StencilBuffer&) {}
 
     void ChessBoard::Set(Color a, Color b, bunch repetitions)
     {

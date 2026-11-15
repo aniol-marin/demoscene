@@ -34,7 +34,7 @@ namespace MoleDemo
         return blend;
     }
 
-    bool Layer::CheckStencil(index_t offset)
+    bool Layer::CheckStencil([[maybe_unused]] index_t offset)
     {
         // TODO buffer relevant content
         return true;
@@ -53,7 +53,7 @@ namespace MoleDemo
         this->foreground = foreground;
     }
 
-    void Transition::Update(permille intensity, milliseconds deltaTime)
+    void Transition::Update([[maybe_unused]] permille intensity, milliseconds deltaTime)
     {
         m_elapsed += deltaTime;
     }
@@ -63,9 +63,9 @@ namespace MoleDemo
         return m_elapsed > time.duration;
     }
 
-    bool Transition::CheckStencil(index_t index)
+    bool Transition::CheckStencil([[maybe_unused]] index_t index)
     {
-        return true; // transitions by now are always be full screen
+        return true; // transitions by now are always full screen
     }
 
     Renderable* Cut::ActiveLayer()

@@ -15,17 +15,12 @@ namespace MoleDemo
 
     index_t Effect::GetPixelIndex(Point2D& point)
     {
-        return GetPixelIndex(point, buffer);
-    }
-
-    index_t Effect::GetPixelIndex(Point2D& point, PixelBuffer& pixelBuffer)
-    {
         return (pixel_count) screen->w * (pixel_count) point.y + (pixel_count) point.x;
     }
 
     rgbaColor Effect::GetColorAt(Point2D point, PixelBuffer& pixelBuffer)
     {
-        return pixelBuffer[GetPixelIndex(point, pixelBuffer)];
+        return pixelBuffer[GetPixelIndex(point)];
     }
 
     void Effect::PutPixel(Point2D point, rgbaColor color)

@@ -145,10 +145,10 @@ export namespace mole_def
         Color(Color&&) = default;
         constexpr Color& operator=(const Color&) = default;
 
-        const channel r() const;
-        const channel g() const;
-        const channel b() const;
-        const channel a() const;
+        channel r() const;
+        channel g() const;
+        channel b() const;
+        channel a() const;
         rgbaColor rgba();
         Color lerp(const Color& next, const permille permille);
     };
@@ -165,7 +165,7 @@ export namespace mole_def
         Screen& operator=(const Screen&) = default;
         Screen& operator=(Screen&&) = default;
 
-        const pixel_count GetPixelCount() const;
+        pixel_count GetPixelCount() const;
         index_t GetIndex(Point2D point) const;
     };
 

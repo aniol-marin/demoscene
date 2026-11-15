@@ -9,7 +9,7 @@ namespace mole_def
         return static_cast<index_t>(w * point.y + point.x);
     }
 
-    const pixel_count Screen::GetPixelCount() const
+    pixel_count Screen::GetPixelCount() const
     {
         return pixel_count{ w * h };
     }
