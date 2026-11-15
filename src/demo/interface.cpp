@@ -20,8 +20,8 @@ namespace MoleDemo
         std::vector<Initializable*> initializables{};
         std::vector<Loadable*> loadables{};
 
-        void Init();
-        void Finalize();
+        void Init() pre(initializables.size() == 0) pre(loadables.size() == 0);
+        void Finalize() post(initializables.size() == 0) post(loadables.size() == 0);
 
     public:
         Demo() = default;

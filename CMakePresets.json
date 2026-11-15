@@ -33,6 +33,7 @@
 				"CMAKE_RUNTIME_OUTPUT_DIRECTORY": "${sourceDir}/bin",
 				"CMAKE_ARCHIVE_OUTPUT_DIRECTORY": "${sourceDir}/lib",
 				"CMAKE_LIBRARY_OUTPUT_DIRECTORY": "${sourceDir}/lib",
+				"CMAKE_CXX_FLAGS": "-Wall -Wextra -Wpedantic -pedantic",
 				"FETCHCONTENT_BASE_DIR": "${sourceDir}/external",
 				"CMAKE_EXPORT_COMPILE_COMMANDS": true,
 				"CMAKE_COMPILE_WARNING_AS_ERROR": true,

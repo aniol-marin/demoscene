@@ -53,7 +53,7 @@ namespace MoleDemo
         return next;
     }
 
-    auto OverrideBlend::Blend(Color& base, Color& next)  -> rgbaColor
+    auto OverrideBlend::Blend(Color& base, Color& next) -> rgbaColor
     {
         return next.rgba();
     };
