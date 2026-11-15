@@ -5,9 +5,11 @@ function(add_test_target TARGET_NAME)
 
 	add_executable(${TEST_TARGET})
 
-	set_target_properties(${TEST_TARGET} PROPERTIES
-		RUNTIME_OUTPUT_DIRECTORY ${CMAKE_RUNTIME_OUTPUT_DIRECTORY}/test
-	)
+	if(DEFINED CMAKE_RUNTIME_OUTPUT_DIRECTORY)
+		set_target_properties(${TEST_TARGET} PROPERTIES
+			RUNTIME_OUTPUT_DIRECTORY ${CMAKE_RUNTIME_OUTPUT_DIRECTORY}/test
+		)
+	endif()
 	if(MoleDemo_Testing_EnableCoverage)
 		if(MSVC)
 			target_compile_options(${TEST_TARGET} PRIVATE "/fsanitize-coverage")
