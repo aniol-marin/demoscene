@@ -78,9 +78,9 @@ edit: .editor
 # [NOTE] in an uninitialized CMake project, uses the Developer preset
 debug: .final
 	if ! command -v gdb > /dev/null 2>&1; then \
-		make .call_fail MESSAGE="couldnt find gdb at path, recipe cannot be completed"; \
+		$(call fail,couldnt find gdb at path, recipe cannot be completed); \
 	else \
-		make .call_log MESSAGE="debugging"; \
+		$(call inform,debugging)
 		gdb $(RUNTIME_PATH)/$(BINARY_NAME); \
 	fi
 
@@ -91,7 +91,7 @@ attach:
 # Attempts to launch the binary target with the defined profiler
 profile: .final
 	if ! command -v $(MEMCHECK_PATH) > /dev/null 2>&1; then \
-		make .call_fail MESSAGE="couldnt find $(MEMCHECK_PATH) at path, recipe cannot be completed"; \
+		$(call fail,couldnt find $(MEMCHECK_PATH) at path, recipe cannot be completed); \
 	else \
 		make .call_log MESSAGE="profiling"; \
 		$(MEMCHECK_PATH) --track-origins=yes $(RUNTIME_PATH)/$(BINARY_NAME); \
