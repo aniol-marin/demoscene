@@ -6,10 +6,17 @@ module glfw_wrapper;
 
 namespace mole::graphics
 {
+    static std::map<char, std::vector<callback>> callbacks;
+
     static void ErrorCallback(int code, const char* message);
     static void KeyCallback(GLFWwindow* window, int key, int scancode, int action, int mods);
     static void MouseButtonCallback(GLFWwindow* window, int button, int action, int mods);
     static void MouseCursorPosCallback(GLFWwindow* window, double x, double y);
+
+    void WindowContext::AddCallback(const char key, callback&& callback)
+    {
+        callbacks[key].emplace_back(std::move(callback));
+    }
 
     WindowContext::WindowContext(window_size&& size, std::string_view name) : size{ size }, name{ name }
     {
@@ -61,9 +68,8 @@ namespace mole::graphics
         std::cout << std::to_string(code) << ' ' << std::string{ message };
     }
 
-    void KeyCallback(GLFWwindow* window, int key, int scancode, int action, int mods)
+    void KeyCallback(GLFWwindow*, int key, int scancode, int action, int)
     {
-        /*
         if (callbacks.count(key))
         {
             std::vector<callback>& actions = callbacks.at(key);
@@ -72,7 +78,6 @@ namespace mole::graphics
                 action();
             }
         }
-         */
     }
 
     void MouseButtonCallback(GLFWwindow* window, int button, int action, int mods)

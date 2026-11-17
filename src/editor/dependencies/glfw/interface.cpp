@@ -30,7 +30,6 @@ namespace mole::graphics
     constexpr std::string_view name{ "test" };
     constexpr auto width{ 480 };
     constexpr auto height{ 640 };
-    static std::map<char, std::vector<callback>> callbacks;
     static std::vector<callback> MouseButtonCallbacks_v;
     static std::map<char, std::vector<callback>> MouseButtonCallbacks;
     static std::map<int, std::vector<callback>> MouseCursorPosCallbacks;
@@ -49,7 +48,7 @@ namespace mole::graphics
         ~WindowContext();
 
         void Swap() const { glfwSwapBuffers(window); }
-        void AddCallback(const char key, callback&& callback) { callbacks[key].emplace_back(std::move(callback)); }
+        void AddCallback(const char key, callback&& callback);
         void PollEvents();
     };
 }

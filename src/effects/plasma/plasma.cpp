@@ -77,6 +77,7 @@ namespace MoleDemo
 
     void Plasma::AssignTexture(std::unique_ptr<Texturable>, Id id = 0)
     {
+        // TO DO rethink
         switch (id)
         {
             case 0:
