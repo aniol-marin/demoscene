@@ -30,9 +30,6 @@ namespace mole::graphics
     constexpr std::string_view name{ "test" };
     constexpr auto width{ 480 };
     constexpr auto height{ 640 };
-    static std::vector<callback> MouseButtonCallbacks_v;
-    static std::map<char, std::vector<callback>> MouseButtonCallbacks;
-    static std::map<int, std::vector<callback>> MouseCursorPosCallbacks;
 
     struct WindowContext
     {

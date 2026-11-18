@@ -7,11 +7,14 @@ module glfw_wrapper;
 namespace mole::graphics
 {
     static std::map<char, std::vector<callback>> callbacks;
+    static std::map<char, std::vector<callback>> MouseButtonCallbacks;
 
     static void ErrorCallback(int code, const char* message);
     static void KeyCallback(GLFWwindow* window, int key, int scancode, int action, int mods);
     static void MouseButtonCallback(GLFWwindow* window, int button, int action, int mods);
     static void MouseCursorPosCallback(GLFWwindow* window, double x, double y);
+    static std::vector<callback> MouseButtonCallbacks_v;
+    static std::map<int, std::vector<callback>> MouseCursorPosCallbacks;
 
     void WindowContext::AddCallback(const char key, callback&& callback)
     {
@@ -68,7 +71,7 @@ namespace mole::graphics
         std::cout << std::to_string(code) << ' ' << std::string{ message };
     }
 
-    void KeyCallback(GLFWwindow*, int key, int scancode, int action, int)
+    void KeyCallback(GLFWwindow*, int key, int scancode, int, int)
     {
         if (callbacks.count(key))
         {
@@ -80,10 +83,9 @@ namespace mole::graphics
         }
     }
 
-    void MouseButtonCallback(GLFWwindow* window, int button, int action, int mods)
+    void MouseButtonCallback(GLFWwindow* window, int button, int, int)
     {
 
-        /*
         if (MouseButtonCallbacks.count(button))
         {
             auto& actions = MouseButtonCallbacks.at(button);
@@ -92,23 +94,16 @@ namespace mole::graphics
                 action();
             }
         }
-         */
     }
 
     void MouseCursorPosCallback(GLFWwindow* window, double x, double y)
     {
-
-        /*
         static Vector2 previous{ (float) x, (float) y };
 
         const Vector2 c{ (float) x, (float) y };
-        delta = { c.x - previous.x, c.y - previous.y };
-        previous = c;
-
-        for (callback& callback: mousescroll)
-        {
-            callback();
-        }
+        /*
+            delta = { c.x - previous.x, c.y - previous.y };
          */
+        previous = c;
     }
 }
