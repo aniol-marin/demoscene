@@ -43,7 +43,7 @@ namespace MoleDemo
         }
     }
 
-    bool Event::Done(milliseconds deltaTime)
+    bool Event::Done(milliseconds)
     {
         return isDone();
     }
@@ -275,7 +275,7 @@ namespace MoleDemo
         started = false;
     }
 
-    void Timeline::LoadInternal(std::string_view content)
+    void Timeline::LoadInternal(std::string_view)
     {
         // TODO argument forwarding on CreateEffect template
 

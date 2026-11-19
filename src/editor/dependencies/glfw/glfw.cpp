@@ -71,7 +71,7 @@ namespace mole::graphics
         std::cout << std::to_string(code) << ' ' << std::string{ message };
     }
 
-    void KeyCallback(GLFWwindow*, int key, int scancode, int, int)
+    void KeyCallback(GLFWwindow*, int key, int, int, int)
     {
         if (callbacks.count(key))
         {
@@ -83,7 +83,7 @@ namespace mole::graphics
         }
     }
 
-    void MouseButtonCallback(GLFWwindow* window, int button, int, int)
+    void MouseButtonCallback(GLFWwindow*, int button, int, int)
     {
 
         if (MouseButtonCallbacks.count(button))
@@ -96,7 +96,7 @@ namespace mole::graphics
         }
     }
 
-    void MouseCursorPosCallback(GLFWwindow* window, double x, double y)
+    void MouseCursorPosCallback(GLFWwindow*, double x, double y)
     {
         static Vector2 previous{ (float) x, (float) y };
 
