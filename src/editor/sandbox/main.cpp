@@ -8,7 +8,7 @@ using Container = MoleDemo::Container;
 
 void InstallBindings(Container& container);
 
-int main(int argc, char** argv)
+int main(int /*argc*/, char** argv)
 {
     Container container;
     InstallBindings(container);

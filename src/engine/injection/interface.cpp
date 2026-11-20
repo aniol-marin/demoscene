@@ -33,7 +33,7 @@ namespace MoleDemo
         UniqueFactory(std::function<T()>&& instancer) : functor{ std::move(instancer) } {}
         ~UniqueFactory() override = default;
 
-        std::any GetAnyToInstance(id_capacity id = 0) override
+        std::any GetAnyToInstance(id_capacity) override
         {
             return std::make_any<I*>(instances.emplace_back(std::make_unique<T>(functor())).get());
         }
@@ -152,7 +152,7 @@ namespace MoleDemo
                 throw std::exception{};
             }
 
-            std::any value{ it->second->GetAnyToInstance() };
+            std::any value{ it->second->GetAnyToInstance(id) };
             auto* instance{ std::any_cast<T*>(value) };
 
             return *instance;

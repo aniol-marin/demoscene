@@ -6,7 +6,7 @@ namespace MoleDemo
 {
     using namespace mole_def;
 
-    void InstallBindings(Container& container, std::string& project)
+    void InstallBindings(Container& container, std::string& /*project*/)
     {
         container.BindShared<Timer>();
         container.BindShared<Screen>([] { return Screen{ 600, 300 }; }); // TO DO get from config
