@@ -18,4 +18,9 @@ STATUS_FILE := $(STATUS_PATH)/status_output
 TESTS_RUNTIME_PATH := $(RUNTIME_PATH)/test
 MEMCHECK_PATH = $(shell which $(MEMCHECK_BIN))
 COVERAGE_PATH = $(shell which $(COVERAGE_BIN))
+ifeq ($(GENERATOR_NAME),Ninja)
+	BUILD_ALL_FLAG := -k 0
+else ifeq ($(GENERATOR_NAME),Unix Makefiles)
+	BUILD_ALL_FLAG := -k
+endif
 

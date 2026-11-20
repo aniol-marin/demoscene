@@ -62,9 +62,9 @@ build-tests:
 
 # Builds all the project targets
 .PHONY: build-all
-build-all:
+build-all: | $(CACHE_FILE)
 	$(call inform,attempting to build all targets)
-	make .build-all
+	ninja -C $(BUILD_PATH) $(BUILD_ALL_FLAG) $(ARGS)
 	$(call inform,all build targets done)
 
 # Launches the editor
@@ -374,6 +374,7 @@ $(STATUS_FILE):
 	mkdir -p $(STATUS_PATH)
 	echo "" >> $(STATUS_FILE)_temp
 	echo "Project compilation status:" >> $(STATUS_FILE)_temp
+	-make build-all
 	make help-available-targets | xargs -I '{}' sh -c 'make .build-{} && echo "\033[35m{}\033[m :\033[32m ok\033[m" >> $(STATUS_FILE)_temp || echo "{}: \033[33mko\033[m" >> $(STATUS_FILE)_temp'
 	mv $(STATUS_FILE)_temp $(STATUS_FILE)
 
